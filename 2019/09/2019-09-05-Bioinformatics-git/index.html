@@ -267,9 +267,6 @@
 <li>设置用户名和用户邮箱，该信息每次会通过修改提交git命令上传到远程仓库，也即为了识别用户。还有一个配置客户端长期存储用户名和密码的命令。</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 必须配置</span></span><br><span class="line">git config --global user.name  <span class="string">"Hua Zou"</span></span><br><span class="line">git config --global user.email  <span class="string">"zouhua1@outlook.com"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 可选择配置</span></span><br><span class="line">git config --global credential.helper store</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查配置</span></span><br><span class="line">git config --list </span><br><span class="line">&gt;user.email=zouhua1@outlook.com</span><br><span class="line">&gt;user.name=HuaZou</span><br></pre></td></tr></table></figure>
-
-
-
 <h4 id="注册开源社区github"><a href="#注册开源社区github" class="headerlink" title="注册开源社区github"></a>注册开源社区github</h4><p><a href="https://github.com/join?source=login" target="_blank" rel="noopener">github</a>是全球程序员交流平台，又因程序员大多数是单身男性，因此也被称为<code>全球基友交流平台</code>。注册分为三步：</p>
 <ol>
 <li>创建账户；</li>
@@ -284,20 +281,15 @@
 <li>测试是否添加成功。</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br><span class="line">&gt;Hi HuaZou! You<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.</span></span><br></pre></td></tr></table></figure>
-
-
-
 <h4 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h4><p>远程仓库是可以充当“中央服务器”托管代码的位置，其他终端可以从该处获取原始代码，从这一点看好像分布式版本控制系统与集中式版本控制系统无太大差别，但git的每一台终端都可以充当“中央处理器”且无主次之分，一般情况下大家会把某台24小时开机的终端看成“中央处理器”，每台终端从服务器拉取代码和提交修改等。</p>
 <ul>
 <li><code>GitHub仓库与本地仓库同步</code>：GitHub已存在某个仓库，同时本地也存在同名仓库，为使得两仓库远程同步，只需要输入如下命令</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># step1: 登陆GitHub并创建example_git远程仓库</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># step2: 跳转到本地仓库目录</span></span><br><span class="line"><span class="built_in">cd</span>  path_dir/example_git</span><br><span class="line"></span><br><span class="line"><span class="comment"># step3: 初始化版本库 .git</span></span><br><span class="line">git init </span><br><span class="line"></span><br><span class="line"><span class="comment"># step4: 连接本地仓库和远程仓库</span></span><br><span class="line">git remote add origin git@github.com:HuaZou/example_git </span><br><span class="line"></span><br><span class="line"><span class="comment"># step5: 推送本地文件至远程仓库,并且关联本地和远程的master分支</span></span><br><span class="line">git push -u origin master <span class="comment"># 第一次推送使用-u参数，后续只需要 git push origin master</span></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><code>克隆远程仓库</code>：如想获取GitHub上的某个仓库，只需要在本地使用做如下处理：</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># step1: 克隆远程仓库至本地工作区</span></span><br><span class="line">git <span class="built_in">clone</span> git@github.com:HuaZou/example_git</span><br><span class="line"></span><br><span class="line"><span class="comment"># step2: 查看工作区文件状态</span></span><br><span class="line">git status</span><br><span class="line"></span><br><span class="line"><span class="comment"># step3: 提交工作区修改文件等至暂存区</span></span><br><span class="line">git add filesname</span><br><span class="line"></span><br><span class="line"><span class="comment"># step4: 提交操作命令描述至本地仓库</span></span><br><span class="line">git commit -m <span class="string">"operation description"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># step5: 推送本地仓库至远程仓库，注意保证远程仓库的head是高于本地仓库，否则会发生conflict错误</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><code>版本回退</code>：版本信息均存在.git目录，可以使用<code>git log</code>，<code>git log --pretty=oneline</code>查看head信息也即提交信息等。<code>git reset --hard commit_id</code>回到某个提交命令的版本。</li>
 </ul>
@@ -306,7 +298,6 @@
 <li><code>撤销修改</code>：发现某些修改需要撤回是，可以根据修改提交状态选择命令</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># step1: 查看文件状态</span></span><br><span class="line">git status  </span><br><span class="line"></span><br><span class="line"><span class="comment"># step2: 如果文件只通过git add提交到暂存区</span></span><br><span class="line">git checkout -- filename.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># step3: 如果文件已经通过git commit提交到本地仓库</span></span><br><span class="line">git reset HEAD filename.txt <span class="comment"># git reset不仅仅可以版本库回退也可以文件撤回修改</span></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><code>删除文件</code>：未添加至暂存区和已添加两种情况。前者使用基本的<code>rm</code>命令即可，后者删除动作是一个处理过程，也需要提交命令：1)<code>git rm filename.txt</code>；2)<code>git commit -m &quot;remove file&quot;</code>。</li>
 </ul>
@@ -323,9 +314,6 @@
 <p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/git8.png" alt=""></p>
 <h4 id="标签管理"><a href="#标签管理" class="headerlink" title="标签管理"></a>标签管理</h4><p>标签管理一般是工作完成到某个重要节点了，然后希望对工作进行标记，这个时候可以使用git tag给该阶段打上标签。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看标签</span></span><br><span class="line">git tag</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在某个版本打上标签</span></span><br><span class="line">git tag v0.1 &lt;可加上某个commit版本&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 给标签加上其他信息</span></span><br><span class="line">git tag -a v0.1 -m <span class="string">"version 0.1 released"</span> 1094adb</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看标签说明</span></span><br><span class="line">git show v0.1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除标签</span></span><br><span class="line">git tag -d v0.1</span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
 <li><a href="https://git-scm.com/book/zh/v1/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-%E9%85%8D%E7%BD%AE-Git" target="_blank" rel="noopener">git帮助文档</a></li>
 <li><a href="https://www.liaoxuefeng.com/wiki/896043488029600/896202780297248" target="_blank" rel="noopener">廖雪峰git教程</a></li>
@@ -531,6 +519,8 @@
 
 
 
+
+  
 
   
 

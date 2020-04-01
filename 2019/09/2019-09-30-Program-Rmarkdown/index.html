@@ -246,10 +246,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍^1"></a>介绍<a href="https://rmarkdown.rstudio.com/lesson-1.html" target="_blank" rel="noopener">^1</a></h3><p><code>R markdown</code>文件整合了R代码和markdown的特性，这使得R代码、R结果和markdown的注释信息结合在一起方便分析人员沟通。可以使用Rstudio软件打开<code>R markdown</code>文件，在运行前需要安装<code>rmarkdown</code>包。</p>
+        <h3 id="介绍1"><a href="#介绍1" class="headerlink" title="介绍1"></a>介绍<sup><a href="#fn_1" id="reffn_1">1</a></sup></h3><p><code>R markdown</code>文件整合了R代码和markdown的特性，这使得R代码、R结果和markdown的注释信息结合在一起方便分析人员沟通。可以使用Rstudio软件打开<code>R markdown</code>文件，在运行前需要安装<code>rmarkdown</code>包。</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">"rmarkdown"</span>)</span><br></pre></td></tr></table></figure>
-
-<p>R markdown可以生成多种报告文件，因此含有了大量的规则。详细规则参考官网给出的<code>rmarkdown cheatsheet</code><a href="https://rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf" target="_blank" rel="noopener">^2</a>以及<code>rmarkdown reference</code><a href="https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf" target="_blank" rel="noopener">^3</a>。使用步骤如下几步：</p>
+<p>R markdown可以生成多种报告文件，因此含有了大量的规则。详细规则参考官网给出的<code>rmarkdown cheatsheet</code><sup><a href="#fn_2" id="reffn_2">2</a></sup>以及<code>rmarkdown reference</code><sup><a href="#fn_3" id="reffn_3">3</a></sup>。使用步骤如下几步：</p>
 <ol>
 <li>新建<code>Rmd</code>文件；</li>
 <li>编写<code>Rmd</code>文件；</li>
@@ -260,11 +259,10 @@
 <li>使用输出文件。</li>
 </ol>
 <p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Rmarkdown1.png" alt=""></p>
-<h3 id="工作原理-4"><a href="#工作原理-4" class="headerlink" title="工作原理^4"></a>工作原理<a href="https://rmarkdown.rstudio.com/lesson-2.html" target="_blank" rel="noopener">^4</a></h3><p>运行<code>knitr</code>后，1）Rmd文件先执行所有代码块，生成具有结果在内的新的markdown（.md）文件；2）markdown文件通过<code>pandoc</code>软件会生成各种格式的结果文件（）。Web page, PDF, MS Word  document, slide show, notebook, handout, book, dashboard, package vignette 或者 other format。使用<code>render</code>函数运行上述步骤或者直接点击Rstudio内的knitr按钮。</p>
+<h3 id="工作原理4"><a href="#工作原理4" class="headerlink" title="工作原理4"></a>工作原理<sup><a href="#fn_4" id="reffn_4">4</a></sup></h3><p>运行<code>knitr</code>后，1）Rmd文件先执行所有代码块，生成具有结果在内的新的markdown（.md）文件；2）markdown文件通过<code>pandoc</code>软件会生成各种格式的结果文件（）。Web page, PDF, MS Word  document, slide show, notebook, handout, book, dashboard, package vignette 或者 other format。使用<code>render</code>函数运行上述步骤或者直接点击Rstudio内的knitr按钮。</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(rmarkdown)</span><br><span class="line">render(<span class="string">"example.Rmd"</span>)</span><br></pre></td></tr></table></figure>
-
 <p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Rmarkdown2.jpg" alt=""></p>
-<h3 id="代码块-5"><a href="#代码块-5" class="headerlink" title="代码块^5"></a>代码块<a href="https://rmarkdown.rstudio.com/lesson-3.html" target="_blank" rel="noopener">^5</a></h3><p>代码块内的代码可以是<code>R</code>、<code>python</code>和<code>bash</code>等；代码块输出选择参数也可以设置；另外，代码块的全局变量通过<code>knitr::opts_chunk$set</code>设置。</p>
+<h3 id="代码块5"><a href="#代码块5" class="headerlink" title="代码块5"></a>代码块<sup><a href="#fn_5" id="reffn_5">5</a></sup></h3><p>代码块内的代码可以是<code>R</code>、<code>python</code>和<code>bash</code>等；代码块输出选择参数也可以设置；另外，代码块的全局变量通过<code>knitr::opts_chunk$set</code>设置。</p>
 <blockquote>
 <ul>
 <li><code>include = FALSE</code> prevents code and results from appearing in the finished file. R Markdown still runs the code in the chunk, and the results can be used by other chunks.</li>
@@ -276,7 +274,22 @@
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">​&#96;&#96;&#96;&#123;r, include&#x3D;FALSE, echo&#x3D;FALSE, message&#x3D;FALSE, warning&#x3D;FALSE, fig.width&#x3D;10&#125;</span><br><span class="line">knitr::opts_chunk$set(echo &#x3D; TRUE, warning &#x3D; F)</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
 <p>```</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener">联系</a>，谢谢。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><blockquote id="fn_1">
+<sup>1</sup>. <a href="https://rmarkdown.rstudio.com/lesson-1.html" target="_blank" rel="noopener">https://rmarkdown.rstudio.com/lesson-1.html</a><a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#8617;</a>
+</blockquote>
+<blockquote id="fn_2">
+<sup>2</sup>. <a href="https://rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf" target="_blank" rel="noopener">https://rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf</a><a href="#reffn_2" title="Jump back to footnote [2] in the text."> &#8617;</a>
+</blockquote>
+<blockquote id="fn_3">
+<sup>3</sup>. <a href="https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf" target="_blank" rel="noopener">https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf</a><a href="#reffn_3" title="Jump back to footnote [3] in the text."> &#8617;</a>
+</blockquote>
+<blockquote id="fn_4">
+<sup>4</sup>. <a href="https://rmarkdown.rstudio.com/lesson-2.html" target="_blank" rel="noopener">https://rmarkdown.rstudio.com/lesson-2.html</a><a href="#reffn_4" title="Jump back to footnote [4] in the text."> &#8617;</a>
+</blockquote>
+<blockquote id="fn_5">
+<sup>5</sup>. <a href="https://rmarkdown.rstudio.com/lesson-3.html" target="_blank" rel="noopener">https://rmarkdown.rstudio.com/lesson-3.html</a><a href="#reffn_5" title="Jump back to footnote [5] in the text."> &#8617;</a>
+</blockquote>
+<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener">联系</a>，谢谢。</p>
 
     </div>
 
@@ -361,7 +374,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍-1"><span class="nav-number">1.</span> <span class="nav-text">介绍^1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作原理-4"><span class="nav-number">2.</span> <span class="nav-text">工作原理^4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码块-5"><span class="nav-number">3.</span> <span class="nav-text">代码块^5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍1"><span class="nav-number">1.</span> <span class="nav-text">介绍1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作原理4"><span class="nav-number">2.</span> <span class="nav-text">工作原理4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码块5"><span class="nav-number">3.</span> <span class="nav-text">代码块5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -477,6 +490,8 @@
 
 
 
+
+  
 
   
 

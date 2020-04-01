@@ -239,15 +239,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="Giuthub-Pages-Hexo搭建博客"><a href="#Giuthub-Pages-Hexo搭建博客" class="headerlink" title="Giuthub Pages + Hexo搭建博客"></a>Giuthub Pages + Hexo搭建博客</h2><p>Liam Huang的博客真的特别好看<a href="https://liam.page/texlive/" target="_blank" rel="noopener">^1</a>，因此重新把博客使用hexo搭建。</p>
-<p>PS： Jekyll和Hexo区别<a href="https://blog.csdn.net/xky1306102chenhong/article/details/88875358" target="_blank" rel="noopener">^2</a></p>
+        <h2 id="Giuthub-Pages-Hexo搭建博客"><a href="#Giuthub-Pages-Hexo搭建博客" class="headerlink" title="Giuthub Pages + Hexo搭建博客"></a>Giuthub Pages + Hexo搭建博客</h2><p>Liam Huang的博客真的特别好看<sup><a href="#fn_1" id="reffn_1">1</a></sup>，因此重新把博客使用hexo搭建。</p>
+<p>PS： Jekyll和Hexo区别<sup><a href="#fn_2" id="reffn_2">2</a></sup></p>
 <blockquote>
 <ul>
 <li>Jekyll<br>上传工程文件，GitHub自动生成静态文件 基于Ruby</li>
 <li>Hexo<br>先生成文件，再部署（直接部署_site文件夹也可以）<br>出自台湾大学生SkyArrow<br>基于Node.js的静态博客框架<br>出现时间晚于Octopress和Jekyll</li>
 </ul>
 </blockquote>
-<h3 id="1-搭建步骤-3"><a href="#1-搭建步骤-3" class="headerlink" title="1. 搭建步骤^3"></a>1. 搭建步骤<a href="https://zhuanlan.zhihu.com/p/26625249" target="_blank" rel="noopener">^3</a></h3><blockquote>
+<h3 id="1-搭建步骤3"><a href="#1-搭建步骤3" class="headerlink" title="1. 搭建步骤3"></a>1. 搭建步骤<sup><a href="#fn_3" id="reffn_3">3</a></sup></h3><blockquote>
 <ul>
 <li>GitHub创建个人仓库</li>
 <li>安装Git</li>
@@ -264,7 +264,6 @@
 <blockquote>
 <p>设置user.name和user.email配置信息：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">"你的GitHub用户名"</span></span><br><span class="line">git config --global user.email <span class="string">"你的GitHub注册邮箱"</span></span><br></pre></td></tr></table></figure>
-
 <p>生成ssh密钥文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">"你的GitHub注册邮箱"</span></span><br></pre></td></tr></table></figure>
 </blockquote>
@@ -275,24 +274,17 @@
 <p>Hexo就是我们的个人博客网站的框架， 这里需要自己在电脑常里创建一个文件夹，可以命名为Blog，Hexo框架与以后你自己发布的网页都在这个文件夹中。</p>
 <p>使用npm命令安装Hexo，输入：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli </span><br></pre></td></tr></table></figure>
-
-
-
 <p>这个安装时间较长耐心等待，安装完成后，初始化我们的博客，输入：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog</span><br></pre></td></tr></table></figure>
-
 <p>注意，这里的命令都是作用在刚刚创建的Blog文件夹中。</p>
 <p>为了检测我们的网站雏形，分别按顺序输入以下三条命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo new test_my_paper</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-
 <p>这些命令在后面作介绍，完成后，打开浏览器输入地址：</p>
 <p>localhost:4000</p>
 <p> 现在来介绍常用的Hexo 命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo -g <span class="comment">#安装Hexo</span></span><br><span class="line">npm update hexo -g <span class="comment">#升级</span></span><br><span class="line">hexo init <span class="comment">#初始化博客</span></span><br></pre></td></tr></table></figure>
-
 <p>命令简写</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">hexo n <span class="string">"我的博客"</span> == hexo new <span class="string">"我的博客"</span> <span class="comment">#新建文章</span></span><br><span class="line">hexo g == hexo generate <span class="comment">#生成</span></span><br><span class="line">hexo s == hexo server <span class="comment">#启动服务预览</span></span><br><span class="line">hexo d == hexo deploy <span class="comment">#部署</span></span><br><span class="line"></span><br><span class="line">hexo server <span class="comment">#Hexo会监视文件变动并自动更新，无须重启服务器</span></span><br><span class="line">hexo server -s <span class="comment">#静态模式</span></span><br><span class="line">hexo server -p 5000 <span class="comment">#更改端口</span></span><br><span class="line">hexo server -i 192.168.1.1 <span class="comment">#自定义 IP</span></span><br><span class="line">hexo clean <span class="comment">#清除缓存，若是网页正常情况下可以忽略这条命令</span></span><br></pre></td></tr></table></figure>
-
 <p>刚刚的三个命令依次是新建一篇博客文章、生成网页、在本地预览的操作。  </p>
 </blockquote>
 <h4 id="1-5-推送网站"><a href="#1-5-推送网站" class="headerlink" title="1.5 推送网站"></a>1.5 推送网站</h4><blockquote>
@@ -302,16 +294,11 @@
 </li>
 <li><p>关联Hexo与GitHub，修改根目录下面的站点配置文件_config.yml；</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">repo:</span> <span class="string">https://github.com/HuaZou/HuaZou.github.io.git</span></span><br><span class="line"><span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
-
-
-
 </li>
 </ol>
-<ol start="3">
+<ol>
 <li><p>保存站点配置文件</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 保存文件</span></span><br><span class="line"><span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-deployer-git</span> <span class="string">--save</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成静态文件</span></span><br><span class="line"><span class="string">hexo</span> <span class="string">clean</span> </span><br><span class="line"><span class="string">hexo</span> <span class="string">g</span> </span><br><span class="line"><span class="string">hexo</span> <span class="string">d</span></span><br></pre></td></tr></table></figure>
-
-
 </li>
 </ol>
 </blockquote>
@@ -320,15 +307,11 @@
 <li>主题传送门：<a href="https://link.zhihu.com/?target=https%3A//hexo.io/themes/">Themes</a> 我自己使用的是Next主题，可以在blog目录中的themes文件夹中查看你自己主题是什么。现在把默认主题更改成Next主题，在blog目录中（就是命令行的位置处于blog目录）打开命令行输入：</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="2">
+<ol>
 <li>这是将Next主题下载到blog目录的themes主题下的next文件夹中。打开<strong>站点</strong>的_config.yml配置文件，修改主题为next;</li>
 </ol>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure>
-
-<ol start="3">
+<ol>
 <li>打开<strong>主题</strong>的_config.yml配置文件，不是站点主题文件，找到Scheme Settings</li>
 </ol>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># schemes</span></span><br><span class="line"><span class="attr">schemes:</span> <span class="string">Pisces</span></span><br></pre></td></tr></table></figure>
@@ -336,36 +319,31 @@
 <h4 id="1-7-发布文章"><a href="#1-7-发布文章" class="headerlink" title="1.7 发布文章"></a>1.7 发布文章</h4><blockquote>
 <p>正式发布上线博客文章，在命令行中输入：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo n <span class="string">"blog_name"</span></span><br></pre></td></tr></table></figure>
-
-<p>通过带有预览样式的Markdown编辑器实时预览书写的博文样式，也可以通过命令 hexo s –debug 在本地浏览器的localhost:4000 预览博文效果。写好博文并且样式无误后，通过hexo g、hexo d 生成、部署网页。随后可以在浏览器中输入域名浏览。</p>
+<p>通过带有预览样式的Markdown编辑器实时预览书写的博文样式，也可以通过命令 hexo s —debug 在本地浏览器的localhost:4000 预览博文效果。写好博文并且样式无误后，通过hexo g、hexo d 生成、部署网页。随后可以在浏览器中输入域名浏览。</p>
 </blockquote>
 <h4 id="1-8-图床"><a href="#1-8-图床" class="headerlink" title="1.8 图床"></a>1.8 图床</h4><blockquote>
-<p>图床，当博文中有图片时，若是少量图片，可以直接把图片存放在source文件夹中，但这显然不合理的，因为图片会占据大量的存储的空间，加载的时候相对缓慢 ，这时考虑把博文里的图片上传到某一网站，然后获得外部链接，使用Markdown语法，<strong><img src="%E5%A4%96%E9%83%A8%E9%93%BE%E6%8E%A5" alt="图片信息"></strong> 完成图片的插入，这种网站就被成为图床。常见的简易的图床网站有：<a href="https://link.zhihu.com/?target=http%3A//www.tietuku.com/">贴图库图片外链</a> 国内算比较好的图床我认为有两个：新浪微博和 <a href="https://link.zhihu.com/?target=https%3A//www.qiniu.com/">七牛云</a> ，七牛云的使用方法可以参看其他文章。图床最重要的就是稳定速度快，所以在挑选图床的时候一定要仔细，下图是博文插入图片，使用图床外链的示例：</p>
+<p>图床，当博文中有图片时，若是少量图片，可以直接把图片存放在source文件夹中，但这显然不合理的，因为图片会占据大量的存储的空间，加载的时候相对缓慢 ，这时考虑把博文里的图片上传到某一网站，然后获得外部链接，使用Markdown语法，<strong><img src="外部链接" alt="图片信息"></strong> 完成图片的插入，这种网站就被成为图床。常见的简易的图床网站有：<a href="https://link.zhihu.com/?target=http%3A//www.tietuku.com/">贴图库图片外链</a> 国内算比较好的图床我认为有两个：新浪微博和 <a href="https://link.zhihu.com/?target=https%3A//www.qiniu.com/">七牛云</a> ，七牛云的使用方法可以参看其他文章。图床最重要的就是稳定速度快，所以在挑选图床的时候一定要仔细，下图是博文插入图片，使用图床外链的示例：</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: </span><br><span class="line">date:</span><br><span class="line">tags:</span><br><span class="line">---</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">align</span> = <span class="string">"center"</span>&gt;</span></span> Hello world.<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">![<span class="string">hello world</span>](<span class="link">http://图片网址</span>)</span><br></pre></td></tr></table></figure>
-
-
 </blockquote>
-<h3 id="2-个性化设计"><a href="#2-个性化设计" class="headerlink" title="2. 个性化设计"></a>2. 个性化设计</h3><h4 id="2-1-增加评论-8-9"><a href="#2-1-增加评论-8-9" class="headerlink" title="2.1 增加评论[^8][^9]"></a>2.1 增加评论[^8][^9]</h4><p>评论系统是博客的基础功能之一，根据8和9的方法，我们开设博客评论功能。</p>
-<h3 id="3-问题"><a href="#3-问题" class="headerlink" title="3.问题"></a>3.问题</h3><h4 id="3-1-安装hexo遇到fetchMetadata报错-4"><a href="#3-1-安装hexo遇到fetchMetadata报错-4" class="headerlink" title="3.1 安装hexo遇到fetchMetadata报错^4"></a>3.1 安装hexo遇到fetchMetadata报错<a href="https://blog.csdn.net/MyWoodStream/article/details/82585401" target="_blank" rel="noopener">^4</a></h4><ol>
+<h3 id="2-个性化设计"><a href="#2-个性化设计" class="headerlink" title="2. 个性化设计"></a>2. 个性化设计</h3><h4 id="2-1-增加评论"><a href="#2-1-增加评论" class="headerlink" title="2.1 增加评论"></a>2.1 增加评论</h4><p>评论系统是博客的基础功能之一，开设博客评论功能方法如下：</p>
+<ul>
+<li>method1: 使用来必力<sup><a href="#fn_8" id="reffn_8">8</a></sup>，这个比较鸡肋，不推荐；</li>
+<li>method2: 使用leancloud<sup><a href="#fn_9" id="reffn_9">9</a></sup>，该方法需要实名注册（支付宝扫描验证），有点不需要评论用户登录</li>
+</ul>
+<h3 id="3-问题"><a href="#3-问题" class="headerlink" title="3.问题"></a>3.问题</h3><h4 id="3-1-安装hexo遇到fetchMetadata报错4"><a href="#3-1-安装hexo遇到fetchMetadata报错4" class="headerlink" title="3.1 安装hexo遇到fetchMetadata报错4"></a>3.1 安装hexo遇到fetchMetadata报错<sup><a href="#fn_4" id="reffn_4">4</a></sup></h4><ol>
 <li><p>检查node和npm版本号，npm是否大于4</p>
 </li>
 <li><p>将npm的仓库地址改成淘宝镜像</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org --global</span><br><span class="line"></span><br><span class="line">npm config <span class="built_in">set</span> disturl https://npm.taobao.org/dist --global</span><br></pre></td></tr></table></figure>
-
-
-
 </li>
 </ol>
-<h4 id="3-2-rollbackFailedOptional错误问题的解决-5"><a href="#3-2-rollbackFailedOptional错误问题的解决-5" class="headerlink" title="3.2 rollbackFailedOptional错误问题的解决^5"></a>3.2 rollbackFailedOptional错误问题的解决<a href="https://blog.csdn.net/x386277405/article/details/78297526?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">^5</a></h4><blockquote>
+<h4 id="3-2-rollbackFailedOptional错误问题的解决5"><a href="#3-2-rollbackFailedOptional错误问题的解决5" class="headerlink" title="3.2 rollbackFailedOptional错误问题的解决5"></a>3.2 rollbackFailedOptional错误问题的解决<sup><a href="#fn_5" id="reffn_5">5</a></sup></h4><blockquote>
 <ol>
 <li><p>原因事设置的代理错误，删除即可</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config rm proxy</span><br><span class="line">npm config rm https-proxy</span><br></pre></td></tr></table></figure>
-
-
-
 </li>
 </ol>
-<ol start="2">
+<ol>
 <li><p>使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 安装淘宝的cnpm</span><br><span class="line">npm install -g cnpm --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
 </li>
@@ -373,13 +351,48 @@
 </li>
 </ol>
 </blockquote>
-<h4 id="3-3-Hexo的中文标题乱码-6"><a href="#3-3-Hexo的中文标题乱码-6" class="headerlink" title="3.3 Hexo的中文标题乱码^6"></a>3.3 Hexo的中文标题乱码<a href="https://blog.csdn.net/qq_21808961/article/details/84475555" target="_blank" rel="noopener">^6</a></h4><p>乱码原因是编辑站点配置文件_config.yml时候没有选择utf-8格式</p>
+<h4 id="3-3-Hexo的中文标题乱码6"><a href="#3-3-Hexo的中文标题乱码6" class="headerlink" title="3.3 Hexo的中文标题乱码6"></a>3.3 Hexo的中文标题乱码<sup><a href="#fn_6" id="reffn_6">6</a></sup></h4><p>乱码原因是编辑站点配置文件_config.yml时候没有选择utf-8格式</p>
 <ol>
 <li>使用notepad++将文件convert to utf-8;</li>
 <li>后续编辑文件使用utf-8格式。</li>
 </ol>
-<h4 id="3-4-暗黑主题设置失败-7"><a href="#3-4-暗黑主题设置失败-7" class="headerlink" title="3.4 暗黑主题设置失败^7"></a>3.4 暗黑主题设置失败<a href="https://www.geek-space.cn/post/next-darkmod.html" target="_blank" rel="noopener">^7</a></h4><p>虽然在主题配置文件中设置了暗黑主题并且也可以在本地版本显示暗黑模式，但是在网页端却无法显示，这是因为public/css/main.css文件没有设置暗黑模式，按照引用7的方式复制粘贴暗黑模式模块进去即可。</p>
-<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>​    </p>
+<h4 id="3-4-暗黑主题设置失败7"><a href="#3-4-暗黑主题设置失败7" class="headerlink" title="3.4 暗黑主题设置失败7"></a>3.4 暗黑主题设置失败<sup><a href="#fn_7" id="reffn_7">7</a></sup></h4><p>虽然在主题配置文件中设置了暗黑主题并且也可以在本地版本显示暗黑模式，但是在网页端却无法显示，这是因为public/css/main.css文件没有设置暗黑模式，按照引用7的方式复制粘贴暗黑模式模块进去即可。</p>
+<h4 id="3-5-hexo无法显示数学公式10"><a href="#3-5-hexo无法显示数学公式10" class="headerlink" title="3.5 hexo无法显示数学公式10"></a>3.5 hexo无法显示数学公式<sup><a href="#fn_10" id="reffn_10">10</a></sup></h4><ul>
+<li><p>更换markdown渲染引擎，先卸载再按照</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改node_modules\kramed\lib\rules\inline.js文件</p>
+<p>hexo-renderer-marked渲染引擎仍然存在一些语义冲突问题，到博客的根目录下，找到node_modules\kramed\lib\rules\inline.js，把第11行的escape变量的值做相应的修改：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,  e</span></span><br><span class="line">scape: <span class="regexp">/^\\([`*\[\]()#$+\-.!_&gt;])/</span>,</span><br></pre></td></tr></table></figure>
+<p>这一步是在原基础上取消了对\,{,}的转义(escape)。</p>
+<p>同时把第20行的em变量也要做相应的修改。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,  </span></span><br><span class="line">em: <span class="regexp">/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span>,</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>主题开启mathjax开关</p>
+<p>到博客根目录下，找到themes/next/_config.yml，把math默认的flase修改为true，具体如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Math Equations Render Supportmath:  enable: true  per_page: true  engine: mathjax</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在文章中开启mathjax开关</p>
+<p>如果你写的文章里面用到了数学公式，需要在文章Front-matter里打开mathjax开关。如果用不到数学公式，则不需要管它。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: index.html</span><br><span class="line">date: 2018-12-5 01:30:30</span><br><span class="line">tags:</span><br><span class="line">mathjax: true</span><br><span class="line">--</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><blockquote id="fn_1">
+<sup>1</sup>. <a href="https://liam.page/texlive/" target="_blank" rel="noopener">https://liam.page/texlive/</a><a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#8617;</a>
+</blockquote>
+<blockquote id="fn_4">
+<sup>4</sup>. <a href="https://blog.csdn.net/MyWoodStream/article/details/82585401" target="_blank" rel="noopener">https://blog.csdn.net/MyWoodStream/article/details/82585401</a><a href="#reffn_4" title="Jump back to footnote [4] in the text."> &#8617;</a>
+</blockquote>
+<blockquote id="fn_5">
+<sup>5</sup>. <a href="https://blog.csdn.net/x386277405/article/details/78297526?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/x386277405/article/details/78297526?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a><a href="#reffn_5" title="Jump back to footnote [5] in the text."> &#8617;</a>
+</blockquote>
+<blockquote id="fn_6">
+<sup>6</sup>. <a href="https://blog.csdn.net/qq_21808961/article/details/84475555" target="_blank" rel="noopener">https://blog.csdn.net/qq_21808961/article/details/84475555</a><a href="#reffn_6" title="Jump back to footnote [6] in the text."> &#8617;</a>
+</blockquote>
+<blockquote id="fn_7">
+<sup>7</sup>. <a href="https://www.geek-space.cn/post/next-darkmod.html" target="_blank" rel="noopener">https://www.geek-space.cn/post/next-darkmod.html</a><a href="#reffn_7" title="Jump back to footnote [7] in the text."> &#8617;</a>
+</blockquote>
+<p>​    </p>
 <p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener">联系</a>，谢谢。</p>
 
     </div>
@@ -462,7 +475,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Giuthub-Pages-Hexo搭建博客"><span class="nav-number">1.</span> <span class="nav-text">Giuthub Pages + Hexo搭建博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-搭建步骤-3"><span class="nav-number">1.1.</span> <span class="nav-text">1. 搭建步骤^3</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-GitHub创建个人仓库"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1  GitHub创建个人仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-安装git"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 安装git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-安装Node-js"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 安装Node.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-安装Hexo"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 安装Hexo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-推送网站"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.5 推送网站</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-更换主题"><span class="nav-number">1.1.6.</span> <span class="nav-text">1.6 更换主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-发布文章"><span class="nav-number">1.1.7.</span> <span class="nav-text">1.7 发布文章</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-8-图床"><span class="nav-number">1.1.8.</span> <span class="nav-text">1.8 图床</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-个性化设计"><span class="nav-number">1.2.</span> <span class="nav-text">2. 个性化设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-增加评论-8-9"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 增加评论[^8][^9]</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-问题"><span class="nav-number">1.3.</span> <span class="nav-text">3.问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-安装hexo遇到fetchMetadata报错-4"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 安装hexo遇到fetchMetadata报错^4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-rollbackFailedOptional错误问题的解决-5"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 rollbackFailedOptional错误问题的解决^5</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-Hexo的中文标题乱码-6"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 Hexo的中文标题乱码^6</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-暗黑主题设置失败-7"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 暗黑主题设置失败^7</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">1.4.</span> <span class="nav-text">引用</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Giuthub-Pages-Hexo搭建博客"><span class="nav-number">1.</span> <span class="nav-text">Giuthub Pages + Hexo搭建博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-搭建步骤3"><span class="nav-number">1.1.</span> <span class="nav-text">1. 搭建步骤3</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-GitHub创建个人仓库"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1  GitHub创建个人仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-安装git"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 安装git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-安装Node-js"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 安装Node.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-安装Hexo"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 安装Hexo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-推送网站"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.5 推送网站</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-更换主题"><span class="nav-number">1.1.6.</span> <span class="nav-text">1.6 更换主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-发布文章"><span class="nav-number">1.1.7.</span> <span class="nav-text">1.7 发布文章</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-8-图床"><span class="nav-number">1.1.8.</span> <span class="nav-text">1.8 图床</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-个性化设计"><span class="nav-number">1.2.</span> <span class="nav-text">2. 个性化设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-增加评论"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 增加评论</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-问题"><span class="nav-number">1.3.</span> <span class="nav-text">3.问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-安装hexo遇到fetchMetadata报错4"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 安装hexo遇到fetchMetadata报错4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-rollbackFailedOptional错误问题的解决5"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 rollbackFailedOptional错误问题的解决5</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-Hexo的中文标题乱码6"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 Hexo的中文标题乱码6</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-暗黑主题设置失败7"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 暗黑主题设置失败7</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-hexo无法显示数学公式10"><span class="nav-number">1.3.5.</span> <span class="nav-text">3.5 hexo无法显示数学公式10</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">1.4.</span> <span class="nav-text">引用</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -578,6 +591,8 @@
 
 
 
+
+  
 
   
 

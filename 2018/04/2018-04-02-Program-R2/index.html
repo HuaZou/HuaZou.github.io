@@ -253,10 +253,8 @@
 <p>4). 缩进：两个空格而不是制表符</p>
 <p>5). 空格：在二元操作符（包括关系符和运算符，如 &lt;- = + 等）的两侧加空格，除非它在函数调用语句中。逗号的右侧空格</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">plot(x    = x.coord,</span><br><span class="line">     y    = data.mat[, MakeColName(metric, ptiles[<span class="number">1</span>], <span class="string">"roiOpt"</span>)],</span><br><span class="line">     ylim = ylim,</span><br><span class="line">     xlab = <span class="string">"dates"</span>,</span><br><span class="line">     ylab = metric,</span><br><span class="line">     main = (paste(metric, <span class="string">" for 3 samples "</span>, sep = <span class="string">""</span>)))</span><br></pre></td></tr></table></figure>
-
 <p>6). 花括号：左花括号不单独一行，右花括号总是单独一行。如果有连续的花括号，这样书写</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (condition) &#123;</span><br><span class="line">   one or more lines</span><br><span class="line"> &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">   one or more lines</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
 <p>7). 注释准则: 所有注释以 # 开始, 后接一个空格; 行内注释需要在 #前加两个空格</p>
 <h3 id="代码布局"><a href="#代码布局" class="headerlink" title="代码布局"></a>代码布局</h3><blockquote>
 <ul>
@@ -285,7 +283,6 @@
 </ul>
 </blockquote>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">CalculateSampleCovariance &lt;- <span class="keyword">function</span>(x, y, verbose = <span class="literal">TRUE</span>) &#123;</span><br><span class="line">  <span class="comment"># Computes the sample covariance between two vectors.</span></span><br><span class="line">  <span class="comment">#</span></span><br><span class="line">  <span class="comment"># Args:</span></span><br><span class="line">  <span class="comment">#   x: One of two vectors whose sample covariance is to be calculated.</span></span><br><span class="line">  <span class="comment">#   y: The other vector. x and y must have the same length, greater than one, with no missing values.</span></span><br><span class="line">  <span class="comment">#   verbose: If TRUE, prints sample covariance; if not, not. Default is TRUE.</span></span><br><span class="line">  <span class="comment">#</span></span><br><span class="line">  <span class="comment"># Returns:</span></span><br><span class="line">  <span class="comment">#   The sample covariance between x and y.</span></span><br><span class="line">  n &lt;- length(x)</span><br><span class="line">  <span class="comment"># Error handling</span></span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">1</span> || n != length(y)) &#123;</span><br><span class="line">    <span class="keyword">stop</span>(<span class="string">"Arguments x and y have different lengths: "</span>,</span><br><span class="line">         length(x), <span class="string">" and "</span>, length(y), <span class="string">"."</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="literal">TRUE</span> %<span class="keyword">in</span>% is.na(x) || <span class="literal">TRUE</span> %<span class="keyword">in</span>% is.na(y)) &#123;</span><br><span class="line">    <span class="keyword">stop</span>(<span class="string">" Arguments x and y must not have missing values."</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  covariance &lt;- var(x, y)</span><br><span class="line">  <span class="keyword">if</span> (verbose)</span><br><span class="line">    cat(<span class="string">"Covariance = "</span>, round(covariance, <span class="number">4</span>), <span class="string">".\n"</span>, sep = <span class="string">""</span>)</span><br><span class="line">  <span class="keyword">return</span>(covariance)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>用 stop() 抛出函数错误</li>
 </ul>
@@ -494,6 +491,8 @@
 
 
 
+
+  
 
   
 

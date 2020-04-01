@@ -246,180 +246,109 @@
 
       
         <p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/anaconda.png" alt=""></p>
-<h3 id="命令集合"><a href="#命令集合" class="headerlink" title="命令集合"></a>命令集合</h3><table>
+<h3 id="命令集合"><a href="#命令集合" class="headerlink" title="命令集合"></a>命令集合</h3><div class="table-container">
+<table>
 <thead>
 <tr>
-<th align="center">类别</th>
-<th align="left">功能</th>
+<th style="text-align:center">类别</th>
+<th style="text-align:left">功能</th>
 <th>命令</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">anaconda</td>
-<td align="left">集群登陆</td>
+<tbody>
+<tr>
+<td style="text-align:center">anaconda</td>
+<td style="text-align:left">集群登陆</td>
 <td>conda  install anaconda-client  anaconda login</td>
 </tr>
 <tr>
-<td align="center">conda环境管理</td>
-<td align="left">查看所有环境</td>
+<td style="text-align:center">conda环境管理</td>
+<td style="text-align:left">查看所有环境</td>
 <td>conda  info -e</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="left">新建环境</td>
-<td>conda  create –name py35 python=3.5</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">新建环境</td>
+<td>conda  create —name py35 python=3.5</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="left">使用自己环境</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">使用自己环境</td>
 <td>source  activate name  conda  deactivate</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="left">使用他人环境</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">使用他人环境</td>
 <td>source  activate /anaconda3/envs/name  conda  deactivate</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="left">使用它人base环境</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">使用它人base环境</td>
 <td>source  anaconda/etc/profile.d/conda.sh  source  activate base  conda  deactivate</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="left">删除环境</td>
-<td>conda  remove –name py35 –all</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">删除环境</td>
+<td>conda  remove —name py35 —all</td>
 </tr>
 <tr>
-<td align="center">库管理</td>
-<td align="left">查看已安装包</td>
+<td style="text-align:center">库管理</td>
+<td style="text-align:left">查看已安装包</td>
 <td>conda  list</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="left">查看某环境下已安装包</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">查看某环境下已安装包</td>
 <td>conda  list -n py35</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="left">搜索包</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">搜索包</td>
 <td>conda  search numpy</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="left">安装包</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">安装包</td>
 <td>conda  install module1 module2</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="left">安装包到指定环境</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">安装包到指定环境</td>
 <td>conda  install -n py35 module=version</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="left">更新所有包</td>
-<td>conda  update –all</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">更新所有包</td>
+<td>conda  update —all</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="left">更新包</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">更新包</td>
 <td>conda  update package</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="left">卸载包</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">卸载包</td>
 <td>conda  remove package</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="left">卸载某个环境包</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">卸载某个环境包</td>
 <td>conda  remove -n py35 package</td>
 </tr>
 <tr>
-<td align="center">特殊安装包</td>
-<td align="left">包安装失败情况下</td>
-<td>conda install  –override-channels -c <a href="https://metachannel.conda-forge.org/defaults,bioconda,conda-forge/picrust2,--max-build-no" target="_blank" rel="noopener">https://metachannel.conda-forge.org/defaults,bioconda,conda-forge/picrust2,--max-build-no</a>  picrust2</td>
+<td style="text-align:center">特殊安装包</td>
+<td style="text-align:left">包安装失败情况下</td>
+<td>conda install  —override-channels -c <a href="https://metachannel.conda-forge.org/defaults,bioconda,conda-forge/picrust2,--max-build-no" target="_blank" rel="noopener">https://metachannel.conda-forge.org/defaults,bioconda,conda-forge/picrust2,--max-build-no</a>  picrust2</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h3 id="conda打包软件"><a href="#conda打包软件" class="headerlink" title="conda打包软件"></a>conda打包软件</h3><ol>
 <li><p>build.sh:编译软件需要运行的代码</p>
 </li>
 <li><p>meta.yaml:描述软件以及提供依赖环境等</p>
-<table>
-<thead>
-<tr>
-<th>参数类别</th>
-<th>参数</th>
-<th>含义</th>
-<th>实列</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>包描述</td>
-<td>name</td>
-<td>包名</td>
-<td>name:  package1</td>
-</tr>
-<tr>
-<td></td>
-<td>version</td>
-<td>版本</td>
-<td>version:  </td>
-</tr>
-<tr>
-<td>包来源</td>
-<td>url/git_url/hg_url</td>
-<td>tar.gz文件地址</td>
-<td>url:  package1..tar.gz</td>
-</tr>
-<tr>
-<td></td>
-<td>md5/sha1/sha256</td>
-<td>文件的唯一识别码</td>
-<td>md5:  md2sum</td>
-</tr>
-<tr>
-<td></td>
-<td>path</td>
-<td>文件来自本地相对路径</td>
-<td>path:  ../src</td>
-</tr>
-<tr>
-<td></td>
-<td>folder</td>
-<td>指定目录放置文件源</td>
-<td>folder:  my-destination/folder</td>
-</tr>
-<tr>
-<td>建立包</td>
-<td>number</td>
-<td>建立次数默认是0</td>
-<td>number:  0</td>
-</tr>
-<tr>
-<td></td>
-<td>script</td>
-<td>代替build.sh。建立包</td>
-<td></td>
-</tr>
-<tr>
-<td>依赖包</td>
-<td>build</td>
-<td>包安装的依赖工具（tools）</td>
-<td>build:   - git  - cmake</td>
-</tr>
-<tr>
-<td></td>
-<td>host</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>run</td>
-<td>包安装的依赖项(dependencies)</td>
-<td>run:   - numpy 1.4</td>
-</tr>
-</tbody></table>
+<p>| 参数类别 | 参数                 | 含义                    | 实列                                |<br>| —— | ————————— | ——————————- | ————————————————- |<br>| 包描述  | name               | 包名                    | name:  package1                   |<br>|      | version            | 版本                    | version:               |<br>| 包来源  | url/git_url/hg_url | tar.gz文件地址            | url:  package1..tar.gz |<br>|      | md5/sha1/sha256    | 文件的唯一识别码              | md5:  md2sum                      |<br>|      | path               | 文件来自本地相对路径            | path:  ../src                     |<br>|      | folder             | 指定目录放置文件源             | folder:  my-destination/folder    |<br>| 建立包  | number             | 建立次数默认是0              | number:  0                        |<br>|      | script             | 代替build.sh。建立包        |                                   |<br>| 依赖包  | build              | 包安装的依赖工具（tools）       | build:   - git  - cmake           |<br>|      | host               |                       |                                   |<br>|      | run                | 包安装的依赖项(dependencies) | run:   - numpy 1.4                |</p>
 </li>
 </ol>
 
@@ -622,6 +551,8 @@
 
 
 
+
+  
 
   
 

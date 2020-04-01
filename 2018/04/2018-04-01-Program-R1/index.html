@@ -253,7 +253,7 @@
 <blockquote>
 <p>R is a free programming language and software environment for statistical computing and graphics. R has a wide variety of statistical linear and non-linear modeling and provides numerous graphical techniques.</p>
 </blockquote>
-<ol start="2">
+<ol>
 <li>R是一种可编程的语言。语法通俗易懂，入门很简单；除此之外，还可以编制函数，因此它的包更新速度比一般统计软件要快得多。</li>
 <li>所有R的函数和数据集是保存在程序包里面的。</li>
 <li>R具有很强互动性，是一门交互式语言。它的图形窗口极其方便开发者交互使用。</li>
@@ -275,47 +275,33 @@
 <blockquote>
 <p>RStudio is an active member of the R community. We believe free and open source data analysis software is a foundation for innovative and important work in science, education, and industry. The many customers who value our professional software capabilities help us contribute to this community</p>
 </blockquote>
-<ol start="2">
+<ol>
 <li>R和Rstudio的安装 </li>
 </ol>
 <ul>
 <li>使用<a href="https://anaconda.org/" target="_blank" rel="noopener">anaconda3</a>安装R是最方便简单的办法，不仅仅对windows适用而且对Linux系统也适用的，而且anaconda对管理R的包是最佳的。（在Linux系统中，安装R会需要安装很多依赖包如gcc等，而且存在包依赖包的问题，还有版本不兼容问题，因此极力推荐使用anaconda管理R）</li>
 </ul>
 <h3 id="R包的安装"><a href="#R包的安装" class="headerlink" title="R包的安装"></a>R包的安装</h3><h4 id="1-基本安装，直接从R的CRAN下载"><a href="#1-基本安装，直接从R的CRAN下载" class="headerlink" title="1. 基本安装，直接从R的CRAN下载"></a>1. 基本安装，直接从R的<a href="https://mirrors.tuna.tsinghua.edu.cn/CRAN/" target="_blank" rel="noopener">CRAN</a>下载</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">"ggpplot2"</span>, dependencies=<span class="literal">T</span>, repos=<span class="string">"https://mirrors.tuna.tsinghua.edu.cn/CRAN"</span>)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>dependencies : 该参数可以安装除ggplot2以外的依赖包</li>
 <li>repos : 指定ggplot2的包源的CRAN地址（<em>清华大学</em>的CRAN在国内是最好的）</li>
 </ul>
-<h4 id="2-github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上"><a href="#2-github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上" class="headerlink" title="2. github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上"></a>2. github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上</h4><p><strong>2.1</strong> 安装githubinstall包，该包可以通过第一步的基本安装实现</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">"githubinstall"</span>)   <span class="comment">## 已经发布到CRAN</span></span><br></pre></td></tr></table></figure>
-<p><strong>2.2</strong> 安装AnomalyDetection包</p>
+<h4 id="2-github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上"><a href="#2-github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上" class="headerlink" title="2. github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上"></a>2. github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上</h4><p><strong>2.1</strong> 安装githubinstall包，该包可以通过第一步的基本安装实现<br><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">"githubinstall"</span>)   <span class="comment">## 已经发布到CRAN</span></span><br></pre></td></tr></table></figure><br><strong>2.2</strong> 安装AnomalyDetection包</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(githubinstall)</span><br><span class="line">githubinstall(<span class="string">"AnomalyDetection"</span>, ref=<span class="string">"master"</span>)</span><br></pre></td></tr></table></figure>
-<p><strong>2.3</strong> 使用devtools包安装</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">"devtools"</span>)</span><br><span class="line"><span class="keyword">library</span>(devtools)</span><br><span class="line">install_github(<span class="string">"lch14forever/microbiomeViz"</span>)</span><br></pre></td></tr></table></figure>
-
+<p><strong>2.3</strong> 使用devtools包安装<br><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">"devtools"</span>)</span><br><span class="line"><span class="keyword">library</span>(devtools)</span><br><span class="line">install_github(<span class="string">"lch14forever/microbiomeViz"</span>)</span><br></pre></td></tr></table></figure></p>
 <h4 id="3-基于bioconductor安装"><a href="#3-基于bioconductor安装" class="headerlink" title="3. 基于bioconductor安装"></a>3. 基于<a href="https://www.bioconductor.org/" target="_blank" rel="noopener">bioconductor</a>安装</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">source</span>(<span class="string">"http://bioconductor.org/biocLite.R"</span>)</span><br><span class="line">options(BioC_mirror=<span class="string">"http://mirrors.ustc.edu.cn/bioc/"</span>) <span class="comment"># 选用中科大的bioconductor镜像</span></span><br><span class="line"><span class="keyword">library</span>(BiocInstaller)</span><br><span class="line">biocLite(<span class="string">"DirichletMultinomial"</span>)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>source函数会读取biocLite.R脚本，该脚本拥有很多函数，比如biocLite安装包函数</li>
 <li><a href="https://support.bioconductor.org/p/74540/" target="_blank" rel="noopener">网址错误</a>； https和http的区别</li>
 </ul>
 <h4 id="4-本地安装-zip压缩等文件"><a href="#4-本地安装-zip压缩等文件" class="headerlink" title="4. 本地安装.zip压缩等文件"></a>4. 本地安装.zip压缩等文件</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">"E:/ggplot2/ggplot2*.zip"</span>)   <span class="comment">## 引号为绝对路径</span></span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="R包管理和查看"><a href="#R包管理和查看" class="headerlink" title="R包管理和查看"></a>R包管理和查看</h3><h4 id="1-加载包的两种方式，library和require"><a href="#1-加载包的两种方式，library和require" class="headerlink" title="1. 加载包的两种方式，library和require"></a>1. <strong>加载包的两种方式，library和require</strong></h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">library</span>(ggplot2)</span><br><span class="line">&gt; <span class="keyword">require</span>(ggplot2)</span><br><span class="line"></span><br><span class="line"><span class="comment">## test </span></span><br><span class="line">&gt; test &lt;- <span class="keyword">library</span>(<span class="string">"abc"</span>)</span><br><span class="line">Error <span class="keyword">in</span> <span class="keyword">library</span>(<span class="string">"abc"</span>) : there is no package called <span class="string">'abc'</span></span><br><span class="line">&gt; test</span><br><span class="line">Error: object <span class="string">'test'</span> not found</span><br><span class="line">&gt; test &lt;- <span class="keyword">require</span>(<span class="string">"abc"</span>)</span><br><span class="line">Loading required package: abc</span><br><span class="line">Warning message:</span><br><span class="line">In <span class="keyword">library</span>(package, lib.loc = lib.loc, character.only = <span class="literal">TRUE</span>, logical.return = <span class="literal">TRUE</span>,  :</span><br><span class="line">  there is no package called <span class="string">'abc'</span></span><br><span class="line">&gt; test</span><br><span class="line">[<span class="number">1</span>] <span class="literal">FALSE</span></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><strong>区别</strong>：当不存在R包时候，library直接输出报错信息并且终止程序运行，而require输出是警告且继续运行加载包后的程序。<a href="https://stackoverflow.com/questions/5595512/what-is-the-difference-between-require-and-library" target="_blank" rel="noopener">详细信息</a></li>
 </ul>
 <h4 id="2-查看R包"><a href="#2-查看R包" class="headerlink" title="2. 查看R包"></a>2. <strong>查看R包</strong></h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> getOption(<span class="string">"defaultPackages"</span>)    <span class="comment">## 查看默认加载的包</span></span><br><span class="line"><span class="number">2.</span> installed.packages()       <span class="comment">## 查看所有已经安装的R包，包含版本信息等</span></span><br><span class="line"><span class="number">3.</span> .packages(all.available = <span class="literal">T</span>) <span class="comment">## 查看所有已经安装的R包，只有包的名字</span></span><br></pre></td></tr></table></figure>
-
-
-
 <h4 id="3-更新和卸载包"><a href="#3-更新和卸载包" class="headerlink" title="3. 更新和卸载包"></a>3. 更新和卸载包</h4><p><strong>3.1</strong> <a href="https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/update.packages" target="_blank" rel="noopener">更新包</a></p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt;old.packages()</span><br><span class="line">      Package LibPath                              Installed Built   ReposVer</span><br><span class="line">RUnit <span class="string">"RUnit"</span> <span class="string">"E:/software/anaconda/Lib/R/library"</span> <span class="string">"0.4.26"</span>  <span class="string">"3.3.1"</span> <span class="string">"0.4.31"</span></span><br><span class="line">      Repository                                                  </span><br><span class="line">RUnit <span class="string">"https://mran.microsoft.com/snapshot/2017-09-01/src/contrib"</span></span><br><span class="line"></span><br><span class="line">&gt;update.packages()</span><br><span class="line">RUnit :</span><br><span class="line"> Version <span class="number">0.4</span><span class="number">.26</span> installed <span class="keyword">in</span> E:/software/anaconda/Lib/R/<span class="keyword">library</span> </span><br><span class="line"> Version <span class="number">0.4</span><span class="number">.31</span> available at https://mran.microsoft.com/snapshot/<span class="number">2017</span>-<span class="number">09</span>-<span class="number">01</span></span><br><span class="line"></span><br><span class="line">&gt;new.packages()</span><br><span class="line">   [<span class="number">1</span>] <span class="string">"A3"</span>                          <span class="string">"abbyyR"</span>                      <span class="string">"abc"</span>                         <span class="string">"abc.data"</span>                   </span><br><span class="line">   [<span class="number">5</span>] <span class="string">"ABC.RAP"</span>                     <span class="string">"ABCanalysis"</span>                 <span class="string">"abcdeFBA"</span>                    <span class="comment">#"ABCoptim"</span></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>old.packages表示软件包在CRAN上具有（合适的）更高版本，而update.packages提供下载和安装此类软件包。</li>
 <li>new.packages将在尚未安装的存储库上查找（合适的）软件包，并可选择提供它们进行安装。</li>
@@ -327,10 +313,8 @@
 </ul>
 <h4 id="4-升级R，但不重装packages"><a href="#4-升级R，但不重装packages" class="headerlink" title="4. 升级R，但不重装packages"></a>4. 升级R，但不重装packages</h4><p><strong>拷贝R旧版本的library目录文件夹至新版本library目录下，再使用如下命令更新</strong></p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update.packages(checkBuilt = <span class="literal">T</span>, ask = <span class="literal">F</span>)</span><br><span class="line"><span class="comment"># or install.packages(.packages(all = T))</span></span><br></pre></td></tr></table></figure>
-
 <h3 id="设置共同的R-library"><a href="#设置共同的R-library" class="headerlink" title="设置共同的R library"></a>设置共同的R library</h3><p>在实际分析过程中，因为某些包的依赖R版本不同，可能会使用到多个R版本，但每个R版本拥有各自R包library。每次从某个R版本切换到另一个版本，则对应的R包library也会更换，如想使用原来的R包环境则需要迁移大量的R包。为了实现方便快速使用不同版本的R，通过设置共同的R包library为所有的切换R版本的分析提供最佳解决方案，具体实现如下：</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>先建立一个共同的目录 Rlibrary;</span><br><span class="line"></span><br><span class="line"><span class="bullet">2. </span>打开R或者Rstudio，在控制台输入.libPaths("dir/Rlibrary");</span><br><span class="line"></span><br><span class="line"><span class="bullet">3. </span>为了永久设置该路径，需要在环境变量的用户变量中添加R<span class="emphasis">_LIBS_</span>USER新变量--&gt;dir/Rlibrary。</span><br></pre></td></tr></table></figure>
-
 <p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Rlibrary.png" alt=""></p>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
 <li><a href="https://blog.csdn.net/Ying_Xu/article/details/50896310" target="_blank" rel="noopener">R基础入门教程</a></li>
@@ -535,6 +519,8 @@
 
 
 
+
+  
 
   
 

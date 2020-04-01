@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --body-bg-color: #eee;
   --content-bg-color: #fff;
   --card-bg-color: #f5f5f5;
@@ -48,57 +48,8 @@ html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
-
-if (hexo-config('darkmode')) {
-  @media (prefers-color-scheme: dark) {
-      //以下都是复制了原本修改的CSS，然后自己修改为适合暗黑模式的样式
-    body {
-  background: #121212; //背景调为黑色
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-}
-//半透明改为不透明，颜色为黑色
-.comments {
-  background: rgba(29,29,29,1) none repeat scroll !important;
-}
-.post-block {
-  background: rgba(29,29,29,1) none repeat scroll !important;
-}
-.header-inner {
-  background: rgba(29,29,29,1) none repeat scroll !important;
-}
-.sidebar {
-  background: rgba(29,29,29,1) none repeat scroll !important;
-}
-.sidebar-inner {
-  background: rgba(29,29,29,1) none repeat scroll !important;
-}
-.pagination {
-  background: rgba(29,29,29,1) none repeat scroll !important;
-}
-//半透明改为不透明，颜色为黑色
-.headband {
-  background: #42A5F5 !important;
-}
-
-.site-meta {
-  background: #333 !important; //改这里是为了把网址标题那里改成黑色的
-}
-.footer-inner {
-  color: #e1e1e1 !important; //这是底部文字的颜色改为白色
-}
-
-//此处修复上面的正常模式下的两边变黑
-.site-brand-container {
-    background: #333;
-}
-
-blockquote {  //这里修改了引用文字的颜色
-    color: #F5F5F5;
-        }
-    }
+body {
+  margin: 0;
 }
 main {
   display: block;
@@ -1224,6 +1175,13 @@ pre .javascript .function {
   margin: 0 auto;
   max-width: 120px;
   padding: 2px;
+  border-radius: 50%;
+}
+.site-author-image {
+  transition: transform 1s ease-out;
+}
+.site-author-image:hover {
+  transform: rotateZ(360deg);
 }
 .site-author-name {
   color: var(--text-color);
@@ -1251,7 +1209,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #6765c9;
+  background: #ffa62e;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2221,6 +2179,13 @@ ul.breadcrumb li + li:last-child {
 }
 .tag-cloud a:hover {
   color: #222 !important;
+}
+mjx-container[jax="CHTML"][display="true"],
+.has-jax {
+  overflow: auto hidden;
+}
+mjx-container + br {
+  display: none;
 }
 .header {
   margin: 0 auto;

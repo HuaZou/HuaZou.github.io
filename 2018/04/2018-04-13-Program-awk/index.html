@@ -269,7 +269,6 @@
 <li>BEGIN语句块的语法</li>
 </ul>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span> &#123;awk-commands&#125;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>BEGIN语句块在程序开始的使用执行，它只执行一次，在这里可以初始化变量。BEGIN是AWK<br>的关键字，因此它必须为大写，注意，这个语句块是可选的。</li>
 </ul>
@@ -278,7 +277,6 @@
 <li>BODY语句块的语法</li>
 </ul>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/pattern/</span> &#123;awk-commands&#125;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>BODY语句块中的命令会对输入的每一行执行，我们也可以通过提供模式来控制这种行为。注意，BODY语句块没有关键字。</li>
 </ul>
@@ -287,28 +285,22 @@
 <li>END语句块的语法’</li>
 </ul>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- <span class="keyword">END</span> &#123;awk-commands&#125;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>END语句块在程序的最后执行，END是AWK的关键字，因此必须为大写，它也是可选的。</li>
 </ul>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN&#123;printf "Sr No\tName\tSub\tMarks\n"&#125;&#123;print&#125;'</span> marks.txt</span><br></pre></td></tr></table></figure>
-
 <h3 id="基础语法："><a href="#基础语法：" class="headerlink" title="基础语法："></a>基础语法：</h3><p><strong>1)</strong>. AWK命令行：</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk [options] file …   awk <span class="string">'&#123;print&#125;'</span> marks.txt</span><br></pre></td></tr></table></figure>
-
 <p><strong>2)</strong>. AWK程序文件: </p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk   [options] -f file ....</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>首先，创建一个包含下面内容的文本文件 command.awk</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'&#123;print&#125;'</span>  &gt; command.awk</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>现在，我们可以让AWK执行该文件中的命令，这里我们实现了和上例同样的结果</li>
 </ul>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -f command.awk marks.txt</span><br></pre></td></tr></table></figure>
-
 <p><strong>3)</strong>.  AWK标准选项</p>
 <ul>
 <li><p>-v 变量赋值选项(传递参数)</p>
@@ -317,8 +309,6 @@
 </li>
 </ul>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -v name=Jerry <span class="string">'BEGIN&#123;printf "Name = %s\n", name&#125;'</span>   ==&gt;  Name = Jerry</span><br></pre></td></tr></table></figure>
-
-
 <h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><p><strong>1)</strong>. 打印某行或者字段：</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'&#123;print $3 "\t" $4&#125;'</span> marks.txt</span><br></pre></td></tr></table></figure>
 <p><strong>2)</strong>. 打印匹配模式的列： /a/匹配到a字母</p>
@@ -330,91 +320,64 @@
 <li>ARGC 命令行参数个数</li>
 </ul>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN &#123;print "Arguments =", ARGC&#125;'</span>   One Two Three Four    Argument==&gt; <span class="number">5</span></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>ARGV 命令行参数数组:存储命令行参数的数组，索引范围从0 - ARGC - 1</li>
 </ul>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN &#123; </span></span><br><span class="line"><span class="string">	for (i = 0; i &lt; ARGC - 1; ++i) &#123; </span></span><br><span class="line"><span class="string">		printf "ARGV[%d] = %s\n", i, ARGV[i] </span></span><br><span class="line"><span class="string">	&#125; </span></span><br><span class="line"><span class="string">&#125;'</span> one two three four</span><br><span class="line">ARGV[<span class="number">0</span>] = awk</span><br><span class="line">ARGV[<span class="number">1</span>] = one</span><br><span class="line">ARGV[<span class="number">2</span>] = two</span><br><span class="line">ARGV[<span class="number">3</span>] = three</span><br></pre></td></tr></table></figure>
-
 <p><strong>5)</strong>. FILENAME当前文件名</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'END &#123;print FILENAME&#125;'</span> marks.txt  marks.txt</span><br></pre></td></tr></table></figure>
-
 <p><strong>6)</strong>. FS 输入字段(列)的分隔符:代表了输入字段的分隔符，默认值为空格，可以通过-F选项在命令行选项中修改它</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -F , <span class="string">'BEGIN &#123;print "FS = " FS&#125;'</span> | cat   -vte</span><br></pre></td></tr></table></figure>
-
 <p><strong>7)</strong>. NF 字段数目:代表了当前行中的字段数目，例如下面例子打印出了包含大于两个字段的行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">"One Two\nOne Two Three\nOne Two Three Four"</span> | awk <span class="string">'NF &gt; 2'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># One Two Three</span></span><br><span class="line"><span class="comment"># One Two Three Four</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>8)</strong>. NR 行号</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">"One Two\nOne Two Three\nOne Two Three       Four"</span> | awk <span class="string">'NR &lt; 3'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># One Two</span></span><br><span class="line"><span class="comment"># One Two Three</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>9)</strong>. FNR 行号（相对当前文件）</p>
 <ul>
 <li>与NR相似，不过在处理多文件时更有用，获取的行号相对于当前文件</li>
 </ul>
 <p><strong>10)</strong>. OFS 输出字段分隔符: 输出字段分隔符，默认为空格</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN &#123;print "OFS = " OFS&#125;'</span> | cat       -vte</span><br></pre></td></tr></table></figure>
-
 <p><strong>11)</strong>. ORS 输出行分隔符:  默认值为换行符</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN&#123;print "ORS = " ORS&#125;'</span> | cat -vte</span><br><span class="line"></span><br><span class="line"><span class="comment"># ORS = $</span></span><br><span class="line"><span class="comment"># $</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>12)</strong>. RS 输入行分隔符:默认值为换行符</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN&#123;print "RS = " RS&#125;'</span> | cat -vte</span><br><span class="line"></span><br><span class="line"><span class="comment"># RS = $</span></span><br><span class="line"><span class="comment"># $</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>13)</strong>. RLENGTH : 代表了 match 函数匹配的字符串长度。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN &#123; if (match("One Two       Three", "re")) &#123; print RLENGTH &#125; &#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>14)</strong>. RSTART: match函数匹配的第一次出现位置</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN &#123;if (match("One Two Three", "Thre"))&#123;print RSTART&#125;&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 9</span></span><br></pre></td></tr></table></figure>
-
 <h3 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h3><p><strong>1)</strong>. 算数操作符 :  就是+-*/%</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN&#123; a = 50; b = 20; print "(a + b) = ", (a + b) &#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># (a + b) =  70</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>2)</strong>. 增减运算符: 自增自减与C语言一致</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN &#123;a = 10; b = ++a; printf "a = %d, b = %d\n", a, b &#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#a = 11, b = 11</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>3)</strong>. 赋值操作符</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN &#123;name = "Jerry"; print "My name is", name &#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># My name is Jerry</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>4)</strong>. 关系操作符</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN &#123;a = 10; b = 10; if (a &lt;= b) print "a &lt;= b" &#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># a &lt;= b</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>5)</strong>.  逻辑操作符        &amp;&amp;  ||  !</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN &#123;num = 5; if (num &gt;= 0 &amp;&amp; num &lt;= 7) </span></span><br><span class="line"><span class="string">			printf "%d is in octal format\n", num</span></span><br><span class="line"><span class="string">&#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5 is in octal format</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>6)</strong>. 三元操作符</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN &#123;a = 10; b = 20; </span></span><br><span class="line"><span class="string">			(a &gt; b) ? max = a : max = b; print "Max =",max&#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Max = 20</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>7)</strong>. 字符串连接操作符</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN &#123;str1 = "Hello, "; str2 = "World"; </span></span><br><span class="line"><span class="string">			str3 = str1 str2; print str3 &#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Hello, World</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>8)</strong>. 数组成员操作符</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN&#123;arr[0] = 1; arr[1] = 2; arr[2] = 3; </span></span><br><span class="line"><span class="string">		for (i in arr) </span></span><br><span class="line"><span class="string">			printf "arr[%d] = %d\n", i, arr[i]</span></span><br><span class="line"><span class="string">&#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># arr[2] = 3</span></span><br><span class="line"><span class="comment"># arr[0] = 1</span></span><br><span class="line"><span class="comment"># arr[1] = 2</span></span><br></pre></td></tr></table></figure>
-
+<p><strong>8)</strong>. 数组成员操作符<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN&#123;arr[0] = 1; arr[1] = 2; arr[2] = 3; </span></span><br><span class="line"><span class="string">		for (i in arr) </span></span><br><span class="line"><span class="string">			printf "arr[%d] = %d\n", i, arr[i]</span></span><br><span class="line"><span class="string">&#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># arr[2] = 3</span></span><br><span class="line"><span class="comment"># arr[0] = 1</span></span><br><span class="line"><span class="comment"># arr[1] = 2</span></span><br></pre></td></tr></table></figure></p>
 <p><strong>9)</strong>. 正则表达式操作符: 正则表达式操作符使用 ~ 和 !~ 分别代表匹配和不匹配</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'$0 ~ '</span>ab<span class="string">''</span> marks.txt </span><br><span class="line">awk <span class="string">'$1 !~ '</span>time<span class="string">''</span>  marks.txt</span><br></pre></td></tr></table></figure>
-
 <p><strong>10)</strong>. 正则表达式</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">'adb\nacb\nacd'</span> | awk <span class="string">'/a.b/'</span> </span><br><span class="line"><span class="comment"># acb </span></span><br><span class="line"><span class="comment"># adb </span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">'The time\nthe time'</span> | awk <span class="string">'/^The/'</span>  </span><br><span class="line"><span class="comment"># The time  </span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">'The time the\nthe time The'</span> | awk <span class="string">'/the$/'</span>  </span><br><span class="line"><span class="comment"># ... the</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">'ac\nbc\dc'</span> | awk <span class="string">'/[ab]c/'</span> </span><br><span class="line"><span class="comment"># ac  </span></span><br><span class="line"><span class="comment"># bc </span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">'ac\nbc\dc'</span> | awk <span class="string">'/[^ab]c/'</span> </span><br><span class="line"><span class="comment"># dc </span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">'ac\nbc\dc'</span> | awk <span class="string">'/[ac|bc]/'</span></span><br></pre></td></tr></table></figure>
-
-
 <p><strong>11)</strong>. 流程控制</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN&#123;num = 11; </span></span><br><span class="line"><span class="string">		if (num % 2 == 0) </span></span><br><span class="line"><span class="string">			printf "%d is even number.\n", num; </span></span><br><span class="line"><span class="string">		else </span></span><br><span class="line"><span class="string">			printf "%d is odd number.\n", num </span></span><br><span class="line"><span class="string">&#125;'</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>12)</strong>. 循环:包括 for，while，do…while，break，continue 语句，还有一个 exit语句用于退出脚本执行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(initialisation; condition; increment/decrement)</span><br><span class="line">	action</span><br><span class="line">awk <span class="string">'BEGIN&#123;for(i=1; i&lt;=6; ++i)print i&#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (condition)</span><br><span class="line">	action</span><br><span class="line">awk <span class="string">'BEGIN&#123;i=1; while(i&lt;=6)&#123;print i;++i&#125;&#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">	action</span><br><span class="line"><span class="keyword">while</span> (condition)</span><br><span class="line">awk <span class="string">'BEGIN&#123;i=1; do&#123;print i;++i&#125;; while(i&lt;=6)&#125;'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">awk <span class="string">'BEGIN&#123;sum = 0;</span></span><br><span class="line"><span class="string">		for(i=1; i&lt;=50; ++i)&#123;</span></span><br><span class="line"><span class="string">          sum +=i;</span></span><br><span class="line"><span class="string">          if(sum &gt; 40)</span></span><br><span class="line"><span class="string">          	break;</span></span><br><span class="line"><span class="string">          else</span></span><br><span class="line"><span class="string">          	print "Sum = ", sum</span></span><br><span class="line"><span class="string">		&#125;</span></span><br><span class="line"><span class="string">&#125;'</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>13)</strong>. 函数</p>
 <ul>
 <li><a href="http://czmmiao.iteye.com/blog/1885280" target="_blank" rel="noopener">字符操作</a></li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gsub(regex, sub, string)</span><br><span class="line">split(str, arr, regex)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><a href="https://blog.csdn.net/Cooling88/article/details/52279784" target="_blank" rel="noopener">自定义函数</a></li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> add(num1, num2)&#123;</span><br><span class="line">  result = num1 + num2</span><br><span class="line">  <span class="built_in">return</span> result</span><br><span class="line">&#125;</span><br><span class="line">BEGIN &#123;</span><br><span class="line">  res = add(10, 20)</span><br><span class="line">  <span class="built_in">print</span> <span class="string">"Sum = "</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">## 函数存入 add.awk文件</span></span><br><span class="line"></span><br><span class="line">awk -f add.awk</span><br></pre></td></tr></table></figure>
-
 <p><strong>14)</strong>. 输出重定向</p>
 <blockquote>
 <p>Command &gt; filename   把标准输出重定向到一个新文件中</p>
@@ -629,6 +592,8 @@
 
 
 
+
+  
 
   
 
