@@ -48,8 +48,56 @@ html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
-body {
-  margin: 0;
+if (hexo-config('darkmode')) {
+  @media (prefers-color-scheme: dark) {
+      //以下都是复制了原本修改的CSS，然后自己修改为适合暗黑模式的样式
+    body {
+  background: #121212; //背景调为黑色
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+//半透明改为不透明，颜色为黑色
+.comments {
+  background: rgba(29,29,29,1) none repeat scroll !important;
+}
+.post-block {
+  background: rgba(29,29,29,1) none repeat scroll !important;
+}
+.header-inner {
+  background: rgba(29,29,29,1) none repeat scroll !important;
+}
+.sidebar {
+  background: rgba(29,29,29,1) none repeat scroll !important;
+}
+.sidebar-inner {
+  background: rgba(29,29,29,1) none repeat scroll !important;
+}
+.pagination {
+  background: rgba(29,29,29,1) none repeat scroll !important;
+}
+//半透明改为不透明，颜色为黑色
+.headband {
+  background: #42A5F5 !important;
+}
+
+.site-meta {
+  background: #333 !important; //改这里是为了把网址标题那里改成黑色的
+}
+.footer-inner {
+  color: #e1e1e1 !important; //这是底部文字的颜色改为白色
+}
+
+//此处修复上面的正常模式下的两边变黑
+.site-brand-container {
+    background: #333;
+}
+
+blockquote {  //这里修改了引用文字的颜色
+    color: #F5F5F5;
+        }
+    }
 }
 main {
   display: block;
