@@ -48,6 +48,7 @@ html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
+
 if (hexo-config('darkmode')) {
   @media (prefers-color-scheme: dark) {
       //以下都是复制了原本修改的CSS，然后自己修改为适合暗黑模式的样式
