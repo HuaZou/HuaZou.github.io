@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"huazou.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="humann2是宏基因组功能分析的工具之一，它是通过对去除宿主的fastqs数据处理。在运行humann2时候会生成大批量的temp文件，这些文件在运行完成后也不会自动删除，因此会占据极大的存储空间，为了能够批量处理此类运行文件，使用python编程处理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动化生成运行humann2文件">
+<meta property="og:url" content="http://huazou.github.io/2019/10/2019-10-28-Bioinformatics-humann2/index.html">
+<meta property="og:site_name" content="物以类聚，人以群分">
+<meta property="og:description" content="humann2是宏基因组功能分析的工具之一，它是通过对去除宿主的fastqs数据处理。在运行humann2时候会生成大批量的temp文件，这些文件在运行完成后也不会自动删除，因此会占据极大的存储空间，为了能够批量处理此类运行文件，使用python编程处理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/humann2_1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/humann2_2.png">
+<meta property="article:published_time" content="2019-10-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-10-27T16:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="功能分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/humann2_1.png">
+
+<link rel="canonical" href="http://huazou.github.io/2019/10/2019-10-28-Bioinformatics-humann2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>自动化生成运行humann2文件 | 物以类聚，人以群分</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116757487-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-116757487-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">物以类聚，人以群分</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://huazou.github.io/2019/10/2019-10-28-Bioinformatics-humann2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="物以类聚，人以群分">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          自动化生成运行humann2文件
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-28 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-28T00:00:00+08:00">2019-10-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%94%9F%E7%89%A9%E4%BF%A1%E6%81%AF/" itemprop="url" rel="index"><span itemprop="name">生物信息</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="Humann2-1"><a href="#Humann2-1" class="headerlink" title="Humann2^1"></a>Humann2<a href="https://bitbucket.org/biobakery/humann2/wiki/Home#markdown-header-output-files" target="_blank" rel="noopener">^1</a></h3><h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ol>
+<li>已知或未知微生物识别群体功能表达谱；</li>
+<li>全面扩展了基因组、基因和代谢通路数据库；</li>
+<li>简单友好地使用方式；</li>
+<li>reads准确比对参考数据库。</li>
+</ol>
+<blockquote>
+<ol>
+<li>Community functional profiles stratified by known and unclassified organisms<ul>
+<li><a href="http://huttenhower.sph.harvard.edu/metaphlan2" target="_blank" rel="noopener">MetaPhlAn2</a> and <a href="http://huttenhower.sph.harvard.edu/humann2_data/chocophlan/chocophlan.tar.gz" target="_blank" rel="noopener">ChocoPhlAn pangenome database</a> are used to facilitate fast, accurate, and organism-specific functional profiling</li>
+<li>Organisms included are Archaea, Bacteria, Eukaryotes, and Viruses</li>
+</ul>
+</li>
+<li>Considerably expanded databases of genomes, genes, and pathways<ul>
+<li><a href="http://www.uniprot.org/help/uniref" target="_blank" rel="noopener">UniRef</a> database provides gene family definitions</li>
+<li><a href="http://metacyc.org/" target="_blank" rel="noopener">MetaCyc</a> provides pathway definitions by gene family</li>
+<li><a href="http://omics.informatics.indiana.edu/MinPath/" target="_blank" rel="noopener">MinPath</a> is run to identify the set of minimum pathways</li>
+</ul>
+</li>
+<li>A simple user interface (single command driven flow)<ul>
+<li>The user only needs to provide a quality-controlled metagenome or metatranscriptome</li>
+</ul>
+</li>
+<li>Accelerated mapping of reads to reference databases (including run-time generated databases tailored to the input)<ul>
+<li><a href="http://bowtie-bio.sourceforge.net/bowtie2/index.shtml" target="_blank" rel="noopener">Bowtie2</a> is run for accelerated nucleotide-level searches</li>
+<li><a href="http://ab.inf.uni-tuebingen.de/software/diamond/" target="_blank" rel="noopener">Diamond</a> is run for accelerated translated searches</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h4 id="Main-workflow"><a href="#Main-workflow" class="headerlink" title="Main workflow"></a>Main workflow</h4><p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/humann2_1.png" alt=""></p>
+<ol>
+<li>质控reads通过<strong>MetaPhlAn2</strong>识别已知微生物后获取<strong>pangenome</strong>，或者质控reads直接通过<strong>Bowtie2</strong>注释到功能性注释物种的pangenomes的<strong>ChocoPhlAn</strong>获取核酸水平的pangenome;</li>
+<li>注释到已知微生物特异基因进行<strong>HUMAnN core algorithms</strong>算法，未map的reads需要经过<strong>Diamond</strong>蛋白预测注释到<strong>UniRef50</strong>等数据库获取已知注释到蛋白家族；</li>
+<li>注释到已知微生物特异的基因和注释到已知微生物蛋白家族的序列通过<strong>MetaCyc</strong>通路数据库得到三种数据类型，其分别是<strong>Gene family abundance</strong>，<strong>Pathway abundance</strong>和<strong>Pathway coverage</strong>。</li>
+</ol>
+<h3 id="Workflow-by-input-file-type"><a href="#Workflow-by-input-file-type" class="headerlink" title="Workflow by input file type"></a>Workflow by input file type</h3><p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/humann2_2.png" alt=""></p>
+<p>输入文件类型</p>
+<blockquote>
+<ul>
+<li>File Type 1 (a quality-controlled metagenome or metatranscriptome)<ul>
+<li>fastq (fastq.gz)</li>
+<li>fasta (fasta.gz)</li>
+</ul>
+</li>
+<li>File Type 2 (alignment results type 1)<ul>
+<li>sam</li>
+<li>bam</li>
+</ul>
+</li>
+<li>File Type 3 (alignment results type 2)<ul>
+<li>blast-like tsv</li>
+</ul>
+</li>
+<li>File Type 4 (gene table)<ul>
+<li>tsv</li>
+<li>biom</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="脚本要求"><a href="#脚本要求" class="headerlink" title="脚本要求"></a>脚本要求</h3><ul>
+<li>如果是pe数据，需要先合并fastq1和fastq2；</li>
+<li>生成运行humann2的脚本；</li>
+<li>每次运行完成删除humann2中间文件或保存其他日志文件；</li>
+<li>按照指定样本数量分割humann2脚本；</li>
+<li>标准化三类通路数据并且combine所有样本成表达谱。</li>
+</ul>
+<h4 id="核心脚本"><a href="#核心脚本" class="headerlink" title="核心脚本"></a>核心脚本</h4><ul>
+<li>输入文件：PE测序 -&gt; sampleID; fastq1; fastq2</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>SampleID</th>
+<th>fastq1</th>
+<th>fastq2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>V1-102100044A</td>
+<td>data/V1-102100044A.rmhost.1.fq.gz</td>
+<td>data/V1-102100044A.rmhost.2.fq.gz</td>
+</tr>
+<tr>
+<td>V1-102100045</td>
+<td>data/V1-102100045.rmhost.1.fq.gz</td>
+<td>data/V1-102100045.rmhost.2.fq.gz</td>
+</tr>
+<tr>
+<td>V1-102100046</td>
+<td>data/V1-102100046.rmhost.1.fq.gz</td>
+<td>data/V1-102100046.rmhost.2.fq.gz</td>
+</tr>
+<tr>
+<td>V1-102100047</td>
+<td>data/V1-102100047.rmhost.1.fq.gz</td>
+<td>data/V1-102100047.rmhost.2.fq.gz</td>
+</tr>
+<tr>
+<td>V1-102100048</td>
+<td>data/V1-102100048.rmhost.1.fq.gz</td>
+<td>data/V1-102100048.rmhost.2.fq.gz</td>
+</tr>
+<tr>
+<td>V1-102100049</td>
+<td>data/V1-102100049.rmhost.1.fq.gz</td>
+<td>data/V1-102100049.rmhost.2.fq.gz</td>
+</tr>
+<tr>
+<td>V1-102100050</td>
+<td>data/V1-102100050.rmhost.1.fq.gz</td>
+<td>data/V1-102100050.rmhost.2.fq.gz</td>
+</tr>
+<tr>
+<td>V1-102100051</td>
+<td>data/V1-102100051.rmhost.1.fq.gz</td>
+<td>data/V1-102100051.rmhost.2.fq.gz</td>
+</tr>
+<tr>
+<td>V1-102100052</td>
+<td>data/V1-102100052.rmhost.1.fq.gz</td>
+<td>data/V1-102100052.rmhost.2.fq.gz</td>
+</tr>
+</tbody></table>
+<ul>
+<li>运行脚本：get_humann2.py</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os, sys, re </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	<span class="keyword">import</span> argparse </span><br><span class="line"><span class="keyword">except</span> ImportError:</span><br><span class="line">	sys.exit(<span class="string">"Unable to find the argparse module"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_arguments</span><span class="params">(args)</span>:</span></span><br><span class="line">	parser = argparse.ArgumentParser(</span><br><span class="line">		description=<span class="string">"Generate or split the scripts of run humann2"</span>,</span><br><span class="line">        prog=<span class="string">'get_humann2.py'</span>, usage=<span class="string">'%(prog)s [options]'</span>)</span><br><span class="line">	parser.add_argument(<span class="string">'-f'</span>,<span class="string">'--file'</span>,</span><br><span class="line">		help = <span class="string">"file with cols:id fq1 fq2 or id fq"</span>,</span><br><span class="line">		required=<span class="literal">True</span>)</span><br><span class="line">	parser.add_argument(<span class="string">'-p'</span>,<span class="string">'--pattern'</span>, default=<span class="string">'pe'</span>,   </span><br><span class="line">		help = <span class="string">"sequence mode: pe | se"</span>)        </span><br><span class="line">	parser.add_argument(<span class="string">'-m'</span>,<span class="string">'--merge'</span>, </span><br><span class="line">		help = <span class="string">" merge fastq output directory"</span>,</span><br><span class="line">		required=<span class="literal">True</span>)</span><br><span class="line">	parser.add_argument(<span class="string">'-u'</span>,<span class="string">'--humann2'</span>, </span><br><span class="line">		help = <span class="string">"humann2 output directory"</span>,</span><br><span class="line">		required=<span class="literal">True</span>)</span><br><span class="line">	parser.add_argument(<span class="string">'-n'</span>,<span class="string">'--name'</span>,</span><br><span class="line">		help = <span class="string">"prefix of humann2 script"</span>,</span><br><span class="line">		required=<span class="literal">True</span>)</span><br><span class="line">	parser.add_argument(<span class="string">'-s'</span>,<span class="string">'--sample'</span>, type=int, default=<span class="number">0</span>, </span><br><span class="line">		help = <span class="string">"the number of samples"</span>)</span><br><span class="line">	<span class="keyword">return</span> parser.parse_args()</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">cwd = os.getcwd()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">merge_pe_fq</span><span class="params">(id, fq1, fq2, merge_out)</span>:</span></span><br><span class="line">    merge_gz = cwd + <span class="string">"/"</span> + merge_out + <span class="string">"/"</span> + id + <span class="string">".merge.fq.gz"</span></span><br><span class="line">    merge_list = [<span class="string">"cat"</span>, fq1, fq2, <span class="string">"&gt;"</span>, merge_gz]</span><br><span class="line">    shell_merge = <span class="string">" "</span>.join(str(x) <span class="keyword">for</span> x <span class="keyword">in</span> merge_list)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>([merge_gz, shell_merge])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">humann2</span><span class="params">(fq, hum_out)</span>:</span></span><br><span class="line">    shell_humman2 = <span class="string">" "</span>.join([<span class="string">"humann2"</span>, \</span><br><span class="line">                    <span class="string">"--input"</span>, fq, <span class="string">"--output"</span>, hum_out, </span><br><span class="line">                    <span class="string">"--threads"</span>, str(<span class="number">5</span>), <span class="string">"--bypass-translated-search"</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> shell_humman2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">remove_tmp</span><span class="params">(hum_out, fastq, mode)</span>:</span></span><br><span class="line">    hum_path = cwd + <span class="string">"/"</span> + hum_out</span><br><span class="line">    basename = re.split(<span class="string">r'.fq.gz'</span>, os.path.basename(fastq))[<span class="number">0</span>]</span><br><span class="line">    hum_tmp  = hum_path + <span class="string">"/"</span> + basename + <span class="string">"_humann2_temp/"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> mode == <span class="string">'pe'</span>:</span><br><span class="line">        shell_lst  = [<span class="string">"python"</span>, <span class="string">"remove_tmp.py"</span>, <span class="string">"-i"</span>, basename, <span class="string">"-m"</span>, fastq, <span class="string">"-u"</span>, hum_tmp, <span class="string">"-p"</span>, mode]</span><br><span class="line">    <span class="keyword">elif</span> mode == <span class="string">'se'</span>:</span><br><span class="line">        shell_lst  = [<span class="string">"python"</span>, <span class="string">"remove_tmp.py"</span>, <span class="string">"-i"</span>, basename, <span class="string">"-u"</span>, hum_tmp, <span class="string">"-p"</span>, mode] </span><br><span class="line"></span><br><span class="line">    shell_rm = <span class="string">" "</span>.join(str(x) <span class="keyword">for</span> x <span class="keyword">in</span> shell_lst)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> shell_rm</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">split_file</span><span class="params">(humann2_file, sample, out, pattern)</span>:</span></span><br><span class="line">    shell_lst = [<span class="string">"python"</span>, <span class="string">"split_file.py"</span>, <span class="string">"-f"</span>, humann2_file, <span class="string">"-n"</span>, str(sample), <span class="string">"-o"</span>, out, <span class="string">"-p"</span>, pattern]</span><br><span class="line"></span><br><span class="line">    shell_split = <span class="string">" "</span>.join(str(x) <span class="keyword">for</span> x <span class="keyword">in</span> shell_lst)</span><br><span class="line">    </span><br><span class="line">    os.system(shell_split)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">normalize_abundance</span><span class="params">(hum_dir, fastq, out_dir, suffix)</span>:</span></span><br><span class="line">    basename = re.split(<span class="string">r'.fq.gz'</span>, os.path.basename(fastq))[<span class="number">0</span>]</span><br><span class="line">    abun_input  = hum_dir + <span class="string">"/"</span> + basename + suffix + <span class="string">".tsv"</span></span><br><span class="line">    abun_output = out_dir + <span class="string">"/"</span> + basename + suffix + <span class="string">"_relab.tsv"</span></span><br><span class="line">    shell_lst = [<span class="string">"humann2_renorm_table"</span>, <span class="string">"--input"</span>,  abun_input, <span class="string">"--output"</span>, abun_output, <span class="string">"--units"</span>, <span class="string">"relab"</span>] </span><br><span class="line"></span><br><span class="line">    shell_abun = <span class="string">" "</span>.join(str(x) <span class="keyword">for</span> x <span class="keyword">in</span> shell_lst)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>(shell_abun)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_dir</span><span class="params">(path)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">        os.makedirs(path)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    args = parse_arguments(sys.argv)</span><br><span class="line"></span><br><span class="line">    fq_file   = args.file</span><br><span class="line">    mode      = args.pattern</span><br><span class="line">    merge_dir = args.merge</span><br><span class="line">    hum_dir   = args.humann2</span><br><span class="line">    prefix    = args.name</span><br><span class="line">    samples   = args.sample    </span><br><span class="line"></span><br><span class="line">    <span class="comment"># humann2 output    </span></span><br><span class="line">    hum_dir_path = <span class="string">"/"</span>.join([cwd, hum_dir])  </span><br><span class="line">    create_dir(hum_dir_path)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># abundance script</span></span><br><span class="line">    pathabundance_dir = <span class="string">"/"</span>.join([cwd, <span class="string">"pathabundance_relab"</span>])</span><br><span class="line">    pathcoverage_dir  = <span class="string">"/"</span>.join([cwd, <span class="string">"pathcoverage_relab"</span>])</span><br><span class="line">    genefamilies_dir  = <span class="string">"/"</span>.join([cwd, <span class="string">"genefamilies_relab"</span>])</span><br><span class="line">    create_dir(pathabundance_dir)</span><br><span class="line">    create_dir(pathcoverage_dir)</span><br><span class="line">    create_dir(genefamilies_dir)</span><br><span class="line">    abundance_f = open(<span class="string">"run.normalize_abundance.sh"</span>, <span class="string">'w'</span>)</span><br><span class="line"></span><br><span class="line">    prefix_path = <span class="string">"/"</span>.join([cwd, prefix]) + <span class="string">".sh"</span></span><br><span class="line">    out_f = open(prefix_path, <span class="string">"w"</span>)</span><br><span class="line">    <span class="keyword">with</span> open(fq_file, <span class="string">"r"</span>) <span class="keyword">as</span> f: </span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">            line = line.strip()</span><br><span class="line">            sample = re.split(<span class="string">r'\s+'</span>, line)</span><br><span class="line">            <span class="keyword">if</span> os.path.isfile(sample[<span class="number">1</span>]):</span><br><span class="line">                <span class="keyword">if</span> mode == <span class="string">'pe'</span>:</span><br><span class="line">                    create_dir(merge_dir)</span><br><span class="line">                    merge_pe = merge_pe_fq(sample[<span class="number">0</span>], sample[<span class="number">1</span>], sample[<span class="number">2</span>], merge_dir)</span><br><span class="line">                    hum_pe = humann2(merge_pe[<span class="number">0</span>], hum_dir_path)</span><br><span class="line">                    rm_pe = remove_tmp(hum_dir, merge_pe[<span class="number">0</span>], mode)</span><br><span class="line">                    out_f.write(merge_pe[<span class="number">1</span>] + <span class="string">"\n"</span> + hum_pe + <span class="string">"\n"</span> + rm_pe + <span class="string">"\n"</span>)</span><br><span class="line"></span><br><span class="line">                    abun_shell = normalize_abundance(hum_dir, merge_pe[<span class="number">0</span>], pathabundance_dir, <span class="string">"_pathabundance"</span>)</span><br><span class="line">                    cove_shell = normalize_abundance(hum_dir, merge_pe[<span class="number">0</span>], pathcoverage_dir, <span class="string">"_pathcoverage"</span>)</span><br><span class="line">                    gene_shell = normalize_abundance(hum_dir, merge_pe[<span class="number">0</span>], genefamilies_dir, <span class="string">"_genefamilies"</span>)</span><br><span class="line">                    abundance_f.write(abun_shell + <span class="string">"\n"</span> + cove_shell + <span class="string">"\n"</span> + gene_shell + <span class="string">"\n"</span>)</span><br><span class="line">                <span class="keyword">elif</span> mode == <span class="string">'se'</span>:</span><br><span class="line">                    hum_se = humann2(sample[<span class="number">1</span>], hum_dir_path)</span><br><span class="line">                    rm_se = remove_tmp(hum_dir_path, sample[<span class="number">1</span>], mode)</span><br><span class="line">                    out_f.write(hum_se + <span class="string">"\n"</span> + rm_se + <span class="string">"\n"</span>)</span><br><span class="line"></span><br><span class="line">                    abun_shell = normalize_abundance(hum_dir, sample[<span class="number">1</span>], pathabundance_dir, <span class="string">"_pathabundance"</span>)</span><br><span class="line">                    cove_shell = normalize_abundance(hum_dir, sample[<span class="number">1</span>], pathcoverage_dir, <span class="string">"_pathcoverage"</span>)</span><br><span class="line">                    gene_shell = normalize_abundance(hum_dir, sample[<span class="number">1</span>], genefamilies_dir, <span class="string">"_genefamilies"</span>)                    </span><br><span class="line">                    abundance_f.write(abun_shell + <span class="string">"\n"</span> + cove_shell + <span class="string">"\n"</span> + gene_shell + <span class="string">"\n"</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                print(<span class="string">"The path of &#123;0&#125; doesn't exist, please check your &#123;1&#125;"</span>.format(sample[<span class="number">0</span>], fq_file))</span><br><span class="line"></span><br><span class="line">    cbind_abun = <span class="string">" "</span>.join([<span class="string">"humann2_join_tables"</span>, <span class="string">"--input"</span>, pathabundance_dir,\</span><br><span class="line">                 <span class="string">"--output"</span>, <span class="string">"humann2_pathabundance.tsv"</span>, <span class="string">"--file_name"</span>, <span class="string">"pathabundance_relab"</span>])</span><br><span class="line">    cbind_cove = <span class="string">" "</span>.join([<span class="string">"humann2_join_tables"</span>, <span class="string">"--input"</span>, pathcoverage_dir,\</span><br><span class="line">                 <span class="string">"--output"</span>, <span class="string">"humann2_pathcoverage.tsv"</span>, <span class="string">"--file_name"</span>, <span class="string">"pathcoverage_relab"</span>])</span><br><span class="line">    cbind_gene = <span class="string">" "</span>.join([<span class="string">"humann2_join_tables"</span>, <span class="string">"--input"</span>, genefamilies_dir,\</span><br><span class="line">                 <span class="string">"--output"</span>, <span class="string">"humann2_genefamilies.tsv"</span>, <span class="string">"--file_name"</span>, <span class="string">"genefamilies_relab"</span>])</span><br><span class="line">    abundance_f.write(cbind_abun + <span class="string">"\n"</span> + cbind_cove + <span class="string">"\n"</span> + cbind_gene + <span class="string">"\n"</span>)</span><br><span class="line">    abundance_f.close()</span><br><span class="line">    out_f.close()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> int(samples) != <span class="number">0</span> :</span><br><span class="line">        split_file(prefix_path, samples, cwd, mode)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">"No requirement to split &#123;0&#125;"</span>.format(prefix_path))</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'Generate scripts in batches successfully on &#123;0&#125; in &#123;1&#125; mode.'</span>.format(fq_file, mode))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os, sys, re</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	<span class="keyword">import</span> argparse </span><br><span class="line"><span class="keyword">except</span> ImportError:</span><br><span class="line">	sys.exit(<span class="string">"Unable to find the argparse module"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_arguments</span><span class="params">(args)</span>:</span></span><br><span class="line">	parser = argparse.ArgumentParser(</span><br><span class="line">		description = <span class="string">"check log file and remove tmp files"</span>)</span><br><span class="line">	parser.add_argument(<span class="string">'-i'</span>,<span class="string">'--id'</span>, metavar=<span class="string">'&lt;file&gt;'</span>, </span><br><span class="line">		help = <span class="string">"id of samples"</span>,</span><br><span class="line">		required=<span class="literal">True</span>)</span><br><span class="line">	parser.add_argument(<span class="string">'-m'</span>,<span class="string">'--merge'</span>, metavar=<span class="string">'&lt;merge&gt;'</span>, default=<span class="literal">None</span>, </span><br><span class="line">		help = <span class="string">"merge fastq file"</span>)        </span><br><span class="line">	parser.add_argument(<span class="string">'-u'</span>,<span class="string">'--humann2'</span>, metavar=<span class="string">'&lt;humann2&gt;'</span>, </span><br><span class="line">		help = <span class="string">"humman tmp out"</span>,</span><br><span class="line">		required=<span class="literal">True</span>)</span><br><span class="line">	parser.add_argument(<span class="string">'-p'</span>,<span class="string">'--pattern'</span>, metavar=<span class="string">'&lt;pattern&gt;'</span>, </span><br><span class="line">		help = <span class="string">"pattern mode pe | se"</span>,</span><br><span class="line">		required=<span class="literal">True</span>) </span><br><span class="line">	<span class="keyword">return</span> parser.parse_args()</span><br><span class="line"></span><br><span class="line">cwd = os.getcwd()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_dir</span><span class="params">(path)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">        os.makedirs(path)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Check_log_content</span><span class="params">(id, merge, out, mode)</span>:</span></span><br><span class="line">    log_file = out  + id + <span class="string">".log"</span></span><br><span class="line">    bug_file = out  + id + <span class="string">"_metaphlan_bugs_list.tsv"</span></span><br><span class="line">    </span><br><span class="line">    out_tmp  = cwd + <span class="string">"/"</span> + <span class="string">"TMP"</span></span><br><span class="line">    <span class="keyword">if</span> os.path.exists(log_file):</span><br><span class="line">        <span class="keyword">with</span> open(log_file, <span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">                line = line.strip()</span><br><span class="line">                pattern = <span class="string">r'(DEBUG: Remove directory)'</span></span><br><span class="line">                <span class="keyword">if</span> re.search(pattern, line):</span><br><span class="line">                    <span class="keyword">if</span> mode == <span class="string">'pe'</span>:</span><br><span class="line">                        os.remove(merge)</span><br><span class="line">                    create_dir(out_tmp)</span><br><span class="line">                    shell_mv = <span class="string">" "</span>.join([<span class="string">"mv"</span>, log_file, bug_file, out_tmp])</span><br><span class="line">                    os.system(shell_mv)</span><br><span class="line">                    remove_file(out)</span><br><span class="line">                    shutil.rmtree(out)</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">remove_file</span><span class="params">(path)</span>:</span></span><br><span class="line">    files = os.listdir(path)</span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> files:</span><br><span class="line">        pattern = <span class="string">r'(aligned.sam|bt2|unaligned.fa|database.ffn|tmpiokhv4it|aligned.tsv)'</span></span><br><span class="line">        file_path = path + file</span><br><span class="line">        <span class="keyword">if</span> re.search(pattern, file):</span><br><span class="line">            <span class="keyword">if</span> os.path.isdir(file_path):</span><br><span class="line">                os.rmdir(file_path)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                os.remove(file_path)</span><br><span class="line">                </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    args = parse_arguments(sys.argv)</span><br><span class="line">    Check_log_content(args.id, args.merge, args.humann2, args.pattern)</span><br><span class="line">    print(<span class="string">"OK"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="分割文件"><a href="#分割文件" class="headerlink" title="分割文件"></a>分割文件</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os, sys, re</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	<span class="keyword">import</span> argparse </span><br><span class="line"><span class="keyword">except</span> ImportError:</span><br><span class="line">	sys.exit(<span class="string">"Unable to find the argparse module"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_arguments</span><span class="params">(args)</span>:</span></span><br><span class="line">	parser = argparse.ArgumentParser(</span><br><span class="line">		description = <span class="string">"split file into several files by definit number"</span>)</span><br><span class="line">	parser.add_argument(<span class="string">'-f'</span>,<span class="string">'--file'</span>, metavar=<span class="string">'&lt;file&gt;'</span>, </span><br><span class="line">		help = <span class="string">"file to split by number"</span>,</span><br><span class="line">		required=<span class="literal">True</span>)</span><br><span class="line">	parser.add_argument(<span class="string">'-n'</span>,<span class="string">'--number'</span>, metavar=<span class="string">'&lt;number&gt;'</span>, type=int, </span><br><span class="line">		help = <span class="string">"split number"</span>,</span><br><span class="line">		required=<span class="literal">True</span>)        </span><br><span class="line">	parser.add_argument(<span class="string">'-o'</span>,<span class="string">'--out'</span>, metavar=<span class="string">'&lt;out&gt;'</span>, </span><br><span class="line">		help = <span class="string">"out directory"</span>,</span><br><span class="line">		required=<span class="literal">True</span>)</span><br><span class="line">	parser.add_argument(<span class="string">'-p'</span>,<span class="string">'--pattern'</span>, metavar=<span class="string">'&lt;pattern&gt;'</span>, </span><br><span class="line">		help = <span class="string">"pattern mode pe | se"</span>,</span><br><span class="line">		required=<span class="literal">True</span>)        </span><br><span class="line">	<span class="keyword">return</span> parser.parse_args()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">split_file_count</span><span class="params">(file, num, mode)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(file, <span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> sum_lines, line <span class="keyword">in</span> enumerate(f):</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line">    line_total = sum_lines + <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> mode == <span class="string">'pe'</span>:</span><br><span class="line">        select_lines = num * <span class="number">3</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        select_lines = num * <span class="number">2</span> </span><br><span class="line"></span><br><span class="line">    div = int(line_total) // int(select_lines)</span><br><span class="line">    mod = int(line_total) % int(select_lines)</span><br><span class="line">    <span class="keyword">if</span> mod &gt; <span class="number">0</span> : </span><br><span class="line">        file_count = div + <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        file_count = div</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> ([file_count, line_total])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_file</span><span class="params">(file, num, out, mode)</span>:</span></span><br><span class="line">    basename = re.split(<span class="string">r'.sh'</span>, os.path.basename(file))[<span class="number">0</span>]</span><br><span class="line">    file_number = split_file_count(file, num, mode)</span><br><span class="line">    <span class="keyword">for</span> times <span class="keyword">in</span> list(range(<span class="number">1</span>, (file_number[<span class="number">0</span>] + <span class="number">1</span>))):</span><br><span class="line">        <span class="keyword">if</span> times == file_number[<span class="number">0</span>] :</span><br><span class="line">            <span class="keyword">if</span> mode == <span class="string">'pe'</span>:</span><br><span class="line">                start_samples = (times - <span class="number">1</span>) * num  + <span class="number">1</span></span><br><span class="line">                start_lines   = (times - <span class="number">1</span>) * num * <span class="number">3</span> + <span class="number">1</span></span><br><span class="line">                end_samples   =  file_number[<span class="number">1</span>] // <span class="number">3</span></span><br><span class="line">                end_lines     = file_number[<span class="number">1</span>]	</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                start_samples = (times - <span class="number">1</span>) * num  + <span class="number">1</span></span><br><span class="line">                start_lines   = (times - <span class="number">1</span>) * num * <span class="number">2</span> + <span class="number">1</span></span><br><span class="line">                end_samples   =  file_number[<span class="number">1</span>] // <span class="number">2</span></span><br><span class="line">                end_lines     = file_number[<span class="number">1</span>]	                		</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> mode == <span class="string">'pe'</span>:</span><br><span class="line">                start_samples = (times - <span class="number">1</span>) * num  + <span class="number">1</span></span><br><span class="line">                start_lines   = (times - <span class="number">1</span>) * num * <span class="number">3</span> + <span class="number">1</span></span><br><span class="line">                end_samples   = times  * num  </span><br><span class="line">                end_lines     = times * num * <span class="number">3</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                start_samples = (times - <span class="number">1</span>) * num  + <span class="number">1</span></span><br><span class="line">                start_lines   = (times - <span class="number">1</span>) * num * <span class="number">2</span> + <span class="number">1</span></span><br><span class="line">                end_samples   = times  * num  </span><br><span class="line">                end_lines     = times * num * <span class="number">2</span>                </span><br><span class="line"></span><br><span class="line">        suffix = <span class="string">"_"</span>.join([basename, str(start_samples), str(end_samples)]) + <span class="string">".sh"</span></span><br><span class="line">        file_name = <span class="string">"/"</span>.join([out, suffix])</span><br><span class="line">        out_f = open(file_name, <span class="string">'w'</span>)</span><br><span class="line">        <span class="keyword">with</span> open(file, <span class="string">'r'</span>) <span class="keyword">as</span> in_f:</span><br><span class="line">            <span class="keyword">for</span> sum_lines, line <span class="keyword">in</span> enumerate(in_f):</span><br><span class="line">                <span class="keyword">if</span> sum_lines + <span class="number">1</span> &gt;= start_lines <span class="keyword">and</span> sum_lines + <span class="number">1</span> &lt;= end_lines:</span><br><span class="line">                    line = line.strip()</span><br><span class="line">                    out_f.write(line + <span class="string">"\n"</span>)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">        out_f.close()</span><br><span class="line">            </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    args = parse_arguments(sys.argv)</span><br><span class="line">    create_file(args.file, args.number, args.out, args.pattern)</span><br><span class="line">    print(<span class="string">"Split &#123;0&#125; is sucessful."</span>.format(args.file))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>参数：<ul>
+<li>被分割文件</li>
+<li>分割行参数</li>
+<li>输出目录</li>
+</ul>
+</li>
+<li>收获：<ul>
+<li>enumerate函数使用：可以获取行数和行信息；</li>
+<li><em>//</em> ：求商；<strong>%</strong>：求余；</li>
+</ul>
+</li>
+</ul>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8A%9F%E8%83%BD%E5%88%86%E6%9E%90/" rel="tag"># 功能分析</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/2019-10-24-Maths-Statistics03/" rel="prev" title="推论统计学">
+      <i class="fa fa-chevron-left"></i> 推论统计学
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/2020-03-30-Maths-Statistics04/" rel="next" title="离散分布">
+      离散分布 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Humann2-1"><span class="nav-number">1.</span> <span class="nav-text">Humann2^1</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点"><span class="nav-number">1.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Main-workflow"><span class="nav-number">1.2.</span> <span class="nav-text">Main workflow</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Workflow-by-input-file-type"><span class="nav-number">2.</span> <span class="nav-text">Workflow by input file type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#脚本要求"><span class="nav-number">3.</span> <span class="nav-text">脚本要求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#核心脚本"><span class="nav-number">3.1.</span> <span class="nav-text">核心脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除文件"><span class="nav-number">3.2.</span> <span class="nav-text">删除文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分割文件"><span class="nav-number">3.3.</span> <span class="nav-text">分割文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

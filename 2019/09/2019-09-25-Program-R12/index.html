@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"huazou.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="R和python是两种不同的编程语言，前者是统计学家发明并且服务数学统计计算，后者确实最万能的胶水语言。随着大数据时代的到来，两者在数据分析领域存在越来越多的共同点且可以相互使用，为了破解二者的编程壁垒，CRAN收录了具有R接口的python包，从而使得两类语言的数据能共同使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="reticulate: R对python的接口包">
+<meta property="og:url" content="http://huazou.github.io/2019/09/2019-09-25-Program-R12/index.html">
+<meta property="og:site_name" content="物以类聚，人以群分">
+<meta property="og:description" content="R和python是两种不同的编程语言，前者是统计学家发明并且服务数学统计计算，后者确实最万能的胶水语言。随着大数据时代的到来，两者在数据分析领域存在越来越多的共同点且可以相互使用，为了破解二者的编程壁垒，CRAN收录了具有R接口的python包，从而使得两类语言的数据能共同使用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.scatterR.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.scatterPython.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.boxplotR.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.boxplotPython.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.barplotR.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.barplotPython.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.heatmapR.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.heatmapPython.png">
+<meta property="article:published_time" content="2019-09-25T10:06:05.000Z">
+<meta property="article:modified_time" content="2019-09-24T16:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="R">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.scatterR.png">
+
+<link rel="canonical" href="http://huazou.github.io/2019/09/2019-09-25-Program-R12/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>reticulate: R对python的接口包 | 物以类聚，人以群分</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116757487-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-116757487-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">物以类聚，人以群分</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://huazou.github.io/2019/09/2019-09-25-Program-R12/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="物以类聚，人以群分">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          reticulate: R对python的接口包
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-09-25 18:06:05 / 修改时间：00:00:00" itemprop="dateCreated datePublished" datetime="2019-09-25T18:06:05+08:00">2019-09-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">编程入门</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍^1"></a>介绍<a href="https://zhuanlan.zhihu.com/p/35049732" target="_blank" rel="noopener">^1</a></h3><p><code>reticulate</code><a href="https://github.com/rstudio/reticulate" target="_blank" rel="noopener">^2</a> 是用于Python和R之间协同操作的全套工具，在<code>R</code>和<code>Rstudio</code>中均可使用；要求Rstudio必须在1.2版本以上;</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">"reticulate"</span>)</span><br><span class="line"><span class="keyword">library</span>(reticulate)</span><br></pre></td></tr></table></figure>
+
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
+<li>reticulate 在R中支持多种方式调用python;</li>
+<li>实现R和python对象之间的转换;</li>
+<li>随意切换不同版本的python;</li>
+<li>R内使用<code>$</code>调用python对象;</li>
+<li>python内使用<code>.</code>调用R对象;</li>
+<li>使用import函数导入python模块<code>import(&quot;os&quot;)</code>;</li>
+<li>source_python()获取任何Python脚本;</li>
+<li>使用repl_python()交互使用python;</li>
+</ul>
+<h3 id="范例"><a href="#范例" class="headerlink" title="范例"></a>范例</h3><p><code>R</code>和<code>python</code>对同一数据进行可视化，可视化图形包括<code>scatterplot</code>，<code>boxplot</code>，<code>barplot</code>和<code>heatmap</code>等</p>
+<h4 id="散点图"><a href="#散点图" class="headerlink" title="散点图"></a>散点图</h4><p>R代码</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(dplyr)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"></span><br><span class="line">iris %&gt;% mutate(Species=factor(Species, levels = c(<span class="string">"setosa"</span>, <span class="string">"versicolor"</span>, <span class="string">"virginica"</span>))) %&gt;%</span><br><span class="line">  ggplot(aes(x=Sepal.Width, y=Petal.Width, color=Species))+</span><br><span class="line">  geom_point()+</span><br><span class="line">  guides(color=guide_legend(<span class="string">""</span>, keywidth = <span class="number">.5</span>, keyheight = <span class="number">.5</span>))+</span><br><span class="line">  labs(title = <span class="string">'Scatter plot'</span>)+</span><br><span class="line">  theme_bw()+</span><br><span class="line">  scale_color_manual(values = c(<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>))+</span><br><span class="line">  theme(plot.title = element_text(size = <span class="number">10</span>, color = <span class="string">"black"</span>, face = <span class="string">"bold"</span>, hjust = <span class="number">0.5</span>), </span><br><span class="line">      axis.title = element_text(size = <span class="number">10</span>, color = <span class="string">"black"</span>, face = <span class="string">"bold"</span>),</span><br><span class="line">      axis.text = element_text(size = <span class="number">9</span>, color = <span class="string">"black"</span>),</span><br><span class="line">      text = element_text(size = <span class="number">8</span>, color = <span class="string">"black"</span>),</span><br><span class="line">      strip.text = element_text(size = <span class="number">9</span>, color = <span class="string">"black"</span>, face = <span class="string">"bold"</span>),</span><br><span class="line">      panel.grid = element_blank(),</span><br><span class="line">      legend.position = c(<span class="number">1</span>, <span class="number">1</span>),</span><br><span class="line">      legend.justification = c(<span class="number">1</span>, <span class="number">1</span>),</span><br><span class="line">      legend.background = element_rect(fill=<span class="string">"white"</span>, color = <span class="string">"black"</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.scatterR.png" alt=""></p>
+<p>Python代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">dat = r.iris  <span class="comment"># Python调用R内嵌数据使用r.data</span></span><br><span class="line">species_map = &#123;<span class="string">'setosa'</span>:<span class="number">1</span>, <span class="string">'versicolor'</span>:<span class="number">2</span>, <span class="string">'virginica'</span>:<span class="number">3</span>&#125;</span><br><span class="line">dat[<span class="string">'Species'</span>] = dat[<span class="string">'Species'</span>].map(species_map)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="comment"># plt.scatter(dat['Sepal.Width'], dat['Petal.Width'], c=dat['Species'],</span></span><br><span class="line"><span class="comment">#      alpha=0.8, edgecolors='none', s=30, label=["1", "2", "3"])</span></span><br><span class="line"><span class="comment"># plt.title('Scatter plot in iris')</span></span><br><span class="line"><span class="comment"># plt.xlabel('Sepal.Width (cm)')</span></span><br><span class="line"><span class="comment"># plt.ylabel('Petal.Width (cm)')</span></span><br><span class="line"><span class="comment"># plt.legend(loc=1)</span></span><br><span class="line"><span class="comment"># plt.show()</span></span><br><span class="line"> </span><br><span class="line">dat1 = (np.array(dat[dat.Species==<span class="number">1</span>][<span class="string">'Sepal.Width'</span>]), </span><br><span class="line">        np.array(dat[dat.Species==<span class="number">1</span>][<span class="string">'Petal.Width'</span>]))</span><br><span class="line">dat2 = (np.array(dat[dat.Species==<span class="number">2</span>][<span class="string">'Sepal.Width'</span>]), </span><br><span class="line">        np.array(dat[dat.Species==<span class="number">2</span>][<span class="string">'Petal.Width'</span>]))</span><br><span class="line">dat3 = (np.array(dat[dat.Species==<span class="number">3</span>][<span class="string">'Sepal.Width'</span>]), </span><br><span class="line">        np.array(dat[dat.Species==<span class="number">3</span>][<span class="string">'Petal.Width'</span>]))</span><br><span class="line"></span><br><span class="line">mdat = (dat1, dat2, dat3)</span><br><span class="line">colors = (<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>)</span><br><span class="line">groups = (<span class="string">"setosa"</span>, <span class="string">"versicolor"</span>, <span class="string">"virginica"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># step1 build figure background</span></span><br><span class="line">fig = plt.figure()</span><br><span class="line"></span><br><span class="line"><span class="comment"># step2 build axis</span></span><br><span class="line">ax  = fig.add_subplot(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, facecolor=<span class="string">'1.0'</span>)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># step3 build figure</span></span><br><span class="line"><span class="keyword">for</span> data, color, group <span class="keyword">in</span> zip(mdat, colors, groups):</span><br><span class="line">  x, y = data</span><br><span class="line">  ax.scatter(x, y, alpha=<span class="number">0.8</span>, c=color, </span><br><span class="line">      edgecolors=<span class="string">'none'</span>, s=<span class="number">30</span>, label=group)      </span><br><span class="line"></span><br><span class="line">plt.title(<span class="string">'Scatter plot'</span>)</span><br><span class="line">plt.legend(loc=<span class="number">1</span>)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># step4 show figure in the screen</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.scatterPython.png" alt=""></p>
+<h4 id="箱形图"><a href="#箱形图" class="headerlink" title="箱形图"></a>箱形图</h4><p>R代码</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(dplyr)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"></span><br><span class="line">iris %&gt;% mutate(Species=factor(Species, levels = c(<span class="string">"setosa"</span>, <span class="string">"versicolor"</span>, <span class="string">"virginica"</span>))) %&gt;%</span><br><span class="line">  ggplot(aes(x=Species, y=Sepal.Width, fill=Species))+</span><br><span class="line">  stat_boxplot(geom = <span class="string">"errorbar"</span>, width = <span class="number">.12</span>)+</span><br><span class="line">  geom_boxplot(width = <span class="number">.3</span>, outlier.shape = <span class="number">3</span>, outlier.size = <span class="number">1</span>)+</span><br><span class="line">  guides(fill=guide_legend(<span class="literal">NULL</span>, keywidth = <span class="number">.5</span>, keyheight = <span class="number">.5</span>))+</span><br><span class="line">  xlab(<span class="string">""</span>)+</span><br><span class="line">  theme_bw()+</span><br><span class="line">  scale_fill_manual(values = c(<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>))+</span><br><span class="line">  theme(plot.title = element_text(size = <span class="number">10</span>, color = <span class="string">"black"</span>, face = <span class="string">"bold"</span>, hjust = <span class="number">0.5</span>), </span><br><span class="line">      axis.title = element_text(size = <span class="number">10</span>, color = <span class="string">"black"</span>, face = <span class="string">"bold"</span>),</span><br><span class="line">      axis.text = element_text(size = <span class="number">9</span>, color = <span class="string">"black"</span>),</span><br><span class="line">      text = element_text(size = <span class="number">8</span>, color = <span class="string">"black"</span>),</span><br><span class="line">      strip.text = element_text(size = <span class="number">9</span>, color = <span class="string">"black"</span>, face = <span class="string">"bold"</span>),</span><br><span class="line">      panel.grid = element_blank(),</span><br><span class="line">      legend.position = c(<span class="number">1</span>, <span class="number">1</span>),</span><br><span class="line">      legend.justification = c(<span class="number">1</span>, <span class="number">1</span>),</span><br><span class="line">      legend.background = element_rect(fill=<span class="string">"white"</span>, color = <span class="string">"black"</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.boxplotR.png" alt=""></p>
+<p>Python代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">dat = r.iris  <span class="comment"># Python调用R内嵌数据使用r.data</span></span><br><span class="line">species_map = &#123;<span class="string">'setosa'</span>:<span class="number">1</span>, <span class="string">'versicolor'</span>:<span class="number">2</span>, <span class="string">'virginica'</span>:<span class="number">3</span>&#125;</span><br><span class="line">dat[<span class="string">'Species'</span>] = dat[<span class="string">'Species'</span>].map(species_map)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> matplotlib.patches <span class="keyword">as</span> mpatches</span><br><span class="line"></span><br><span class="line">dat11 = (np.array(dat[dat.Species==<span class="number">1</span>][<span class="string">'Sepal.Width'</span>]))</span><br><span class="line">dat21 = (np.array(dat[dat.Species==<span class="number">2</span>][<span class="string">'Sepal.Width'</span>]))</span><br><span class="line">dat31 = (np.array(dat[dat.Species==<span class="number">3</span>][<span class="string">'Sepal.Width'</span>]))</span><br><span class="line"></span><br><span class="line">mdat2 = (dat11, dat21, dat31)</span><br><span class="line">colors = (<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>)</span><br><span class="line">groups = (<span class="string">"setosa"</span>, <span class="string">"versicolor"</span>, <span class="string">"virginica"</span>)</span><br><span class="line"></span><br><span class="line">fig = plt.figure()</span><br><span class="line">axes = fig.add_subplot(facecolor=<span class="string">'1.0'</span>)</span><br><span class="line">bplot = axes.boxplot(mdat2, patch_artist=<span class="literal">True</span>, notch=<span class="number">0</span>, sym=<span class="string">'+'</span>, vert=<span class="number">1</span>, whis=<span class="number">1.5</span>,</span><br><span class="line">  whiskerprops = dict(linestyle=<span class="string">'--'</span>,linewidth=<span class="number">1.2</span>, color=<span class="string">'black'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># color</span></span><br><span class="line"><span class="keyword">for</span> patch, color <span class="keyword">in</span> zip(bplot[<span class="string">'boxes'</span>], colors):</span><br><span class="line">  patch.set_facecolor(color)</span><br><span class="line"></span><br><span class="line"><span class="comment"># axes labels</span></span><br><span class="line">plt.setp(axes, xticks=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],</span><br><span class="line">         xticklabels=[<span class="string">"setosa"</span>, <span class="string">"versicolor"</span>, <span class="string">"virginica"</span>])</span><br><span class="line"></span><br><span class="line">red_patch = mpatches.Patch(color=<span class="string">'red'</span>, label=<span class="string">'setosa'</span>)</span><br><span class="line">green_patch = mpatches.Patch(color=<span class="string">'green'</span>, label=<span class="string">'versicolor'</span>)</span><br><span class="line">blue_patch = mpatches.Patch(color=<span class="string">'blue'</span>, label=<span class="string">'virginica'</span>)</span><br><span class="line"></span><br><span class="line">plt.legend(handles=[red_patch, green_patch, blue_patch], loc=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.boxplotPython.png" alt=""></p>
+<h4 id="条形图"><a href="#条形图" class="headerlink" title="条形图"></a>条形图</h4><p>R代码</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(dplyr)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"></span><br><span class="line">iris %&gt;% mutate(Species=factor(Species, levels = c(<span class="string">"setosa"</span>, <span class="string">"versicolor"</span>, <span class="string">"virginica"</span>))) %&gt;%</span><br><span class="line">  select(Species, Sepal.Width) %&gt;% group_by(Species) %&gt;%</span><br><span class="line">  summarize(avg=mean(Sepal.Width), n=n(), sd=sd(Sepal.Width), se=sd/sqrt(n)) %&gt;%</span><br><span class="line">  ungroup() %&gt;%</span><br><span class="line">  ggplot(aes(x=Species, y=avg, fill=Species))+</span><br><span class="line">  geom_bar(stat=<span class="string">"identity"</span>, width=<span class="number">.4</span>, color=<span class="string">"black"</span>)+</span><br><span class="line">  geom_errorbar(aes(ymin=avg-sd, ymax=avg+sd), width=<span class="number">.15</span>,</span><br><span class="line">                 position=position_dodge(<span class="number">.9</span>), size=<span class="number">1</span>)+</span><br><span class="line">  guides(fill=guide_legend(<span class="literal">NULL</span>, keywidth = <span class="number">.5</span>, keyheight = <span class="number">.5</span>))+</span><br><span class="line">  xlab(<span class="string">""</span>)+</span><br><span class="line">  ylab(<span class="string">"Sepal.Width"</span>)+</span><br><span class="line">  scale_y_continuous(breaks=seq(<span class="number">0</span>, <span class="number">3.5</span>,<span class="number">0.5</span>), limits=c(<span class="number">0</span>, <span class="number">4.4</span>),expand = c(<span class="number">0</span>,<span class="number">0</span>))+</span><br><span class="line">  theme_bw()+</span><br><span class="line">  scale_fill_manual(values = c(<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>))+</span><br><span class="line">  theme(axis.title = element_text(size = <span class="number">10</span>, color = <span class="string">"black"</span>, face = <span class="string">"bold"</span>),</span><br><span class="line">      axis.text = element_text(size = <span class="number">9</span>, color = <span class="string">"black"</span>),</span><br><span class="line">      text = element_text(size = <span class="number">8</span>, color = <span class="string">"black"</span>),</span><br><span class="line">      strip.text = element_text(size = <span class="number">9</span>, color = <span class="string">"black"</span>, face = <span class="string">"bold"</span>),</span><br><span class="line">      panel.grid = element_blank(),</span><br><span class="line">      legend.position = c(<span class="number">1</span>, <span class="number">1</span>),</span><br><span class="line">      legend.justification = c(<span class="number">1</span>, <span class="number">1</span>),</span><br><span class="line">      legend.background = element_rect(fill=<span class="string">"white"</span>, color = <span class="string">"black"</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.barplotR.png" alt=""></p>
+<p>Python代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">dat = r.iris  <span class="comment"># Python调用R内嵌数据使用r.data</span></span><br><span class="line">species_map = &#123;<span class="string">'setosa'</span>:<span class="number">1</span>, <span class="string">'versicolor'</span>:<span class="number">2</span>, <span class="string">'virginica'</span>:<span class="number">3</span>&#125;</span><br><span class="line">dat[<span class="string">'Species'</span>] = dat[<span class="string">'Species'</span>].map(species_map)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">mean = list(dat[<span class="string">'Sepal.Width'</span>].groupby(dat[<span class="string">'Species'</span>]).mean())</span><br><span class="line">sd   = list(dat.groupby(<span class="string">'Species'</span>).agg(np.std, ddof=<span class="number">0</span>)[<span class="string">'Sepal.Width'</span>])</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;<span class="string">'mean'</span>:mean&#125;, index=[<span class="string">"setosa"</span>, <span class="string">"versicolor"</span>, <span class="string">"virginica"</span>])</span><br><span class="line">df.plot(kind=<span class="string">'bar'</span>, alpha=<span class="number">0.75</span>, rot=<span class="number">0</span>, edgecolor=<span class="string">'black'</span>, </span><br><span class="line">        yerr=sd, align=<span class="string">'center'</span>, ecolor=<span class="string">'black'</span>, capsize=<span class="number">5</span>,</span><br><span class="line">        color=(<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>),</span><br><span class="line">        ylim=(<span class="number">0.0</span>, <span class="number">4.4</span>),</span><br><span class="line">        yticks=list(np.arange(<span class="number">0</span>, <span class="number">4.0</span>, <span class="number">0.5</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># xlabel</span></span><br><span class="line">plt.xlabel(<span class="string">''</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Sepal.Width'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># legend</span></span><br><span class="line">red_patch = mpatches.Patch(color=<span class="string">'red'</span>, label=<span class="string">'setosa'</span>)</span><br><span class="line">green_patch = mpatches.Patch(color=<span class="string">'green'</span>, label=<span class="string">'versicolor'</span>)</span><br><span class="line">blue_patch = mpatches.Patch(color=<span class="string">'blue'</span>, label=<span class="string">'virginica'</span>)</span><br><span class="line">plt.legend(handles=[red_patch, green_patch, blue_patch],   <span class="comment"># color and group</span></span><br><span class="line">    loc=<span class="number">1</span>,                <span class="comment"># location</span></span><br><span class="line">    prop=&#123;<span class="string">'size'</span>: <span class="number">8</span>&#125;)     <span class="comment"># size </span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.barplotPython.png" alt=""></p>
+<h4 id="热图"><a href="#热图" class="headerlink" title="热图"></a>热图</h4><p>R代码</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(dplyr)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"></span><br><span class="line">get_upper_tri &lt;- <span class="keyword">function</span>(x)&#123;</span><br><span class="line">  x[upper.tri(x)] &lt;- <span class="literal">NA</span> </span><br><span class="line">  <span class="keyword">return</span>(x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">round(cor(mtcars[, c(<span class="number">1</span>:<span class="number">7</span>)], method = <span class="string">"spearman"</span>), <span class="number">2</span>) %&gt;% </span><br><span class="line">  get_upper_tri() %&gt;% reshape2::melt(na.rm = <span class="literal">TRUE</span>) %&gt;% </span><br><span class="line">  </span><br><span class="line">  ggplot(aes(x=Var1, y=Var2, fill=value))+</span><br><span class="line">  geom_tile(color = <span class="string">"white"</span>)+</span><br><span class="line">  scale_fill_gradient2(low = <span class="string">"blue"</span>, high = <span class="string">"red"</span>, mid = <span class="string">"white"</span>, </span><br><span class="line">   midpoint = <span class="number">0</span>, limit = c(-<span class="number">1</span>,<span class="number">1</span>), space = <span class="string">"Lab"</span>, name=<span class="string">"Spearman\nCorrelation"</span>)+</span><br><span class="line">  theme_minimal()+</span><br><span class="line">  guides(fill = guide_colorbar(barwidth = <span class="number">7</span>, barheight = <span class="number">1</span>,</span><br><span class="line">                title.position = <span class="string">"top"</span>, title.hjust = <span class="number">0.5</span>))+</span><br><span class="line">  coord_fixed()+</span><br><span class="line">  geom_text(aes(label = value), color = <span class="string">"black"</span>, size = <span class="number">4</span>)+</span><br><span class="line">  theme(axis.title.x = element_blank(),</span><br><span class="line">    axis.title.y = element_blank(),</span><br><span class="line">    axis.text.x = element_text(angle = <span class="number">45</span>, vjust = <span class="number">1</span>, size = <span class="number">12</span>, hjust = <span class="number">1</span>),</span><br><span class="line">    panel.grid.major = element_blank(),</span><br><span class="line">    panel.border = element_blank(),</span><br><span class="line">    panel.background = element_blank(),</span><br><span class="line">    axis.ticks = element_blank(),</span><br><span class="line">    legend.justification = c(<span class="number">1</span>, <span class="number">0</span>),</span><br><span class="line">    legend.position = c(<span class="number">0.6</span>, <span class="number">0.7</span>),</span><br><span class="line">    legend.direction = <span class="string">"horizontal"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.heatmapR.png" alt=""></p>
+<p>Python代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"></span><br><span class="line">corr = r.mtcars.corr()</span><br><span class="line">mask = np.zeros_like(corr)</span><br><span class="line">mask[np.triu_indices_from(mask)] = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">f, ax = plt.subplots(figsize=(<span class="number">6</span>, <span class="number">5</span>))</span><br><span class="line">heatmap = sns.heatmap(corr, vmin=<span class="number">-1</span>, vmax=<span class="number">1</span>, mask=mask, center=<span class="number">0</span>,</span><br><span class="line">  <span class="comment"># , orientation='horizontal'</span></span><br><span class="line">  cbar_kws=dict(shrink=<span class="number">.4</span>, label=<span class="string">'Spearman\nCorrelation'</span>, ticks=[<span class="number">-.8</span>, <span class="number">-.4</span>, <span class="number">0</span>, <span class="number">.4</span>, <span class="number">.8</span>]),</span><br><span class="line">  annot_kws=&#123;<span class="string">'size'</span>: <span class="number">8</span>, <span class="string">'color'</span>: <span class="string">'white'</span>&#125;,</span><br><span class="line">  <span class="comment">#cbar_kws = dict(use_gridspec=False,location="right"), </span></span><br><span class="line">  linewidths=<span class="number">.2</span>, cmap = <span class="string">'seismic'</span>, square=<span class="literal">True</span>, annot=<span class="literal">True</span>,</span><br><span class="line">  xticklabels=corr.columns.values,</span><br><span class="line">  yticklabels=corr.columns.values)</span><br><span class="line"></span><br><span class="line"><span class="comment">#add the column names as labels</span></span><br><span class="line">ax.set_xticklabels(corr.columns, rotation = <span class="number">45</span>)</span><br><span class="line">ax.set_yticklabels(corr.columns)</span><br><span class="line">sns.set_style(&#123;<span class="string">'xtick.bottom'</span>: <span class="literal">True</span>&#125;, &#123;<span class="string">'ytick.left'</span>: <span class="literal">True</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">#heatmap.get_figure().savefig("heatmap.pdf", bbox_inches='tight')</span></span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.heatmapPython.png" alt=""></p>
+<h3 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h3><p>初次使用<code>reticulate</code>的感觉还不错，可以比较完美串联R和Python，尤其是在Rmarkdown文件内使用R和Python代码，但缺点也很明显：</p>
+<ul>
+<li>运行Python cell没有详细报错信息；</li>
+<li>粗略的报错提示行信息不以Rmd文件整体行作为开始；</li>
+<li>无法兼容带有汉字的注释信息；</li>
+<li>无法像R一样查看python环境下变量；</li>
+<li>出错后有时无任何报错信息</li>
+</ul>
+<p>根据visual studio code的最新python插件公布情况看，以后vsc可以完美兼容Jupyter notebook格式文件，因此如果想单独使用python但无较好交互编辑器，可以使用vsc的python插件读取ipynb文件<a href="https://code.visualstudio.com/docs/python/jupyter-support" target="_blank" rel="noopener">^3</a>        </p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/R/" rel="tag"># R</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/09/2019-09-08-Life-markdown/" rel="prev" title="markdown：轻量级标记语言">
+      <i class="fa fa-chevron-left"></i> markdown：轻量级标记语言
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/09/2019-09-30-Program-Rmarkdown/" rel="next" title="Rmarkdown: 一个科学编写数据分析的框架">
+      Rmarkdown: 一个科学编写数据分析的框架 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍-1"><span class="nav-number">1.</span> <span class="nav-text">介绍^1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特性"><span class="nav-number">2.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#范例"><span class="nav-number">3.</span> <span class="nav-text">范例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#散点图"><span class="nav-number">3.1.</span> <span class="nav-text">散点图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#箱形图"><span class="nav-number">3.2.</span> <span class="nav-text">箱形图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条形图"><span class="nav-number">3.3.</span> <span class="nav-text">条形图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#热图"><span class="nav-number">3.4.</span> <span class="nav-text">热图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#心得"><span class="nav-number">4.</span> <span class="nav-text">心得</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

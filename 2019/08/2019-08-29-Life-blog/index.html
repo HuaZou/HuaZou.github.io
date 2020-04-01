@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"huazou.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="博客是技术人员或者普通人记录自身兴趣爱好或者技术贴等工具，随着开源社区的发展，尤其是免费的github pages更方便人们建立自己的博客，本文章主要记录自己建博客的经历。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何简单快速地搭建个人博客站点">
+<meta property="og:url" content="http://huazou.github.io/2019/08/2019-08-29-Life-blog/index.html">
+<meta property="og:site_name" content="物以类聚，人以群分">
+<meta property="og:description" content="博客是技术人员或者普通人记录自身兴趣爱好或者技术贴等工具，随着开源社区的发展，尤其是免费的github pages更方便人们建立自己的博客，本文章主要记录自己建博客的经历。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Life.blog1.png">
+<meta property="article:published_time" content="2019-08-29T02:36:00.000Z">
+<meta property="article:modified_time" content="2019-08-29T16:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="博客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Life.blog1.png">
+
+<link rel="canonical" href="http://huazou.github.io/2019/08/2019-08-29-Life-blog/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>如何简单快速地搭建个人博客站点 | 物以类聚，人以群分</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116757487-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-116757487-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">物以类聚，人以群分</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://huazou.github.io/2019/08/2019-08-29-Life-blog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="物以类聚，人以群分">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何简单快速地搭建个人博客站点
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-08-29 10:36:00" itemprop="dateCreated datePublished" datetime="2019-08-29T10:36:00+08:00">2019-08-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-30 00:00:00" itemprop="dateModified" datetime="2019-08-30T00:00:00+08:00">2019-08-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%94%9F%E6%B4%BB%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">生活笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="搭建个人网站和博客"><a href="#搭建个人网站和博客" class="headerlink" title="搭建个人网站和博客"></a>搭建个人网站和博客</h3><blockquote>
+<p>搭建个人博客主要有两种方式</p>
+<ul>
+<li>第一种方法是使用<strong>Giuthub Pages + jekyll</strong> 搭建；</li>
+<li>第二种方法是使用<strong>Giuthub Pages + Hexo</strong>搭建</li>
+</ul>
+<p>这里主要介绍第一种方法，并记录搭建过程遇到的坎坷。</p>
+</blockquote>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ol>
+<li><h5 id="安装Jekeyll：Jekyll是一个生成静态网页的工具。Windows-上-和mac-os-下-安装指南："><a href="#安装Jekeyll：Jekyll是一个生成静态网页的工具。Windows-上-和mac-os-下-安装指南：" class="headerlink" title="安装Jekeyll：Jekyll是一个生成静态网页的工具。Windows(上)和mac os(下)安装指南："></a>安装<a href="https://www.jekyll.com.cn/" target="_blank" rel="noopener">Jekeyll</a>：Jekyll是一个生成静态网页的工具。<strong>Windows</strong>(上)和<strong>mac os</strong>(下)安装指南：</h5><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>下载[<span class="string">Ruby+Devkith</span>](<span class="link">https://rubyinstaller.org/downloads/</span>)，默认安装</span><br><span class="line"><span class="bullet">2. </span>下载RubyGerms，解压，进入管理员模式下命&gt; 令行安装，输入ruby setup.rb。（该软件是Ruby的包管理器，也就是下载中心，<span class="strong">**PS：可跳过该步骤直接进入第三步**</span>） </span><br><span class="line"><span class="bullet">3. </span>安装Jekyll，在cmd模式下，输入命令 gem install jekyll，使用jekyll -v 检查是否安装成功。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>xcode-select --install : 编译模块</span><br><span class="line"><span class="bullet">2. </span>安装ruby</span><br><span class="line">   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span><br><span class="line">   brew install ruby </span><br><span class="line">   export PATH=/usr/local/opt/ruby/bin:$PATH</span><br><span class="line"><span class="bullet">3. </span>安装rbenv</span><br><span class="line">   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span><br><span class="line">   brew install rbenv</span><br><span class="line">   rbenv init</span><br><span class="line">   curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-doctor | bash</span><br><span class="line"><span class="bullet">4. </span>安装Jekyll </span><br><span class="line">   gem install --user-install bundler jekyll</span><br><span class="line">   export PATH=HOME/.gem/ruby/X.X.0/bin:PATH</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><h5 id="安装git-bash"><a href="#安装git-bash" class="headerlink" title="安装git bash"></a>安装<a href="https://gitforwindows.org/" target="_blank" rel="noopener">git bash</a></h5><p>git是分布式版本控制系统，git bash是使用git 命令的GUI界面。</p>
+</li>
+<li><h5 id="安装Typora"><a href="#安装Typora" class="headerlink" title="安装Typora"></a>安装<a href="https://www.typora.io/" target="_blank" rel="noopener">Typora</a></h5><p>Typora是最好的markdown编辑器，不接受反驳。该软件用于编辑博客的markdown文件。</p>
+<blockquote>
+<p>Typora是一款由Abner Lee开发的轻量级Markdown编辑器，适用于Mac OS、Windows和Linux三种操作系统，是一款免费软件。与其他Markdown编辑器不同的是，Typora没有采用源代码和预览双栏显示的方式，而是采用所见即所得的编辑方式，实现了即时预览的功能，但也可切换至源代码编辑模式。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h3><h5 id="注册github账号，并且建立博客Github仓库。创建方法有两种："><a href="#注册github账号，并且建立博客Github仓库。创建方法有两种：" class="headerlink" title="注册github账号，并且建立博客Github仓库。创建方法有两种："></a>注册github账号，并且建立博客Github仓库。创建方法有两种：</h5><blockquote>
+<ol>
+<li><p>从头开始设置主题</p>
+</li>
+<li><p>直接fork他人的blog主题：</p>
+<ul>
+<li><a href="https://github.com/poole/poole" target="_blank" rel="noopener">极简主题</a></li>
+<li><a href="http://jekyllthemes.org/" target="_blank" rel="noopener">Jekyll 主题</a></li>
+</ul>
+</li>
+</ol>
+<p>注意：仓库名字一定要和自己的账户名字一致：<strong>Repository name</strong> :  <em>githubname.github.io</em></p>
+</blockquote>
+<h5 id="了解Jekyll博客的目录结构"><a href="#了解Jekyll博客的目录结构" class="headerlink" title="了解Jekyll博客的目录结构"></a>了解Jekyll博客的目录结构</h5><ul>
+<li><p><strong>_config_yml</strong>：全局配置文件，包含基础设置、侧边栏设置、社交账号和评论系统等</p>
+</li>
+<li><p><strong>_posts/：</strong>博客文章存放位置</p>
+</li>
+<li><p><strong>_layouts/：</strong>页面模板</p>
+</li>
+<li><p><strong>_includes/</strong>：html页面设计</p>
+</li>
+<li><p><strong>_sass/：</strong>存放样式表</p>
+</li>
+<li><p><strong>assets/：</strong>原生的资源文件，如js、css和image等文件夹</p>
+</li>
+<li><p><strong>category/：</strong>文章分类</p>
+</li>
+<li><p><strong>tag/：</strong>标签</p>
+</li>
+<li><p><strong>index.html：</strong>首页网页格式</p>
+</li>
+<li><p><strong>自定义文件和目录</strong></p>
+</li>
+</ul>
+<h5 id="撰写博客"><a href="#撰写博客" class="headerlink" title="撰写博客"></a>撰写博客</h5><blockquote>
+<p>博客文章可以使用markdown或html来编写，因为markdown是轻量编辑语言，所以推荐使用markdown来书写文章。但需要注意几点：</p>
+<ol>
+<li><p>md文件需要包含描述文章类型的title，具体参照<a href="https://help.github.com/en/articles/basic-writing-and-formatting-syntax" target="_blank" rel="noopener">Github md</a>。</p>
+</li>
+<li><p>md文件的命名需要符合<a href="https://jekyllrb.com/docs/permalinks/" target="_blank" rel="noopener">Permalinks</a>。</p>
+</li>
+<li><p>md文件所包含的图片等，需要放置在_posts/img/目录，并且路径需要换成网页版绝对路径。如 “<a href="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.cbind-1.png”" target="_blank" rel="noopener">https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.cbind-1.png”</a></p>
+</li>
+</ol>
+</blockquote>
+<h5 id="本地渲染后上传至git仓库"><a href="#本地渲染后上传至git仓库" class="headerlink" title="本地渲染后上传至git仓库"></a>本地渲染后上传至git仓库</h5><ul>
+<li>打开powershell，并进入到博客目录；</li>
+<li>输入 bundle exec jekyll serve进行渲染生成静态网页；</li>
+<li>本地查看静态网址：<a href="http://127.0.0.1:4000/" target="_blank" rel="noopener">http://127.0.0.1:4000/</a>；</li>
+<li>查看修改结果无误后，使用git add -A ; git commit -m “update content”; git push origin master命令完成提交。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Life.blog1.png" alt=""></p>
+<h3 id="Github-Pages的局限性"><a href="#Github-Pages的局限性" class="headerlink" title="Github Pages的局限性"></a>Github Pages的局限性</h3><p>Github Pages 并不是无限存储和无限流量的静态站点服务，一些限制如下：</p>
+<ul>
+<li>内容存储不能超过1GB。</li>
+<li>每个月100GB流量带宽。</li>
+<li>每小时编译构建次数不超过10次。（在线修改重新编译并未发现这个限制）</li>
+</ul>
+<h3 id="优化主题配置"><a href="#优化主题配置" class="headerlink" title="优化主题配置"></a>优化主题配置</h3><h4 id="选择scheme"><a href="#选择scheme" class="headerlink" title="选择scheme"></a>选择scheme</h4><ul>
+<li>Muse：默认主题</li>
+<li>Mist：默认主题的紧凑版本</li>
+<li>Pisces：常用双栏主题</li>
+</ul>
+<h4 id="设置头像和网址log设置"><a href="#设置头像和网址log设置" class="headerlink" title="设置头像和网址log设置"></a>设置头像和网址log设置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">本地图片格式为png类型，在根目录下寻找assests目录，替换avatar.png 和favicon.png即可。</span><br><span class="line"></span><br><span class="line">头像图标：avatar: &#x2F;assets&#x2F;avatar.png</span><br><span class="line">网页图标：favicon: &#x2F;assets&#x2F;favicon.png</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置网站标题栏背景变色"><a href="#设置网站标题栏背景变色" class="headerlink" title="设置网站标题栏背景变色"></a>设置网站标题栏背景变色</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">打开<span class="emphasis">_sass/_</span>custom/custom.scss，在里面新增如下代码：</span><br><span class="line"></span><br><span class="line">.site-meta &#123;</span><br><span class="line">  background: $blue; //天空的颜色</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置背景图片"><a href="#设置背景图片" class="headerlink" title="设置背景图片"></a>设置背景图片</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">打开<span class="emphasis">_sass/_</span>custom/custom.scss，在里面新增如下代码：</span><br><span class="line"></span><br><span class="line">// Custom styles.</span><br><span class="line">body &#123;</span><br><span class="line">  background: url(/assets/background/18041.jpg);</span><br><span class="line">  background-attachment: fixed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="设置菜单"><a href="#设置菜单" class="headerlink" title="设置菜单"></a>设置菜单</h4><p>菜单配置分为两部分，其中menu部分的名称和连接；另一部分是菜单的图标。</p>
+<p><u>menu</u>设置，用于匹配图标，格式是：<strong>item: link</strong> </p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">/</span>                        <span class="comment">#//首页</span></span><br><span class="line">  <span class="attr">about:</span> <span class="string">/pages/about/</span>           <span class="comment">#//关于</span></span><br><span class="line">  <span class="comment">#resume: /resume/              //简历</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="string">/pages/archives/</span>     <span class="comment">#//归档</span></span><br><span class="line">  <span class="attr">categories:</span> <span class="string">/pages/categories/</span> <span class="comment">#//分类</span></span><br><span class="line">  <span class="attr">tags:</span> <span class="string">/pages/tags/</span>             <span class="comment">#//标签</span></span><br><span class="line">  <span class="comment">#message: /pages/message/      //留言</span></span><br><span class="line">  <span class="comment">#myseo: /myseo/</span></span><br><span class="line">  <span class="comment">#schedule: /schedule/          //日程表</span></span><br><span class="line">  <span class="comment">#sitemap: /sitemap.xml         //站点地图</span></span><br><span class="line">  <span class="comment">#commonweal: /404.html          #//公益404</span></span><br></pre></td></tr></table></figure>
+
+<p><u>menu_icons</u>图标设置，NexT主题使用的图标可以由<a href="https://fontawesome.com/?from=io" target="_blank" rel="noopener">Font Awesome</a>提供。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">menu_icons:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment">#KeyMapsToMenuItemKey: NameOfTheIconFromFontAwesome</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">home</span></span><br><span class="line">  <span class="attr">about:</span> <span class="string">user</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="string">archive</span>  </span><br><span class="line">  <span class="attr">categories:</span> <span class="string">th</span></span><br><span class="line">  <span class="attr">tags:</span> <span class="string">tags</span></span><br><span class="line">  <span class="comment">#schedule: calendar  </span></span><br><span class="line">  <span class="attr">sitemap:</span> <span class="string">sitemap</span></span><br><span class="line">  <span class="comment">#commonweal: heartbeat</span></span><br><span class="line">  <span class="comment">#myseo: internet-explorer</span></span><br><span class="line">  <span class="comment">#resume: handshake-o</span></span><br><span class="line">  <span class="comment">#message: commenting</span></span><br><span class="line">  <span class="comment">#friends: link</span></span><br><span class="line">  <span class="comment">#file: file-archive-o</span></span><br><span class="line">  <span class="comment">#ariang: cloud-download</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="设置侧边栏"><a href="#设置侧边栏" class="headerlink" title="设置侧边栏"></a>设置侧边栏</h4><p>修改_config.yaml文件的sidebar字段控制侧栏的行为。侧栏包括两部分，位置和显示时间。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">sidebar:</span></span><br><span class="line">  <span class="comment"># Sidebar Position, available value: left | right</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">left</span>      <span class="comment"># //靠左放置</span></span><br><span class="line">  <span class="comment">#position: right    # //靠右放置</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Sidebar Display, available value:</span></span><br><span class="line">  <span class="comment">#  - post    expand on posts automatically. Default.</span></span><br><span class="line">  <span class="comment">#  - always  expand for all pages automatically</span></span><br><span class="line">  <span class="comment">#  - hide    expand only when click on the sidebar toggle icon.</span></span><br><span class="line">  <span class="comment">#  - remove  Totally remove sidebar including sidebar toggle.</span></span><br><span class="line">  <span class="comment">#display: post</span></span><br><span class="line">  <span class="attr">display:</span> <span class="string">always</span></span><br><span class="line">  <span class="comment">#display: hide</span></span><br><span class="line">  <span class="comment">#display: remove</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="设置预览摘要"><a href="#设置预览摘要" class="headerlink" title="设置预览摘要"></a>设置预览摘要</h4><ul>
+<li>通过添加分隔符的方式，在_config.yml中配置分隔符后，在每个md内配置<u>‘<!-- more -->‘</u>截取分隔符上的内容作为文章摘要。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">excerpt_separator:</span> <span class="string">'&lt;!-- more --&gt;'</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>直接在md的头部添加post属性excerpt，推荐该种方法。</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">layout: post</span><br><span class="line"><span class="section">#cover: </span></span><br><span class="line"><span class="section">#navigation: </span></span><br><span class="line">title:  "如何简单快速地搭建个人博客站点"</span><br><span class="line">date:   2019-08-29 10:36:00</span><br><span class="line">updated: 2019-08-30</span><br><span class="line">categories: 生活笔记</span><br><span class="line">tags: 博客</span><br><span class="line"><span class="section">#subclass: </span></span><br><span class="line"><span class="section">#logo: </span></span><br><span class="line">author: Hua Zou</span><br><span class="line">excerpt: 博客是技术人员或者普通人记录自身兴趣爱好或者技术贴等工具，随着开源社区的发展，尤其是免费的github pages更方便人们建立自己的博客，本文章主要记录自己建博客的经历。</span><br><span class="line"></span><br><span class="line"><span class="section"># 标记内容是暂时不明白的属性</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改主题配置文件auto_excerpt属性（<strong>修改过但没有实现</strong>）</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">auto_excerpt:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">length:</span> <span class="number">150</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="修改文章底部的带-号标签"><a href="#修改文章底部的带-号标签" class="headerlink" title="修改文章底部的带#号标签"></a>修改文章底部的带#号标签</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">打开 <span class="emphasis">_includes/_</span>macro/post.html 文件,搜索 rel="tag"&gt;# ,</span><br><span class="line">将 # 换成 <span class="xml"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-tag"</span>&gt;</span></span><span class="xml"><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="设置代码高亮主题"><a href="#设置代码高亮主题" class="headerlink" title="设置代码高亮主题"></a>设置代码高亮主题</h4><p>NexT 使用 <a href="https://github.com/chriskempson/tomorrow-theme" target="_blank" rel="noopener">Tomorrow Theme</a> 作为代码高亮，共有5款主题供你选择。 NexT 默认使用的是 白色的 <code>normal</code> 主题，可选的值有 <code>normal</code>，<code>night</code>， <code>night blue</code>， <code>night bright</code>， <code>night eighties</code>.修改<code>highlight_theme</code> 字段，将其值设定成你所喜爱的高亮主题。</p>
+<h4 id="设置文章宽度"><a href="#设置文章宽度" class="headerlink" title="设置文章宽度"></a>设置文章宽度</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">打开_sass&#x2F;_custom&#x2F;custom.scss，在里面新增如下代码：</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 主页文章文章宽度</span><br><span class="line">.header&#123; width: 80%; &#125; &#x2F;* 80% *&#x2F;</span><br><span class="line">.container .main-inner &#123; width: 80%; &#125; &#x2F;* 80% *&#x2F;</span><br><span class="line">.content-wrap &#123; width: calc(100% - 260px); &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="安装过程遇到的问题"><a href="#安装过程遇到的问题" class="headerlink" title="安装过程遇到的问题"></a>安装过程遇到的问题</h3><ol>
+<li><p><strong>Could not find gem ‘github-pages x64-mingw32’ in any of the gem sources listed in</strong><br><strong>your Gemfile.</strong></p>
+<ul>
+<li>问题：无法渲染web网页。</li>
+<li>原因：可能版本太低或者依赖包缺失。</li>
+<li><a href="https://github.com/prose/starter/issues/44" target="_blank" rel="noopener">解决</a>：更新bundle后安装依赖包。<ul>
+<li>bundle update 或者 bundle update –bundler</li>
+<li>bundle install</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>GitHub Metadata: No GitHub API authentication could be found. Some fields may be missing or have incorrect data.</strong></p>
+<ul>
+<li>问题：无法查看静态网页。</li>
+<li>原因：连接github出错或者md文件名字包含中文</li>
+<li>解决办法：用英文重新命名md文件</li>
+</ul>
+</li>
+<li><p><strong>scss文件编译为css文件：Error: Invalid GBK character “\xE6” on line 1 of … 报错</strong></p>
+<ul>
+<li>问题：main.scss文件编译报错。</li>
+<li>原因：scss文件存在中文等字符，导致编码方式错误。</li>
+<li><a href="https://blog.csdn.net/qq_36069339/article/details/82385273" target="_blank" rel="noopener">解决</a>：表头增加*<em>@charset “utf-8”; *</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>文章内图片过大，可以通过压缩图片<a href="https://www.tuhaokuai.com/" target="_blank" rel="noopener"><strong>图快好</strong></a></p>
+<h3 id="文章加密"><a href="#文章加密" class="headerlink" title="文章加密"></a>文章加密</h3><p>某些文章可能是个人的生活写照，因此可以设置密码加密</p>
+<blockquote>
+<ol>
+<li>使用<a href="https://robinmoisson.github.io/staticrypt/" target="_blank" rel="noopener">static crypt</a>软件，在powershell内安装“static crypt”；</li>
+</ol>
+<ol start="2">
+<li><p>参数设置“staticrypt <filename> <passphrase> [options]”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Options:</span><br><span class="line">  --help               Show help                                       [boolean]</span><br><span class="line">  --version            Show version number                             [boolean]</span><br><span class="line">  -e, --embed          Whether or not to embed crypto-js in the page (or use an</span><br><span class="line">                       external CDN)                   [boolean] [default: true]</span><br><span class="line">  -o, --output         File name &#x2F; path for generated encrypted file</span><br><span class="line">                                                        [string] [default: null]</span><br><span class="line">  -t, --title          Title for output HTML page</span><br><span class="line">                                            [string] [default: &quot;Protected Page&quot;]</span><br><span class="line">  -i, --instructions   Special instructions to display to the user.</span><br><span class="line">                                                        [string] [default: null]</span><br><span class="line">  -f, --file-template  Path to custom HTML template with password prompt.</span><br><span class="line">                          [string] [default: &quot;[...]&#x2F;cli&#x2F;password_template.html&quot;]</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="3">
+<li>将加密文件放置在secret目录，使用jekell build secret将md文件生成html；</li>
+</ol>
+<ol start="4">
+<li>使用staticrypt *html passphrase；</li>
+</ol>
+<ol start="5">
+<li>将secret添加入.gitignore；</li>
+</ol>
+<ol start="6">
+<li>上传修改。</li>
+</ol>
+</blockquote>
+<h3 id="在github内支持渲染Latex公式"><a href="#在github内支持渲染Latex公式" class="headerlink" title="在github内支持渲染Latex公式"></a>在github内支持渲染Latex公式</h3><p>在Typora内编辑数学公式能完美渲染，但提交到github后只能查看公式无法渲染，需要做如下修改：</p>
+<ol>
+<li>在配置文件<code>_config.yml</code>设置<strong>markdown: kramdown</strong>参数；</li>
+<li>修改<code>_cludes</code>目录内的<code>header.html</code>文件</li>
+</ol>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
+<li><p><a href="https://blog.csdn.net/tom_221x/article/details/84630283" target="_blank" rel="noopener">Github Pages + jekyll 全面介绍极简搭建个人网站和博客</a></p>
+</li>
+<li><p><a href="https://moonagic.com/configure-the-jekyll-article-list-summary/" target="_blank" rel="noopener">Jekyll文章列表摘要设置</a></p>
+</li>
+<li><p><a href="http://theme-next.simpleyyt.com/theme-settings.html#syntax-highlight-scheme" target="_blank" rel="noopener">NexT主题配置</a></p>
+</li>
+<li><p><a href="http://laichendong.com/2019/04/15/password-protect-a-static-html-page/" target="_blank" rel="noopener">文章加密设置</a></p>
+</li>
+<li><p><a href="https://www.npmjs.com/package/staticrypt" target="_blank" rel="noopener">加密软件staticrypt</a></p>
+</li>
+<li><p><a href="[http://leohope.com/%E8%A7%A3%E9%97%AE%E9%A2%98/2017/09/08/page-with-latex/](http://leohope.com/解问题/2017/09/08/page-with-latex/)">github支持渲染Latex公式</a></p>
+<p>​    </p>
+</li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag"># 博客</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/06/2018-06-22-Bioinformatics-anaconda/" rel="prev" title="Anaconda：管理python包和软件的工具">
+      <i class="fa fa-chevron-left"></i> Anaconda：管理python包和软件的工具
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/08/2019-08-29-Program-R9/" rel="next" title="R包的创建及使用">
+      R包的创建及使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建个人网站和博客"><span class="nav-number">1.</span> <span class="nav-text">搭建个人网站和博客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装Jekeyll：Jekyll是一个生成静态网页的工具。Windows-上-和mac-os-下-安装指南："><span class="nav-number">2.0.1.</span> <span class="nav-text">安装Jekeyll：Jekyll是一个生成静态网页的工具。Windows(上)和mac os(下)安装指南：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#安装git-bash"><span class="nav-number">2.0.2.</span> <span class="nav-text">安装git bash</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#安装Typora"><span class="nav-number">2.0.3.</span> <span class="nav-text">安装Typora</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建步骤"><span class="nav-number">3.</span> <span class="nav-text">搭建步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注册github账号，并且建立博客Github仓库。创建方法有两种："><span class="nav-number">3.0.1.</span> <span class="nav-text">注册github账号，并且建立博客Github仓库。创建方法有两种：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#了解Jekyll博客的目录结构"><span class="nav-number">3.0.2.</span> <span class="nav-text">了解Jekyll博客的目录结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#撰写博客"><span class="nav-number">3.0.3.</span> <span class="nav-text">撰写博客</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#本地渲染后上传至git仓库"><span class="nav-number">3.0.4.</span> <span class="nav-text">本地渲染后上传至git仓库</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Github-Pages的局限性"><span class="nav-number">4.</span> <span class="nav-text">Github Pages的局限性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化主题配置"><span class="nav-number">5.</span> <span class="nav-text">优化主题配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#选择scheme"><span class="nav-number">5.1.</span> <span class="nav-text">选择scheme</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置头像和网址log设置"><span class="nav-number">5.2.</span> <span class="nav-text">设置头像和网址log设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置网站标题栏背景变色"><span class="nav-number">5.3.</span> <span class="nav-text">设置网站标题栏背景变色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置背景图片"><span class="nav-number">5.4.</span> <span class="nav-text">设置背景图片</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置菜单"><span class="nav-number">5.5.</span> <span class="nav-text">设置菜单</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置侧边栏"><span class="nav-number">5.6.</span> <span class="nav-text">设置侧边栏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置预览摘要"><span class="nav-number">5.7.</span> <span class="nav-text">设置预览摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改文章底部的带-号标签"><span class="nav-number">5.8.</span> <span class="nav-text">修改文章底部的带#号标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置代码高亮主题"><span class="nav-number">5.9.</span> <span class="nav-text">设置代码高亮主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置文章宽度"><span class="nav-number">5.10.</span> <span class="nav-text">设置文章宽度</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装过程遇到的问题"><span class="nav-number">6.</span> <span class="nav-text">安装过程遇到的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事项"><span class="nav-number">7.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文章加密"><span class="nav-number">8.</span> <span class="nav-text">文章加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在github内支持渲染Latex公式"><span class="nav-number">9.</span> <span class="nav-text">在github内支持渲染Latex公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">10.</span> <span class="nav-text">引用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

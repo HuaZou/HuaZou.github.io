@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"huazou.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="随着生物信息分析的发展，越来越多的分析是一步一步由上往下的，先前我们更多的是用shell语言串联这些子分析，但它的缺点也很明显--可读性和重复性较差。snakemake是基于python语言开发的编写分析流程的工具，它只需要配置号配置文件和输入文件，我们不用关心每个子分析的结果文件，只要在命令行输入输出结果名字即可。运行过程可以配置如软件运行参数、运行日志文件等等，这极大方便了生信分析人员。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="snakemake：编写任务流程的工具">
+<meta property="og:url" content="http://huazou.github.io/2019/09/2019-09-01-Bioinformatics-snakemake/index.html">
+<meta property="og:site_name" content="物以类聚，人以群分">
+<meta property="og:description" content="随着生物信息分析的发展，越来越多的分析是一步一步由上往下的，先前我们更多的是用shell语言串联这些子分析，但它的缺点也很明显--可读性和重复性较差。snakemake是基于python语言开发的编写分析流程的工具，它只需要配置号配置文件和输入文件，我们不用关心每个子分析的结果文件，只要在命令行输入输出结果名字即可。运行过程可以配置如软件运行参数、运行日志文件等等，这极大方便了生信分析人员。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/snakemake_cufflinks.png">
+<meta property="article:published_time" content="2019-08-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-08-31T16:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/snakemake_cufflinks.png">
+
+<link rel="canonical" href="http://huazou.github.io/2019/09/2019-09-01-Bioinformatics-snakemake/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>snakemake：编写任务流程的工具 | 物以类聚，人以群分</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116757487-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-116757487-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">物以类聚，人以群分</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://huazou.github.io/2019/09/2019-09-01-Bioinformatics-snakemake/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="物以类聚，人以群分">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          snakemake：编写任务流程的工具
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-01 00:00:00" itemprop="dateCreated datePublished" datetime="2019-09-01T00:00:00+08:00">2019-09-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%94%9F%E7%89%A9%E4%BF%A1%E6%81%AF/" itemprop="url" rel="index"><span itemprop="name">生物信息</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="What’s-Snakemake"><a href="#What’s-Snakemake" class="headerlink" title="What’s Snakemake?"></a>What’s Snakemake?</h3><p><strong>Snakemake</strong>是一种可重复和标准化的编写任务流程的工具。该流程工具基于友好的python语言，并且可以跨平台运行。生信分析领域经常会构建分析流程，通常我们会用snakemake语言构建。除此之外，<strong><a href="https://www.broadinstitute.org/" target="_blank" rel="noopener">Broad institude</a></strong>（布罗德研究所：麻省理工学院和哈佛大学的Eli和Edythe L. Broad研究所，通常被称为Broad研究所，是一个位于美国马萨诸塞州剑桥的生物医学和基因组研究中心）提出的<strong><a href="https://software.broadinstitute.org/wdl/" target="_blank" rel="noopener">workflow description language</a></strong>，这也可用于生信标准流程开发。</p>
+<blockquote>
+<p>The Snakemake workflow management system is a tool to create <strong>reproducible and scalable</strong> data analyses. Workflows are described via a human readable, Python based language. They can be seamlessly scaled to server, cluster, grid and cloud environments, without the need to modify the workflow definition. Finally, Snakemake workflows can entail a description of required software, which will be automatically deployed to any execution environment.</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">rule targets:</span><br><span class="line">    input:</span><br><span class="line">        <span class="string">"plots/dataset1.pdf"</span>,</span><br><span class="line">        <span class="string">"plots/dataset2.pdf"</span></span><br><span class="line"></span><br><span class="line">rule plot:</span><br><span class="line">    input:</span><br><span class="line">        <span class="string">"raw/&#123;dataset&#125;.csv"</span></span><br><span class="line">    output:</span><br><span class="line">        <span class="string">"plots/&#123;dataset&#125;.pdf"</span></span><br><span class="line">    shell:</span><br><span class="line">        <span class="string">"somecommand &#123;input&#125; &#123;output&#125;"</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>snakemake基于python语法定义处理输入文件的rule，每个rule对输入文件处理后得到输出文件；</li>
+<li>输入输出文件可以通过<strong>通配符</strong>匹配，从而进行多数据处理；</li>
+<li>rule不仅仅包含shell命令，也可以是python或者其他处理输入输出文件的编程语言；</li>
+<li>安装snakemake软件最好通过<strong>conda</strong>（python3版本）安装：<em>conda install -c bioconda snakemake</em>。</li>
+</ol>
+<h3 id="snakemake的规则"><a href="#snakemake的规则" class="headerlink" title="snakemake的规则"></a>snakemake的规则</h3><h4 id="rule及其命令"><a href="#rule及其命令" class="headerlink" title="rule及其命令"></a><strong>rule</strong>及其命令</h4><ol>
+<li><p><strong>rule</strong>是snakefile的基本组成，每个rule一般包含input、output和shell三部分。其中比较特殊的是rule all命令，<em>它一般被用来定义一个流程的最后输出结果</em>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rule all:</span><br><span class="line">    input:<span class="string">"path/to/inputfile"</span>, <span class="string">"path/to/other/inputfile"</span></span><br><span class="line"></span><br><span class="line">rule NAME:</span><br><span class="line">  	<span class="comment">#多个输入输出可用逗号链接</span></span><br><span class="line">    input: <span class="string">"path/to/inputfile"</span>, <span class="string">"path/to/other/inputfile"</span></span><br><span class="line">    output: <span class="string">"path/to/outputfile"</span>, somename = <span class="string">"path/to/another/outputfile"</span></span><br><span class="line">		shell: <span class="string">"somecommand &#123;input&#125; &#123;output&#125;"</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p><strong>wildcards</strong>：获得匹配输入数据名字部分的通配符。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rule complex_conversion:</span><br><span class="line">    input:</span><br><span class="line">        <span class="string">"&#123;dataset&#125;/inputfile"</span></span><br><span class="line">    output:</span><br><span class="line">        <span class="string">"&#123;dataset&#125;/file.&#123;group&#125;.txt"</span></span><br><span class="line">    shell:</span><br><span class="line">        <span class="string">"somecommand --group &#123;wildcards.group&#125; &lt; &#123;input&#125; &gt; &#123;output&#125;"</span></span><br><span class="line"><span class="comment"># dataset,group是两通配符，只要文件名符合该格式就会被处理。</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="3">
+<li><p><strong>threads</strong>：指定某个rule的分配给程序的线程数目。</p>
+</li>
+<li><p><strong>resources</strong>：指定程序所需要的内存大小。</p>
+</li>
+<li><p><strong>expand</strong>：扩展函数，可以将输入或者输出结果存成list。</p>
+</li>
+<li><p><strong>message</strong>：运行rule时，输出在终端的信息。</p>
+</li>
+<li><p><strong>log</strong>：用来生成程序运行的日志文件。</p>
+</li>
+<li><p><strong>Priority</strong>：指定程序运行的优先性。</p>
+</li>
+<li><p><strong>params</strong>：程序运行的参数。</p>
+</li>
+<li><p><strong>shell</strong>：指定运行命令。</p>
+</li>
+<li><p><strong>run</strong>：指定运行python命令。</p>
+</li>
+<li><p><strong>scripts</strong>：指定运行的脚本。</p>
+</li>
+<li><p><strong>temp</strong>和<strong>protected</strong>：temp类型中间文件会在结果输出后删除；protected类文件会保留下来。</p>
+</li>
+<li><p><strong>directory</strong>：指定输出结果是目录。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rule NAME:</span><br><span class="line">    input:</span><br><span class="line">        <span class="string">"path/to/inputfile"</span></span><br><span class="line">    output:</span><br><span class="line">        directory(<span class="string">"path/to/outputdir"</span>)</span><br><span class="line">    shell:</span><br><span class="line">        <span class="string">"somecommand &#123;input&#125; &#123;output&#125;"</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><p>配置文件有两种类型：json和yaml。每次运行需要修改的文件或者参数等均可以写入配置文件，然后在snakefile内读入文件。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">samples:</span> <span class="string">"Sample_path.tsv"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">params:</span></span><br><span class="line">  <span class="attr">left_primer:</span>  <span class="number">29</span></span><br><span class="line">  </span><br><span class="line"><span class="attr">results:</span>     </span><br><span class="line">  <span class="attr">fastqc:</span>       <span class="string">"result/00.quality/fastqc"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">logs:</span> <span class="string">"result/logs"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># snakefile --&gt;   configfile: "config.yaml"</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="执行snakemake"><a href="#执行snakemake" class="headerlink" title="执行snakemake"></a>执行snakemake</h3><h4 id="参数含义"><a href="#参数含义" class="headerlink" title="参数含义"></a>参数含义</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">--dryrun, -n  不执行命令，用于debug</span><br><span class="line">--printshellcmds, -p   在屏幕输出每个rule的shell命令</span><br><span class="line">--reason, -r  输出每条rule执行的原因,默认FALSE</span><br><span class="line">--cores, --jobs, -j  指定运行的核数，若不指定，则使用最大的核数</span><br><span class="line">--force, -f 重新运行第一条rule或指定的rule</span><br><span class="line">--forceall, -F 重新运行所有的rule，不管是否已经有输出结果</span><br><span class="line">--forcerun, -R 重新执行Snakefile，当更新了rule时候使用此命令</span><br><span class="line">--snakefile, -s 指定Snakefile，否则是当前目录下的Snakefile</span><br></pre></td></tr></table></figure>
+
+<h4 id="流程可视化命令"><a href="#流程可视化命令" class="headerlink" title="流程可视化命令"></a>流程可视化命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">snakemake --dag result/06.taxonomy/taxonomy.silva.cluster.txt | dot -Tpdf &gt; workflow.pdf</span><br></pre></td></tr></table></figure>
+
+<h4 id="集群投递"><a href="#集群投递" class="headerlink" title="集群投递"></a>集群投递</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">snakemake --cluster "qsub -V -cwd -q 节点队列" -j 10</span><br><span class="line"><span class="section"># --cluster /-c CMD: 集群运行指令</span></span><br><span class="line"><span class="section"># qusb -V -cwd -q， 表示输出当前环境变量(-V),在当前目录下运行(-cwd), 投递到指定的队列(-q), 如果不指定则使用任何可用队列</span></span><br><span class="line"><span class="section"># --local-cores N: 在每个集群中最多并行N核</span></span><br><span class="line"><span class="section"># --cluster-config/-u FILE: 集群配置文件</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="多个命令运行"><a href="#多个命令运行" class="headerlink" title="多个命令运行"></a>多个命令运行</h4><p>某些输入文件可能会在一个rule内经过多次命令行运行，通用方法有一下几类<a href="https://stackoverflow.com/questions/45553762/recommended-way-to-do-multiple-shell-commands-with-shell" target="_blank" rel="noopener">^3</a>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># method1</span></span><br><span class="line">rule processing_step:</span><br><span class="line">    input:</span><br><span class="line">        <span class="comment"># [...]</span></span><br><span class="line">    output:</span><br><span class="line">        <span class="comment"># [...]</span></span><br><span class="line">    run:</span><br><span class="line">        shell(<span class="string">"somecommand &#123;input&#125; &gt; tempfile"</span>)</span><br><span class="line">        shell(<span class="string">"othercommand tempfile &#123;output&#125;"</span>)</span><br><span class="line">        </span><br><span class="line"><span class="comment"># method2</span></span><br><span class="line">rule processing_step:</span><br><span class="line">    input:</span><br><span class="line">        <span class="comment"># [...]</span></span><br><span class="line">    output:</span><br><span class="line">        <span class="comment"># [...]</span></span><br><span class="line">    run:</span><br><span class="line">        commands = [</span><br><span class="line">            <span class="string">"somecommand &#123;input&#125; &gt; tempfile"</span>,</span><br><span class="line">            <span class="string">"othercommand tempfile &#123;output&#125;"</span></span><br><span class="line">        ]</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> commands:</span><br><span class="line">            shell(c)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># method3</span></span><br><span class="line">rule processing_step:</span><br><span class="line">    input:</span><br><span class="line">        <span class="comment"># [...]</span></span><br><span class="line">    output:</span><br><span class="line">        <span class="comment"># [...]</span></span><br><span class="line">    shell:</span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        somecommand &#123;input&#125; &gt; tempfile</span></span><br><span class="line"><span class="string">        othercommand tempfile &#123;output&#125;</span></span><br><span class="line"><span class="string">        """</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="转录组cufflinks分析案例"><a href="#转录组cufflinks分析案例" class="headerlink" title="转录组cufflinks分析案例"></a>转录组cufflinks分析案例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># path to track and reference</span></span><br><span class="line">TRACK   = <span class="string">'hg19.gtf'</span></span><br><span class="line">REF     = <span class="string">'hg19.fa'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># sample names and classes</span></span><br><span class="line">CLASS1  = <span class="string">'101 102'</span>.split()</span><br><span class="line">CLASS2  = <span class="string">'103 104'</span>.split()</span><br><span class="line">SAMPLES = CLASS1 + CLASS2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># path to bam files</span></span><br><span class="line">CLASS1_BAM = expand(<span class="string">'mapped/&#123;sample&#125;.bam'</span>, sample=CLASS1)</span><br><span class="line">CLASS2_BAM = expand(<span class="string">'mapped/&#123;sample&#125;.bam'</span>, sample=CLASS2)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">rule all:</span><br><span class="line">    input:</span><br><span class="line">        <span class="string">'diffexp/isoform_exp.diff'</span>,</span><br><span class="line">        <span class="string">'assembly/comparison'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">rule assembly:</span><br><span class="line">    input:</span><br><span class="line">        <span class="string">'mapped/&#123;sample&#125;.bam'</span></span><br><span class="line">    output:</span><br><span class="line">        <span class="string">'assembly/&#123;sample&#125;/transcripts.gtf'</span>,</span><br><span class="line">        dir=<span class="string">'assembly/&#123;sample&#125;'</span></span><br><span class="line">    threads: <span class="number">4</span></span><br><span class="line">    shell:</span><br><span class="line">        <span class="string">'cufflinks --num-threads &#123;threads&#125; -o &#123;output.dir&#125; '</span></span><br><span class="line">        <span class="string">'--frag-bias-correct &#123;REF&#125; &#123;input&#125;'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">rule compose_merge:</span><br><span class="line">    input:</span><br><span class="line">        expand(<span class="string">'assembly/&#123;sample&#125;/transcripts.gtf'</span>, sample=SAMPLES)</span><br><span class="line">    output:</span><br><span class="line">        txt=<span class="string">'assembly/assemblies.txt'</span></span><br><span class="line">    run:</span><br><span class="line">        <span class="keyword">with</span> open(output.txt, <span class="string">'w'</span>) <span class="keyword">as</span> out:</span><br><span class="line">            print(*input, sep=<span class="string">"\n"</span>, file=out)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">rule merge_assemblies:</span><br><span class="line">    input:</span><br><span class="line">        <span class="string">'assembly/assemblies.txt'</span></span><br><span class="line">    output:</span><br><span class="line">        <span class="string">'assembly/merged/merged.gtf'</span>, dir=<span class="string">'assembly/merged'</span></span><br><span class="line">    shell:</span><br><span class="line">        <span class="string">'cuffmerge -o &#123;output.dir&#125; -s &#123;REF&#125; &#123;input&#125;'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">rule compare_assemblies:</span><br><span class="line">    input:</span><br><span class="line">        <span class="string">'assembly/merged/merged.gtf'</span></span><br><span class="line">    output:</span><br><span class="line">        <span class="string">'assembly/comparison/all.stats'</span>,</span><br><span class="line">        dir=<span class="string">'assembly/comparison'</span></span><br><span class="line">    shell:</span><br><span class="line">        <span class="string">'cuffcompare -o &#123;output.dir&#125;all -s &#123;REF&#125; -r &#123;TRACK&#125; &#123;input&#125;'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">rule diffexp:</span><br><span class="line">    input:</span><br><span class="line">        class1=CLASS1_BAM,</span><br><span class="line">        class2=CLASS2_BAM,</span><br><span class="line">        gtf=<span class="string">'assembly/merged/merged.gtf'</span></span><br><span class="line">    output:</span><br><span class="line">        <span class="string">'diffexp/gene_exp.diff'</span>, <span class="string">'diffexp/isoform_exp.diff'</span></span><br><span class="line">    params:</span><br><span class="line">        class1=<span class="string">","</span>.join(CLASS1_BAM),</span><br><span class="line">        class2=<span class="string">","</span>.join(CLASS2_BAM)</span><br><span class="line">    threads: <span class="number">8</span></span><br><span class="line">    shell:</span><br><span class="line">        <span class="string">'cuffdiff --num-threads &#123;threads&#125; &#123;gtf&#125; &#123;params.class1&#125; &#123;params.class2&#125;'</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/snakemake_cufflinks.png" alt=""></p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
+<li><a href="https://snakemake.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">snakemake</a></li>
+<li><a href="https://www.jianshu.com/p/14b9eccc0c0e" target="_blank" rel="noopener">snakemake使用笔记</a></li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/09/2019-09-02-Bioinformatics-16srRNA/" rel="prev" title="扩增子分析：16s rRNA分析流程">
+      <i class="fa fa-chevron-left"></i> 扩增子分析：16s rRNA分析流程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/09/2019-09-02-Maths-Statistics01/" rel="next" title="统计学基础知识">
+      统计学基础知识 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#What’s-Snakemake"><span class="nav-number">1.</span> <span class="nav-text">What’s Snakemake?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#snakemake的规则"><span class="nav-number">2.</span> <span class="nav-text">snakemake的规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#rule及其命令"><span class="nav-number">2.1.</span> <span class="nav-text">rule及其命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件"><span class="nav-number">2.2.</span> <span class="nav-text">配置文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行snakemake"><span class="nav-number">3.</span> <span class="nav-text">执行snakemake</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参数含义"><span class="nav-number">3.1.</span> <span class="nav-text">参数含义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#流程可视化命令"><span class="nav-number">3.2.</span> <span class="nav-text">流程可视化命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集群投递"><span class="nav-number">3.3.</span> <span class="nav-text">集群投递</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多个命令运行"><span class="nav-number">3.4.</span> <span class="nav-text">多个命令运行</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转录组cufflinks分析案例"><span class="nav-number">4.</span> <span class="nav-text">转录组cufflinks分析案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

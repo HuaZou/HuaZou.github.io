@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"huazou.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="离散分布( discrete distribution)如果随机变量X的所有可能的取值是有限或者可列无穷多个，那么它分布函数的值域是离散的，对应的分布为离散分布。 常用的离散分布有二项分布、泊松分布、几何分布、负二项分布等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="离散分布">
+<meta property="og:url" content="http://huazou.github.io/2020/03/2020-03-30-Maths-Statistics04/index.html">
+<meta property="og:site_name" content="物以类聚，人以群分">
+<meta property="og:description" content="离散分布( discrete distribution)如果随机变量X的所有可能的取值是有限或者可列无穷多个，那么它分布函数的值域是离散的，对应的分布为离散分布。 常用的离散分布有二项分布、泊松分布、几何分布、负二项分布等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics10.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics11.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics13.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics14.jpg">
+<meta property="article:published_time" content="2020-03-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-29T16:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="统计学">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics10.gif">
+
+<link rel="canonical" href="http://huazou.github.io/2020/03/2020-03-30-Maths-Statistics04/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>离散分布 | 物以类聚，人以群分</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116757487-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-116757487-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">物以类聚，人以群分</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://huazou.github.io/2020/03/2020-03-30-Maths-Statistics04/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="物以类聚，人以群分">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          离散分布
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-30 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-30T00:00:00+08:00">2020-03-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">数学学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="离散分布"><a href="#离散分布" class="headerlink" title="离散分布"></a>离散分布</h2><h3 id="1-伯努利分布"><a href="#1-伯努利分布" class="headerlink" title="1 伯努利分布"></a>1 <strong><a href="https://www.dataanalysisclassroom.com/lesson39/" target="_blank" rel="noopener">伯努利分布</a></strong></h3><p>伯努利试验只有两个结果成功或者失败，并且两者是相互独立的。使用R内置函数$rbinom$，并设置试验</p>
+<p>​    $ p_{head} + p_{tail} = 1 $</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"># For the example case #</span><br><span class="line">n &lt;- 1 # it is the number of trials 观测值结果（0， 1）</span><br><span class="line">p &lt;- 0.15 # probability of the event 观测值出现概率</span><br><span class="line">nobs &lt;- 181 # 试验次数</span><br><span class="line"></span><br><span class="line">######## Animation #########</span><br><span class="line"># Create png files for Bernoulli sequence #</span><br><span class="line">library(animation)</span><br><span class="line"></span><br><span class="line">png(file&#x3D;&quot;bernoulli%02d.png&quot;, width&#x3D;600, height&#x3D;300)</span><br><span class="line">for (i in 1:5)&#123;</span><br><span class="line"> plot(rbinom(nobs, n, p), type&#x3D;&quot;h&quot;, font&#x3D;2, font.lab&#x3D;2, xlab&#x3D;&quot;Days&quot;, ylab&#x3D;&quot;(0,1)&quot;)</span><br><span class="line">  #axis(1, at &#x3D; seq(1, 180, 20))</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line">dev.off()</span><br><span class="line"></span><br><span class="line"># Combine the png files saved in the folder into a GIF #</span><br><span class="line">library(magick)</span><br><span class="line">bernoulli_png1 &lt;- image_read(&quot;bernoulli01.png&quot;,&quot;x150&quot;)</span><br><span class="line">bernoulli_png2 &lt;- image_read(&quot;bernoulli02.png&quot;,&quot;x150&quot;)</span><br><span class="line">bernoulli_png3 &lt;- image_read(&quot;bernoulli03.png&quot;,&quot;x150&quot;)</span><br><span class="line">bernoulli_png4 &lt;- image_read(&quot;bernoulli04.png&quot;,&quot;x150&quot;)</span><br><span class="line">bernoulli_png5 &lt;- image_read(&quot;bernoulli05.png&quot;,&quot;x150&quot;)</span><br><span class="line">frames &lt;- image_morph(c(bernoulli_png1, bernoulli_png2, </span><br><span class="line">                        bernoulli_png3, bernoulli_png4, </span><br><span class="line">                        bernoulli_png5), frames &#x3D; 10)</span><br><span class="line">animation &lt;- image_animate(frames)</span><br><span class="line"></span><br><span class="line">image_write(animation, &quot;bernoulli.gif&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics10.gif" alt=""></p>
+<h3 id="2-二项分布"><a href="#2-二项分布" class="headerlink" title="2 二项分布"></a>2 二项分布</h3><p>如果我们关心伯努利试验结果为$1$（has tickets）的概率是多少，这就涉及到二项分布。如果假定$x$为伯努利中成功的次数，则不同试验次数$n$存在不同的成功概率，并且概率$p$也能控制二项分布的成功概率。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">######## Animation #########</span><br><span class="line"># Create png files for Binomial distribution #</span><br><span class="line">png(file&#x3D;&quot;binomial%02d.png&quot;, width&#x3D;600, height&#x3D;300)</span><br><span class="line"></span><br><span class="line">n &lt;- 181</span><br><span class="line">x &lt;- 0:181</span><br><span class="line"></span><br><span class="line">p &lt;- 0.1</span><br><span class="line">for (i in 1:5)&#123;</span><br><span class="line"> px &lt;- dbinom(x,n,p)</span><br><span class="line"> </span><br><span class="line"> plot(x,px,type&#x3D;&quot;h&quot;,xlab&#x3D;&quot;Random Variable X (Number of tickets in 181 days)&quot;,ylab&#x3D;&quot;Probability P(X&#x3D;k)&quot;,font&#x3D;2,font.lab&#x3D;2)</span><br><span class="line"> txt &lt;- paste(&quot;p&#x3D;&quot;,p,sep&#x3D;&quot;&quot;)</span><br><span class="line"> text(150,0.04,txt,col&#x3D;&quot;red&quot;,cex&#x3D;2)</span><br><span class="line"> p &lt;- p+0.2</span><br><span class="line">&#125;</span><br><span class="line">dev.off()</span><br><span class="line"></span><br><span class="line"># Combine the png files saved in the folder into a GIF #</span><br><span class="line">library(magick)</span><br><span class="line">binomial_png1 &lt;- image_read(&quot;binomial01.png&quot;,&quot;x150&quot;)</span><br><span class="line">binomial_png2 &lt;- image_read(&quot;binomial02.png&quot;,&quot;x150&quot;)</span><br><span class="line">binomial_png3 &lt;- image_read(&quot;binomial03.png&quot;,&quot;x150&quot;)</span><br><span class="line">binomial_png4 &lt;- image_read(&quot;binomial04.png&quot;,&quot;x150&quot;)</span><br><span class="line">binomial_png5 &lt;- image_read(&quot;binomial05.png&quot;,&quot;x150&quot;)</span><br><span class="line">frames &lt;- image_morph(c(binomial_png1, binomial_png2,</span><br><span class="line">                        binomial_png3, binomial_png4,</span><br><span class="line">                        binomial_png5), frames &#x3D; 15)</span><br><span class="line">animation &lt;- image_animate(frames)</span><br><span class="line"></span><br><span class="line">image_write(animation, &quot;binomial.gif&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics11.gif" alt=""></p>
+<p>进行$n$次重复试验，其成功的概率是$p$。成功次数由随机变量$X$表示，则X的取值范围是$0$到$n$之间，其服从参数是$p$和$n$的二项分布。$X=k$的概率密度函数：<br>$P[X=k] = {^{\binom{n}{r}p^k(1-p)^{n-k} \qquad 0 \leqslant k \leqslant n }<br> _{0 \qquad p &lt; 0 \mid  p &gt; 1}$</p>
+<p><a href="http://latex.codecogs.com/eqneditor/editor.php" target="_blank" rel="noopener">markdown数学公式参考</a></p>
+<h3 id="3-泊松分布"><a href="#3-泊松分布" class="headerlink" title="3 泊松分布"></a>3 <a href="https://rpubs.com/mpfoley73/456645" target="_blank" rel="noopener">泊松分布</a></h3><p>泊松分布与二项式分布非常相似，均是研究一个时间发生的次数。二项分布着眼于固定的试验次数内成功的次数概率分布，而泊松分布则是测量在连续的时间内或者空间内离散事件发生的次数，其没有总数目”$n$”的概念。泊松分布由$\lambda$决定。<br>$P[X=k] = \frac{e^{-\lambda}\lambda ^k}{k!} \qquad where , k = 0, 1, 2, 3, …$</p>
+<ul>
+<li><p>dpois(x=k, lambda = lambda) 表示$\lambda$值下的泊松分布成功次数为$k$的概率；</p>
+</li>
+<li><p>ppois(x=k, lambda, lower.tail=True/False) 表示$\lambda$值下的泊松分布成功次数从0到$k$累积的成功（True）或失败（False）的概率</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">library(ggplot2)</span><br><span class="line">library(dplyr)</span><br><span class="line">options(scipen &#x3D; 999, digits &#x3D; 2) # sig digits</span><br><span class="line"></span><br><span class="line">events &lt;- 0:10</span><br><span class="line">density &lt;- dpois(x &#x3D; events, lambda &#x3D; 3) # 成功次数的概率</span><br><span class="line">prob &lt;- ppois(q &#x3D; events, lambda &#x3D; 3, lower.tail &#x3D; TRUE) # 累计成功次数的概率</span><br><span class="line">df &lt;- data.frame(events, density, prob)</span><br><span class="line">ggplot(df, aes(x &#x3D; factor(events), y &#x3D; density)) +</span><br><span class="line">  geom_col() +</span><br><span class="line">  geom_text(aes(label &#x3D; round(density,2), y &#x3D; density + 0.01),</span><br><span class="line">    position &#x3D; position_dodge(0.9),</span><br><span class="line">    size &#x3D; 3,</span><br><span class="line">    vjust &#x3D; 0) +</span><br><span class="line">  labs(title &#x3D; &quot;PMF and CDF of Poisson Distribution&quot;,  # 概率质量函数和累积密度函数</span><br><span class="line">       subtitle &#x3D; &quot;P(3).&quot;,</span><br><span class="line">       x &#x3D; &quot;Events (x)&quot;,</span><br><span class="line">       y &#x3D; &quot;Density&quot;) +</span><br><span class="line">  geom_line(data &#x3D; df, aes(x &#x3D; events, y &#x3D; prob))+</span><br><span class="line">  theme_bw()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics12.png" alt=""></p>
+<h3 id="4-二项分布和泊松分布比较"><a href="#4-二项分布和泊松分布比较" class="headerlink" title="4 二项分布和泊松分布比较"></a>4 二项分布和泊松分布比较</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">library(ggplot2)</span><br><span class="line">library(dplyr)</span><br><span class="line">library(tidyr)</span><br><span class="line"></span><br><span class="line">options(scipen &#x3D; 999, digits &#x3D; 2) # sig digits</span><br><span class="line"></span><br><span class="line">n &#x3D; 0:10</span><br><span class="line">df &lt;- data.frame(events &#x3D; 0:10, </span><br><span class="line">                      Poisson &#x3D; dpois(x &#x3D; n, lambda &#x3D; .03 * 50),</span><br><span class="line">                      Binomial &#x3D; dbinom(x &#x3D; n, size &#x3D; 50, p &#x3D; .03))</span><br><span class="line">df_tidy &lt;- gather(df, key &#x3D; &quot;Distribution&quot;, value &#x3D; &quot;density&quot;, -c(events))</span><br><span class="line">ggplot(df_tidy, aes(x &#x3D; factor(events), y &#x3D; density, fill &#x3D; Distribution)) +</span><br><span class="line">  geom_col(position &#x3D; &quot;dodge&quot;) +</span><br><span class="line">  labs(title &#x3D; &quot;Poisson(15) and Binomial(50, .03)&quot;,</span><br><span class="line">       subtitle &#x3D; &quot;Poisson approximates binomial when n &gt;&#x3D; 20 and p &lt;&#x3D; .05.&quot;,</span><br><span class="line">       x &#x3D; &quot;Events (x)&quot;,</span><br><span class="line">       y &#x3D; &quot;Density&quot;)+</span><br><span class="line">  theme_bw()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics13.jpg" alt=""></p>
+<h4 id="5-正态分布"><a href="#5-正态分布" class="headerlink" title="5 正态分布"></a>5 <a href="https://www.r-bloggers.com/normal-distribution-functions/" target="_blank" rel="noopener">正态分布</a></h4><p>正态分布是指随机变量服从位置参数$\mu_{0}$，尺度参数$\sigma^{2}$的分布：</p>
+<p>$f_{\mu,\sigma}(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/2\sigma^{2}}$</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">set.seed(3000)</span><br><span class="line">xseq&lt;-seq(-4,4,.01)</span><br><span class="line">densities&lt;-dnorm(xseq, 0,1)</span><br><span class="line">cumulative&lt;-pnorm(xseq, 0, 1)</span><br><span class="line">randomdeviates&lt;-rnorm(1000,0,1)</span><br><span class="line"> </span><br><span class="line">par(mfrow&#x3D;c(1,3), mar&#x3D;c(3,4,4,2))</span><br><span class="line">plot(xseq, densities, col&#x3D;&quot;darkgreen&quot;,xlab&#x3D;&quot;&quot;, ylab&#x3D;&quot;Density&quot;, type&#x3D;&quot;l&quot;,lwd&#x3D;2, cex&#x3D;2, main&#x3D;&quot;PDF of Standard Normal&quot;, cex.axis&#x3D;.8)</span><br><span class="line">plot(xseq, cumulative, col&#x3D;&quot;darkorange&quot;, xlab&#x3D;&quot;&quot;, ylab&#x3D;&quot;Cumulative Probability&quot;,type&#x3D;&quot;l&quot;,lwd&#x3D;2, cex&#x3D;2, main&#x3D;&quot;CDF of Standard Normal&quot;, cex.axis&#x3D;.8)</span><br><span class="line">hist(randomdeviates, main&#x3D;&quot;Random draws from Std Normal&quot;, cex.axis&#x3D;.8, xlim&#x3D;c(-4,4))</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics14.jpg" alt=""></p>
+<h3 id="6-来自正态分布的连续分布"><a href="#6-来自正态分布的连续分布" class="headerlink" title="6 来自正态分布的连续分布"></a>6 来自正态分布的连续分布</h3><ul>
+<li><p>$t$分布：正态分布的总体中，样本均值的样本分布。通常用于小样本数且真是的均值/标准差未知的情况，如下是$t$统计量：<br>$t = \frac{\bar{x}-\mu}{s/\sqrt{n}} = \frac{\bar{x}-\mu}{SE}$</p>
+</li>
+<li><p>$\chi^2$分布：如果随机变量$X$服从正态分布，那么$X^2$服从卡方分布。其描述了来自正态分布的随机变量的平方和：<br>$\sum_{n}^{i=1} X_{i}^{2} \in {\chi}^2_{n}$</p>
+</li>
+<li><p>$F$分布：方差分析比较两个不同样本之间的方差（随机变量与均值之间的离异程度）大小，F统计量：<br>$F(r_1, r_2) = \frac{\chi_{r_1}^2/r_1}{\chi_{r_2}^2/r_2}$</p>
+</li>
+</ul>
+<h3 id="7-其他连续型分布"><a href="#7-其他连续型分布" class="headerlink" title="7 其他连续型分布"></a>7 其他连续型分布</h3><ul>
+<li><p>对数正态分布：某些情况下，偏正态分布的数据可以通过取对数转换成正态分布.</p>
+</li>
+<li><p>韦伯分布： 该分布的参数能够处理增加的、减少的和保持不变的失败概率.</p>
+</li>
+<li><p><a href="https://www.ruanyifeng.com/blog/2015/06/poisson-distribution.html" target="_blank" rel="noopener">指数分布</a>：指数分布是事件的时间间隔的概率.</p>
+</li>
+<li><p>均匀分布：随机变量出现的概率是定值。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" rel="tag"># 统计学</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/2019-10-28-Bioinformatics-humann2/" rel="prev" title="自动化生成运行humann2文件">
+      <i class="fa fa-chevron-left"></i> 自动化生成运行humann2文件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/2020-04-01-Maths-Statistics06/" rel="next" title="均值检验">
+      均值检验 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#离散分布"><span class="nav-number">1.</span> <span class="nav-text">离散分布</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-伯努利分布"><span class="nav-number">1.1.</span> <span class="nav-text">1 伯努利分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-二项分布"><span class="nav-number">1.2.</span> <span class="nav-text">2 二项分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-泊松分布"><span class="nav-number">1.3.</span> <span class="nav-text">3 泊松分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-二项分布和泊松分布比较"><span class="nav-number">1.4.</span> <span class="nav-text">4 二项分布和泊松分布比较</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-正态分布"><span class="nav-number">1.4.1.</span> <span class="nav-text">5 正态分布</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-来自正态分布的连续分布"><span class="nav-number">1.5.</span> <span class="nav-text">6 来自正态分布的连续分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-其他连续型分布"><span class="nav-number">1.6.</span> <span class="nav-text">7 其他连续型分布</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

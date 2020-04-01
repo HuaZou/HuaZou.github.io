@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"huazou.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="推论统计学和假设检定。推断统计涉及到的分析方法等等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="推论统计学">
+<meta property="og:url" content="http://huazou.github.io/2019/10/2019-10-24-Maths-Statistics03/index.html">
+<meta property="og:site_name" content="物以类聚，人以群分">
+<meta property="og:description" content="推论统计学和假设检定。推断统计涉及到的分析方法等等">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics9.png">
+<meta property="article:published_time" content="2019-10-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-10-23T16:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="统计学">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics4.png">
+
+<link rel="canonical" href="http://huazou.github.io/2019/10/2019-10-24-Maths-Statistics03/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>推论统计学 | 物以类聚，人以群分</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116757487-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-116757487-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">物以类聚，人以群分</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://huazou.github.io/2019/10/2019-10-24-Maths-Statistics03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="物以类聚，人以群分">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          推论统计学
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-24 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-24T00:00:00+08:00">2019-10-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">数学学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="推论统计学"><a href="#推论统计学" class="headerlink" title="推论统计学"></a>推论统计学</h3><p>是指在统计学中，研究如何根据样本数据去推断总体数量特征的方法。它是在对样本数据进行描述的基础上，对统计总体的未知数量特征做出以概率形式表述的推断。更概括地说，是在一段有限的时间内，通过对一个随机过程的观察来进行推断的。</p>
+<blockquote>
+<p> 推论统计学依照<a href="https://wiki.mbalib.com/wiki/母体" target="_blank" rel="noopener">母体</a>条件的差异性又可分为“有参数统计学”(Parametric Statistics)和“无参数统计学”(Non-Parametric Statistics)。其中有参数统计学是指<a href="https://wiki.mbalib.com/wiki/母体" target="_blank" rel="noopener">母体</a>呈正态分配(Normal Distridbution)的统计推论方法；其他所有应用于非正态分配母体的统计推论方法，都称为无参数统计学。有参数统计学比无参数统计学发展得早，其经典课题有“<a href="https://wiki.mbalib.com/wiki/点估计" target="_blank" rel="noopener">点估计</a>”、“<a href="https://wiki.mbalib.com/wiki/区间估计" target="_blank" rel="noopener">区间估计</a>”与“<a href="https://wiki.mbalib.com/wiki/假设检验" target="_blank" rel="noopener">假设检验</a>”等。 </p>
+</blockquote>
+<h4 id="置信区间"><a href="#置信区间" class="headerlink" title="置信区间"></a>置信区间</h4><p><strong>置信区间（confidence interval）</strong>是指由样本统计量所构造的总体参数的估计区间，是分别以统计量的置信上限和置信下限为上下界构成的区间。 </p>
+<p>$c = Pr(\mu{(X)} &lt; w &lt; v(X))$</p>
+<blockquote>
+<p> 在统计学中，一个<a href="https://baike.baidu.com/item/概率/828845" target="_blank" rel="noopener">概率</a>样本的置信区间（Confidence interval）是对这个样本的某个总体参数的<a href="https://baike.baidu.com/item/区间估计/6611490" target="_blank" rel="noopener">区间估计</a>。置信区间展现的是这个参数的真实值有一定概率落在测量结果的周围的程度，其给出的是<a href="https://baike.baidu.com/item/被测量/5141218" target="_blank" rel="noopener">被测量</a>参数的测量值的可信程度，即前面所要求的“一个概率”。 </p>
+</blockquote>
+<h4 id="区间估计"><a href="#区间估计" class="headerlink" title="区间估计"></a>区间估计</h4><blockquote>
+<p> 区间估计（interval estimate）是在点估计的基础上，给出总体参数估计的一个区间范围，该区间通常由样本统计量加减估计误差得到。与点估计不同，进行区间估计时，根据样本统计量的抽样分布可以对样本统计量与总体参数的接近程度给出一个概率度量。</p>
+</blockquote>
+<h4 id="显著性差异"><a href="#显著性差异" class="headerlink" title="显著性差异"></a>显著性差异</h4><blockquote>
+<p> 显著性差异(significant difference)，是一个统计学名词。它是统计学（Statistics）上对数据差异性的评价。通常情况下，实验结果达到0.05水平或0.01水平，才可以说数据之间具备了差异显著或是极显著。 </p>
+<p> 当数据之间具有了<strong>显著性差异</strong>，就说明参与比对的数据不是来自于同一<a href="https://baike.baidu.com/item/总体" target="_blank" rel="noopener">总体</a>（Population），而是来自于具有差异的两个不同总体，这种差异可能因参与比对的数据是来自不同实验对象的。</p>
+</blockquote>
+<h4 id="元分析"><a href="#元分析" class="headerlink" title="元分析"></a>元分析</h4><blockquote>
+<p><strong>元分析（meta-analysis )</strong><a href="[https://baike.baidu.com/item/%E5%85%83%E5%88%86%E6%9E%90](https://baike.baidu.com/item/元分析)">^1</a>统计方法是对众多现有实证文献的再次统计，通过对相关文献中的统计指标利用相应的统计公式，进行再一次的统计分析，从而可以根据获得的统计显著性等来分析两个变量间真实的相关关系。</p>
+<p>元分析程序输入参数包括：各个观察到的相关系数（已有研究文献中变量间的相关计分析，从而可以根据获得的统计显著性等来分析两个变量间真实的相关关系。</p>
+<p> 元分析要求每个观察到的相关系数经过研究样本的大小的权重处理，从而产生经过权重处理的总体相关性的平均估计值。这个观察值的误差包括总体样本的真实误差，<a href="https://baike.baidu.com/item/样本误差/5712209" target="_blank" rel="noopener">样本误差</a>，以及<a href="https://baike.baidu.com/item/测量误差/9383433" target="_blank" rel="noopener">测量误差</a>。因此为了获得精确的总体相关性及其误差，需要对样本误差和测量误差等进行修正，找出“<a href="https://baike.baidu.com/item/调节变量/1845963" target="_blank" rel="noopener">调节变量</a>”分组研究。另外，元分析对使用的数据进行了一定的限制要求。如“一个变量在不同的研究中有多种衡量指标”出现时，需首先得将这种“异质性”进行处理（Hunter and Schmidt,1990）以保证数据来源及统计方式的一致性。 </p>
+</blockquote>
+<h4 id="贝叶斯推论"><a href="#贝叶斯推论" class="headerlink" title="贝叶斯推论"></a>贝叶斯推论</h4><p>贝叶斯推论是基于现有信息对样本归纳推理的方法，它不仅仅需要根据当前所观察到的样本信息而且还要过去有关的经验和知识对总体进行推断。</p>
+<h3 id="实验设计"><a href="#实验设计" class="headerlink" title="实验设计"></a>实验设计</h3><h4 id="抽样"><a href="#抽样" class="headerlink" title="抽样"></a>抽样</h4><blockquote>
+<p> 又称<a href="https://baike.baidu.com/item/取样/8973899" target="_blank" rel="noopener">取样</a> <a href="[https://baike.baidu.com/item/%E6%8A%BD%E6%A0%B7](https://baike.baidu.com/item/抽样)">^2</a>。从欲<a href="https://baike.baidu.com/item/研究/1883844" target="_blank" rel="noopener">研究</a>的全部<a href="https://baike.baidu.com/item/样品/5570389" target="_blank" rel="noopener">样品</a>中<a href="https://baike.baidu.com/item/抽取/4473772" target="_blank" rel="noopener">抽取</a>一部分样品单位。其基本要求是要保证所<a href="https://baike.baidu.com/item/抽取/4473772" target="_blank" rel="noopener">抽取</a>的<a href="https://baike.baidu.com/item/样品/5570389" target="_blank" rel="noopener">样品</a>单位对全部样品具有充分的<a href="https://baike.baidu.com/item/代表性" target="_blank" rel="noopener">代表性</a>。抽样的<a href="https://baike.baidu.com/item/目的/10924745" target="_blank" rel="noopener">目的</a>是从被<a href="https://baike.baidu.com/item/抽取/4473772" target="_blank" rel="noopener">抽取</a><a href="https://baike.baidu.com/item/样品/5570389" target="_blank" rel="noopener">样品</a>单位的<a href="https://baike.baidu.com/item/分析/4327108" target="_blank" rel="noopener">分析</a>、<a href="https://baike.baidu.com/item/研究/1883844" target="_blank" rel="noopener">研究</a>结果来<a href="https://baike.baidu.com/item/估计/8678215" target="_blank" rel="noopener">估计</a>和<a href="https://baike.baidu.com/item/推断/1533783" target="_blank" rel="noopener">推断</a>全部样品<a href="https://baike.baidu.com/item/特性/3128227" target="_blank" rel="noopener">特性</a>，是<a href="https://baike.baidu.com/item/科学实验/556496" target="_blank" rel="noopener">科学实验</a>、<a href="https://baike.baidu.com/item/质量检验/6511608" target="_blank" rel="noopener">质量检验</a>、<a href="https://baike.baidu.com/item/社会调查/328652" target="_blank" rel="noopener">社会调查</a>普遍采用的一种<a href="https://baike.baidu.com/item/经济/403149" target="_blank" rel="noopener">经济</a>有效的<a href="https://baike.baidu.com/item/工作/82254" target="_blank" rel="noopener">工作</a>和研究<a href="https://baike.baidu.com/item/方法" target="_blank" rel="noopener">方法</a>。 </p>
+</blockquote>
+<h4 id="重抽样"><a href="#重抽样" class="headerlink" title="重抽样"></a>重抽样</h4><blockquote>
+<p>(1). 估计样本统计量(如中位数、方差、分位数等)的精度，使用数据的子集( jackknifing )或者样本的有放回抽样( bootstrapping );<br>(2). 检验时交换数据点的标签;<br>(3). 使用随机的样本子集，验证模型的有效性</p>
+</blockquote>
+<p><strong>自助bootstrap方法</strong>：对样本进行有放回的抽样，得到与原始样本同样大小的bootstrap样本，多次抽样。</p>
+<p><strong>交叉验证cross-validation</strong>：留一法或者留p法以及K倍法</p>
+<blockquote>
+<p>交叉验证( cross-validation )<a href="https://blog.csdn.net/wong2016/article/details/73913425" target="_blank" rel="noopener">^3</a>是一种模型验证技术，它主要用于估计一个预测模型的准确性。在一个预测问题里，数据集通常分成已知的(训练集)和未知的(检验集)两部分。其中训练集用来训练预测模型，检验集用来检验模型的准确性。</p>
+<p>一轮交叉验证，是指首先将样本分割成训练集和检验集两部分，在训练集上建模，在检验集评价分析模型。为了降低变异度，需要做多轮交叉验证，平均评价指标(例如，预测误差)。</p>
+<p>交叉验证的常见类型：</p>
+<p>留p法(Leave-p-out cross validation, LPOCV)<br>使用p 个观测数据点作为检验集，其余的数据作为训练集。该方法需要学习和验证 (np)(np), 其中 nn 是原始样本的大小。</p>
+<p>留一法<br>在留 p 法中，取 p=1, 即得留一法。</p>
+<p>K倍法<br>将随机样本随机地分成 K 等份。一个子样本作为检验集，其余 K-1 个子样本作为训练集。交叉验证重复 KK 次，每次使用不同的子样本作为检验集，平均 KK 次结果产生一个估计。常见的， K=10K=10. 该方法的优点是：所有的观测都被使用作为训练和检验，每一个观测只被使用一次作为检验。</p>
+</blockquote>
+<h3 id="样本量"><a href="#样本量" class="headerlink" title="样本量"></a>样本量</h3><p><strong>样本量sample size</strong>: 是指从总体中抽取的样本元素的个数总和，样本量大小是选择检验统计量的一个要素。有抽样分布理论可知，在大样本条件下，如果总体为正态分布，样本统计量<strong>服从正态分布</strong>；如果总体为非正态分布，样本统计量<strong>渐进服从正态分布</strong>。</p>
+<h4 id="统计功效（statistical-power）"><a href="#统计功效（statistical-power）" class="headerlink" title="统计功效（statistical power）"></a><strong>统计功效（statistical power）</strong></h4><p>在假设检验中，拒绝零假设的统计显著性的概率，它与Type II error也即是$\beta$的概率成负相关：$power = 1- \beta$。简而言之，统计功效指的是某项研究内检测到某个效应的概率。</p>
+<p>统计功效<a href="https://effectsizefaq.com/2010/05/31/how-do-i-calculate-statistical-power/" target="_blank" rel="noopener">^4</a>主要受到 检测效应（即需要检测的效应自身在要研究条件下出现的强度数值）的<strong>效应值大小</strong>和<strong>样本量大小</strong>。效应值越大越容易检测，越大样本提供越加检测灵敏度</p>
+<blockquote>
+<p>The power of any test of statistical significance is defined as the probability that it will reject a false null hypothesis. <strong>Statistical power</strong> is inversely related to <a href="https://effectsizefaq.com/2010/05/31/what-do-alpha-and-beta-refer-to-in-statistics/" target="_blank" rel="noopener">beta</a> or the probability of making a <a href="https://effectsizefaq.com/2010/05/31/i-always-get-confused-about-type-i-and-ii-errors-can-you-show-me-something-to-help-me-remember-the-difference/" target="_blank" rel="noopener">Type II error</a>. In short, power = 1 – <em>β</em>.</p>
+<p>In plain English, statistical power is the likelihood that a study will detect an <a href="https://effectsizefaq.com/2010/05/31/what-is-an-effect-size/" target="_blank" rel="noopener">effect</a> when there is an effect there to be detected. If statistical power is high, the probability of making a Type II error, or concluding there is no effect when, in fact, there is one, goes down.</p>
+<p>Statistical power is affected chiefly by the size of the effect and the size of the <a href="https://effectsizefaq.com/2010/05/31/how-big-a-sample-size-do-i-need-to-test-my-hypotheses/" target="_blank" rel="noopener">sample</a> used to detect it. Bigger effects are easier to detect than smaller effects, while large samples offer greater test sensitivity than small samples.</p>
+</blockquote>
+<h4 id="效应值（effect-size）"><a href="#效应值（effect-size）" class="headerlink" title="效应值（effect size）"></a>效应值（effect size）</h4><p><strong>effect</strong>是指产生某结果的影响，它可以是一个结果和反应等等。<strong>effect size</strong>特指自然条件下或者某个特定群体内的某个结果发生或者发现时候的大小。效应值反应的是事件出现的可能性。效应值可以包含相关系数，回归系数，差异值等等，只要可形容某件事情出现强度的统计量均可以作为效应值。</p>
+<blockquote>
+<p>An <strong>effect</strong> is the result of something. It is an outcome, a result, a reaction, a change in Y brought about by a change in X.</p>
+<p>An <strong>effect size</strong> refers to the magnitude of the result as it occurs, or would be found, in nature, or in a population. Although effects can be observed in the artificial setting of a laboratory or a sample, effect sizes exist in the real world.</p>
+<p>When researchers estimate effect sizes by observing representative samples, they generate an <strong>effect size estimate</strong>. This estimate is usually expressed in the form of an <strong><a href="https://effectsizefaq.com/2010/05/31/128/" target="_blank" rel="noopener">effect size index</a></strong>.</p>
+</blockquote>
+<h4 id="标准误（standard-error）"><a href="#标准误（standard-error）" class="headerlink" title="标准误（standard error）"></a>标准误（standard error）</h4><p><strong>standard error</strong>是样本统计量（特指均值 SEM：standard error of mean）的标准差，衡量样本抽样的误差的指标。多次对总体抽样后得到多个均值，对由多个均值组成的新分布求取标准差即得到标准误，反应的是样本的平均数与总体真实平均数的偏离程度，这与标准差不同（标准差反应的是样本数据与样本均值的偏离程度：样本离散度）。</p>
+<p>The formula to find the sample mean:</p>
+<p>$\mu = \frac{\sum_{i=1}^nx_i}{n}$</p>
+<p>Formula to estimate sample standard deviation:</p>
+<p>$s = \sqrt{\frac{\sum_{i=1}^n(x_i-\mu)^2}{n-1}}$</p>
+<p>Formula to estimate standard error of mean:</p>
+<p>$SEM_{\mu} = \frac{s}{\sqrt{n}}$</p>
+<p>SEM不仅仅包含样本离散信息$s$，还包含评估样本量$\sqrt{n}$大小程度信息。</p>
+<h4 id="零假设（null-hypothesis）和备择假设（alternative-hypothesis）"><a href="#零假设（null-hypothesis）和备择假设（alternative-hypothesis）" class="headerlink" title="零假设（null hypothesis）和备择假设（alternative hypothesis）"></a>零假设（null hypothesis）和备择假设（alternative hypothesis）</h4><p>统计推断中，零假设又称原假设是做统计检验时的一类假设。</p>
+<blockquote>
+<p><strong>零假设</strong><a href="[https://wiki.mbalib.com/wiki/%E9%9B%B6%E5%81%87%E8%AE%BE](https://wiki.mbalib.com/wiki/零假设)">^5</a>又称原假设，是统计学术语，指进行统计检验时预先建立的假设。 零假设成立时，有关统计量应服从已知的某种<a href="https://wiki.mbalib.com/wiki/概率分布" target="_blank" rel="noopener">概率分布</a>。当<a href="https://wiki.mbalib.com/wiki/统计量" target="_blank" rel="noopener">统计量</a>的计算值落入否定域时，可知发生了小概率事件，应否定原假设。</p>
+<p>　　在<a href="https://wiki.mbalib.com/wiki/统计学" target="_blank" rel="noopener">统计学</a>中，零假设或虚无假设是做统计检验时的一类假设。零假设的内容一般是希望被证明为错误的假设或者是需要着重考虑的假设。比如说，在相关性检验中，一般会取“两者之间无关联”作为零假设，而在独立性检验中，一般会取“两者之间有关联”作为零假设。与零假设相对的是<a href="https://wiki.mbalib.com/wiki/备择假设" target="_blank" rel="noopener">备择假设</a>（对立假设），即希望证明是正确的另一种可能。从数学上来看，零假设和备择假设的地位是相等的，但是在统计学的实际运用中，常常需要强调一类假设为应当或期望实现的假设。如果一个统计检验的结果拒绝零假设（结论不支持零假设），而实际上真实的情况属于零假设，那么称这个检验犯了第一类错误。反之，如果检验结果支持零假设，而实际上真实的情况属于备择假设，那么称这个检验犯了第二类错误。通常的做法是，在保持第一类错误出现的机会在某个特定水平上的时候，尽量减少第二类错误出现的概率。</p>
+</blockquote>
+<h4 id="Type-I-和-Type-II-error"><a href="#Type-I-和-Type-II-error" class="headerlink" title="Type I 和 Type II error"></a>Type I 和 Type II error</h4><p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics4.png" alt=""></p>
+<p><strong>第一类错误</strong>是指假阳性，零假设为真时却被拒。发生该类错误的原因可能是$\alpha$显著性水平偏低导致也可能是样本量太小。第一类错误会错误判断零假设为假。</p>
+<p><strong>第二类错误</strong>是假阴性，零假设为假时却接受，用$\beta$表示，不犯二类错误的概率为统计功效。</p>
+<h3 id="常规估计"><a href="#常规估计" class="headerlink" title="常规估计"></a>常规估计</h3><h4 id="贝叶斯推论-1"><a href="#贝叶斯推论-1" class="headerlink" title="贝叶斯推论"></a>贝叶斯推论</h4><p><strong>贝叶斯推论（bayesian inference）</strong>是基于现有信息对样本归纳推理的方法，它不仅仅需要根据当前所观察到的样本信息而且还要基于过去有关的经验和知识对总体进行推断。</p>
+<h4 id="区间估计-1"><a href="#区间估计-1" class="headerlink" title="区间估计"></a>区间估计</h4><p><strong>区间估计（interval estimate）</strong>是在点估计的基础上，给出总体参数估计的一个区间范围，该区间通常由样本统计量加减估计误差得到。与点估计不同，进行区间估计时，根据样本统计量的抽样分布可以对样本统计量与总体参数的接近程度给出一个概率度量。</p>
+<h4 id="最大似然估计"><a href="#最大似然估计" class="headerlink" title="最大似然估计"></a>最大似然估计</h4><p><strong>最大似然估计 (Maximum likelihood estimation)</strong><a href="https://zhuanlan.zhihu.com/p/26614750" target="_blank" rel="noopener">^6</a>：利用已知的样本结果信息，反推最有可能（最大概率）导致出现这些样本结果的模型参数值。样本结果<strong>分布的模型已知，但其参数未知</strong>，通过将每个样本结果带入模型，取每个样本结果的乘积最大值。</p>
+<blockquote>
+<p>似然函数<a href="https://blog.csdn.net/u011508640/article/details/72815981" target="_blank" rel="noopener">^7</a><br>似然（likelihood）这个词其实和概率（probability）是差不多的意思，Colins字典这么解释：The likelihood of something happening is how likely it is to happen. 你把likelihood换成probability，这解释也读得通。但是在统计里面，似然函数和概率函数却是两个不同的概念（其实也很相近就是了）。</p>
+<p>对于这个函数：</p>
+<p>$P(x\mid\theta)$<br>输入有两个：x表示某一个具体的数据；$\theta$表示模型的参数。</p>
+<p>如果$\theta$ 是已知确定的，$x$是变量，这个函数叫做概率函数(probability function)，它描述对于不同的样本点$x$，其出现概率是多少。</p>
+<p>如果$x$是已知确定的，$\theta$是变量，这个函数叫做似然函数(likelihood function), 它描述对于不同的模型参数，出现x这个样本点的概率是多少。</p>
+<p>这有点像“一菜两吃”的意思。其实这样的形式我们以前也不是没遇到过。例如，$f(x, y)=x^y$ , 即$x$的$y$次方。如果$x$是已知确定的(例如$x=2$)，这就是$f(y) = 2^y$, 这是指数函数。 如果$y$是已知确定的(例如$y=2$)，这就是$f(x)=x^2$，这是二次函数。同一个数学形式，从不同的变量角度观察，可以有不同的名字。</p>
+</blockquote>
+<blockquote>
+<p>概率和统计是一个东西吗？<a href="https://blog.csdn.net/u011508640/article/details/72815981" target="_blank" rel="noopener">^7</a><br>概率（probabilty）和统计（statistics）看似两个相近的概念，其实研究的问题刚好相反。</p>
+<p>概率研究的问题是，已知一个模型和参数，怎么去预测这个模型产生的结果的特性（例如均值，方差，协方差等等）。 举个例子，我想研究怎么养猪（模型是猪），我选好了想养的品种、喂养方式、猪棚的设计等等（选择参数），我想知道我养出来的猪大概能有多肥，肉质怎么样（预测结果）。</p>
+<p>统计研究的问题则相反。统计是，有一堆数据，要利用这堆数据去预测模型和参数。仍以猪为例。现在我买到了一堆肉，通过观察和判断，我确定这是猪肉（这就确定了模型。在实际研究中，也是通过观察数据推测模型是／像高斯分布的、指数分布的、拉普拉斯分布的等等），然后，可以进一步研究，判定这猪的品种、这是圈养猪还是跑山猪还是网易猪，等等（推测模型参数）。</p>
+<p>一句话总结：概率是已知模型和参数，推数据。统计是已知数据，推模型和参数。</p>
+</blockquote>
+<p>###特效分析</p>
+<blockquote>
+<p>一般而言，为了确定从样本(sample)统计结果推论至总体时所犯错的概率，我们会利用统计学家所开发的一些统计方法，进行统计检定<a href="https://zhuanlan.zhihu.com/p/30511458" target="_blank" rel="noopener">^9</a>。</p>
+<p>通过把所得到的统计检定值，与统计学家建立了一些随机变量的概率分布(probability<br>distribution)进行比较，我们可以知道在多少%的机会下会得到目前的结果。倘若经比较后发现，出现这结果的机率很少，亦即是说，是在机会很少、很罕有的情况下才出现；那我们便可以有信心的说，这不是巧合，是具有统计学上的意义的(用统计学的话讲，就是能够拒绝虚无假设null<br>hypothesis,Ho)。相反，若比较后发现，出现的机率很高，并不罕见；那我们便不能很有信心的直指这不是巧合，也许是巧合，也许不是，但我们没能确定。</p>
+</blockquote>
+<h4 id="Z检验"><a href="#Z检验" class="headerlink" title="Z检验"></a>Z检验</h4><p>Z检验又被称为U检验（标准正态分布$N(\mu=0, \sigma = 1)$）<a href="[https://wiki.mbalib.com/wiki/Z%E6%A3%80%E9%AA%8C](https://wiki.mbalib.com/wiki/Z检验)">^8</a>， 一般用于大样本(<strong>即<a href="https://wiki.mbalib.com/wiki/样本容量" target="_blank" rel="noopener">样本容量</a>大于30</strong>)平均值差异性检验的方法。它是用标准<a href="https://wiki.mbalib.com/wiki/正态分布" target="_blank" rel="noopener">正态分布</a>的理论来推断差异发生的概率，从而比较两个<a href="https://wiki.mbalib.com/wiki/平均数" target="_blank" rel="noopener">平均数</a>的差异是否显著。 正态分布公式如下：</p>
+<p>$ f(x)=\frac{1}{\sqrt\times\sigma}<br>  e^{\frac{1}{2}(\frac{x-\mu}{\sigma})^2}$</p>
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics5.png" alt=""></p>
+<ul>
+<li><p>检验一个样本平均数$\overline{x}$ 与一个已知的总体平均数$\mu_0$ 的差异是否显著。其Z值计算公式为： </p>
+<p>$Z=\frac{\overline{X} - \mu_0}{\frac{S}{\sqrt{n}}}$</p>
+<p>其中：</p>
+<ul>
+<li>$\overline{X}$是检验样本的平均数；</li>
+<li>$\mu_0$是已知<a href="https://wiki.mbalib.com/wiki/总体" target="_blank" rel="noopener">总体</a>的平均数；</li>
+<li>$S$是样本的<a href="https://wiki.mbalib.com/wiki/标准差" target="_blank" rel="noopener">标准差</a>；</li>
+<li>$n$是样本容量。</li>
+</ul>
+</li>
+<li><p>检验来自两个的两组样本平均数的差异性，从而判断它们各自代表的总体的差异是否显著。其Z值计算公式：</p>
+<p>$Z = \frac{\overline{X_1}-\overline{X_2}}{\sqrt{\frac{S_{1}^2}{n_1}+\frac{S_{2}^2}{n_2}}}$</p>
+<p>其中：</p>
+<ul>
+<li>$\overline{X_1}$和$\overline{X_2}$分别是样本1和样本2的平均数；</li>
+<li>$S_1$和$S_2$分别是样本1和样本2的<a href="https://wiki.mbalib.com/wiki/标准差" target="_blank" rel="noopener">标准差</a>；</li>
+<li>$n1$和$n2$分别是样本1和样本2的容量。</li>
+</ul>
+</li>
+</ul>
+<p>比较计算所得的Z值与显著性水平的实际Z值，根据比较做出显著性判断。</p>
+<h4 id="t检验"><a href="#t检验" class="headerlink" title="t检验"></a>t检验</h4><p><strong>T检验又称为student’s t test</strong>，主要适用于样本量较小（n&lt;30），总体标准差$\sigma$未知的正态分布假设检验。它同样是基于两个平均值差异程度的检验方法，但差异值（$t$统计量）是服从$T$分布，通过比较$t$统计量在$T$分布上的概率值与给出的显著性检验值之间的大小情况，从而判断两个平均数是否显著差异。因为总体标准差$\sigma$未知，一般用样本的标准差$S$代替，这称为$t$变换。$t$统计量服从$T$分布：</p>
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics6.png" alt=""></p>
+<p>$t$分布的形态变化与自由度$n$大小有关，自由度$df$越小，$t$分布曲线越低平；自由度$df$越大，$t$分布曲线越接近标准正态分布曲线。</p>
+<ul>
+<li><p>单个样本的$t$检验：比较样本均数 所代表的未知总体均数$\mu$ 和已知总体均数$\mu_0$</p>
+<ul>
+<li><p>$t$统计量： $t = \frac{\mid{\overline{X} - \mu_0\mid}}{S_{\overline{X}}} = \frac{\overline{X} - \mu_0}{s/\sqrt{n}}$</p>
+</li>
+<li><p>自由度：$df = n-1$</p>
+</li>
+</ul>
+</li>
+<li><p>配对$t$检验：判断不同的处理是否有差别</p>
+<ul>
+<li><p>$t$统计量： $t = \frac{\overline{d}}{S_d/{\sqrt{n}}} = \frac{\overline{X_1}-\overline{X_2}}{\sqrt{\frac{\sum{x_1^2}+\sum{x_2^2}}{n_1+n_2-2} \times{\frac{n_1+n_2}{n_1\times{n_2}}}}}$</p>
+</li>
+<li><p>自由度：$df = (paired_number)-1$</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="F检验"><a href="#F检验" class="headerlink" title="F检验"></a>F检验</h4><p><strong>F检验（F-test）又称为方差分析（ANOVA）</strong><a href="https://blog.minitab.com/blog/adventures-in-statistics-2/understanding-analysis-of-variance-anova-and-the-f-test" target="_blank" rel="noopener">^10</a>：F统计量是由组间方差比上组内方差。ANOVA的目的是检验不同分组之间的均值是否存在差异，而F检验是检验均值差异的工具。</p>
+<p><strong>F = variation between sample means / variation within the samples (Mean squares)</strong></p>
+<p>F 概率分布函数： $<br>f(x) = \frac{\Gamma((n_{1}+n_{2})/2)(n_{1}/n_{2})^{n_{1}/2}x^{n_{1}/2-1}}<br>{\Gamma(n_{1}/2)\Gamma(n_{2}/2)[(n_{1}/n_{2})x+1]^{(n_{1}+n_{2})/2}} \qquad \qquad x &gt; 0,<br>$</p>
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics7.png" alt=""></p>
+<h4 id="chi-2-检验"><a href="#chi-2-检验" class="headerlink" title="$\chi^2$检验"></a>$\chi^2$检验</h4><blockquote>
+<p> 卡方检验是一种统计量的分布在零假设成立时近似服从卡方分布的假设检验。在没有其他的限定条件或说明时，卡方检验一般指代的是皮尔森卡方检验。在卡方检验的一般运用中，研究人员将观察量的值划分成若干互斥的分类，并且使用一套理论尝试去说明观察量的值落入不同分类的概率分布的模型。 </p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics8.png" alt=""></p>
+<h4 id="Wald检验"><a href="#Wald检验" class="headerlink" title="Wald检验"></a>Wald检验</h4><p>Wald检验基于零假设的无限制估计与其假设值之间的加权距离来评估参数的约束，其中权重是估计的精确度。加权距离越大，约束为真的可能性越小。</p>
+<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/statistics9.png" alt=""><a href="https://wangcc.me/LSHTMlearningnote/section-16.html" target="_blank" rel="noopener">^12</a></p>
+<blockquote>
+<p> Wald 统计量我们先对无约束模型得到参数的估计值，再代入约束条件检查约束条件是否成立；LR 统计量则是分别计算在约束和无约束条件下的参数估计值，然后计算二者的对数似然函数是否足够接近；LM 统计量则考察约束条件的拉格朗日乘子是否为零，因为假设约束条件成立，那么这个约束条件应该对我们的估计没有影响，那么拉格朗日乘子应该为0。这是三个检验的基本思想。至于为什么渐进等价，则要一些推导。基本上三者的大小差距为O（1/n). <a href="http://blog.sciencenet.cn/blog-508318-633088.html" target="_blank" rel="noopener">^11</a></p>
+<p><strong>LR似然比检验</strong>：如果参数约束是有效的，那么加上这样的约束条件不应该引起似然函数最大值的大幅度降低。似然比检验实质是在比较有约束条件下似然函数最大值与无约束条件下似然函数最大值。 似然比定义为有约束条件下的似然函数最大值与无约束条件下似然函数最大值之比。<code>以似然比为基础可以构造一个服从卡方分布统计量</code>。</p>
+<p><strong>wald检验</strong>：如果约束是有效的，那么在没有约束条件许下估计出来的wald统计量（估计量）应该渐进地满足约束条件，因为最大似然估计（MLE）的目的是一致的（找到某件事情产生的最大可能性也即是概率）。<code>以无约束估计量为基础可以构造一个Wald统计量，这个统计量也服从卡方分布</code>。</p>
+<p><strong>拉格朗日乘数检验</strong>：在约束条件下，可以使用拉格朗日方法构造目标函数。如果约束有效，则最大化拉格朗日函数所得估计量应位于最大化无约束所得参数估计值附近。<code>构造的LM统计量也服从卡方分布</code>。</p>
+<p><strong>总结</strong>： 对于似然比检验，既需要估计有约束的模型，也需要估计无约束的模型；对于Wald检验，只需要估计无约束模型；对于LM检验，只需要估计有约束的模型。一般情况下，由于估计有约束模型相对更复杂，所有Wald检验最为常用。对于小样本而言，似然比检验的渐进性最好，LM检验也较好，Wald检验有时会拒绝原假设，其小样本性质不尽如人意。 </p>
+</blockquote>
+<h4 id="Mann-Whitney-U-test（Wilcoxon-rank-sum-test）"><a href="#Mann-Whitney-U-test（Wilcoxon-rank-sum-test）" class="headerlink" title="Mann-Whitney U test（Wilcoxon rank-sum test）"></a>Mann-Whitney U test（Wilcoxon rank-sum test）</h4><p><strong>Mann-Whitney U test</strong> also called wilcoxon rank-sum test。根据数据大小获取其对应的rank值，再利用rank值计算对应的统计量，通过统计量服从U分布（正态分布）得到对应的概率值大小。</p>
+<h3 id="生存分析"><a href="#生存分析" class="headerlink" title="生存分析"></a>生存分析</h3><p><strong>生成分析</strong>是研究随访对象发生我们关心的时间与否，以及比较发生该事件之前时间的长短（生存时间）的一种分析方法。生成数据例子如下：</p>
+<ul>
+<li>死亡；</li>
+<li>诊断或治疗后直至死亡发生的时间；</li>
+<li>对象以健康状态进入研究开始，直至其诊断为患有某种疾病的时间</li>
+</ul>
+<p>生成分析常见术语</p>
+<ul>
+<li>生存时间 survival time = 失败时间 failure time = 事件时间 event time</li>
+<li>生成分析本身也称为事件史分析 time-to-event analysis</li>
+</ul>
+<h4 id="生存函数-13"><a href="#生存函数-13" class="headerlink" title="生存函数^13"></a>生存函数<a href="https://wangcc.me/LSHTMlearningnote/section-71.html" target="_blank" rel="noopener">^13</a></h4><p>观测生存时间$T$，大于某个时间$t$的概率为生存函数：</p>
+<p>$S(t) = Pr(T &gt; t)$</p>
+<p>累积概率函数：</p>
+<p>$F(t) = Pr(T \leq t) = 1 - S(t)$</p>
+<blockquote>
+<p>风险度有时候就只叫做风险(hazard)，时间$t$时的风险度为$h(t)$。风险度方程被定义为:</p>
+<p>$h(t)=\lim\limits_{\delta\rightarrow0}\frac{1}{\delta}Pr(t \leq T &lt; t + \delta \mid T \geq t)$ </p>
+<p>风险度利用的是数学中的极限理论，表示在时间$t$和时间$t+δ$(其中$δ→0$)之间，观察对象没有发生事件的概率。风险度的概念明白了以后，风险度在时间轴上的积分，就被叫做<strong>累积风险度</strong> :</p>
+<p>$H(t) = \int_{0}^t h(\mu) d\mu$</p>
+<p>概率密度函数：</p>
+<p>$f(t) = \frac{d}{dt}F(t) = \lim\limits_{\delta\rightarrow 0}\frac{1}{\delta}Pr(t \leq T &lt; t + \delta)$</p>
+</blockquote>
+<h3 id="推论统计学与描述统计学的异同点"><a href="#推论统计学与描述统计学的异同点" class="headerlink" title="推论统计学与描述统计学的异同点"></a>推论统计学与描述统计学的异同点</h3><blockquote>
+<p>　　<strong>一、描述统计学与推论统计学的同点：</strong></p>
+<p>　　两者都以概率论为理论基础，都是<a href="https://wiki.mbalib.com/wiki/数理统计学" target="_blank" rel="noopener">数理统计学</a>，都是应用数学的一个分支，都可分为<a href="https://wiki.mbalib.com/wiki/数理统计" target="_blank" rel="noopener">数理统计</a>([数理]统计理论与方法)与应用统计(专业统计)两部分，都属于研究自然与社会现象的通用科学。</p>
+<p>　　<strong>二、描述统计学与推论统计学的异点：</strong></p>
+<p>　　第一、产生年代不同：一般认为<a href="https://wiki.mbalib.com/wiki/描述统计学" target="_blank" rel="noopener">描述统计学</a>产生于二十世纪二十年代以前，以<a href="https://wiki.mbalib.com/w/index.php?title=K．毕尔生&action=edit" target="_blank" rel="noopener">K．毕尔生</a>为代表；推断统计学产生于二十世纪二十年代以后，以<a href="https://wiki.mbalib.com/wiki/费雪" target="_blank" rel="noopener">费雪</a>为代表。一说以<a href="https://wiki.mbalib.com/wiki/费雪" target="_blank" rel="noopener">费雪</a>为分界点，费雪以前为<a href="https://wiki.mbalib.com/wiki/描述统计学" target="_blank" rel="noopener">描述统计学</a>，费雪以后为<a href="https://wiki.mbalib.com/wiki/推断统计学" target="_blank" rel="noopener">推断统计学</a>；这两个阶段并无明确的分界时间，其发展是渐进的，不是突变的。</p>
+<p>　　第二、研究特点不同：描述统计学研究如何简缩数据并描述这些数据的方法，一般包括：<a href="https://wiki.mbalib.com/wiki/统计调查方法" target="_blank" rel="noopener">统计调查方法</a>，分类原理，汇总，<a href="https://wiki.mbalib.com/wiki/统计表" target="_blank" rel="noopener">统计表</a>，<a href="https://wiki.mbalib.com/wiki/统计图" target="_blank" rel="noopener">统计图</a>，<a href="https://wiki.mbalib.com/wiki/频数" target="_blank" rel="noopener">频数</a>分配，<a href="https://wiki.mbalib.com/wiki/时间数列" target="_blank" rel="noopener">时间数列</a>，<a href="https://wiki.mbalib.com/wiki/指数" target="_blank" rel="noopener">指数</a>，相关，估计推算等。<a href="https://wiki.mbalib.com/wiki/推断统计学" target="_blank" rel="noopener">推断统计学</a>研究如何在<a href="https://wiki.mbalib.com/wiki/随机抽样" target="_blank" rel="noopener">随机抽样</a>的基础上推论有关总体数量特征的方法，一般包括：<a href="https://wiki.mbalib.com/wiki/统计推断" target="_blank" rel="noopener">统计推断</a>原上推论有关总体数量特征的方法，一般包括：<a href="https://wiki.mbalib.com/wiki/统计推断" target="_blank" rel="noopener">统计推断</a>原理，<a href="https://wiki.mbalib.com/wiki/实验设计" target="_blank" rel="noopener">实验设计</a>，估计理论，<a href="https://wiki.mbalib.com/wiki/抽样调查" target="_blank" rel="noopener">抽样调查</a>，复变数分析，序列分析，误差理论，<a href="https://wiki.mbalib.com/wiki/假设检验" target="_blank" rel="noopener">假设检验</a>，<a href="https://wiki.mbalib.com/wiki/决策理论" target="_blank" rel="noopener">决策理论</a>等。</p>
+<p>　　第三、研究样本不同：描述统计学研究大样本理论，所谓大样本即包括多数个体或多数数值的<a href="https://wiki.mbalib.com/wiki/样本" target="_blank" rel="noopener">样本</a>；推断统计学研究小样本理论，所谓小样本即包括少数个体或少数数恼的样本。应当指出，大小或多少之分也是相对的，缺乏严格的划分标消。据多数统计学者的意见：如果研究的是一个粮纯项目，则包含三十项以上的数值或个体的<a href="https://wiki.mbalib.com/wiki/样本" target="_blank" rel="noopener">样本</a>即可视为大样本；但也有人主张采用五十或一百为划分标准的。</p>
+<p>　　第四、应用统计的性质不完全相同。描述统计学派和推断统计学派都把其统计学看作是通用科学，可以用来研究自然与社会现象；但在其应用统计方面则略有不同。描述统计学派在应用统计——生物统计、经济统计等方面，仍残留者<a href="https://wiki.mbalib.com/wiki/凯特勒" target="_blank" rel="noopener">凯特勒</a>的实质科学的影响；推断统计学在应用统计——物理统计、田间设计、<a href="https://wiki.mbalib.com/wiki/质量管理" target="_blank" rel="noopener">质量管理</a>、<a href="https://wiki.mbalib.com/wiki/经济预测" target="_blank" rel="noopener">经济预测</a>等方面，基本上已转变为通用的方法论科学。</p>
+</blockquote>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" rel="tag"># 统计学</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/2019-10-23-Maths-Statistics02/" rel="prev" title="描述统计学">
+      <i class="fa fa-chevron-left"></i> 描述统计学
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/10/2019-10-28-Bioinformatics-humann2/" rel="next" title="自动化生成运行humann2文件">
+      自动化生成运行humann2文件 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#推论统计学"><span class="nav-number">1.</span> <span class="nav-text">推论统计学</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#置信区间"><span class="nav-number">1.1.</span> <span class="nav-text">置信区间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#区间估计"><span class="nav-number">1.2.</span> <span class="nav-text">区间估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显著性差异"><span class="nav-number">1.3.</span> <span class="nav-text">显著性差异</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#元分析"><span class="nav-number">1.4.</span> <span class="nav-text">元分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯推论"><span class="nav-number">1.5.</span> <span class="nav-text">贝叶斯推论</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验设计"><span class="nav-number">2.</span> <span class="nav-text">实验设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#抽样"><span class="nav-number">2.1.</span> <span class="nav-text">抽样</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重抽样"><span class="nav-number">2.2.</span> <span class="nav-text">重抽样</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#样本量"><span class="nav-number">3.</span> <span class="nav-text">样本量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#统计功效（statistical-power）"><span class="nav-number">3.1.</span> <span class="nav-text">统计功效（statistical power）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#效应值（effect-size）"><span class="nav-number">3.2.</span> <span class="nav-text">效应值（effect size）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标准误（standard-error）"><span class="nav-number">3.3.</span> <span class="nav-text">标准误（standard error）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#零假设（null-hypothesis）和备择假设（alternative-hypothesis）"><span class="nav-number">3.4.</span> <span class="nav-text">零假设（null hypothesis）和备择假设（alternative hypothesis）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Type-I-和-Type-II-error"><span class="nav-number">3.5.</span> <span class="nav-text">Type I 和 Type II error</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常规估计"><span class="nav-number">4.</span> <span class="nav-text">常规估计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯推论-1"><span class="nav-number">4.1.</span> <span class="nav-text">贝叶斯推论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#区间估计-1"><span class="nav-number">4.2.</span> <span class="nav-text">区间估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大似然估计"><span class="nav-number">4.3.</span> <span class="nav-text">最大似然估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Z检验"><span class="nav-number">4.4.</span> <span class="nav-text">Z检验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#t检验"><span class="nav-number">4.5.</span> <span class="nav-text">t检验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#F检验"><span class="nav-number">4.6.</span> <span class="nav-text">F检验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chi-2-检验"><span class="nav-number">4.7.</span> <span class="nav-text">$\chi^2$检验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Wald检验"><span class="nav-number">4.8.</span> <span class="nav-text">Wald检验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mann-Whitney-U-test（Wilcoxon-rank-sum-test）"><span class="nav-number">4.9.</span> <span class="nav-text">Mann-Whitney U test（Wilcoxon rank-sum test）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生存分析"><span class="nav-number">5.</span> <span class="nav-text">生存分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生存函数-13"><span class="nav-number">5.1.</span> <span class="nav-text">生存函数^13</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推论统计学与描述统计学的异同点"><span class="nav-number">6.</span> <span class="nav-text">推论统计学与描述统计学的异同点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">7.</span> <span class="nav-text">引用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
