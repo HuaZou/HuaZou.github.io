@@ -26,13 +26,13 @@
 <meta property="og:site_name" content="物以类聚，人以群分">
 <meta property="og:description" content="apply函数族是R语言中数据处理的一组核心函数，通过使用apply函数，我们可以实现对数据的循环、分组、过滤、类型控制等操作；apply函数本身就是解决数据循环处理的问题，为了面向不同的数据类型，不同的返回值，apply函数组成了一个函数族，包括了8个功能类似的函数。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.apply.png">
+<meta property="og:image" content="http://huazou.github.io/images/R.apply.png">
 <meta property="article:published_time" content="2018-04-27T02:10:00.000Z">
 <meta property="article:modified_time" content="2019-08-29T16:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
 <meta property="article:tag" content="R基础">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.apply.png">
+<meta name="twitter:image" content="http://huazou.github.io/images/R.apply.png">
 
 <link rel="canonical" href="http://huazou.github.io/2018/04/2018-04-27-Program-R7/">
 
@@ -298,7 +298,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.apply.png" alt=""></p>
+        <p><img src="/images/R.apply.png" alt=""></p>
 <h3 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h3><p>for循环的首选，可以对matrix、data.frame、array的行和列进行循环计算<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">按行循环， 使得x数据框x1列加1，且计算两列的均值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section"># 生成data.frame</span></span><br><span class="line"><span class="quote">&gt; x &lt;- cbind(x1 = 3, x2 = c(4:1, 2:5)); x</span></span><br><span class="line"><span class="code">     x1 x2</span></span><br><span class="line">[1,]  3  4</span><br><span class="line">[2,]  3  3</span><br><span class="line">[3,]  3  2</span><br><span class="line">[4,]  3  1</span><br><span class="line">[5,]  3  2</span><br><span class="line">[6,]  3  3</span><br><span class="line">[7,]  3  4</span><br><span class="line">[8,]  3  5</span><br><span class="line"></span><br><span class="line"><span class="section"># 自定义函数myFUN，第一个参数x为数据</span></span><br><span class="line"><span class="section"># 第二、三个参数为自定义参数，可以通过apply的'...'进行传入。</span></span><br><span class="line"><span class="quote">&gt; myFUN&lt;- function(x, c1, c2) &#123;</span></span><br><span class="line"><span class="bullet">+   </span>c(sum(x[c1],1), mean(x[c2])) </span><br><span class="line"><span class="bullet">+ </span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="section"># 把数据框按行做循环，每行分别传递给myFUN函数，设置c1,c2对应myFUN的第二、三个参数</span></span><br><span class="line"><span class="quote">&gt; apply(x,1,myFUN,c1='x1',c2=c('x1','x2'))</span></span><br><span class="line"><span class="code">     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]</span></span><br><span class="line">[1,]  4.0    4  4.0    4  4.0    4  4.0    4</span><br><span class="line">[2,]  3.5    3  2.5    2  2.5    3  3.5    4</span><br></pre></td></tr></table></figure></p>
 <h3 id="lapply"><a href="#lapply" class="headerlink" title="lapply"></a>lapply</h3><p>用来对list、data.frame数据集进行循环，并返回和X长度相同的list结果</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 构建一个list数据集x，分别包括a,b,c 三个KEY值。</span></span><br><span class="line"><span class="quote">&gt; x &lt;- list(a = 1:10, b = rnorm(6,10,5), c = c(TRUE,FALSE,FALSE,TRUE));x</span></span><br><span class="line">$a</span><br><span class="line"> [1]  1  2  3  4  5  6  7  8  9 10</span><br><span class="line">$b</span><br><span class="line">[1]  0.7585424 14.3662366 13.3772979 11.6658990  9.7011387 21.5321427</span><br><span class="line">$c</span><br><span class="line">[1]  TRUE FALSE FALSE  TRUE</span><br><span class="line"></span><br><span class="line"><span class="section"># 分别计算每个KEY对应该的数据的分位数。</span></span><br><span class="line"><span class="quote">&gt; lapply(x,fivenum)</span></span><br><span class="line">$a</span><br><span class="line">[1]  1.0  3.0  5.5  8.0 10.0</span><br><span class="line"></span><br><span class="line">$b</span><br><span class="line">[1]  0.7585424  9.7011387 12.5215985 14.3662366 21.5321427</span><br><span class="line"></span><br><span class="line">$c</span><br><span class="line">[1] 0.0 0.0 0.5 1.0 1.0</span><br></pre></td></tr></table></figure>
@@ -472,7 +472,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">158k</span>
+    <span title="站点总字数">159k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>

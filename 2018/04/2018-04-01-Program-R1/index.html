@@ -26,13 +26,13 @@
 <meta property="og:site_name" content="物以类聚，人以群分">
 <meta property="og:description" content="R语言通常用于数据科学领域，作为分析数据、可视化数据的一门编程语言。随着大数据时代的来临，它已经由只有统计学家使用的小众语言上升到数据分析领域的通用语言。它与python相比，更适合与统计类型分析的领域。本文章主要介绍R语言的起源、软件安装以及包安装管理等。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Rlibrary.png">
+<meta property="og:image" content="http://huazou.github.io/images/Rlibrary.png">
 <meta property="article:published_time" content="2018-04-01T12:06:05.000Z">
 <meta property="article:modified_time" content="2019-08-29T16:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
 <meta property="article:tag" content="[object Object]">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Rlibrary.png">
+<meta name="twitter:image" content="http://huazou.github.io/images/Rlibrary.png">
 
 <link rel="canonical" href="http://huazou.github.io/2018/04/2018-04-01-Program-R1/">
 
@@ -368,7 +368,7 @@
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update.packages(checkBuilt = <span class="literal">T</span>, ask = <span class="literal">F</span>)</span><br><span class="line"><span class="comment"># or install.packages(.packages(all = T))</span></span><br></pre></td></tr></table></figure>
 <h3 id="设置共同的R-library"><a href="#设置共同的R-library" class="headerlink" title="设置共同的R library"></a>设置共同的R library</h3><p>在实际分析过程中，因为某些包的依赖R版本不同，可能会使用到多个R版本，但每个R版本拥有各自R包library。每次从某个R版本切换到另一个版本，则对应的R包library也会更换，如想使用原来的R包环境则需要迁移大量的R包。为了实现方便快速使用不同版本的R，通过设置共同的R包library为所有的切换R版本的分析提供最佳解决方案，具体实现如下：</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>先建立一个共同的目录 Rlibrary;</span><br><span class="line"></span><br><span class="line"><span class="bullet">2. </span>打开R或者Rstudio，在控制台输入.libPaths("dir/Rlibrary");</span><br><span class="line"></span><br><span class="line"><span class="bullet">3. </span>为了永久设置该路径，需要在环境变量的用户变量中添加R<span class="emphasis">_LIBS_</span>USER新变量--&gt;dir/Rlibrary。</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Rlibrary.png" alt=""></p>
+<p><img src="/images/Rlibrary.png" alt=""></p>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
 <li><a href="https://blog.csdn.net/Ying_Xu/article/details/50896310" target="_blank" rel="noopener">R基础入门教程</a></li>
 <li><a href="https://baike.baidu.com/item/R%E8%AF%AD%E8%A8%80" target="_blank" rel="noopener">R语言百度百科</a></li>
@@ -536,7 +536,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">158k</span>
+    <span title="站点总字数">159k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>

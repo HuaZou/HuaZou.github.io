@@ -26,13 +26,13 @@
 <meta property="og:site_name" content="物以类聚，人以群分">
 <meta property="og:description" content="静态图有时候无法完整表现数据的动态变化过程，现有R包ImageMagick可以生成动态gif图，方便数据分析师查看数据变化过程。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.dynamic.gif">
+<meta property="og:image" content="http://huazou.github.io/images/R.dynamic.gif">
 <meta property="article:published_time" content="2018-04-09T05:10:00.000Z">
 <meta property="article:modified_time" content="2019-08-29T16:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
 <meta property="article:tag" content="R基础">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.dynamic.gif">
+<meta name="twitter:image" content="http://huazou.github.io/images/R.dynamic.gif">
 
 <link rel="canonical" href="http://huazou.github.io/2018/04/2018-04-09-Program-R5/">
 
@@ -311,7 +311,7 @@
 </ul>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">"animation"</span>)</span><br></pre></td></tr></table></figure>
 <h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(gapminder)</span><br><span class="line"><span class="keyword">library</span>(gganimate)</span><br><span class="line"><span class="keyword">library</span>(animation)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"></span><br><span class="line">p &lt;- ggplot(gapminder, aes(gdpPercap, lifeExp, size=pop, 		      color=continent,frame=year))+</span><br><span class="line">     geom_point()+</span><br><span class="line">     scale_x_log10()</span><br><span class="line">magickPath &lt;- shortPathName(<span class="string">"C:\\Program Files\\ImageMagick-7.0.7-Q16\\magick.exe"</span>)    <span class="comment"># 设置路径</span></span><br><span class="line">ani.options(convert=magickPath)  <span class="comment"># 设置convert参数</span></span><br><span class="line"></span><br><span class="line">gganimate(p, <span class="string">"out.gif"</span>) <span class="comment"># 生成且保留gif</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/R.dynamic.gif" alt=""></p>
+<p><img src="/images/R.dynamic.gif" alt=""></p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><strong>1</strong>. c:\program 路径无法找到：环境变量设置</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Sys.setenv(PATH = paste(<span class="string">"C:/Program Files/ImageMagick-7.0.7-Q16/bin"</span>,</span><br><span class="line"> Sys.getenv(<span class="string">"PATH"</span>), sep = <span class="string">";"</span>))</span><br></pre></td></tr></table></figure>
 <p><strong>2</strong>. ImageMagick旧版本的convert不可用（将png转成gif的工具），使用谢大神的新版本animation</p>
@@ -488,7 +488,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">158k</span>
+    <span title="站点总字数">159k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>

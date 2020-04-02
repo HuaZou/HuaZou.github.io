@@ -26,14 +26,14 @@
 <meta property="og:site_name" content="物以类聚，人以群分">
 <meta property="og:description" content="R markdown是构建科学的数据分析的框架，它可以运用于保持和执行R代码，也同时可以产生高质量的各式报告文件并且极其方便与他人沟通。Rmd文件类似于python的jupyter notebook的ipynb格式的文件。Rmd文件包含了可重复执行的动态或者静态输出格式。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Rmarkdown1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Rmarkdown2.jpg">
+<meta property="og:image" content="http://huazou.github.io/images/Rmarkdown1.png">
+<meta property="og:image" content="http://huazou.github.io/images/Rmarkdown2.jpg">
 <meta property="article:published_time" content="2019-09-29T16:00:00.000Z">
 <meta property="article:modified_time" content="2019-09-19T16:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
 <meta property="article:tag" content="R">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Rmarkdown1.png">
+<meta name="twitter:image" content="http://huazou.github.io/images/Rmarkdown1.png">
 
 <link rel="canonical" href="http://huazou.github.io/2019/09/2019-09-30-Program-Rmarkdown/">
 
@@ -311,10 +311,10 @@
 <li>检查渲染日志；</li>
 <li>使用输出文件。</li>
 </ol>
-<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Rmarkdown1.png" alt=""></p>
+<p><img src="/images/Rmarkdown1.png" alt=""></p>
 <h3 id="工作原理4"><a href="#工作原理4" class="headerlink" title="工作原理4"></a>工作原理<sup><a href="#fn_4" id="reffn_4">4</a></sup></h3><p>运行<code>knitr</code>后，1）Rmd文件先执行所有代码块，生成具有结果在内的新的markdown（.md）文件；2）markdown文件通过<code>pandoc</code>软件会生成各种格式的结果文件（）。Web page, PDF, MS Word  document, slide show, notebook, handout, book, dashboard, package vignette 或者 other format。使用<code>render</code>函数运行上述步骤或者直接点击Rstudio内的knitr按钮。</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(rmarkdown)</span><br><span class="line">render(<span class="string">"example.Rmd"</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/HuaZou/HuaZou.github.io/master/_posts/img/Rmarkdown2.jpg" alt=""></p>
+<p><img src="/images/Rmarkdown2.jpg" alt=""></p>
 <h3 id="代码块5"><a href="#代码块5" class="headerlink" title="代码块5"></a>代码块<sup><a href="#fn_5" id="reffn_5">5</a></sup></h3><p>代码块内的代码可以是<code>R</code>、<code>python</code>和<code>bash</code>等；代码块输出选择参数也可以设置；另外，代码块的全局变量通过<code>knitr::opts_chunk$set</code>设置。</p>
 <blockquote>
 <ul>
@@ -507,7 +507,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">158k</span>
+    <span title="站点总字数">159k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
