@@ -292,7 +292,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="假设检验-hypothesis-testing"><a href="#假设检验-hypothesis-testing" class="headerlink" title="假设检验(hypothesis testing)"></a>假设检验(hypothesis testing)</h2><h3 id="1-什么是假设检验"><a href="#1-什么是假设检验" class="headerlink" title="1. 什么是假设检验"></a>1. 什么是假设检验</h3><p>假设检验的逻辑是：在不确定性条件下进行决策选择；</p>
+        <h2 id="假设检验-hypothesis-testing"><a href="#假设检验-hypothesis-testing" class="headerlink" title="假设检验(hypothesis testing)"></a>假设检验(hypothesis testing)</h2><h3 id="什么是假设检验"><a href="#什么是假设检验" class="headerlink" title="什么是假设检验"></a>什么是假设检验</h3><p>假设检验的逻辑是：在不确定性条件下进行决策选择；</p>
 <p>假设检验存在两种情况：原假设即我们认为是正确的零假设（$H_0$）和与之相反的备择假设（$H_1$），这需要我们做出决定到底是相信$H_0$还是$H_1$；</p>
 <blockquote>
 <p>假设检验过程中，不可能做出的结论总是正确的，必须要考虑误差的概率，假设检验中将可能发生错误分为两类：第一类错误，第二类错误</p>
@@ -302,7 +302,7 @@
 </ul>
 <p>通常，将在假设检验是所指定的发生第一类错误的概率的最大容许值称为检验的<strong>显著水平</strong>，一般选择显著性水平为5%和1%。</p>
 </blockquote>
-<h3 id="2-假设检验步骤"><a href="#2-假设检验步骤" class="headerlink" title="2. 假设检验步骤"></a>2. 假设检验步骤</h3><ol>
+<h3 id="假设检验步骤"><a href="#假设检验步骤" class="headerlink" title="假设检验步骤"></a>假设检验步骤</h3><ol>
 <li><p>数据筛选和离群值查看，使用boxplot图或者描述性统计量检查缺失数据和离群值，离群值的定义可以根据四分位数确定;</p>
 </li>
 <li><p>正态性检验：统计假设检验可分为参数检验和非参数检验。参数检验假定数据可以由已知的参数定义的分布很好地描述，而非参数检验是在总体方差未知或知道甚少的情况下，利用样本数据对总体分布形态等进行推断的方法。 由于非参数检验方法在推断过程中不涉及有关总体分布的参数，因而得名为“非参数”检验。一般使用QQ图（quantile）进行视觉评估;</p>
@@ -323,7 +323,7 @@
 </blockquote>
 </li>
 </ol>
-<h3 id="3-错误类型"><a href="#3-错误类型" class="headerlink" title="3. 错误类型"></a>3. 错误类型</h3><p>如前所述,假设检验中的错误类型分为两类:</p>
+<h3 id="错误类型"><a href="#错误类型" class="headerlink" title="错误类型"></a>错误类型</h3><p>如前所述,假设检验中的错误类型分为两类:</p>
 <ul>
 <li><strong>I类错误</strong>: 假阳性; 用$\alpha$ 代替</li>
 <li><strong>II类错误</strong>: 假阴性; 用$\beta$代替</li>
@@ -336,7 +336,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="4-灵敏度和特异度"><a href="#4-灵敏度和特异度" class="headerlink" title="4. 灵敏度和特异度"></a>4. 灵敏度和特异度</h3><p><img src="/images/statistics15.jpg" alt=""></p>
+<h3 id="灵敏度和特异度"><a href="#灵敏度和特异度" class="headerlink" title="灵敏度和特异度"></a>灵敏度和特异度</h3><p><img src="/images/statistics15.jpg" alt=""></p>
 <ul>
 <li><strong>灵敏度</strong>: 被检测正确识别出来的阳性结果;   检测结果是真阳性/症状是阳性的比例;</li>
 <li><strong>特异度</strong>: 被检测正确识别出来的阴性结果;   检测结果是真阴性/症状是阴性的比例;</li>
@@ -352,7 +352,7 @@
 <li>阴性似然比 = ${1 - sensitivity}{specificity}$.</li>
 </ul>
 </blockquote>
-<h3 id="5-受试者操作特征-receiver-operating-characteristic-curve-ROC-曲线"><a href="#5-受试者操作特征-receiver-operating-characteristic-curve-ROC-曲线" class="headerlink" title="5. 受试者操作特征(receiver operating characteristic curve : ROC)曲线"></a>5. 受试者操作特征(receiver operating characteristic curve : ROC)曲线</h3><p>ROC曲线是展示灵敏度(真阳性率)和特异度(假阳性率)之间关系的曲线,曲线下的面积为AUC((Area Under the Curve), AUC值常用来评估一个二值分类器的优劣.</p>
+<h3 id="受试者操作特征-receiver-operating-characteristic-curve-ROC-曲线"><a href="#受试者操作特征-receiver-operating-characteristic-curve-ROC-曲线" class="headerlink" title="受试者操作特征(receiver operating characteristic curve : ROC)曲线"></a>受试者操作特征(receiver operating characteristic curve : ROC)曲线</h3><p>ROC曲线是展示灵敏度(真阳性率)和特异度(假阳性率)之间关系的曲线,曲线下的面积为AUC((Area Under the Curve), AUC值常用来评估一个二值分类器的优劣.</p>
 <p><img src="/images/statistics16.jpg" alt=""></p>
 <p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener">联系</a>，谢谢。</p>
 
@@ -373,12 +373,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/2020-03-30-Maths-Statistics04/" rel="prev" title="离散分布">
-      <i class="fa fa-chevron-left"></i> 离散分布
+    <a href="/2020/03/2020-04-01-Maths-Statistics06/" rel="prev" title="均值检验">
+      <i class="fa fa-chevron-left"></i> 均值检验
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/03/2020-04-01-Maths-Statistics06/" rel="next" title="均值检验">
-      均值检验 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/04/2020-04-01-Program-Hexo/" rel="next" title="Giuthub Pages + Hexo搭建博客">
+      Giuthub Pages + Hexo搭建博客 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -439,7 +439,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#假设检验-hypothesis-testing"><span class="nav-number">1.</span> <span class="nav-text">假设检验(hypothesis testing)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是假设检验"><span class="nav-number">1.1.</span> <span class="nav-text">1. 什么是假设检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-假设检验步骤"><span class="nav-number">1.2.</span> <span class="nav-text">2. 假设检验步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-错误类型"><span class="nav-number">1.3.</span> <span class="nav-text">3. 错误类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-灵敏度和特异度"><span class="nav-number">1.4.</span> <span class="nav-text">4. 灵敏度和特异度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-受试者操作特征-receiver-operating-characteristic-curve-ROC-曲线"><span class="nav-number">1.5.</span> <span class="nav-text">5. 受试者操作特征(receiver operating characteristic curve : ROC)曲线</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#假设检验-hypothesis-testing"><span class="nav-number">1.</span> <span class="nav-text">假设检验(hypothesis testing)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是假设检验"><span class="nav-number">1.1.</span> <span class="nav-text">什么是假设检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#假设检验步骤"><span class="nav-number">1.2.</span> <span class="nav-text">假设检验步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误类型"><span class="nav-number">1.3.</span> <span class="nav-text">错误类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#灵敏度和特异度"><span class="nav-number">1.4.</span> <span class="nav-text">灵敏度和特异度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#受试者操作特征-receiver-operating-characteristic-curve-ROC-曲线"><span class="nav-number">1.5.</span> <span class="nav-text">受试者操作特征(receiver operating characteristic curve : ROC)曲线</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -519,7 +519,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">159k</span>
+    <span title="站点总字数">158k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
