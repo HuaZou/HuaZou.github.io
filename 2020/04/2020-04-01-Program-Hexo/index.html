@@ -132,27 +132,27 @@
   </li>
         <li class="menu-item menu-item-about">
 
-    <a href="/about/" rel="section"><i class="fa-user fa-fw"></i>关于</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa-th fa-fw"></i>分类<span class="badge">6</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa-archive fa-fw"></i>归档<span class="badge">40</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">40</span></a>
 
   </li>
-        <li class="menu-item menu-item-留言">
+        <li class="menu-item menu-item-message">
 
-    <a href="/message/" rel="section"><i class="fa-comment fa-fw"></i>留言</a>
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -300,7 +300,7 @@
 <li>Hexo<br>先生成文件，再部署（直接部署_site文件夹也可以）<br>出自台湾大学生SkyArrow<br>基于Node.js的静态博客框架<br>出现时间晚于Octopress和Jekyll</li>
 </ul>
 </blockquote>
-<h3 id="1-搭建步骤3"><a href="#1-搭建步骤3" class="headerlink" title="1. 搭建步骤3"></a>1. 搭建步骤<sup><a href="#fn_3" id="reffn_3">3</a></sup></h3><blockquote>
+<h3 id="搭建步骤3"><a href="#搭建步骤3" class="headerlink" title="搭建步骤3"></a>搭建步骤<sup><a href="#fn_3" id="reffn_3">3</a></sup></h3><blockquote>
 <ul>
 <li>GitHub创建个人仓库</li>
 <li>安装Git</li>
@@ -312,18 +312,18 @@
 <li>寻找图床</li>
 </ul>
 </blockquote>
-<h4 id="1-1-GitHub创建个人仓库"><a href="#1-1-GitHub创建个人仓库" class="headerlink" title="1.1  GitHub创建个人仓库"></a>1.1  <strong>GitHub创建个人仓库</strong></h4><p>邮箱注册<a href="https://github.com/" target="_blank" rel="noopener">github</a>账号，创建新仓库命名为<strong>yourgithubname.github.io</strong></p>
-<h4 id="1-2-安装git"><a href="#1-2-安装git" class="headerlink" title="1.2 安装git"></a>1.2 安装git</h4><p>git是开源的分布式版本控制系统，本地博客内容需要通过git同步到github远程仓库。</p>
+<h4 id="GitHub创建个人仓库"><a href="#GitHub创建个人仓库" class="headerlink" title="GitHub创建个人仓库"></a><strong>GitHub创建个人仓库</strong></h4><p>邮箱注册<a href="https://github.com/" target="_blank" rel="noopener">github</a>账号，创建新仓库命名为<strong>yourgithubname.github.io</strong></p>
+<h4 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h4><p>git是开源的分布式版本控制系统，本地博客内容需要通过git同步到github远程仓库。</p>
 <blockquote>
 <p>设置user.name和user.email配置信息：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">"你的GitHub用户名"</span></span><br><span class="line">git config --global user.email <span class="string">"你的GitHub注册邮箱"</span></span><br></pre></td></tr></table></figure>
 <p>生成ssh密钥文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">"你的GitHub注册邮箱"</span></span><br></pre></td></tr></table></figure>
 </blockquote>
-<h4 id="1-3-安装Node-js"><a href="#1-3-安装Node-js" class="headerlink" title="1.3 安装Node.js"></a>1.3 安装Node.js</h4><blockquote>
+<h4 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h4><blockquote>
 <p>Hexo基于Node.js，Node.js下载地址：<a href="https://link.zhihu.com/?target=https%3A//nodejs.org/en/download/">Download | Node.js</a> 下载安装包，注意安装Node.js会包含环境变量及npm的安装，安装后，检测Node.js是否安装成功，在命令行中输入 node -v 或者 npm -v:</p>
 </blockquote>
-<h4 id="1-4-安装Hexo"><a href="#1-4-安装Hexo" class="headerlink" title="1.4 安装Hexo"></a>1.4 <strong>安装Hexo</strong></h4><blockquote>
+<h4 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a><strong>安装Hexo</strong></h4><blockquote>
 <p>Hexo就是我们的个人博客网站的框架， 这里需要自己在电脑常里创建一个文件夹，可以命名为Blog，Hexo框架与以后你自己发布的网页都在这个文件夹中。</p>
 <p>使用npm命令安装Hexo，输入：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli </span><br></pre></td></tr></table></figure>
@@ -340,7 +340,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">hexo n <span class="string">"我的博客"</span> == hexo new <span class="string">"我的博客"</span> <span class="comment">#新建文章</span></span><br><span class="line">hexo g == hexo generate <span class="comment">#生成</span></span><br><span class="line">hexo s == hexo server <span class="comment">#启动服务预览</span></span><br><span class="line">hexo d == hexo deploy <span class="comment">#部署</span></span><br><span class="line"></span><br><span class="line">hexo server <span class="comment">#Hexo会监视文件变动并自动更新，无须重启服务器</span></span><br><span class="line">hexo server -s <span class="comment">#静态模式</span></span><br><span class="line">hexo server -p 5000 <span class="comment">#更改端口</span></span><br><span class="line">hexo server -i 192.168.1.1 <span class="comment">#自定义 IP</span></span><br><span class="line">hexo clean <span class="comment">#清除缓存，若是网页正常情况下可以忽略这条命令</span></span><br></pre></td></tr></table></figure>
 <p>刚刚的三个命令依次是新建一篇博客文章、生成网页、在本地预览的操作。  </p>
 </blockquote>
-<h4 id="1-5-推送网站"><a href="#1-5-推送网站" class="headerlink" title="1.5 推送网站"></a>1.5 推送网站</h4><blockquote>
+<h4 id="推送网站"><a href="#推送网站" class="headerlink" title="推送网站"></a>推送网站</h4><blockquote>
 <p>上面只是在本地预览，接下来要做的就是就是推送网站，也就是发布网站，让我们的网站可以被更多的人访问。在设置之前，需要解释一个概念，在blog根目录里的_config.yml文件称为<strong>站点</strong>配置文件</p>
 <ol>
 <li><p>进入根目录内的themes文件夹，配置_config.yml文件；</p>
@@ -355,7 +355,7 @@
 </li>
 </ol>
 </blockquote>
-<h4 id="1-6-更换主题"><a href="#1-6-更换主题" class="headerlink" title="1.6 更换主题"></a>1.6 更换主题</h4><blockquote>
+<h4 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h4><blockquote>
 <ol>
 <li>主题传送门：<a href="https://link.zhihu.com/?target=https%3A//hexo.io/themes/">Themes</a> 我自己使用的是Next主题，可以在blog目录中的themes文件夹中查看你自己主题是什么。现在把默认主题更改成Next主题，在blog目录中（就是命令行的位置处于blog目录）打开命令行输入：</li>
 </ol>
@@ -369,21 +369,21 @@
 </ol>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># schemes</span></span><br><span class="line"><span class="attr">schemes:</span> <span class="string">Pisces</span></span><br></pre></td></tr></table></figure>
 </blockquote>
-<h4 id="1-7-发布文章"><a href="#1-7-发布文章" class="headerlink" title="1.7 发布文章"></a>1.7 发布文章</h4><blockquote>
+<h4 id="发布文章"><a href="#发布文章" class="headerlink" title="发布文章"></a>发布文章</h4><blockquote>
 <p>正式发布上线博客文章，在命令行中输入：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo n <span class="string">"blog_name"</span></span><br></pre></td></tr></table></figure>
 <p>通过带有预览样式的Markdown编辑器实时预览书写的博文样式，也可以通过命令 hexo s —debug 在本地浏览器的localhost:4000 预览博文效果。写好博文并且样式无误后，通过hexo g、hexo d 生成、部署网页。随后可以在浏览器中输入域名浏览。</p>
 </blockquote>
-<h4 id="1-8-图床"><a href="#1-8-图床" class="headerlink" title="1.8 图床"></a>1.8 图床</h4><blockquote>
+<h4 id="图床"><a href="#图床" class="headerlink" title="图床"></a>图床</h4><blockquote>
 <p>图床，当博文中有图片时，若是少量图片，可以直接把图片存放在source文件夹中，但这显然不合理的，因为图片会占据大量的存储的空间，加载的时候相对缓慢 ，这时考虑把博文里的图片上传到某一网站，然后获得外部链接，使用Markdown语法，<strong><img src="外部链接" alt="图片信息"></strong> 完成图片的插入，这种网站就被成为图床。常见的简易的图床网站有：<a href="https://link.zhihu.com/?target=http%3A//www.tietuku.com/">贴图库图片外链</a> 国内算比较好的图床我认为有两个：新浪微博和 <a href="https://link.zhihu.com/?target=https%3A//www.qiniu.com/">七牛云</a> ，七牛云的使用方法可以参看其他文章。图床最重要的就是稳定速度快，所以在挑选图床的时候一定要仔细，下图是博文插入图片，使用图床外链的示例：</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: </span><br><span class="line">date:</span><br><span class="line">tags:</span><br><span class="line">---</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">align</span> = <span class="string">"center"</span>&gt;</span></span> Hello world.<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">![<span class="string">hello world</span>](<span class="link">http://图片网址</span>)</span><br></pre></td></tr></table></figure>
 </blockquote>
-<h3 id="2-个性化设计"><a href="#2-个性化设计" class="headerlink" title="2. 个性化设计"></a>2. 个性化设计</h3><h4 id="2-1-增加评论"><a href="#2-1-增加评论" class="headerlink" title="2.1 增加评论"></a>2.1 增加评论</h4><p>评论系统是博客的基础功能之一，开设博客评论功能方法如下：</p>
+<h3 id="个性化设计"><a href="#个性化设计" class="headerlink" title="个性化设计"></a>个性化设计</h3><h4 id="增加评论"><a href="#增加评论" class="headerlink" title="增加评论"></a>增加评论</h4><p>评论系统是博客的基础功能之一，开设博客评论功能方法如下：</p>
 <ul>
 <li>method1: 使用来必力<sup><a href="#fn_8" id="reffn_8">8</a></sup>，这个比较鸡肋，不推荐；</li>
 <li>method2: 使用leancloud<sup><a href="#fn_9" id="reffn_9">9</a></sup>，该方法需要实名注册（支付宝扫描验证），有点不需要评论用户登录</li>
 </ul>
-<h4 id="2-2-文章加密12"><a href="#2-2-文章加密12" class="headerlink" title="2.2 文章加密12"></a>2.2 文章加密<sup><a href="#fn_12" id="reffn_12">12</a></sup></h4><ol>
+<h4 id="文章加密12"><a href="#文章加密12" class="headerlink" title="文章加密12"></a>文章加密<sup><a href="#fn_12" id="reffn_12">12</a></sup></h4><ol>
 <li><p>下载npm install —save hexo-blog-encrypt；（插件: hexo-blog-encrypt）</p>
 </li>
 <li><p>文章内部添加密码</p>
@@ -392,7 +392,7 @@
 <li><p>按照标签加密</p>
 </li>
 </ol>
-<h4 id="2-3-添加搜索功能13"><a href="#2-3-添加搜索功能13" class="headerlink" title="2.3 添加搜索功能13"></a>2.3 添加搜索功能<sup><a href="#fn_13" id="reffn_13">13</a></sup></h4><ol>
+<h4 id="添加搜索功能13"><a href="#添加搜索功能13" class="headerlink" title="添加搜索功能13"></a>添加搜索功能<sup><a href="#fn_13" id="reffn_13">13</a></sup></h4><ol>
 <li><p>添加插件： npm install hexo-generator-searchdb —save</p>
 </li>
 <li><p>站点配置<code>_config.yml</code></p>
@@ -404,14 +404,14 @@
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Local Search</span></span><br><span class="line"><span class="comment"># Dependencies: https://github.com/theme-next/hexo-generator-searchdb</span></span><br><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># If auto, trigger search by changing input.</span></span><br><span class="line">  <span class="comment"># If manual, trigger search by pressing enter key or search button.</span></span><br><span class="line">  <span class="attr">trigger:</span> <span class="string">auto</span></span><br><span class="line">  <span class="comment"># Show top n results per article, show all results by setting to -1</span></span><br><span class="line">  <span class="attr">top_n_per_article:</span> <span class="number">1</span></span><br><span class="line">  <span class="comment"># Unescape html strings to the readable one.</span></span><br><span class="line">  <span class="attr">unescape:</span> <span class="literal">false</span></span><br><span class="line">  <span class="comment"># Preload the search data when the page loads.</span></span><br><span class="line">  <span class="attr">preload:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<h3 id="3-问题"><a href="#3-问题" class="headerlink" title="3. 问题"></a>3. 问题</h3><h4 id="3-1-安装hexo遇到fetchMetadata报错4"><a href="#3-1-安装hexo遇到fetchMetadata报错4" class="headerlink" title="3.1 安装hexo遇到fetchMetadata报错4"></a>3.1 安装hexo遇到fetchMetadata报错<sup><a href="#fn_4" id="reffn_4">4</a></sup></h4><ol>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="安装hexo遇到fetchMetadata报错4"><a href="#安装hexo遇到fetchMetadata报错4" class="headerlink" title="安装hexo遇到fetchMetadata报错4"></a>安装hexo遇到fetchMetadata报错<sup><a href="#fn_4" id="reffn_4">4</a></sup></h4><ol>
 <li><p>检查node和npm版本号，npm是否大于4</p>
 </li>
 <li><p>将npm的仓库地址改成淘宝镜像</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org --global</span><br><span class="line"></span><br><span class="line">npm config <span class="built_in">set</span> disturl https://npm.taobao.org/dist --global</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<h4 id="3-2-rollbackFailedOptional错误问题的解决5"><a href="#3-2-rollbackFailedOptional错误问题的解决5" class="headerlink" title="3.2 rollbackFailedOptional错误问题的解决5"></a>3.2 rollbackFailedOptional错误问题的解决<sup><a href="#fn_5" id="reffn_5">5</a></sup></h4><blockquote>
+<h4 id="rollbackFailedOptional错误问题的解决5"><a href="#rollbackFailedOptional错误问题的解决5" class="headerlink" title="rollbackFailedOptional错误问题的解决5"></a>rollbackFailedOptional错误问题的解决<sup><a href="#fn_5" id="reffn_5">5</a></sup></h4><blockquote>
 <ol>
 <li><p>原因事设置的代理错误，删除即可</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config rm proxy</span><br><span class="line">npm config rm https-proxy</span><br></pre></td></tr></table></figure>
@@ -425,13 +425,13 @@
 <li>然后就可以使用cnpm命令了</li>
 </ol>
 </blockquote>
-<h4 id="3-3-Hexo的中文标题乱码6"><a href="#3-3-Hexo的中文标题乱码6" class="headerlink" title="3.3 Hexo的中文标题乱码6"></a>3.3 Hexo的中文标题乱码<sup><a href="#fn_6" id="reffn_6">6</a></sup></h4><p>乱码原因是编辑站点配置文件_config.yml时候没有选择utf-8格式</p>
+<h4 id="Hexo的中文标题乱码6"><a href="#Hexo的中文标题乱码6" class="headerlink" title="Hexo的中文标题乱码6"></a>Hexo的中文标题乱码<sup><a href="#fn_6" id="reffn_6">6</a></sup></h4><p>乱码原因是编辑站点配置文件_config.yml时候没有选择utf-8格式</p>
 <ol>
 <li>使用notepad++将文件convert to utf-8;</li>
 <li>后续编辑文件使用utf-8格式。</li>
 </ol>
-<h4 id="3-4-暗黑主题设置失败7"><a href="#3-4-暗黑主题设置失败7" class="headerlink" title="3.4 暗黑主题设置失败7"></a>3.4 暗黑主题设置失败<sup><a href="#fn_7" id="reffn_7">7</a></sup></h4><p>虽然在主题配置文件中设置了暗黑主题并且也可以在本地版本显示暗黑模式，但是在网页端却无法显示，这是因为public/css/main.css文件没有设置暗黑模式，按照引用7的方式复制粘贴暗黑模式模块进去即可。</p>
-<h4 id="3-5-hexo无法显示数学公式10"><a href="#3-5-hexo无法显示数学公式10" class="headerlink" title="3.5 hexo无法显示数学公式10"></a>3.5 hexo无法显示数学公式<sup><a href="#fn_10" id="reffn_10">10</a></sup></h4><ul>
+<h4 id="暗黑主题设置失败7"><a href="#暗黑主题设置失败7" class="headerlink" title="暗黑主题设置失败7"></a>暗黑主题设置失败<sup><a href="#fn_7" id="reffn_7">7</a></sup></h4><p>虽然在主题配置文件中设置了暗黑主题并且也可以在本地版本显示暗黑模式，但是在网页端却无法显示，这是因为public/css/main.css文件没有设置暗黑模式，按照引用7的方式复制粘贴暗黑模式模块进去即可。</p>
+<h4 id="hexo无法显示数学公式10"><a href="#hexo无法显示数学公式10" class="headerlink" title="hexo无法显示数学公式10"></a>hexo无法显示数学公式<sup><a href="#fn_10" id="reffn_10">10</a></sup></h4><ul>
 <li><p>更换markdown渲染引擎，先卸载再按照</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
 </li>
@@ -451,7 +451,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: index.html</span><br><span class="line">date: 2018-12-5 01:30:30</span><br><span class="line">tags:</span><br><span class="line">mathjax: true</span><br><span class="line">--</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h4 id="3-5-无法显示tags和categories11"><a href="#3-5-无法显示tags和categories11" class="headerlink" title="3.5 无法显示tags和categories11"></a>3.5 无法显示tags和categories<sup><a href="#fn_11" id="reffn_11">11</a></sup></h4><ol>
+<h4 id="无法显示tags和categories11"><a href="#无法显示tags和categories11" class="headerlink" title="无法显示tags和categories11"></a>无法显示tags和categories<sup><a href="#fn_11" id="reffn_11">11</a></sup></h4><ol>
 <li><p>生成tags文件： hexo new page tags</p>
 </li>
 <li><p>打开根目录source文件夹内的tags/index.md设置</p>
@@ -570,7 +570,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Giuthub-Pages-Hexo搭建博客"><span class="nav-number">1.</span> <span class="nav-text">Giuthub Pages + Hexo搭建博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-搭建步骤3"><span class="nav-number">1.1.</span> <span class="nav-text">1. 搭建步骤3</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-GitHub创建个人仓库"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1  GitHub创建个人仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-安装git"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 安装git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-安装Node-js"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 安装Node.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-安装Hexo"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 安装Hexo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-推送网站"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.5 推送网站</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-更换主题"><span class="nav-number">1.1.6.</span> <span class="nav-text">1.6 更换主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-发布文章"><span class="nav-number">1.1.7.</span> <span class="nav-text">1.7 发布文章</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-8-图床"><span class="nav-number">1.1.8.</span> <span class="nav-text">1.8 图床</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-个性化设计"><span class="nav-number">1.2.</span> <span class="nav-text">2. 个性化设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-增加评论"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 增加评论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-文章加密12"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 文章加密12</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-添加搜索功能13"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 添加搜索功能13</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-问题"><span class="nav-number">1.3.</span> <span class="nav-text">3. 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-安装hexo遇到fetchMetadata报错4"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 安装hexo遇到fetchMetadata报错4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-rollbackFailedOptional错误问题的解决5"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 rollbackFailedOptional错误问题的解决5</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-Hexo的中文标题乱码6"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 Hexo的中文标题乱码6</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-暗黑主题设置失败7"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 暗黑主题设置失败7</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-hexo无法显示数学公式10"><span class="nav-number">1.3.5.</span> <span class="nav-text">3.5 hexo无法显示数学公式10</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-无法显示tags和categories11"><span class="nav-number">1.3.6.</span> <span class="nav-text">3.5 无法显示tags和categories11</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">1.4.</span> <span class="nav-text">引用</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Giuthub-Pages-Hexo搭建博客"><span class="nav-number">1.</span> <span class="nav-text">Giuthub Pages + Hexo搭建博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建步骤3"><span class="nav-number">1.1.</span> <span class="nav-text">搭建步骤3</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GitHub创建个人仓库"><span class="nav-number">1.1.1.</span> <span class="nav-text">GitHub创建个人仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装git"><span class="nav-number">1.1.2.</span> <span class="nav-text">安装git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装Node-js"><span class="nav-number">1.1.3.</span> <span class="nav-text">安装Node.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装Hexo"><span class="nav-number">1.1.4.</span> <span class="nav-text">安装Hexo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#推送网站"><span class="nav-number">1.1.5.</span> <span class="nav-text">推送网站</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更换主题"><span class="nav-number">1.1.6.</span> <span class="nav-text">更换主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#发布文章"><span class="nav-number">1.1.7.</span> <span class="nav-text">发布文章</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图床"><span class="nav-number">1.1.8.</span> <span class="nav-text">图床</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#个性化设计"><span class="nav-number">1.2.</span> <span class="nav-text">个性化设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#增加评论"><span class="nav-number">1.2.1.</span> <span class="nav-text">增加评论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文章加密12"><span class="nav-number">1.2.2.</span> <span class="nav-text">文章加密12</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加搜索功能13"><span class="nav-number">1.2.3.</span> <span class="nav-text">添加搜索功能13</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">1.3.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装hexo遇到fetchMetadata报错4"><span class="nav-number">1.3.1.</span> <span class="nav-text">安装hexo遇到fetchMetadata报错4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rollbackFailedOptional错误问题的解决5"><span class="nav-number">1.3.2.</span> <span class="nav-text">rollbackFailedOptional错误问题的解决5</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hexo的中文标题乱码6"><span class="nav-number">1.3.3.</span> <span class="nav-text">Hexo的中文标题乱码6</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#暗黑主题设置失败7"><span class="nav-number">1.3.4.</span> <span class="nav-text">暗黑主题设置失败7</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hexo无法显示数学公式10"><span class="nav-number">1.3.5.</span> <span class="nav-text">hexo无法显示数学公式10</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#无法显示tags和categories11"><span class="nav-number">1.3.6.</span> <span class="nav-text">无法显示tags和categories11</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">1.4.</span> <span class="nav-text">引用</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
