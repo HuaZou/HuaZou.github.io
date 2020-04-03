@@ -269,11 +269,11 @@ reward_settings:
   # If true, reward will be displayed in every article by default.
   enable: true
   animation: false
-  comment: 坚持原创技术分享，您的支持将鼓励我继续创作.
+  comment: 赞赏一瓶优酸乳
 
 reward:
   wechatpay: /images/wechatpay.png
-  #alipay: /images/alipay.png
+  alipay: /images/alipay.png
   #paypal: /images/paypal.png
   #bitcoin: /images/bitcoin.png
 
