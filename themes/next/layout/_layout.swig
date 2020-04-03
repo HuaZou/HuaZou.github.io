@@ -58,6 +58,6 @@
   {%- endif %}
   
   {% include '_custom/custom.swig' %}
-  
+  {{ live2d() }}
 </body>
 </html>
