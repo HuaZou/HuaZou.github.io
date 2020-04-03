@@ -121,3 +121,7 @@ symbols_count_time:
  # 网页底部是否显示
   total_symbols: true
   total_time: true
+
+post_end_tag:
+  enabled: true  # 是否开启文末的本文结束标记
+  icon: paw # 结束标记之间的图标
