@@ -59,7 +59,3 @@
 {%- endif %}
 
 {{ next_config() }}
-
-{% if theme.baidu_site_verification %}
-  <meta name="baidu-site-verification" content="iPp7iqZ9Sw" />
-{% endif %}
