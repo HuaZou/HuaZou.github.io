@@ -13,7 +13,8 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://HuaZou.github.io
+#url: http://HuaZou.github.io
+url: http://zouhua.top
 root: /
 permalink: archives/:abbrlink.html
 abbrlink:
@@ -200,3 +201,10 @@ nofollow:
   exclude:
     - 'exclude1.com'
     - 'exclude2.com'
+
+# 百度主动推送
+baidu_url_submit:
+  count: 5 				     ## 提交最新的1个链接
+  host: zouhua.top 	     ## 百度站长平台中注册的域名
+  token: 	 ## 准入秘钥
+  path: baidu_urls.txt 		 ## 文本文档的地址， 新链接会保存在此文本文档里	
