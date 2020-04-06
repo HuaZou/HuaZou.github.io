@@ -1001,6 +1001,7 @@ vendors:
 css: css
 js: js
 images: images
+custom: custom
 
 # 近期文章
 recent_posts_title: 近期文章
