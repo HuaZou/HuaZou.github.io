@@ -1,0 +1,1148 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="R语言通常用于数据科学领域，作为分析数据、可视化数据的一门编程语言。随着大数据时代的来临，它已经由只有统计学家使用的小众语言上升到数据分析领域的通用语言。它与python相比，更适合与统计类型分析的领域。本文章主要介绍R语言的起源、软件安装以及包安装管理等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="R编程语言简介">
+<meta property="og:url" content="https://zouhua.top/archives/f05541d3.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="R语言通常用于数据科学领域，作为分析数据、可视化数据的一门编程语言。随着大数据时代的来临，它已经由只有统计学家使用的小众语言上升到数据分析领域的通用语言。它与python相比，更适合与统计类型分析的领域。本文章主要介绍R语言的起源、软件安装以及包安装管理等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zouhua.top/images/Rlibrary.png">
+<meta property="article:published_time" content="2018-04-01T12:06:05.000Z">
+<meta property="article:modified_time" content="2019-08-29T16:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="简介">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zouhua.top/images/Rlibrary.png">
+
+<link rel="canonical" href="https://zouhua.top/archives/f05541d3.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>R编程语言简介 | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/f05541d3.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          R编程语言简介
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-01 20:06:05" itemprop="dateCreated datePublished" datetime="2018-04-01T20:06:05+08:00">2018-04-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-30 00:00:00" itemprop="dateModified" datetime="2019-08-30T00:00:00+08:00">2019-08-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">基础知识</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/f05541d3.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/f05541d3.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="R起源"><a href="#R起源" class="headerlink" title="R起源"></a>R起源</h3><p>R语言是S语言的一分支，由贝尔实验室的RickBecker，JohnChambers和AllanWilks开发的S语言的一种实现。</p>
+<h4 id="R特点"><a href="#R特点" class="headerlink" title="R特点"></a>R特点</h4><p>R作为用来数据探索、统计分析和作图解释型语言。它可以运行在多个操作系统平台，主要有以下特点：</p>
+<ol>
+<li>R是完全免费且开源的软件，其本身托管在<a href="https://github.com/topics/r" target="_blank" rel="noopener external nofollow noreferrer">GitHub_R</a>。可以下载任何有关的安装程序、源代码、程序包以及其源代码、文档资料等。</li>
+</ol>
+<blockquote>
+<p>R is a free programming language and software environment for statistical computing and graphics. R has a wide variety of statistical linear and non-linear modeling and provides numerous graphical techniques.</p>
+</blockquote>
+<ol>
+<li>R是一种可编程的语言。语法通俗易懂，入门很简单；除此之外，还可以编制函数，因此它的包更新速度比一般统计软件要快得多。</li>
+<li>所有R的函数和数据集是保存在程序包里面的。</li>
+<li>R具有很强互动性，是一门交互式语言。它的图形窗口极其方便开发者交互使用。</li>
+<li>R能与其他编程语言、数据库等有很好的接口。</li>
+<li>R拥有强大的数据分析工具包，方便统计分析，而且网上有着丰富的学习资源。</li>
+</ol>
+<h3 id="R软件安装和编辑器RStudio"><a href="#R软件安装和编辑器RStudio" class="headerlink" title="R软件安装和编辑器RStudio"></a>R软件安装和编辑器RStudio</h3><ol>
+<li>R软件和Rstudio编辑器的组合使用，对R的使用者来说是特别友好般的存在，这一点可以说打败很多编程软件及其编辑器组合（比如Java和eclipse）</li>
+</ol>
+<ul>
+<li>R软件是编译R脚本的工具，<a href="https://www.r-project.org/" target="_blank" rel="noopener external nofollow noreferrer">R介绍</a>网址包含R几乎所有的信息，点击<a href="https://cran.r-project.org/mirrors.html" target="_blank" rel="noopener external nofollow noreferrer">CRAN</a>进入下载镜像网址；一般使用清华大学的镜像<a href="https://mirrors.tuna.tsinghua.edu.cn/CRAN/" target="_blank" rel="noopener external nofollow noreferrer">下载网址</a>；可以根据自己需求下载R的各种版本。</li>
+</ul>
+<blockquote>
+<p>The R Project for Statistical Computing</p>
+</blockquote>
+<ul>
+<li><a href="https://www.rstudio.com/" target="_blank" rel="noopener external nofollow noreferrer">Rstudio</a>是编辑R脚本的最佳工具，没有之一。它几乎满足了统计类型的编程者所有要求，而且它还在不断的更新，推出更多的更有用的功能版本。</li>
+</ul>
+<blockquote>
+<p>RStudio is an active member of the R community. We believe free and open source data analysis software is a foundation for innovative and important work in science, education, and industry. The many customers who value our professional software capabilities help us contribute to this community</p>
+</blockquote>
+<ol>
+<li>R和Rstudio的安装 </li>
+</ol>
+<ul>
+<li>使用<a href="https://anaconda.org/" target="_blank" rel="noopener external nofollow noreferrer">anaconda3</a>安装R是最方便简单的办法，不仅仅对windows适用而且对Linux系统也适用的，而且anaconda对管理R的包是最佳的。（在Linux系统中，安装R会需要安装很多依赖包如gcc等，而且存在包依赖包的问题，还有版本不兼容问题，因此极力推荐使用anaconda管理R）</li>
+</ul>
+<h3 id="R包的安装"><a href="#R包的安装" class="headerlink" title="R包的安装"></a>R包的安装</h3><h4 id="1-基本安装，直接从R的CRAN下载"><a href="#1-基本安装，直接从R的CRAN下载" class="headerlink" title="1. 基本安装，直接从R的CRAN下载"></a>1. 基本安装，直接从R的<a href="https://mirrors.tuna.tsinghua.edu.cn/CRAN/" target="_blank" rel="noopener external nofollow noreferrer">CRAN</a>下载</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">"ggpplot2"</span>, dependencies=<span class="literal">T</span>, repos=<span class="string">"https://mirrors.tuna.tsinghua.edu.cn/CRAN"</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>dependencies : 该参数可以安装除ggplot2以外的依赖包</li>
+<li>repos : 指定ggplot2的包源的CRAN地址（<em>清华大学</em>的CRAN在国内是最好的）</li>
+</ul>
+<h4 id="2-github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上"><a href="#2-github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上" class="headerlink" title="2. github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上"></a>2. github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上</h4><p><strong>2.1</strong> 安装githubinstall包，该包可以通过第一步的基本安装实现<br><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">"githubinstall"</span>)   <span class="comment">## 已经发布到CRAN</span></span><br></pre></td></tr></table></figure><br><strong>2.2</strong> 安装AnomalyDetection包</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(githubinstall)</span><br><span class="line">githubinstall(<span class="string">"AnomalyDetection"</span>, ref=<span class="string">"master"</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>2.3</strong> 使用devtools包安装<br><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">"devtools"</span>)</span><br><span class="line"><span class="keyword">library</span>(devtools)</span><br><span class="line">install_github(<span class="string">"lch14forever/microbiomeViz"</span>)</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-基于bioconductor安装"><a href="#3-基于bioconductor安装" class="headerlink" title="3. 基于bioconductor安装"></a>3. 基于<a href="https://www.bioconductor.org/" target="_blank" rel="noopener external nofollow noreferrer">bioconductor</a>安装</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">source</span>(<span class="string">"http://bioconductor.org/biocLite.R"</span>)</span><br><span class="line">options(BioC_mirror=<span class="string">"http://mirrors.ustc.edu.cn/bioc/"</span>) <span class="comment"># 选用中科大的bioconductor镜像</span></span><br><span class="line"><span class="keyword">library</span>(BiocInstaller)</span><br><span class="line">biocLite(<span class="string">"DirichletMultinomial"</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>source函数会读取biocLite.R脚本，该脚本拥有很多函数，比如biocLite安装包函数</li>
+<li><a href="https://support.bioconductor.org/p/74540/" target="_blank" rel="noopener external nofollow noreferrer">网址错误</a>； https和http的区别</li>
+</ul>
+<h4 id="4-本地安装-zip压缩等文件"><a href="#4-本地安装-zip压缩等文件" class="headerlink" title="4. 本地安装.zip压缩等文件"></a>4. 本地安装.zip压缩等文件</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">"E:/ggplot2/ggplot2*.zip"</span>)   <span class="comment">## 引号为绝对路径</span></span><br></pre></td></tr></table></figure>
+<h3 id="R包管理和查看"><a href="#R包管理和查看" class="headerlink" title="R包管理和查看"></a>R包管理和查看</h3><h4 id="1-加载包的两种方式，library和require"><a href="#1-加载包的两种方式，library和require" class="headerlink" title="1. 加载包的两种方式，library和require"></a>1. <strong>加载包的两种方式，library和require</strong></h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">library</span>(ggplot2)</span><br><span class="line">&gt; <span class="keyword">require</span>(ggplot2)</span><br><span class="line"></span><br><span class="line"><span class="comment">## test </span></span><br><span class="line">&gt; test &lt;- <span class="keyword">library</span>(<span class="string">"abc"</span>)</span><br><span class="line">Error <span class="keyword">in</span> <span class="keyword">library</span>(<span class="string">"abc"</span>) : there is no package called <span class="string">'abc'</span></span><br><span class="line">&gt; test</span><br><span class="line">Error: object <span class="string">'test'</span> not found</span><br><span class="line">&gt; test &lt;- <span class="keyword">require</span>(<span class="string">"abc"</span>)</span><br><span class="line">Loading required package: abc</span><br><span class="line">Warning message:</span><br><span class="line">In <span class="keyword">library</span>(package, lib.loc = lib.loc, character.only = <span class="literal">TRUE</span>, logical.return = <span class="literal">TRUE</span>,  :</span><br><span class="line">  there is no package called <span class="string">'abc'</span></span><br><span class="line">&gt; test</span><br><span class="line">[<span class="number">1</span>] <span class="literal">FALSE</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>区别</strong>：当不存在R包时候，library直接输出报错信息并且终止程序运行，而require输出是警告且继续运行加载包后的程序。<a href="https://stackoverflow.com/questions/5595512/what-is-the-difference-between-require-and-library" target="_blank" rel="noopener external nofollow noreferrer">详细信息</a></li>
+</ul>
+<h4 id="2-查看R包"><a href="#2-查看R包" class="headerlink" title="2. 查看R包"></a>2. <strong>查看R包</strong></h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> getOption(<span class="string">"defaultPackages"</span>)    <span class="comment">## 查看默认加载的包</span></span><br><span class="line"><span class="number">2.</span> installed.packages()       <span class="comment">## 查看所有已经安装的R包，包含版本信息等</span></span><br><span class="line"><span class="number">3.</span> .packages(all.available = <span class="literal">T</span>) <span class="comment">## 查看所有已经安装的R包，只有包的名字</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-更新和卸载包"><a href="#3-更新和卸载包" class="headerlink" title="3. 更新和卸载包"></a>3. 更新和卸载包</h4><p><strong>3.1</strong> <a href="https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/update.packages" target="_blank" rel="noopener external nofollow noreferrer">更新包</a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt;old.packages()</span><br><span class="line">      Package LibPath                              Installed Built   ReposVer</span><br><span class="line">RUnit <span class="string">"RUnit"</span> <span class="string">"E:/software/anaconda/Lib/R/library"</span> <span class="string">"0.4.26"</span>  <span class="string">"3.3.1"</span> <span class="string">"0.4.31"</span></span><br><span class="line">      Repository                                                  </span><br><span class="line">RUnit <span class="string">"https://mran.microsoft.com/snapshot/2017-09-01/src/contrib"</span></span><br><span class="line"></span><br><span class="line">&gt;update.packages()</span><br><span class="line">RUnit :</span><br><span class="line"> Version <span class="number">0.4</span><span class="number">.26</span> installed <span class="keyword">in</span> E:/software/anaconda/Lib/R/<span class="keyword">library</span> </span><br><span class="line"> Version <span class="number">0.4</span><span class="number">.31</span> available at https://mran.microsoft.com/snapshot/<span class="number">2017</span>-<span class="number">09</span>-<span class="number">01</span></span><br><span class="line"></span><br><span class="line">&gt;new.packages()</span><br><span class="line">   [<span class="number">1</span>] <span class="string">"A3"</span>                          <span class="string">"abbyyR"</span>                      <span class="string">"abc"</span>                         <span class="string">"abc.data"</span>                   </span><br><span class="line">   [<span class="number">5</span>] <span class="string">"ABC.RAP"</span>                     <span class="string">"ABCanalysis"</span>                 <span class="string">"abcdeFBA"</span>                    <span class="comment">#"ABCoptim"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>old.packages表示软件包在CRAN上具有（合适的）更高版本，而update.packages提供下载和安装此类软件包。</li>
+<li>new.packages将在尚未安装的存储库上查找（合适的）软件包，并可选择提供它们进行安装。</li>
+</ul>
+<p><strong>3.2</strong> 卸载包</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> remove.packages(pkgs, lib)  <span class="comment">## 移除包</span></span><br><span class="line"><span class="number">2.</span> <span class="keyword">detach</span>(<span class="string">"package:pkgs"</span>)      <span class="comment">## 把包移除当前运行环境</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>lib: 指明卸载包安装目录. 如果缺失，则默认是 <code>.libPaths()</code>目录。</li>
+</ul>
+<h4 id="4-升级R，但不重装packages"><a href="#4-升级R，但不重装packages" class="headerlink" title="4. 升级R，但不重装packages"></a>4. 升级R，但不重装packages</h4><p><strong>拷贝R旧版本的library目录文件夹至新版本library目录下，再使用如下命令更新</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update.packages(checkBuilt = <span class="literal">T</span>, ask = <span class="literal">F</span>)</span><br><span class="line"><span class="comment"># or install.packages(.packages(all = T))</span></span><br></pre></td></tr></table></figure>
+<h3 id="设置共同的R-library"><a href="#设置共同的R-library" class="headerlink" title="设置共同的R library"></a>设置共同的R library</h3><p>在实际分析过程中，因为某些包的依赖R版本不同，可能会使用到多个R版本，但每个R版本拥有各自R包library。每次从某个R版本切换到另一个版本，则对应的R包library也会更换，如想使用原来的R包环境则需要迁移大量的R包。为了实现方便快速使用不同版本的R，通过设置共同的R包library为所有的切换R版本的分析提供最佳解决方案，具体实现如下：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>先建立一个共同的目录 Rlibrary;</span><br><span class="line"></span><br><span class="line"><span class="bullet">2. </span>打开R或者Rstudio，在控制台输入.libPaths("dir/Rlibrary");</span><br><span class="line"></span><br><span class="line"><span class="bullet">3. </span>为了永久设置该路径，需要在环境变量的用户变量中添加R<span class="emphasis">_LIBS_</span>USER新变量--&gt;dir/Rlibrary。</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Rlibrary.png" alt=""></p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
+<li><a href="https://blog.csdn.net/Ying_Xu/article/details/50896310" target="_blank" rel="noopener external nofollow noreferrer">R基础入门教程</a></li>
+<li><a href="https://baike.baidu.com/item/R%E8%AF%AD%E8%A8%80" target="_blank" rel="noopener external nofollow noreferrer">R语言百度百科</a></li>
+<li><a href="https://cran.r-project.org/doc/contrib/Liu-FAQ.pdf" target="_blank" rel="noopener external nofollow noreferrer">153分钟学会R</a></li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>-------- 本文结束 </span>
+      <i class="fa fa-paw"></i>
+      <span> 感谢阅读 --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/6c42b935.html" rel="bookmark">snakemake：编写任务流程的工具</a></div>
+    </li>
+  </ul>
+
+        <div class="reward-container">
+  <div>赞赏一瓶优酸乳</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zouhua.top/archives/f05541d3.html" title="R编程语言简介">https://zouhua.top/archives/f05541d3.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%80%E4%BB%8B/" rel="tag"><i class="fa fa-tags"></i> 简介</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/archives/cd854d51.html" rel="next" title="R编程语言书写规则">
+      R编程语言书写规则 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#R起源"><span class="nav-number">1.</span> <span class="nav-text">R起源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#R特点"><span class="nav-number">1.1.</span> <span class="nav-text">R特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R软件安装和编辑器RStudio"><span class="nav-number">2.</span> <span class="nav-text">R软件安装和编辑器RStudio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R包的安装"><span class="nav-number">3.</span> <span class="nav-text">R包的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-基本安装，直接从R的CRAN下载"><span class="nav-number">3.1.</span> <span class="nav-text">1. 基本安装，直接从R的CRAN下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上"><span class="nav-number">3.2.</span> <span class="nav-text">2. github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-基于bioconductor安装"><span class="nav-number">3.3.</span> <span class="nav-text">3. 基于bioconductor安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-本地安装-zip压缩等文件"><span class="nav-number">3.4.</span> <span class="nav-text">4. 本地安装.zip压缩等文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R包管理和查看"><span class="nav-number">4.</span> <span class="nav-text">R包管理和查看</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-加载包的两种方式，library和require"><span class="nav-number">4.1.</span> <span class="nav-text">1. 加载包的两种方式，library和require</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-查看R包"><span class="nav-number">4.2.</span> <span class="nav-text">2. 查看R包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-更新和卸载包"><span class="nav-number">4.3.</span> <span class="nav-text">3. 更新和卸载包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-升级R，但不重装packages"><span class="nav-number">4.4.</span> <span class="nav-text">4. 升级R，但不重装packages</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置共同的R-library"><span class="nav-number">5.</span> <span class="nav-text">设置共同的R library</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">6.</span> <span class="nav-text">引用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  近期文章
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">500k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">7:34</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button" onclick="moonMenuClick()">
+    <svg class="moon-menu-svg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+      <g class="moon-menu-points">
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
+        <circle class="moon-menu-point" r=".2rem"></circle>
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
+      </g>
+    </svg>
+    <div class="moon-menu-icon">
+    </div>
+    <div class="moon-menu-text">
+    </div>
+  </div>
+</div>
+<script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>

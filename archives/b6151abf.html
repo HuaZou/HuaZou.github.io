@@ -1,0 +1,1226 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="差异表达分析是很多生信分析的基础，比如在RNA-seq、ChIP-seq、mass spectrometry、Single cell-seq和metagenomic数据等。Deseq2包是基于基因差异表达分析开发的R包，主要适用于count data，本文将结合实例讲解其原理和应用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Deseq2包做差异表达分析">
+<meta property="og:url" content="https://zouhua.top/archives/b6151abf.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="差异表达分析是很多生信分析的基础，比如在RNA-seq、ChIP-seq、mass spectrometry、Single cell-seq和metagenomic数据等。Deseq2包是基于基因差异表达分析开发的R包，主要适用于count data，本文将结合实例讲解其原理和应用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zouhua.top/images/R_data_01_02.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_data_01_03.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_data_01_04.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_data_01_05.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_data_01_06.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_data_01_07.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_data_01_08.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_data_01_01.png">
+<meta property="article:published_time" content="2020-04-11T10:06:05.000Z">
+<meta property="article:modified_time" content="2020-04-10T16:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="差异表达">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zouhua.top/images/R_data_01_02.jpg">
+
+<link rel="canonical" href="https://zouhua.top/archives/b6151abf.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>使用Deseq2包做差异表达分析 | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/b6151abf.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用Deseq2包做差异表达分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-11 18:06:05 / 修改时间：00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-11T18:06:05+08:00">2020-04-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">数据分析</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/b6151abf.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/b6151abf.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p><code>Deseq2</code>包的差异分析方法是基于负二项广义线性模型(<code>negative binomial generalized linear models</code>)；数据离散度和对数倍数变化。</p>
+<blockquote>
+<p>A basic task in the analysis of count data from RNA-seq is the detection of differentially expressed genes. The count data are presented as a table which reports, for each sample, the number of sequence fragments that have been assigned to each gene. Analogous data also arise for other assay types, including comparative ChIP-Seq, HiC, shRNA screening, mass spectrometry. An important analysis question is the quantification and statistical inference of systematic changes between conditions, as compared to within-condition variability. The package DESeq2 provides methods to test for differential expression by use of negative binomial generalized linear models; the estimates of dispersion and logarithmic fold changes incorporate data-driven prior distributions</p>
+</blockquote>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><h4 id="文库均一化问题"><a href="#文库均一化问题" class="headerlink" title="文库均一化问题"></a>文库均一化问题</h4><p>数据处理时候遇到的样本表达值的均一化问题，如测序深度不同导致表达值不同。通常使用RPKM、FPKM和TPM等方法，但是DESeq2则是使用TMM方法均一化不同样本reads count数目。前三类方法均无法处理以下两种情况。</p>
+<ul>
+<li>测序深度不同造成不同样本的表达值不一样(reads depth)；</li>
+<li>不同组织存在特异的基因表达(library compostion)；</li>
+</ul>
+<h4 id="均一化步骤"><a href="#均一化步骤" class="headerlink" title="均一化步骤"></a>均一化步骤</h4><p>DESeq2标准化的过程会解决上述提到两个问题。具体步骤如下：</p>
+<ol>
+<li><p><strong>对reads count去自然对数</strong>；取对数有助于降低离群值对数据整体影响，当然也存在0值的结果是Inf值；</p>
+<p><img src="/images/R_data_01_02.jpg" alt=""></p>
+</li>
+<li><p><strong>求所有样本中，相同基因对数的均值</strong>：对同一基因在所有样本的数值取均值（先取对数，后用对数求均值的方法叫几何平均数）；</p>
+<p><img src="/images/R_data_01_03.jpg" alt=""></p>
+</li>
+<li><p><strong>去掉Infinity</strong>: 第二步计算几何平均数时候，含有-inf的基因其最后的均值仍然是-inf，该步骤最后的目的是剔除样本中reads数据为0的基因。</p>
+<blockquote>
+<p>如果我们比较的是肝脏和脾脏的转录组，按这种剔除方法，我们会把那些所有只在肝脏（或脾脏）中转录的基因都给剔除掉，从理论上讲，最终剩下的基因基本上就是管家基因（house keeping genes）了，也就是说在不同组织类型中都表达相似的基因</p>
+</blockquote>
+<p><img src="/images/R_data_01_04.jpg" alt=""></p>
+</li>
+<li><p><strong>矩阵减均值</strong>：上一步去除了Inf值，这一步把每个样本中的每个值减去该基因在所有样本中的均值，这里把差值可以理解成偏离值；</p>
+<p><img src="/images/R_data_01_05.jpg" alt=""></p>
+</li>
+<li><p><strong>计算每个样本的中位数</strong>：计算每个样本中所有基因的对数的中位数，中位数均有较好的平衡离群值的作用，上一步的均值会受到离群值较大的影响即使我们做了对数转换。</p>
+<blockquote>
+<p>这里使用中位数主要是为了排除一些极端表达基因的影响，极端表达指的是表达量极高或极低，它们能够对均值造成很大的影响，而那些表达量差异极大的基因对于中位数的影响，并不比那些表达量差异较小的基因对中位数的影响大。再加上那些表达量差异极大的基因数量通常情况下很少，因此，更多情况下，中等程度表达差异的基因和管家基因对中位数的影响更大一些.</p>
+</blockquote>
+<p><img src="/images/R_data_01_06.jpg" alt=""></p>
+</li>
+<li><p><strong>将中位数转换为真数，计算每个样本最终的标准化因子</strong>: 将中位数转换成真数，即$e^{median}$值;</p>
+<p><img src="/images/R_data_01_07.jpg" alt=""></p>
+</li>
+<li><p><strong>原始reads count数除以标准化因子</strong>： 把原始reads数目初一上一步得到的标准化因子数目，后续得到的商是整型，采取四舍五入的方法取整。</p>
+<p><img src="/images/R_data_01_08.jpg" alt=""></p>
+</li>
+</ol>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><blockquote>
+<ul>
+<li><p>log转换会剔除那些只在某个样本类型中的转录的所有基因（例如肝脏与脾脏），这种处理也会消除原始reads数的异常值（通过几何均数）;</p>
+</li>
+<li><p>中位数的处理会进一步降低那些高数值reads数基因的影响，从而关注那些中等表达程度的基因;</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>该部分是从安装到分析的实操解读，使用Rstudio和R的组合。</p>
+<h4 id="安装Deseq2包"><a href="#安装Deseq2包" class="headerlink" title="安装Deseq2包"></a>安装Deseq2包</h4><p>安装该包最好使用如下命令，<code>Deseq2</code>包因为功能强大，因此它的依赖包也巨多，安装起来很费时间。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!requireNamespace(<span class="string">"BiocManager"</span>, quietly = <span class="literal">TRUE</span>))</span><br><span class="line">    install.packages(<span class="string">"BiocManager"</span>)</span><br><span class="line">BiocManager::install(<span class="string">"DESeq2"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看源文件及帮助文档命令</span></span><br><span class="line">browseVignettes(<span class="string">"DESeq2"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载本次分析使用到的R包</span></span><br><span class="line"><span class="keyword">library</span>(data.table)</span><br><span class="line"><span class="keyword">library</span>(dplyr)</span><br><span class="line"><span class="keyword">library</span>(tibble)</span><br><span class="line"><span class="keyword">library</span>(DESeq2)</span><br></pre></td></tr></table></figure>
+<h4 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h4><p>分析输入数据有两类</p>
+<ul>
+<li>一类数值是<code>count data</code>的样本表达谱数据，一般情况下<code>colnames</code>是样本ID，<code>rownames</code>是基因ID等，我们用<code>countData</code>代替；</li>
+<li>另一类是样本ID及其对应的标签分组信息等，我们用<code>colData</code>代替；</li>
+</ul>
+<p><img src="/images/R_data_01_01.png" alt=""></p>
+<ul>
+<li>这次使用的数据是<code>miRNA</code>表达谱数据，也即是行名从<code>gene</code>换成<code>miRNA</code>。</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(data.table)</span><br><span class="line"><span class="keyword">library</span>(dplyr)</span><br><span class="line"><span class="keyword">library</span>(tibble)</span><br><span class="line"><span class="keyword">library</span>(DESeq2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># miRNA </span></span><br><span class="line">mirna.phe &lt;- read.csv(<span class="string">"../../Result/Phenotype/miRNA_Phenotype_20200409.csv"</span>)</span><br><span class="line">mirna.prf &lt;- fread(<span class="string">"../../Result/Profile/miRNA_counts_20200409.csv"</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="实操运行"><a href="#实操运行" class="headerlink" title="实操运行"></a>实操运行</h4><p>在处理数据的过程中，我们一般会先对这两类数据进行预处理，主要有如下操作：</p>
+<ul>
+<li>根据样本ID对两类数据取交集；</li>
+<li>去除低出现率和低表达的<code>miRNA</code>；</li>
+</ul>
+<p>Deseq2分析主要有如下步骤：</p>
+<ul>
+<li>构建dds对象：<ul>
+<li><code>countData</code>：非负整型数值的矩阵；</li>
+<li><code>colData</code>：带有样本分组信息的矩阵或者数据框；</li>
+<li><code>design</code>参数是样本ID的分组信息；</li>
+<li><code>tidy</code>参数判断矩阵第一列是否是列名；</li>
+</ul>
+</li>
+<li><code>DESeq</code>函数的差异表达分析；</li>
+<li><code>results</code>函数获取结果信息；</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">Deseq2fun &lt;- <span class="keyword">function</span>(phen, prof, occurence=<span class="number">0.5</span>, ncount=<span class="number">10</span>)&#123;</span><br><span class="line">  <span class="comment"># phen &lt;- mirna.phe</span></span><br><span class="line">  <span class="comment"># prof &lt;- mirna.prf</span></span><br><span class="line">  <span class="comment"># occurence &lt;- 0.5</span></span><br><span class="line">  <span class="comment"># ncount &lt;- 10</span></span><br><span class="line">  </span><br><span class="line">  sid &lt;- intersect(phen$SampleID, colnames(prof))</span><br><span class="line">  phe &lt;- phen %&gt;% filter(SampleID%<span class="keyword">in</span>%sid) %&gt;%</span><br><span class="line">    arrange(SampleID)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># quality control</span></span><br><span class="line">  prf &lt;- prof %&gt;% column_to_rownames(<span class="string">"gene_id"</span>) %&gt;% </span><br><span class="line">    dplyr::select(as.character(phe$SampleID)) %&gt;% </span><br><span class="line">    rownames_to_column(<span class="string">"Type"</span>) %&gt;% </span><br><span class="line">    filter(apply(dplyr::select(., -one_of(<span class="string">"Type"</span>)), <span class="number">1</span>, <span class="keyword">function</span>(x)&#123;sum(x != <span class="number">0</span>)/length(x)&#125;) &gt; occurence) %&gt;%</span><br><span class="line">            data.frame(.) %&gt;% </span><br><span class="line">    column_to_rownames(<span class="string">"Type"</span>)</span><br><span class="line">  prf.cln &lt;- prf[rowSums(prf) &gt; ncount, ]</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># judge no row of profile filter</span></span><br><span class="line">	<span class="keyword">if</span> (nrow(prf.cln) == <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">stop</span>(<span class="string">"No row of profile to be choosed\n"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># determine the right order between profile and phenotype </span></span><br><span class="line">  <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:ncol(prf.cln))&#123; </span><br><span class="line">    <span class="keyword">if</span> (!(colnames(prf.cln) == phe$SampleID)[i]) &#123;</span><br><span class="line">      <span class="keyword">stop</span>(paste0(i, <span class="string">" Wrong"</span>))</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  metadata &lt;- phe %&gt;% dplyr::select(SampleID, group1)</span><br><span class="line">  countData &lt;- prf.cln %&gt;% rownames_to_column(<span class="string">"gene_id"</span>)</span><br><span class="line">  dds &lt;- DESeqDataSetFromMatrix(countData=countData, </span><br><span class="line">                              colData=metadata, </span><br><span class="line">                              design=~group1, tidy = <span class="literal">TRUE</span>)</span><br><span class="line">  </span><br><span class="line">  dds &lt;- DESeq(dds)</span><br><span class="line">  res &lt;- results(dds)</span><br><span class="line">  res &lt;- res[order(res$padj), ]</span><br><span class="line">  <span class="keyword">return</span>(res)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>保存结果文件以及设置过滤参数</p>
+<ul>
+<li>一般<code>countData</code>数据较大，为了避免重复计算浪费资源和时间，通常将结果保留至本地；</li>
+<li>设置过滤参数，主要有<code>FDR</code>和<code>lgFC</code>等；</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cutoff or threshold </span></span><br><span class="line">FDR &lt;- <span class="number">0.05</span></span><br><span class="line">lgFC &lt;- <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># run DEseq2</span></span><br><span class="line"><span class="keyword">if</span>(!file.exists(<span class="string">"../../Result/Differential_expression/RNA_DEseq2.RData"</span>))&#123;</span><br><span class="line">  <span class="comment"># miRNA</span></span><br><span class="line">  miRNA.des2 &lt;- Deseq2fun(mirna.phe, mirna.prf)</span><br><span class="line">  <span class="comment"># RNA </span></span><br><span class="line">  RNA.des2 &lt;- Deseq2fun(rna.phe, rna.prf)</span><br><span class="line">  save(miRNA.des2, RNA.des2, </span><br><span class="line">       file = <span class="string">"../../Result/Differential_expression/RNA_DEseq2.RData"</span>)</span><br><span class="line">  </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">  load(<span class="string">"../../Result/Differential_expression/RNA_DEseq2.RData"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># filter by FDR &amp; lgFC</span></span><br><span class="line">diff_miRNA_deseq2 &lt;- subset(miRNA.des2, padj &lt; FDR &amp; abs(log2FoldChange) &gt; lgFC)</span><br></pre></td></tr></table></figure>
+<h4 id="结果解读"><a href="#结果解读" class="headerlink" title="结果解读"></a>结果解读</h4><p><code>Deseq2</code>的结果矩阵没有包含富集方向列信息，这是我认为最不好的地方，它仅仅将该信息以对象形式保存在结果文件中，但又因为后续以<code>write.csv</code>保存数据时会丢失该信息。<code>head(miRNA.des2)</code>的表头有分组比较以及检验方法信息，下方则是所有的<code>miRNA</code>比较结果:</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">head(miRNA.des2, <span class="number">1</span>)</span><br><span class="line"><span class="comment">#log2 fold change (MLE): group1 RB vs PB </span></span><br><span class="line"><span class="comment">#Wald test p-value: group1 RB vs PB </span></span><br><span class="line"><span class="comment">#DataFrame with 6 rows and 6 columns</span></span><br><span class="line"><span class="comment">#                        baseMean   log2FoldChange             lfcSE             stat</span></span><br><span class="line"><span class="comment">#                       &lt;numeric&gt;        &lt;numeric&gt;         &lt;numeric&gt;        &lt;numeric&gt;</span></span><br><span class="line"><span class="comment">#hsa-mir-106b    4948.33354145209 1.76406198826099 0.119754045761411 14.7307089046125</span></span><br></pre></td></tr></table></figure>
+<p>除此之外，还可以使用<code>summary</code>查看综合结果：此处未进行任何质控。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">summary(miRNA.des2)</span><br><span class="line"><span class="comment">#out of 548 with nonzero total read count</span></span><br><span class="line"><span class="comment">#adjusted p-value &lt; 0.1</span></span><br><span class="line"><span class="comment">#LFC &gt; 0 (up)       : 230, 42%</span></span><br><span class="line"><span class="comment">#LFC &lt; 0 (down)     : 144, 26%</span></span><br><span class="line"><span class="comment">#outliers [1]       : 0, 0%</span></span><br><span class="line"><span class="comment">#low counts [2]     : 0, 0%</span></span><br><span class="line"><span class="comment">#(mean count &lt; 1)</span></span><br></pre></td></tr></table></figure>
+<p>质控并添加富集方向，最后保存结果成<code>csv</code>文件；</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">miRNA.res.origin &lt;- miRNA.des2 %&gt;% </span><br><span class="line">  as.data.frame() %&gt;%</span><br><span class="line">  rownames_to_column(<span class="string">"miRNA_id"</span>) %&gt;%</span><br><span class="line">  mutate(Enrichment=ifelse(log2FoldChange &gt; <span class="number">0</span>, <span class="string">"RB"</span>, <span class="string">"PB"</span>))</span><br><span class="line">write.csv(miRNA.res.origin, <span class="string">"../../Result/Differential_expression/miRNA_DEseq2_origin.csv"</span>, row.names = <span class="literal">F</span>)</span><br></pre></td></tr></table></figure>
+<p>另外如果是能注释到基因的mRNA等数据，还可以继续对gene_id进行注释，这又涉及到繁多的gene_id命名方式：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(biomaRt)</span><br><span class="line"><span class="keyword">library</span>(curl)</span><br><span class="line">mart &lt;- useDataset(<span class="string">"hsapiens_gene_ensembl"</span>, useMart(<span class="string">"ensembl"</span>))</span><br><span class="line"><span class="comment"># origin </span></span><br><span class="line">ensembl_gene_id.origin &lt;- rownames(RNA.des2)</span><br><span class="line">gene_symbols.origin &lt;- getBM(attributes=c(<span class="string">'ensembl_gene_id'</span>,<span class="string">'external_gene_name'</span>,</span><br><span class="line">                                   <span class="string">"transcript_biotype"</span>,<span class="string">"description"</span>),</span><br><span class="line">                                    filters=<span class="string">'ensembl_gene_id'</span>,</span><br><span class="line">                                    values=ensembl_gene_id.origin, mart = mart)</span><br><span class="line"><span class="comment"># group1 RB vs PB</span></span><br><span class="line">diff_RNA_symbol_deseq2.origin &lt;- inner_join(</span><br><span class="line">  data.frame(RNA.des2) %&gt;% rownames_to_column(<span class="string">"gene_id"</span>),</span><br><span class="line">  gene_symbols.origin, by=c(<span class="string">"gene_id"</span>=<span class="string">"ensembl_gene_id"</span>)) %&gt;%</span><br><span class="line">  mutate(Enrichment=ifelse(log2FoldChange &gt; <span class="number">0</span>, <span class="string">"RB"</span>, <span class="string">"PB"</span>)) </span><br><span class="line"></span><br><span class="line">write.csv(diff_RNA_symbol_deseq2.origin, <span class="string">"../../Result/Differential_expression/RNA_symbol_DEseq2_origin.csv"</span>, row.names = <span class="literal">F</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="后续分析"><a href="#后续分析" class="headerlink" title="后续分析"></a>后续分析</h4><p>基于差异表达数据，主要的分析就是可视化这些结果：</p>
+<ul>
+<li>火山图；</li>
+<li>热图；</li>
+</ul>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
+<li><a href="https://bioconductor.riken.jp/packages/3.7/bioc/vignettes/DESeq2/inst/doc/DESeq2.html" target="_blank" rel="noopener external nofollow noreferrer">DESeq2 tutorial</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1553526" target="_blank" rel="noopener external nofollow noreferrer">DESeq2包的基本原理</a></li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>-------- 本文结束 </span>
+      <i class="fa fa-paw"></i>
+      <span> 感谢阅读 --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+
+        <div class="reward-container">
+  <div>赞赏一瓶优酸乳</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zouhua.top/archives/b6151abf.html" title="使用Deseq2包做差异表达分析">https://zouhua.top/archives/b6151abf.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE/" rel="tag"><i class="fa fa-tags"></i> 差异表达</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/5687be51.html" rel="prev" title="PCA图的可视化修改">
+      <i class="fa fa-chevron-left"></i> PCA图的可视化修改
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/ddf2caf7.html" rel="next" title="markdown下的目录结构生成方式">
+      markdown下的目录结构生成方式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原理"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文库均一化问题"><span class="nav-number">2.1.</span> <span class="nav-text">文库均一化问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#均一化步骤"><span class="nav-number">2.2.</span> <span class="nav-text">均一化步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">2.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">3.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装Deseq2包"><span class="nav-number">3.1.</span> <span class="nav-text">安装Deseq2包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据准备"><span class="nav-number">3.2.</span> <span class="nav-text">数据准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实操运行"><span class="nav-number">3.3.</span> <span class="nav-text">实操运行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#结果解读"><span class="nav-number">3.4.</span> <span class="nav-text">结果解读</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后续分析"><span class="nav-number">3.5.</span> <span class="nav-text">后续分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  近期文章
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">500k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">7:34</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button" onclick="moonMenuClick()">
+    <svg class="moon-menu-svg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+      <g class="moon-menu-points">
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
+        <circle class="moon-menu-point" r=".2rem"></circle>
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
+      </g>
+    </svg>
+    <div class="moon-menu-icon">
+    </div>
+    <div class="moon-menu-text">
+    </div>
+  </div>
+</div>
+<script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>

@@ -1,0 +1,1132 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="随着测序技术的发展，宏基因组分析越来越普遍，对宏基因组分析的描述也越来越急迫，在2017年NBT发表了宏基因组分析的综述文章，它系统总结了宏基因组分析并提出了它的优缺点。第二年也即是2018年，Rob night在Nature 发表了“Best practices for analysing microbiomes”综述，他也系统阐述了宏基因组分析。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shotgun metagenomics, from sampling to analysis">
+<meta property="og:url" content="https://zouhua.top/archives/e54c6a4d.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="随着测序技术的发展，宏基因组分析越来越普遍，对宏基因组分析的描述也越来越急迫，在2017年NBT发表了宏基因组分析的综述文章，它系统总结了宏基因组分析并提出了它的优缺点。第二年也即是2018年，Rob night在Nature 发表了“Best practices for analysing microbiomes”综述，他也系统阐述了宏基因组分析。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zouhua.top/images/Research_paper_02_01.jpg">
+<meta property="article:published_time" content="2020-04-23T07:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-23T10:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="Metagenomics">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zouhua.top/images/Research_paper_02_01.jpg">
+
+<link rel="canonical" href="https://zouhua.top/archives/e54c6a4d.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Shotgun metagenomics, from sampling to analysis | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/e54c6a4d.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Shotgun metagenomics, from sampling to analysis
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-23 15:00:00 / 修改时间：18:00:00" itemprop="dateCreated datePublished" datetime="2020-04-23T15:00:00+08:00">2020-04-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Research/" itemprop="url" rel="index"><span itemprop="name">Research</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Research/%E6%96%87%E7%AB%A0%E8%A7%A3%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">文章解读</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/e54c6a4d.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/e54c6a4d.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>&emsp;&emsp;由细菌、古菌、病毒和单细胞真核生物构成的多微生物群落在环境和人类健康中发挥着重要作用。很多微生物在实验室无法培养获取，但随着高通量测序技术的发展，WGS技术可以对整个群落进行全基因组测序，再通过一系列的生信流程就可以获得微生物的丰度信息，最后再结合统计方法对微生物的作用进行分析。整个过程充满众多的挑战，尤其是生信分析阶段，因为微生物数据是高维度且极其复杂，这对组装等步骤有更高的要求。</p>
+<blockquote>
+<p>Computational approaches to overcome the challenges that affect both <strong>assembly-based</strong> and mapping-based metagenomic profiling, particularly of <strong>high-complexity</strong> samples or environments containing organisms with <strong>limited similarity</strong> to sequenced genomes, are needed.</p>
+</blockquote>
+<p><img src="/images/Research_paper_02_01.jpg" alt=""></p>
+<p>&emsp;&emsp;相比扩增子测序，WGS测序非靶向测序样本内所有的DNA分子，这尤其适合复杂微生物环境。典型的WGS宏基因组分析包含五步：</p>
+<ol>
+<li>收集和整理样本；样本DNA测序；</li>
+<li>reads的预处理，如质控等；</li>
+<li>对序列进行物种注释、功能注释和获取微生物特征；</li>
+<li>统计学和生物学意义分析；</li>
+<li>验证第四步的结果；</li>
+</ol>
+<h3 id="实验设计"><a href="#实验设计" class="headerlink" title="实验设计"></a>实验设计</h3><p> &emsp;&emsp;根据研究目的采样，一般情况下即使相同的环境不同样本之间也存在巨大的差异，这会影响第四步的统计学和生物学意义，因此尽量采用大样本量（effect size）。另一种方法筛选少部分已经扩增子测序的样本，对其进行WGS测序。</p>
+<p>&emsp;&emsp;微生物易受到外界因素影响，尤其是人肠道微生物群落的研究，如基因型、年龄和饮食习惯等等均可以影响肠道微生物。除此之外，纵向研究还涉及到服从性和生活习惯差异等问题，这些因素均会影响第四步的分析结果，如果忽视干扰因素则结果可能存在潜在的问题。</p>
+<h3 id="收集样本和提取DNA"><a href="#收集样本和提取DNA" class="headerlink" title="收集样本和提取DNA"></a>收集样本和提取DNA</h3><p>&emsp;&emsp;如何收集和保存样本均会影响宏基因组数据的质量和精确度。在某些极端情况下，这一步的效应大小会远远大于组间微生物差异。收集和保存样本的方法一定要在大样本中验证过其稳定性才可以大规模使用。有研究表明收集和保存样本的时间长短对样本内DNA容量的多少均有影响，也即是说引入了偏差。</p>
+<p>&emsp;&emsp;DNA提取方法会影响下游的测序数据。提取方法必须对整个微生物群落有效而不是有偏地提取某些类别微生物。超声打断DNA相对而言是高效的方法，但是对短序列的病毒来说确实不友好的。嵌合体常发生在低生物量的物种中。</p>
+<h3 id="文库制备和测序"><a href="#文库制备和测序" class="headerlink" title="文库制备和测序"></a>文库制备和测序</h3><p>&emsp;&emsp;根据不同的测序平台设计不同的文库。通常情况下，测序序列包含adaptor， barcode和target DNA等。短读长的测序平台有Illumina、BGI、Ion Torrent等 ，长读长则有Oxford Nanopore MinION和Pacific Biosciences Sequel。</p>
+<h3 id="宏基因组组装"><a href="#宏基因组组装" class="headerlink" title="宏基因组组装"></a>宏基因组组装</h3><p>&emsp;&emsp;重构微生物群落组成需要进行从头组装，组装原理是<strong>The de Bruijn graph approach</strong>，它采取<em>k-mer</em>方式拼接reads，根据overlap情况组装序列。</p>
+<blockquote>
+<p>For single draft genome assemblies, a de Bruijn graph is constructed by breaking each sequencing read into overlapping subsequences of a fixed length k. This set of overlapping ‘k-mers’ defines the vertices and edges of the de Bruijn graph. The assembler’s task is to find a path through the graph that reconstructs the genome(s). </p>
+</blockquote>
+<p>&emsp;&emsp;低丰度的微生物可能因为测序深度不够导致无法检测出来，最后无法组装出来。常用的组装软件有：<em>Meta-IDBA</em>，<em>metaSPAdes</em>和<em>MEGAHIT</em>(推荐)。</p>
+<h3 id="分箱contigs"><a href="#分箱contigs" class="headerlink" title="分箱contigs"></a>分箱contigs</h3><p>&emsp;&emsp;宏基因组组装是高度碎片化的，包含太多的contigs，不知道其来自何种微生物基因组。分箱的目的是对组装的contigs进行分类，分类有监督和无监督的方法。有监督方法是使用已知数据库测序信息对contigs打上标签分类，而无监督方法是根据contigs的特性分类。两者的共同特点是：1)测量给定的contigs和bin之间的相似性(评价指标核苷酸序列：四核苷酸频率、GC含量、必需的单拷贝基因等；另一个重要的指标是：序列丰度-&gt;测序覆盖度)；2)使用算法转换相似性，从而分配contigs到某个bin中。</p>
+<blockquote>
+<p>Both supervised and unsupervised methods have two main elements: a metric to define the similarity between a given contig and a bin, and an algorithm to convert those similarities into assignments.</p>
+</blockquote>
+<p>&emsp;&emsp;分箱软件有：<em>CONCOCT</em>，<em>MetaBAT</em>，<em>maxbin2</em>和<em>MyCC</em>，另外一个分箱流程软件<em>MetaWARP</em>。根据bin的数据类型不同，可以分为三类：基于reads的bin；基于genes的bin和基于contigs的bin。<em>dRep</em>软件去除多个bin软件的重复，最后使用<em>CheckM</em>软件过滤bin即可。</p>
+<blockquote>
+<ul>
+<li>基于 reads binning：特点是以 reads 为主体，可以聚类出低丰度的菌株信息。因为宏基因组组装过程中对reads的利用率较低，许多 reads信息在组装后的分析过程中已经丢失。直接基于reads binning 可以充分利用测序数据。如 Brian Cleary 等(DOI:10.1038/nbt.3329.Detection) 利用基于reads binning 的 latent strain analysis 可以聚类出丰度低至0.00001%的菌株。此方法虽然得到更全面的 bins，但低丰度 bins 信息依旧不完整。</li>
+<li>基于 genes binning：特点是以 genes 为关注主体，<strong>适合针对代谢功能的讨论</strong>，常用于宏基因组关联分析(MWAS)和多组学联合分析中。因为分析前已经去除冗余的genes，因此计算资源消耗大大减少。Jun Wang 等 (DOI:10.1038/nrmicro.2016.83) 总结了 MWAS研究中常见的聚类方法，根据聚类算法和参数的不同，得到的 bins 可以称为：metagenomic linkage groups(MLG)、metagenomic clusters (MGC)、metagenomic species (MGS) 和 metagenomic operational taxonomic units (mOTU)。</li>
+<li>基于 contig binning：特点是以 contig 为主体，适合 uncultured 单菌的组装。Naseer Sangwan 等 (DOI: 10.1186/s40168-016-0154-5) 总结了 contig binning 的算法和软件（如下表）。</li>
+</ul>
+</blockquote>
+<h3 id="基于参考数据库注释物种"><a href="#基于参考数据库注释物种" class="headerlink" title="基于参考数据库注释物种"></a>基于参考数据库注释物种</h3><p>&emsp;&emsp;无组装的物种注释需要外界的参考基因组或者基因集，这类方法避免了耗时耗力的组装过程，极大加快了获取物种丰度表的过程，但存在不能识别新物种的问题。常用软件：<em>MetaPhlAn</em>。</p>
+<h3 id="代谢通路"><a href="#代谢通路" class="headerlink" title="代谢通路"></a>代谢通路</h3><p>&emsp;&emsp;宏基因组核酸数据比对到人工收集的蛋白质功能数据库，获取代谢通路丰度表。常用软件：<em>HUMAnN</em>。</p>
+<blockquote>
+<p>Databases that include combinations of manually annotated and computationally predicted proteins families, such as <strong>KEGG</strong> or <strong>UniProt</strong>, can be used for this task and enable characterization of the functional potential of the microbiome.</p>
+</blockquote>
+<h3 id="后续分析"><a href="#后续分析" class="headerlink" title="后续分析"></a>后续分析</h3><p>&emsp;&emsp;后续分析的数据是微生物数据和样本表型数据，使用统计工具解析微生物数据和表型数据之间的关系。宏基因组丰度表数据通常包含大量0值，这是稀疏矩阵的特点，因此很多统计方法不适合这类数据。多变量统计方法和机器学习方法均可以用于后续分析微生物数据和表型数据，但这些方法需要将群落作为整体考虑。</p>
+<h3 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h3><p>&emsp;&emsp;宏基因组学仍然面对适应性、实用性和标准化问题。</p>
+<p>缺陷：</p>
+<ul>
+<li><strong>测序费用和分析费用太高：</strong>改善测序平台和开发云分析平台；</li>
+<li><strong>全面完整的微生物基因组数据库：</strong>很多微生物在实验室无法培养，因此无法获取其基因组数据；</li>
+<li><strong>功能缺失：</strong>大部分微生物基因缺乏功能注释信息；</li>
+<li><strong><em>Microbial dark matter</em>：</strong>待开发的微生物“处女地”太多；</li>
+<li><strong><em>Live or dead dilemma</em></strong>：某些死亡的微生物DNA仍然存在环境中，无法区分；</li>
+<li><strong>难以绝对定量</strong>：丰度表是相对丰度数据而不是绝对量数据，通过spiking方法插入标准DNA进行绝对定量；</li>
+</ul>
+<p>机会：</p>
+<ul>
+<li><strong>整合多组学：</strong> 宏基因组，宏蛋白组和代谢组等；</li>
+<li><strong>病毒组测序：</strong>病毒DNA含量偏低，需要使用富集技术提取；</li>
+<li><strong>菌株水平</strong>：提高测序深度，可以识别菌株水平的微生物；</li>
+<li><strong>纵向研究：</strong>对同一个人进行多个时间点的样本采集，可以研究个体内部微生物差异；</li>
+<li><strong>发现因果关系</strong>：统计分析发现的关联结果需要通过试验验证，纵向的和前瞻性的设置可以潜在地提供直接的洞察结果的因果动态；</li>
+<li><strong>验证微生物标记物</strong>：某个研究发现的biomarker，可以通过其他队列验证，减少批次效应；</li>
+<li><strong>数据分享和复现研究结果</strong>：原始数据上传到公开数据库，方便大家复现研究的结果。</li>
+</ul>
+<h3 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h3><p>&emsp;&emsp;从自身经历来说，人的肠道微生物群落研究最大的问题就是在实验设计部分和粪便样本收集这里，由于人不是动物，无法按照既定实验标准去收集样本并记录其表型数据，总是会有些人因为某些因素无法提供所需要的数据。数据收集不充足会导致后续分析的结果都可能不可靠，而且现今大部分堆样本做关联分析已经不是人肠道微生物分析的风口了，大家更关注机制研究。一想到以色列人研究渐冻症和人肠道微生物的关系并将该结果发表在Science上，我就觉得好笑，现在大家都陷入寻找新热点的路上。肠道微生物真正的难点是在标准化，不仅仅是样本采集、宏基因组数据分析以及如何定义<em>健康</em>和<em>疾病</em>肠道微生物。就像文章说到的<em>缺乏一个全面统一的健康人群的微生物数据库</em>。还有机制的研究真的是太难了，即使在模式动物上验证了，但是在人身上可能又不一样。记得前段时间cell发表的微生物组临床转化研究的未来之路综述，明确指出了粪菌移植的存活率太低的问题和微生物与个性化治疗以及饮食干预的问题，最后文章给出的意见是还需要大队列研究，目的是为了建立健康与疾病的数据库，另外还要建立一套临床流程的标准。</p>
+<p>&emsp;&emsp;作为统计分析人员，我个人觉得自己应该学习各类统计学知识，进而在分析微生物数据的时候找到适合微生物数据特征的统计方法，最后从统计上发现具有统计学意义的微生物数据。后续需要不断补充生物学知识，进而解释具有统计学意义的数据是否有生物学意义或者临床意义。任重而道远，加油！！！</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
+<li><a href="https://www.nature.com/articles/nbt.3935" target="_blank" rel="noopener external nofollow noreferrer">Shotgun metagenomics, from sampling to analysis</a></li>
+<li><a href="https://www.cell.com/cell/fulltext/S0092-8674(20" target="_blank" rel="noopener external nofollow noreferrer">Translating Microbiome Research into Therapies: The Path Ahead</a>30271-3)</li>
+<li><a href="https://www.nature.com/articles/s41467-020-15508-1" target="_blank" rel="noopener external nofollow noreferrer">Developing a new class of engineered live bacterial therapeutics to treat human diseases</a></li>
+<li><a href="https://www.nature.com/articles/s41579-018-0029-9" target="_blank" rel="noopener external nofollow noreferrer">Best practices for analysing microbiomes</a></li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>-------- 本文结束 </span>
+      <i class="fa fa-paw"></i>
+      <span> 感谢阅读 --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+
+        <div class="reward-container">
+  <div>赞赏一瓶优酸乳</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zouhua.top/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis">https://zouhua.top/archives/e54c6a4d.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Metagenomics/" rel="tag"><i class="fa fa-tags"></i> Metagenomics</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/44f80e84.html" rel="prev" title="phyloseq: 扩增子统计分析利器">
+      <i class="fa fa-chevron-left"></i> phyloseq: 扩增子统计分析利器
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/93baa0de.html" rel="next" title="文章是怎样练成的">
+      文章是怎样练成的 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验设计"><span class="nav-number">2.</span> <span class="nav-text">实验设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#收集样本和提取DNA"><span class="nav-number">3.</span> <span class="nav-text">收集样本和提取DNA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文库制备和测序"><span class="nav-number">4.</span> <span class="nav-text">文库制备和测序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#宏基因组组装"><span class="nav-number">5.</span> <span class="nav-text">宏基因组组装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分箱contigs"><span class="nav-number">6.</span> <span class="nav-text">分箱contigs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于参考数据库注释物种"><span class="nav-number">7.</span> <span class="nav-text">基于参考数据库注释物种</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代谢通路"><span class="nav-number">8.</span> <span class="nav-text">代谢通路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后续分析"><span class="nav-number">9.</span> <span class="nav-text">后续分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#展望"><span class="nav-number">10.</span> <span class="nav-text">展望</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#感想"><span class="nav-number">11.</span> <span class="nav-text">感想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">12.</span> <span class="nav-text">引用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  近期文章
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">500k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">7:34</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button" onclick="moonMenuClick()">
+    <svg class="moon-menu-svg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+      <g class="moon-menu-points">
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
+        <circle class="moon-menu-point" r=".2rem"></circle>
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
+      </g>
+    </svg>
+    <div class="moon-menu-icon">
+    </div>
+    <div class="moon-menu-text">
+    </div>
+  </div>
+</div>
+<script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>

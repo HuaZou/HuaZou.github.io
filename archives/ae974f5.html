@@ -1,0 +1,1276 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="参数检验（parameter test）全称参数假设检验，是指对参数平均值、方差进行的统计检验。 参数检验是推断统计的重要组成部分。 当总体分布已知（如总体为正态分布），根据样本数据对总体分布的统计参数进行推断。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="参数统计（parametric statistics）">
+<meta property="og:url" content="https://zouhua.top/archives/ae974f5.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="参数检验（parameter test）全称参数假设检验，是指对参数平均值、方差进行的统计检验。 参数检验是推断统计的重要组成部分。 当总体分布已知（如总体为正态分布），根据样本数据对总体分布的统计参数进行推断。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zouhua.top/images/statistics19.jpg">
+<meta property="article:published_time" content="2020-04-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-07T16:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="假设检验">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zouhua.top/images/statistics19.jpg">
+
+<link rel="canonical" href="https://zouhua.top/archives/ae974f5.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>参数统计（parametric statistics） | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/ae974f5.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          参数统计（parametric statistics）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-08 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-08T00:00:00+08:00">2020-04-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Math/" itemprop="url" rel="index"><span itemprop="name">Math</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Math/%E7%BB%9F%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">统计</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/ae974f5.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/ae974f5.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>29k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>26 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="参数检验"><a href="#参数检验" class="headerlink" title="参数检验"></a>参数检验</h2><h3 id="参数检验的使用范围"><a href="#参数检验的使用范围" class="headerlink" title="参数检验的使用范围"></a>参数检验的使用范围</h3><p>参数检验主要有$t$-test，方差分析和线性回归等。随机变量是区间或者比率数据适合使用该方法。通常情况下，参数检验要比非参检验更加灵活和高效，其最大的缺点是要假设随机变量的总体分布，若假设太松则可能导致检验结果不可靠。</p>
+<blockquote>
+<ul>
+<li><p><code>count data</code> 不适合常用的假设检验方法: 一般对count data做平方根或者log转换，但如果数据存在大量的0值，转换数据是无用的，因此可以使用更适合count data的检验方法。</p>
+<p>A frequent error is to use common parametric models and tests with count data for the dependent variable.  Instead, count data could be analyzed either by using tests for nominal data or by using regression methods appropriate for count data.  These include Poisson regression, negative binomial regression, and zero-inflated Poisson regression</p>
+</li>
+<li><p><code>Percentage 和 proportion data</code>： 这两类数据也不适合，因为这类数据一般不符合参数检验的总体分布假设。</p>
+<p>Percentage and proportion data are often inappropriate for parametric statistics for the same reasons given for count data.  They will often not meet the assumptions of the tests, and are particularly problematic if there are some or many observations close to 0 or 1.  The arcsine transformation was used traditionally, but logistic regression or beta regression may be more appropriate. However, if assumptions are approximately met, parametric analyses could be used.</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="参数检验的假设"><a href="#参数检验的假设" class="headerlink" title="参数检验的假设"></a>参数检验的假设</h3><p>使用某种总体分布时候的参设检验，其检验的随机变量一定要符合总体分布的要求</p>
+<ul>
+<li>随机抽样(<strong>Random sampling</strong>)：所有统计检验均假定样本数据是从总体中随机抽取组成的样本，应避免偏向性选择；</li>
+<li>独立观测值(<strong>Independent observations</strong>)：样本内部观测值之间是相互独立，但非独立观测值分析例外，如重复检测实验；</li>
+<li>数据或者残差是正态分布(<strong>Normal distribution of data or residuals</strong>)：参设检验假设随机变量来自已知的总体分布，因此检验假定数据和残差服从正态分布，可通过<code>QQ-plot</code>在视觉上观察数据是否正态分布，但还需要<code>Shapiro-Wilk</code>检验判断；判断数据是否符合正态分布一般是根据残差判断而不是原始数据；</li>
+</ul>
+<blockquote>
+<p>Residuals from an analysis are also commonly called <em>errors</em>.  They are the difference between the observations and the value predicted by the model.  For example, if the calculated mean of a sample is 10, and one observation is 12, the residual for this observation is 2.  If another observation is 7, the residual for this observation is –3.</p>
+<p>Be careful not to get confused about this assumption.  You may see discussion about how “data” should be normally distributed for parametric tests.  This is usually wrong-headed.  The <em>t</em>-test assumes that the observations for <em>each group</em> are normally distributed, but if there is a difference in the groups, we might expect a bi-modal distribution, not a simple normal distribution, for the combined data.  This is why in most cases we look at the distribution of the residuals, not the raw data.</p>
+</blockquote>
+<ul>
+<li>方差齐性(<strong>Homogeneity of variance</strong>): 不同分组样本来自同一个总体，它们应该具有相同的方差；</li>
+<li><strong>Additivity of treatment effects</strong>: 不懂？？？；</li>
+<li>异常值(<strong>Outliers</strong>): 异常值会影响数据分布以及均值偏移；</li>
+</ul>
+<h2 id="单样本检验"><a href="#单样本检验" class="headerlink" title="单样本检验"></a>单样本检验</h2><h3 id="One-sample-t-test"><a href="#One-sample-t-test" class="headerlink" title="One-sample t-test"></a>One-sample t-test</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>单样本$t$-test是根据给定值判断随机变量是否与之有显著差异现象。该方法与<code>one-sample Wilcoxon signed-rank test</code>类似。</p>
+<h4 id="适合数据"><a href="#适合数据" class="headerlink" title="适合数据"></a>适合数据</h4><blockquote>
+<ul>
+<li>One-sample data</li>
+<li>Data are interval/ratio, and are continuous</li>
+<li>Data are normally distributed</li>
+<li>Moderate skewness is permissible if the data distribution is unimodal without outliers</li>
+</ul>
+</blockquote>
+<h4 id="R代码"><a href="#R代码" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- c(<span class="number">10</span>:<span class="number">20</span>)</span><br><span class="line">t.test(x, mu=<span class="number">5</span>, conf.int=<span class="number">0.95</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="Effect-size"><a href="#Effect-size" class="headerlink" title="Effect size"></a>Effect size</h4><p><strong>效应值</strong>：随机变量$x$的平均值$\bar{x}$和默认值$\mu$（也就是$t$分布的均值）的差异。该值的范围从0到无限大，0值代表两者相同。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(lsr)</span><br><span class="line">cohensD(x, mu=<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="两样本"><a href="#两样本" class="headerlink" title="两样本"></a>两样本</h2><h3 id="Two-sample-t-test"><a href="#Two-sample-t-test" class="headerlink" title="Two-sample t-test"></a>Two-sample t-test</h3><h4 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h4><p>两组样本的非配对$t$检验用于比较两组间均值差异，与<code>two-sample Mann–Whitney U Test</code>类似。</p>
+<h4 id="适合数据-1"><a href="#适合数据-1" class="headerlink" title="适合数据"></a>适合数据</h4><blockquote>
+<ul>
+<li>Two-sample data.  That is, one measurement variable in two groups or samples</li>
+<li>Dependent variable is interval/ratio, and is continuous</li>
+<li>Independent variable is a factor with two levels.  That is, two groups</li>
+<li>Data for each population are normally distributed</li>
+<li>For Student’s <em>t</em>-test, the two samples need to have the same variance.  However, Welch’s <em>t</em>-test, which is used by default in R, does not assume equal variances.</li>
+<li>Observations between groups are independent.  That is, not paired or repeated measures data</li>
+<li>Moderate skewness is permissible if the data distribution is unimodal without outliers</li>
+</ul>
+</blockquote>
+<h4 id="R代码-1"><a href="#R代码-1" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Data &lt;- rbind(data.frame(group=<span class="string">"A"</span>, value=rnorm(<span class="number">100</span>, mean=<span class="number">100</span>, sd=<span class="number">20</span>)), </span><br><span class="line">              data.frame(group=<span class="string">"B"</span>, value=rnorm(<span class="number">200</span>, mean=<span class="number">100</span>, sd=<span class="number">15</span>)))</span><br><span class="line"><span class="comment"># summary</span></span><br><span class="line"><span class="keyword">library</span>(FSA)</span><br><span class="line">Summarize(value ~ group, data = Data, digits=<span class="number">3</span>)</span><br><span class="line"><span class="comment"># Histograms for data by group</span></span><br><span class="line"><span class="keyword">library</span>(lattice)</span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">histogram(~ value | group, data   = Data, type   = <span class="string">"density"</span>,</span><br><span class="line">          layout = c(<span class="number">1</span>,<span class="number">2</span>),           <span class="comment">###  columns and rows of individual plots</span></span><br><span class="line">          panel=<span class="keyword">function</span>(x, <span class="keyword">...</span>) &#123;</span><br><span class="line">            panel.histogram(x, <span class="keyword">...</span>)</span><br><span class="line">            panel.mathdensity(dmath=dnorm,col=<span class="string">"blue"</span>,lwd=<span class="number">2</span>,</span><br><span class="line">                              args=list(mean=mean(x),sd=sd(x)), <span class="keyword">...</span>)&#125;)</span><br><span class="line"><span class="comment"># boxplot </span></span><br><span class="line">boxplot(value ~ group, data = Data)</span><br><span class="line"><span class="comment"># t-test</span></span><br><span class="line">t.test(value ~ group, data = Data, paired = <span class="literal">F</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="Paired-t-test"><a href="#Paired-t-test" class="headerlink" title="Paired t-test"></a>Paired t-test</h3><h4 id="介绍-2"><a href="#介绍-2" class="headerlink" title="介绍"></a>介绍</h4><p>常用配对$t$检验是比较两组配对观察值的均值是否相同，与<code>two-sample paired rank-sum test</code>类似。</p>
+<h4 id="适合数据-2"><a href="#适合数据-2" class="headerlink" title="适合数据"></a>适合数据</h4><blockquote>
+<ul>
+<li>Two-sample data.  That is, one measurement variable in two groups or samples</li>
+<li>Dependent variable is interval/ratio, and is continuous</li>
+<li>Independent variable is a factor with two levels.  That is, two groups</li>
+<li>Data are paired.  That is, the measurement for each observation in one group can be paired logically or by subject to a measurement in the other group</li>
+<li>The distribution of the difference of paired measurements is normally distributed</li>
+<li>Moderate skewness is permissible if the data distribution is unimodal without outliers</li>
+</ul>
+</blockquote>
+<h4 id="R代码-2"><a href="#R代码-2" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">num &lt;- <span class="number">10</span></span><br><span class="line">Data &lt;- rbind(data.frame(group=<span class="string">"Before"</span>, value=rnorm(num, mean=<span class="number">100</span>, sd=<span class="number">20</span>),PID=paste(<span class="string">"P"</span>, c(<span class="number">1</span>:num))), data.frame(group=<span class="string">"After"</span>, value=rnorm(num, mean=<span class="number">100</span>, sd=<span class="number">15</span>), PID=paste(<span class="string">"P"</span>, c(<span class="number">1</span>:num))))</span><br><span class="line"><span class="comment"># summary </span></span><br><span class="line"><span class="keyword">library</span>(FSA)</span><br><span class="line">Summarize(value ~ group, data = Data, digits=<span class="number">3</span>)</span><br><span class="line"><span class="comment"># histogram</span></span><br><span class="line">Before &lt;- Data$value[Data$group==<span class="string">"Before"</span>]</span><br><span class="line">After &lt;- Data$value[Data$group==<span class="string">"After"</span>]</span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">plotNormalHistogram((After - Before), xlab=<span class="string">"Difference (After - Before)"</span>)</span><br><span class="line"><span class="comment"># qq plot</span></span><br><span class="line">Names &lt;- Data$PID[Data$group==<span class="string">"Before"</span>]</span><br><span class="line">plot(Before, jitter(After),    <span class="comment"># jitter offsets points so you can see them all</span></span><br><span class="line">     pch = <span class="number">16</span>,                 <span class="comment"># shape of points</span></span><br><span class="line">     cex = <span class="number">1.0</span>,                <span class="comment"># size of points</span></span><br><span class="line">     xlim=c(<span class="number">50</span>, <span class="number">110</span>),          <span class="comment"># limits of x-axis</span></span><br><span class="line">     ylim=c(<span class="number">50</span>, <span class="number">110</span>),          <span class="comment"># limits of y-axis</span></span><br><span class="line">     xlab=<span class="string">"Before"</span>,            <span class="comment"># label for x-axis</span></span><br><span class="line">     ylab=<span class="string">"After"</span>)             <span class="comment"># label for y-axis</span></span><br><span class="line">text(Before, After, labels=Names,  <span class="comment"># Label location and text</span></span><br><span class="line">     pos=<span class="number">3</span>, cex=<span class="number">1.0</span>)               <span class="comment"># Label text position and size</span></span><br><span class="line">abline(<span class="number">0</span>, <span class="number">1</span>, col=<span class="string">"blue"</span>, lwd=<span class="number">2</span>)     <span class="comment"># line with intercept of 0 and slope of 1</span></span><br><span class="line"><span class="comment"># barplot </span></span><br><span class="line">barplot((After - Before),                             <span class="comment"># variable to plot</span></span><br><span class="line">        col=<span class="string">"dark gray"</span>,                        <span class="comment"># color of bars</span></span><br><span class="line">        xlab=<span class="string">"Observation"</span>,                     <span class="comment"># x-axis label</span></span><br><span class="line">        ylab=<span class="string">"Difference (After – Before)"</span>,     <span class="comment"># y-axis label</span></span><br><span class="line">        names.arg=Names)</span><br><span class="line"><span class="comment"># t-test</span></span><br><span class="line">t.test(value ~ group, data = Data, paired = <span class="literal">T</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="多样本"><a href="#多样本" class="headerlink" title="多样本"></a>多样本</h2><h3 id="One-way-ANOVA"><a href="#One-way-ANOVA" class="headerlink" title="One-way ANOVA"></a>One-way ANOVA</h3><h4 id="介绍-3"><a href="#介绍-3" class="headerlink" title="介绍"></a>介绍</h4><p><code>ANOVA</code>与独立$t$-test类似，但它适合多于两组的随机变量的均值比较，根据比较结果再做后置检验分析，目的判断哪两组之间存在显著差异。$t$-test可以理解为是两组样本的特殊<code>ANOVA</code>。</p>
+<h4 id="适合数据-3"><a href="#适合数据-3" class="headerlink" title="适合数据"></a>适合数据</h4><blockquote>
+<ul>
+<li>单因素数据，且分组在2组或者2组以上的实验设计；</li>
+<li>独立随机变量（因变量）是间隔或者比例且是连续的；</li>
+<li>分组变量（自变量）是两个或者多个水平的因子变量；</li>
+<li>在一般线性模型中，残差是正态分布的且方差齐性；</li>
+<li>组间的观测值是相互独立，即不存在配对和重复测量数据；</li>
+<li>轻微偏态的残差数据是允许的。</li>
+</ul>
+</blockquote>
+<h4 id="R代码-3"><a href="#R代码-3" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line">Input = (<span class="string">"</span></span><br><span class="line"><span class="string">Instructor       Student  Sodium</span></span><br><span class="line"><span class="string">'Brendon Small'      a    1200</span></span><br><span class="line"><span class="string">'Brendon Small'      b    1400</span></span><br><span class="line"><span class="string">'Brendon Small'      c    1350</span></span><br><span class="line"><span class="string">'Brendon Small'      d     950</span></span><br><span class="line"><span class="string">'Brendon Small'      e    1400</span></span><br><span class="line"><span class="string">'Brendon Small'      f    1150</span></span><br><span class="line"><span class="string">'Brendon Small'      g    1300</span></span><br><span class="line"><span class="string">'Brendon Small'      h    1325</span></span><br><span class="line"><span class="string">'Brendon Small'      i    1425</span></span><br><span class="line"><span class="string">'Brendon Small'      j    1500</span></span><br><span class="line"><span class="string">'Brendon Small'      k    1250</span></span><br><span class="line"><span class="string">'Brendon Small'      l    1150</span></span><br><span class="line"><span class="string">'Brendon Small'      m     950</span></span><br><span class="line"><span class="string">'Brendon Small'      n    1150</span></span><br><span class="line"><span class="string">'Brendon Small'      o    1600</span></span><br><span class="line"><span class="string">'Brendon Small'      p    1300</span></span><br><span class="line"><span class="string">'Brendon Small'      q    1050</span></span><br><span class="line"><span class="string">'Brendon Small'      r    1300</span></span><br><span class="line"><span class="string">'Brendon Small'      s    1700</span></span><br><span class="line"><span class="string">'Brendon Small'      t    1300</span></span><br><span class="line"><span class="string">'Coach McGuirk'      u    1100</span></span><br><span class="line"><span class="string">'Coach McGuirk'      v    1200</span></span><br><span class="line"><span class="string">'Coach McGuirk'      w    1250</span></span><br><span class="line"><span class="string">'Coach McGuirk'      x    1050</span></span><br><span class="line"><span class="string">'Coach McGuirk'      y    1200</span></span><br><span class="line"><span class="string">'Coach McGuirk'      z    1250</span></span><br><span class="line"><span class="string">'Coach McGuirk'      aa   1350</span></span><br><span class="line"><span class="string">'Coach McGuirk'      ab   1350</span></span><br><span class="line"><span class="string">'Coach McGuirk'      ac   1325</span></span><br><span class="line"><span class="string">'Coach McGuirk'      ad   1525</span></span><br><span class="line"><span class="string">'Coach McGuirk'      ae   1225</span></span><br><span class="line"><span class="string">'Coach McGuirk'      af   1125</span></span><br><span class="line"><span class="string">'Coach McGuirk'      ag   1000</span></span><br><span class="line"><span class="string">'Coach McGuirk'      ah   1125</span></span><br><span class="line"><span class="string">'Coach McGuirk'      ai   1400</span></span><br><span class="line"><span class="string">'Coach McGuirk'      aj   1200</span></span><br><span class="line"><span class="string">'Coach McGuirk'      ak   1150</span></span><br><span class="line"><span class="string">'Coach McGuirk'      al   1400</span></span><br><span class="line"><span class="string">'Coach McGuirk'      am   1500</span></span><br><span class="line"><span class="string">'Coach McGuirk'      an   1200</span></span><br><span class="line"><span class="string">'Melissa Robins'     ao   900</span></span><br><span class="line"><span class="string">'Melissa Robins'     ap   1100</span></span><br><span class="line"><span class="string">'Melissa Robins'     aq   1150</span></span><br><span class="line"><span class="string">'Melissa Robins'     ar   950</span></span><br><span class="line"><span class="string">'Melissa Robins'     as   1100</span></span><br><span class="line"><span class="string">'Melissa Robins'     at   1150</span></span><br><span class="line"><span class="string">'Melissa Robins'     au   1250</span></span><br><span class="line"><span class="string">'Melissa Robins'     av   1250</span></span><br><span class="line"><span class="string">'Melissa Robins'     aw   1225</span></span><br><span class="line"><span class="string">'Melissa Robins'     ax   1325</span></span><br><span class="line"><span class="string">'Melissa Robins'     ay   1125</span></span><br><span class="line"><span class="string">'Melissa Robins'     az   1025</span></span><br><span class="line"><span class="string">'Melissa Robins'     ba    950</span></span><br><span class="line"><span class="string">'Melissa Robins'     bc    925</span></span><br><span class="line"><span class="string">'Melissa Robins'     bd   1200</span></span><br><span class="line"><span class="string">'Melissa Robins'     be   1100</span></span><br><span class="line"><span class="string">'Melissa Robins'     bf    950</span></span><br><span class="line"><span class="string">'Melissa Robins'     bg   1300</span></span><br><span class="line"><span class="string">'Melissa Robins'     bh   1400</span></span><br><span class="line"><span class="string">'Melissa Robins'     bi   1100</span></span><br><span class="line"><span class="string">"</span>)</span><br><span class="line"></span><br><span class="line">Data = read.table(textConnection(Input),header=<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#Summarize data by group</span></span><br><span class="line"><span class="keyword">library</span>(FSA)</span><br><span class="line">Summarize(Sodium ~ Instructor, data=Data, digits=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Box plots for data by group</span></span><br><span class="line">boxplot(Sodium ~ Instructor, data = Data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Plot of means and confidence intervals</span></span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">groupwiseMean(Sodium ~ Instructor,</span><br><span class="line">                    data   = Data,</span><br><span class="line">                    conf   = <span class="number">0.95</span>,</span><br><span class="line">                    digits = <span class="number">3</span>,</span><br><span class="line">                    traditional = <span class="literal">FALSE</span>,</span><br><span class="line">                    percentile  = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment"># Define linear model</span></span><br><span class="line">model = lm(Sodium ~ Instructor, data = Data)</span><br><span class="line">summary(model)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Histogram of residuals</span></span><br><span class="line">x = residuals(model)</span><br><span class="line">plotNormalHistogram(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Conduct analysis of variance</span></span><br><span class="line"><span class="keyword">library</span>(car)</span><br><span class="line">Anova(model,type = <span class="string">"II"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Post-hoc analysis: mean separation tests</span></span><br><span class="line"><span class="keyword">library</span>(multcompView)</span><br><span class="line"><span class="keyword">library</span>(lsmeans)</span><br><span class="line">marginal = lsmeans(model, ~Instructor)</span><br><span class="line">pairs(marginal, adjust=<span class="string">"tukey"</span>)</span><br><span class="line">CLD(marginal, alpha = <span class="number">0.05</span>,</span><br><span class="line">    Letters = letters,    <span class="comment">### Use lower-case letters for .group</span></span><br><span class="line">    adjust  = <span class="string">"tukey"</span>)    <span class="comment">### Tukey-adjusted comparisons</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Plot of means, confidence intervals, and mean-separation letters</span></span><br><span class="line">CLD$Instructor = factor(CLD$Instructor,</span><br><span class="line">    levels=c(<span class="string">"Brendon Small"</span>,<span class="string">"Coach McGuirk"</span>,<span class="string">"Melissa Robins"</span>))</span><br><span class="line">CLD$.group=gsub(<span class="string">" "</span>, <span class="string">""</span>, CLD$.group)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line">ggplot(CLD, aes(x=Instructor,y=lsmean, label=.group))+</span><br><span class="line">    geom_point(shape=<span class="number">15</span>, size=<span class="number">4</span>)+</span><br><span class="line">    geom_errorbar(aes(ymin=lower.CL, ymax=upper.CL),</span><br><span class="line">                      width=<span class="number">0.2</span>, size=<span class="number">0.7</span>)+</span><br><span class="line">    geom_text(nudge_x = c(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">              nudge_y = c(<span class="number">120</span>, <span class="number">120</span>, <span class="number">120</span>),</span><br><span class="line">              color   = <span class="string">"black"</span>)+</span><br><span class="line">    ylab(<span class="string">"Least square mean\ndaily sodium intake"</span>)+</span><br><span class="line">    theme_bw()+</span><br><span class="line">    theme(axis.title   = element_text(face = <span class="string">"bold"</span>),</span><br><span class="line">          axis.text    = element_text(face = <span class="string">"bold"</span>),</span><br><span class="line">          plot.caption = element_text(hjust = <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+<p><img src="/images/statistics19.jpg" alt=""></p>
+<h3 id="One-way-ANOVA-with-Blocks"><a href="#One-way-ANOVA-with-Blocks" class="headerlink" title="One-way ANOVA with Blocks"></a>One-way ANOVA with Blocks</h3><h4 id="介绍-4"><a href="#介绍-4" class="headerlink" title="介绍"></a>介绍</h4><p>该方法研究除主要因素如因子水平差异外，还研究区块（其他分组因素）对实验的影响，与单因素方差分析的主要区别在于多了区块因素。</p>
+<h4 id="适合数据-4"><a href="#适合数据-4" class="headerlink" title="适合数据"></a>适合数据</h4><blockquote>
+<p>One-way data, with blocks.  That is, one measurement variable in two or more groups, where each group is also distributed among at least two blocks</p>
+<p>Dependent variable is interval/ratio, and is continuous</p>
+<p>Independent variable is a factor with two or more levels.  That is, two or more groups</p>
+<p>A second independent variable is a blocking factor variable with two or more levels(第二个自变量是区块变量且具有两个或者三个水平以上的因子变量)</p>
+<p>In the general linear model approach, residuals are normally distributed</p>
+<p>In the general linear model approach, groups have the same variance.  That is, homoscedasticity</p>
+<p>Observations among groups are independent.  That is, not paired or repeated measures data, except that observations are within blocks</p>
+<p>Moderate deviation from normally-distributed residuals is permissible</p>
+</blockquote>
+<h4 id="R代码-4"><a href="#R代码-4" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line">Input = (<span class="string">"</span></span><br><span class="line"><span class="string">Instructor        Town             Sodium</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1200</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1400</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1350</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse     950</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1400</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1150</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1300</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1325</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1425</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1500</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1250</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1150</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse     950</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1150</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1600</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1300</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1050</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1300</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1700</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1300</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1100</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1200</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1250</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Metalocalypse    1050</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Metalocalypse    1200</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Metalocalypse    1250</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1350</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1350</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1325</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1525</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1225</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1125</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Metalocalypse    1000</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Metalocalypse    1125</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1400</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Metalocalypse    1200</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1150</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1400</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1500</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1200</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse     900</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1100</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1150</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse     950</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1100</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1150</span></span><br><span class="line"><span class="string">'Melissa Robins'  Squiggleville    1250</span></span><br><span class="line"><span class="string">'Melissa Robins'  Squiggleville    1250</span></span><br><span class="line"><span class="string">'Melissa Robins'  Squiggleville    1225</span></span><br><span class="line"><span class="string">'Melissa Robins'  Squiggleville    1325</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1125</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1025</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse     950</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse     925</span></span><br><span class="line"><span class="string">'Melissa Robins'  Squiggleville    1200</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1100</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse     950</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1300</span></span><br><span class="line"><span class="string">'Melissa Robins'  Squiggleville    1400</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1100</span></span><br><span class="line"><span class="string">"</span>)</span><br><span class="line">Data = read.table(textConnection(Input),header=<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Order factors by the order in data frame</span></span><br><span class="line"><span class="comment"># Otherwise, R will alphabetize them</span></span><br><span class="line">Data$Instructor = factor(Data$Instructor,levels=unique(Data$Instructor))</span><br><span class="line">Data$Town       = factor(Data$Town, levels=unique(Data$Town))</span><br><span class="line"><span class="comment"># summary data </span></span><br><span class="line"><span class="keyword">library</span>(FSA)</span><br><span class="line">Summarize(Sodium ~ Instructor + Town, data=Data, digits=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Define linear model</span></span><br><span class="line">model = lm(Sodium ~ Instructor + Town, data=Data)</span><br><span class="line">summary(model)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Histogram and plot of residuals</span></span><br><span class="line">x = residuals(model)</span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">plotNormalHistogram(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ANOVA</span></span><br><span class="line"><span class="keyword">library</span>(car)</span><br><span class="line">Anova(model, type = <span class="string">"II"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Post-hoc analysis:  mean separation tests</span></span><br><span class="line"><span class="keyword">library</span>(multcompView)</span><br><span class="line"><span class="keyword">library</span>(lsmeans)</span><br><span class="line">marginal = lsmeans(model, ~ Instructor)</span><br><span class="line">pairs(marginal, adjust=<span class="string">"tukey"</span>)</span><br><span class="line">CLD &lt;- CLD(marginal,alpha   = <span class="number">0.05</span>,</span><br><span class="line">    Letters = letters,  <span class="comment">### Use lower-case letters for .group</span></span><br><span class="line">    adjust  = <span class="string">"tukey"</span>)  <span class="comment">### Tukey-adjusted p-values</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># plot </span></span><br><span class="line">CLD$Instructor = factor(CLD$Instructor,</span><br><span class="line">    levels=c(<span class="string">"Brendon Small"</span>,<span class="string">"Coach McGuirk"</span>,<span class="string">"Melissa Robins"</span>))</span><br><span class="line">CLD$.group=gsub(<span class="string">" "</span>, <span class="string">""</span>, CLD$.group)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line">ggplot(CLD, aes(x=Instructor,y=lsmean, label=.group))+</span><br><span class="line">    geom_point(shape=<span class="number">15</span>, size=<span class="number">4</span>)+</span><br><span class="line">    geom_errorbar(aes(ymin=lower.CL, ymax=upper.CL),</span><br><span class="line">                      width=<span class="number">0.2</span>, size=<span class="number">0.7</span>)+</span><br><span class="line">    geom_text(nudge_x = c(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">              nudge_y = c(<span class="number">120</span>, <span class="number">120</span>, <span class="number">120</span>),</span><br><span class="line">              color   = <span class="string">"black"</span>)+</span><br><span class="line">    ylab(<span class="string">"Least square mean\ndaily sodium intake"</span>)+</span><br><span class="line">    theme_bw()+</span><br><span class="line">    theme(axis.title   = element_text(face = <span class="string">"bold"</span>),</span><br><span class="line">          axis.text    = element_text(face = <span class="string">"bold"</span>),</span><br><span class="line">          plot.caption = element_text(hjust = <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+<p>与one-way ANOVA相比，仅仅多了”Town”这个区组变量。</p>
+<h3 id="One-way-ANOVA-with-Random-Blocks"><a href="#One-way-ANOVA-with-Random-Blocks" class="headerlink" title="One-way ANOVA with Random Blocks"></a>One-way ANOVA with Random Blocks</h3><h4 id="介绍-5"><a href="#介绍-5" class="headerlink" title="介绍"></a>介绍</h4><p>该分析涉及到混合效应模型(mixed effects model)，水平因子即要研究的问题作为固定效应，而区组变量作为随机效应。区组变量是代表一个水平因子的随机选择的结果，其具有随机性，研究者仅仅关心区组效应的影响，但识别特异区组效应则不是研究者关心的重点。例如接下来的实例：老师关注不同的营养教育项目（处理效应）的影响，并且同时将城镇纳入是否影响上述效应中，但具体该效应是否与不同城镇(town)有关则不关注。</p>
+<h4 id="适合数据-5"><a href="#适合数据-5" class="headerlink" title="适合数据"></a>适合数据</h4><p>与上一节类似</p>
+<h4 id="R代码-5"><a href="#R代码-5" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">Input = (<span class="string">"</span></span><br><span class="line"><span class="string">Instructor        Town             Sodium</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1200</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1400</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1350</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse     950</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1400</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1150</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1300</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1325</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1425</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1500</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1250</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1150</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse     950</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1150</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1600</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1300</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1050</span></span><br><span class="line"><span class="string">'Brendon Small'   Metalocalypse    1300</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1700</span></span><br><span class="line"><span class="string">'Brendon Small'   Squiggleville    1300</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1100</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1200</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1250</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Metalocalypse    1050</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Metalocalypse    1200</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Metalocalypse    1250</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1350</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1350</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1325</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1525</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1225</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1125</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Metalocalypse    1000</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Metalocalypse    1125</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1400</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Metalocalypse    1200</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1150</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1400</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1500</span></span><br><span class="line"><span class="string">'Coach McGuirk'   Squiggleville    1200</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse     900</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1100</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1150</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse     950</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1100</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1150</span></span><br><span class="line"><span class="string">'Melissa Robins'  Squiggleville    1250</span></span><br><span class="line"><span class="string">'Melissa Robins'  Squiggleville    1250</span></span><br><span class="line"><span class="string">'Melissa Robins'  Squiggleville    1225</span></span><br><span class="line"><span class="string">'Melissa Robins'  Squiggleville    1325</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1125</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1025</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse     950</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse     925</span></span><br><span class="line"><span class="string">'Melissa Robins'  Squiggleville    1200</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1100</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse     950</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1300</span></span><br><span class="line"><span class="string">'Melissa Robins'  Squiggleville    1400</span></span><br><span class="line"><span class="string">'Melissa Robins'  Metalocalypse    1100</span></span><br><span class="line"><span class="string">"</span>)</span><br><span class="line">Data = read.table(textConnection(Input),header=<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Order factors by the order in data frame</span></span><br><span class="line"><span class="comment"># Otherwise, R will alphabetize them</span></span><br><span class="line">Data$Instructor = factor(Data$Instructor,levels=unique(Data$Instructor))</span><br><span class="line">Data$Town       = factor(Data$Town, levels=unique(Data$Town))</span><br><span class="line"><span class="comment"># summary data </span></span><br><span class="line"><span class="keyword">library</span>(FSA)</span><br><span class="line">Summarize(Sodium ~ Instructor + Town, data=Data, digits=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Mixed-effects model with lmer</span></span><br><span class="line">model = lm(Sodium ~ Instructor + (<span class="number">1</span>|Town), data=Data, REML=<span class="literal">TRUE</span>) <span class="comment"># 区组随机效应</span></span><br><span class="line">summary(model)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Histogram and plot of residuals</span></span><br><span class="line">x = residuals(model)</span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">plotNormalHistogram(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ANOVA</span></span><br><span class="line"><span class="keyword">library</span>(car)</span><br><span class="line">Anova(model, type = <span class="string">"II"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Post-hoc analysis:  mean separation tests</span></span><br><span class="line"><span class="keyword">library</span>(multcompView)</span><br><span class="line"><span class="keyword">library</span>(lsmeans)</span><br><span class="line">marginal = lsmeans(model, ~ Instructor)</span><br><span class="line">pairs(marginal, adjust=<span class="string">"tukey"</span>)</span><br><span class="line">CLD &lt;- CLD(marginal,alpha   = <span class="number">0.05</span>,</span><br><span class="line">    Letters = letters,  <span class="comment">### Use lower-case letters for .group</span></span><br><span class="line">    adjust  = <span class="string">"tukey"</span>)  <span class="comment">### Tukey-adjusted p-values</span></span><br></pre></td></tr></table></figure>
+<h3 id="Two-way-ANOVA"><a href="#Two-way-ANOVA" class="headerlink" title="Two-way ANOVA"></a>Two-way ANOVA</h3><h4 id="介绍-6"><a href="#介绍-6" class="headerlink" title="介绍"></a>介绍</h4><p>双因素方差分析是调查两个独立因子变量对自变量的主要效应，包括它们之间的相互效应。</p>
+<h4 id="适合数据-6"><a href="#适合数据-6" class="headerlink" title="适合数据"></a>适合数据</h4><blockquote>
+<p>Two-way data.  That is, one dependent variable measured across two independent factor variables</p>
+<p>Dependent variable is interval/ratio, and is continuous</p>
+<p>Independent variables are a factor with two or more levels.  That is, two or more groups for each independent variable</p>
+<p>In the general linear model approach, residuals are normally distributed</p>
+<p>In the general linear model approach, groups have the same variance.  That is, homoscedasticity</p>
+<p>Observations among groups are independent.  That is, not paired or repeated measures data</p>
+<p>Moderate deviation from normally-distributed residuals is permissible</p>
+</blockquote>
+<h4 id="R代码-6"><a href="#R代码-6" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br></pre></td><td class="code"><pre><span class="line">Input = (<span class="string">"</span></span><br><span class="line"><span class="string">Instructor        Supplement  Sodium</span></span><br><span class="line"><span class="string">'Brendon Small'   A           1200</span></span><br><span class="line"><span class="string">'Brendon Small'   A           1400</span></span><br><span class="line"><span class="string">'Brendon Small'   A           1350</span></span><br><span class="line"><span class="string">'Brendon Small'   A            950</span></span><br><span class="line"><span class="string">'Brendon Small'   A           1400</span></span><br><span class="line"><span class="string">'Brendon Small'   B           1150</span></span><br><span class="line"><span class="string">'Brendon Small'   B           1300</span></span><br><span class="line"><span class="string">'Brendon Small'   B           1325</span></span><br><span class="line"><span class="string">'Brendon Small'   B           1425</span></span><br><span class="line"><span class="string">'Brendon Small'   B           1500</span></span><br><span class="line"><span class="string">'Brendon Small'   C           1250</span></span><br><span class="line"><span class="string">'Brendon Small'   C           1150</span></span><br><span class="line"><span class="string">'Brendon Small'   C            950</span></span><br><span class="line"><span class="string">'Brendon Small'   C           1150</span></span><br><span class="line"><span class="string">'Brendon Small'   C           1600</span></span><br><span class="line"><span class="string">'Brendon Small'   D           1300</span></span><br><span class="line"><span class="string">'Brendon Small'   D           1050</span></span><br><span class="line"><span class="string">'Brendon Small'   D           1300</span></span><br><span class="line"><span class="string">'Brendon Small'   D           1700</span></span><br><span class="line"><span class="string">'Brendon Small'   D           1300</span></span><br><span class="line"><span class="string">'Coach McGuirk'   A           1100</span></span><br><span class="line"><span class="string">'Coach McGuirk'   A           1200</span></span><br><span class="line"><span class="string">'Coach McGuirk'   A           1250</span></span><br><span class="line"><span class="string">'Coach McGuirk'   A           1050</span></span><br><span class="line"><span class="string">'Coach McGuirk'   A           1200</span></span><br><span class="line"><span class="string">'Coach McGuirk'   B           1250</span></span><br><span class="line"><span class="string">'Coach McGuirk'   B           1350</span></span><br><span class="line"><span class="string">'Coach McGuirk'   B           1350</span></span><br><span class="line"><span class="string">'Coach McGuirk'   B           1325</span></span><br><span class="line"><span class="string">'Coach McGuirk'   B           1525</span></span><br><span class="line"><span class="string">'Coach McGuirk'   C           1225</span></span><br><span class="line"><span class="string">'Coach McGuirk'   C           1125</span></span><br><span class="line"><span class="string">'Coach McGuirk'   C           1000</span></span><br><span class="line"><span class="string">'Coach McGuirk'   C           1125</span></span><br><span class="line"><span class="string">'Coach McGuirk'   C           1400</span></span><br><span class="line"><span class="string">'Coach McGuirk'   D           1200</span></span><br><span class="line"><span class="string">'Coach McGuirk'   D           1150</span></span><br><span class="line"><span class="string">'Coach McGuirk'   D           1400</span></span><br><span class="line"><span class="string">'Coach McGuirk'   D           1500</span></span><br><span class="line"><span class="string">'Coach McGuirk'   D           1200</span></span><br><span class="line"><span class="string">'Melissa Robins'  A            900</span></span><br><span class="line"><span class="string">'Melissa Robins'  A           1100</span></span><br><span class="line"><span class="string">'Melissa Robins'  A           1150</span></span><br><span class="line"><span class="string">'Melissa Robins'  A            950</span></span><br><span class="line"><span class="string">'Melissa Robins'  A           1100</span></span><br><span class="line"><span class="string">'Melissa Robins'  B           1150</span></span><br><span class="line"><span class="string">'Melissa Robins'  B           1250</span></span><br><span class="line"><span class="string">'Melissa Robins'  B           1250</span></span><br><span class="line"><span class="string">'Melissa Robins'  B           1225</span></span><br><span class="line"><span class="string">'Melissa Robins'  B           1325</span></span><br><span class="line"><span class="string">'Melissa Robins'  C           1125</span></span><br><span class="line"><span class="string">'Melissa Robins'  C           1025</span></span><br><span class="line"><span class="string">'Melissa Robins'  C            950</span></span><br><span class="line"><span class="string">'Melissa Robins'  C            925</span></span><br><span class="line"><span class="string">'Melissa Robins'  C           1200</span></span><br><span class="line"><span class="string">'Melissa Robins'  D           1100</span></span><br><span class="line"><span class="string">'Melissa Robins'  D            950</span></span><br><span class="line"><span class="string">'Melissa Robins'  D           1300</span></span><br><span class="line"><span class="string">'Melissa Robins'  D           1400</span></span><br><span class="line"><span class="string">'Melissa Robins'  D           1100</span></span><br><span class="line"><span class="string">"</span>)</span><br><span class="line"></span><br><span class="line">Data = read.table(textConnection(Input),header=<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Use Summarize to check if cell sizes are balanced</span></span><br><span class="line"><span class="keyword">library</span>(FSA)</span><br><span class="line">Summarize(Sodium ~ Supplement + Instructor,</span><br><span class="line">          data=Data, digits=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Define linear model</span></span><br><span class="line">model = lm(Sodium ~ Instructor + Supplement + Instructor:Supplement,</span><br><span class="line">           data = Data)</span><br><span class="line">summary(model)   <span class="comment">### Will show overall p-value and r-square</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Histogram of residuals</span></span><br><span class="line">x = residuals(model)</span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">plotNormalHistogram(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Conduct analysis of variance</span></span><br><span class="line"><span class="keyword">library</span>(car)</span><br><span class="line">Anova(model, type = <span class="string">"II"</span>)   <span class="comment">### Type II sum of squares</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Post-hoc analysis:  mean separation tests</span></span><br><span class="line"><span class="keyword">library</span>(multcompView)</span><br><span class="line"><span class="keyword">library</span>(lsmeans)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"><span class="comment"># Instructor</span></span><br><span class="line">marginal = lsmeans(model, ~ Instructor)</span><br><span class="line">pairs(marginal,adjust=<span class="string">"tukey"</span>)</span><br><span class="line">CLD &lt;- CLD(marginal,</span><br><span class="line">          alpha   = <span class="number">0.05</span>,</span><br><span class="line">          Letters = letters,         <span class="comment">###  Use lowercase letters for .group</span></span><br><span class="line">          adjust  = <span class="string">"tukey"</span>)         <span class="comment">###  Tukey-adjusted comparisons</span></span><br><span class="line"><span class="comment"># plot </span></span><br><span class="line">CLD$Instructor = factor(CLD$Instructor,</span><br><span class="line">    levels=c(<span class="string">"Brendon Small"</span>,<span class="string">"Coach McGuirk"</span>,<span class="string">"Melissa Robins"</span>))</span><br><span class="line">CLD$.group=gsub(<span class="string">" "</span>, <span class="string">""</span>, CLD$.group)</span><br><span class="line">ggplot(CLD, aes(x=Instructor, y=lsmean, label=.group))+</span><br><span class="line">    geom_point(shape=<span class="number">15</span>, size=<span class="number">4</span>)+</span><br><span class="line">    geom_errorbar(aes(ymin=lower.CL, ymax=upper.CL),</span><br><span class="line">                      width=<span class="number">0.2</span>, size=<span class="number">0.7</span>)+</span><br><span class="line">    geom_text(nudge_x = c(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">              nudge_y = c(<span class="number">120</span>, <span class="number">120</span>, <span class="number">120</span>),</span><br><span class="line">              color   = <span class="string">"black"</span>)+</span><br><span class="line">    ylab(<span class="string">"Least square mean\ndaily sodium intake"</span>)+</span><br><span class="line">    theme_bw()+</span><br><span class="line">    theme(axis.title   = element_text(face = <span class="string">"bold"</span>),</span><br><span class="line">          axis.text    = element_text(face = <span class="string">"bold"</span>),</span><br><span class="line">          plot.caption = element_text(hjust = <span class="number">0</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Supplement</span></span><br><span class="line">marginal = lsmeans(model, ~ Supplement)</span><br><span class="line">pairs(marginal,adjust=<span class="string">"tukey"</span>)</span><br><span class="line">CLD &lt;- CLD(marginal,</span><br><span class="line">          alpha   = <span class="number">0.05</span>,</span><br><span class="line">          Letters = letters,         <span class="comment">###  Use lowercase letters for .group</span></span><br><span class="line">          adjust  = <span class="string">"tukey"</span>)         <span class="comment">###  Tukey-adjusted comparisons</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># plot </span></span><br><span class="line">CLD$Supplement = factor(CLD$Supplement,</span><br><span class="line">                        levels=c(<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>, <span class="string">"D"</span>))</span><br><span class="line">CLD$.group=gsub(<span class="string">" "</span>, <span class="string">""</span>, CLD$.group)</span><br><span class="line">ggplot(CLD, aes(x=Supplement, y=lsmean, label=.group))+</span><br><span class="line">    geom_point(shape=<span class="number">15</span>, size=<span class="number">4</span>)+</span><br><span class="line">    geom_errorbar(aes(ymin=lower.CL, ymax=upper.CL),</span><br><span class="line">                      width=<span class="number">0.2</span>, size=<span class="number">0.7</span>)+</span><br><span class="line">    geom_text(nudge_x = c(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">              nudge_y = c(<span class="number">120</span>, <span class="number">120</span>, <span class="number">120</span>),</span><br><span class="line">              color   = <span class="string">"black"</span>)+</span><br><span class="line">    ylab(<span class="string">"Least square mean\ndaily sodium intake"</span>)+</span><br><span class="line">    theme_bw()+</span><br><span class="line">    theme(axis.title   = element_text(face = <span class="string">"bold"</span>),</span><br><span class="line">          axis.text    = element_text(face = <span class="string">"bold"</span>),</span><br><span class="line">          plot.caption = element_text(hjust = <span class="number">0</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># interaction</span></span><br><span class="line">marginal = lsmeans(model,~ Instructor + Supplement)</span><br><span class="line">pairs(marginal,adjust=<span class="string">"tukey"</span>)</span><br><span class="line">CLD &lt;- CLD(marginal,</span><br><span class="line">          alpha   = <span class="number">0.05</span>,</span><br><span class="line">          Letters = letters,         <span class="comment">###  Use lowercase letters for .group</span></span><br><span class="line">          adjust  = <span class="string">"tukey"</span>)         <span class="comment">###  Tukey-adjusted comparisons</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># plot </span></span><br><span class="line">CLD$Instructor = factor(CLD$Instructor,</span><br><span class="line">    levels=c(<span class="string">"Brendon Small"</span>,<span class="string">"Coach McGuirk"</span>,<span class="string">"Melissa Robins"</span>))</span><br><span class="line">CLD$Supplement = factor(CLD$Supplement,</span><br><span class="line">                        levels=c(<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>, <span class="string">"D"</span>))</span><br><span class="line">CLD$.group=gsub(<span class="string">" "</span>, <span class="string">""</span>, CLD$.group)</span><br><span class="line">ggplot(CLD, aes(x=Instructor, y=lsmean,</span><br><span class="line">                color=Supplement, label=.group))+</span><br><span class="line">    geom_point(shape=<span class="number">15</span>, size=<span class="number">4</span>, position=position_dodge(<span class="number">0.6</span>))+</span><br><span class="line">    geom_errorbar(aes(ymin=lower.CL, ymax=upper.CL),</span><br><span class="line">                      width=<span class="number">0.2</span>, size=<span class="number">0.7</span>, </span><br><span class="line">                      position=position_dodge(<span class="number">0.6</span>))+</span><br><span class="line">    ylab(<span class="string">"Least square mean\nsodium intake (mg / day)"</span>) +</span><br><span class="line">    geom_text(nudge_x = c(-<span class="number">0.22</span>, <span class="number">0.08</span>, -<span class="number">0.22</span>, <span class="number">0.22</span>,</span><br><span class="line">                         <span class="number">0.08</span>, <span class="number">0.08</span>, -<span class="number">0.08</span>, -<span class="number">0.22</span>,</span><br><span class="line">                         <span class="number">0.22</span>, <span class="number">0.22</span>, -<span class="number">0.08</span>, -<span class="number">0.08</span>),</span><br><span class="line">            nudge_y = rep(<span class="number">270</span>, <span class="number">12</span>),</span><br><span class="line">            color   = <span class="string">"black"</span>) +</span><br><span class="line">    scale_color_manual(values = c(<span class="string">"steelblue"</span>, <span class="string">"steelblue2"</span>,</span><br><span class="line">                                <span class="string">"springgreen4"</span>, <span class="string">"springgreen3"</span>))+</span><br><span class="line">    theme_bw()+</span><br><span class="line">    theme(axis.title   = element_text(face = <span class="string">"bold"</span>),</span><br><span class="line">          axis.text    = element_text(face = <span class="string">"bold"</span>),</span><br><span class="line">          plot.caption = element_text(hjust = <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="Repeated-Measures-ANOVA"><a href="#Repeated-Measures-ANOVA" class="headerlink" title="Repeated Measures ANOVA"></a>Repeated Measures ANOVA</h3><h4 id="介绍-7"><a href="#介绍-7" class="headerlink" title="介绍"></a>介绍</h4><p>在某个实验内，同一人群随着时间推移，一直检测其测量指标如生理生化指标，这样的分析必须考虑不同时间点的数据存在某种程度的相关性。在做ANOVA时，需要解决自相关因素。</p>
+<blockquote>
+<p>For example, if we were measuring calorie intake for students, we would expect that if one student had a higher intake at <em>Time 1</em>, that that student would have a higher intake others at <em>Time 2</em>, and so on.</p>
+<p>比如：研究不同课程对不同学生的热量摄入量的影响，我们希望如果某个学生在<code>time1</code>时候有较高的摄入量，那么其在<code>time2</code>应该也有更高的摄入量，以此类推接下来应该也是更高。</p>
+</blockquote>
+<h4 id="适合数据-7"><a href="#适合数据-7" class="headerlink" title="适合数据"></a>适合数据</h4><p>在一项为期六个月的试验中，学生分别参与三类不同的营养教育课程，每类课程对学生的热量摄入影响可能不同，并被要求每月记录自己热量摄入量。目的为了检验课程对不同分组学生的热量摄入量是否存在差异。如果只是简单比较某一类课程能更好降低学生热量摄入量，仅需要比较初始和结束后热量摄入量即可。现在我们使用<code>Repeated measures analysis</code>分析所有测量指标，将$student$作为随机变量，该变量考虑到不同学生之间存在的差异，并且包含自相关结构（同一学生不同时间点的数据）。</p>
+<h4 id="R代码-7"><a href="#R代码-7" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br></pre></td><td class="code"><pre><span class="line">Input = (<span class="string">"</span></span><br><span class="line"><span class="string">Instruction        Student  Month   Calories.per.day</span></span><br><span class="line"><span class="string">'Curriculum A'     a        1       2000</span></span><br><span class="line"><span class="string">'Curriculum A'     a        2       1978</span></span><br><span class="line"><span class="string">'Curriculum A'     a        3       1962</span></span><br><span class="line"><span class="string">'Curriculum A'     a        4       1873</span></span><br><span class="line"><span class="string">'Curriculum A'     a        5       1782</span></span><br><span class="line"><span class="string">'Curriculum A'     a        6       1737</span></span><br><span class="line"><span class="string">'Curriculum A'     b        1       1900</span></span><br><span class="line"><span class="string">'Curriculum A'     b        2       1826</span></span><br><span class="line"><span class="string">'Curriculum A'     b        3       1782</span></span><br><span class="line"><span class="string">'Curriculum A'     b        4       1718</span></span><br><span class="line"><span class="string">'Curriculum A'     b        5       1639</span></span><br><span class="line"><span class="string">'Curriculum A'     b        6       1644</span></span><br><span class="line"><span class="string">'Curriculum A'     c        1       2100</span></span><br><span class="line"><span class="string">'Curriculum A'     c        2       2067</span></span><br><span class="line"><span class="string">'Curriculum A'     c        3       2065</span></span><br><span class="line"><span class="string">'Curriculum A'     c        4       2015</span></span><br><span class="line"><span class="string">'Curriculum A'     c        5       1994</span></span><br><span class="line"><span class="string">'Curriculum A'     c        6       1919</span></span><br><span class="line"><span class="string">'Curriculum A'     d        1       2000</span></span><br><span class="line"><span class="string">'Curriculum A'     d        2       1981</span></span><br><span class="line"><span class="string">'Curriculum A'     d        3       1987</span></span><br><span class="line"><span class="string">'Curriculum A'     d        4       2016</span></span><br><span class="line"><span class="string">'Curriculum A'     d        5       2010</span></span><br><span class="line"><span class="string">'Curriculum A'     d        6       1946</span></span><br><span class="line"><span class="string">'Curriculum B'     e        1       2100</span></span><br><span class="line"><span class="string">'Curriculum B'     e        2       2004</span></span><br><span class="line"><span class="string">'Curriculum B'     e        3       2027</span></span><br><span class="line"><span class="string">'Curriculum B'     e        4       2109</span></span><br><span class="line"><span class="string">'Curriculum B'     e        5       2197</span></span><br><span class="line"><span class="string">'Curriculum B'     e        6       2294</span></span><br><span class="line"><span class="string">'Curriculum B'     f        1       2000</span></span><br><span class="line"><span class="string">'Curriculum B'     f        2       2011</span></span><br><span class="line"><span class="string">'Curriculum B'     f        3       2089</span></span><br><span class="line"><span class="string">'Curriculum B'     f        4       2124</span></span><br><span class="line"><span class="string">'Curriculum B'     f        5       2199</span></span><br><span class="line"><span class="string">'Curriculum B'     f        6       2234</span></span><br><span class="line"><span class="string">'Curriculum B'     g        1       2000</span></span><br><span class="line"><span class="string">'Curriculum B'     g        2       2074</span></span><br><span class="line"><span class="string">'Curriculum B'     g        3       2141</span></span><br><span class="line"><span class="string">'Curriculum B'     g        4       2199</span></span><br><span class="line"><span class="string">'Curriculum B'     g        5       2265</span></span><br><span class="line"><span class="string">'Curriculum B'     g        6       2254</span></span><br><span class="line"><span class="string">'Curriculum B'     h        1       2000</span></span><br><span class="line"><span class="string">'Curriculum B'     h        2       1970</span></span><br><span class="line"><span class="string">'Curriculum B'     h        3       1951</span></span><br><span class="line"><span class="string">'Curriculum B'     h        4       1981</span></span><br><span class="line"><span class="string">'Curriculum B'     h        5       1987</span></span><br><span class="line"><span class="string">'Curriculum B'     h        6       1969</span></span><br><span class="line"><span class="string">'Curriculum C'     i        1       1950</span></span><br><span class="line"><span class="string">'Curriculum C'     i        2       2007</span></span><br><span class="line"><span class="string">'Curriculum C'     i        3       1978</span></span><br><span class="line"><span class="string">'Curriculum C'     i        4       1965</span></span><br><span class="line"><span class="string">'Curriculum C'     i        5       1984</span></span><br><span class="line"><span class="string">'Curriculum C'     i        6       2020</span></span><br><span class="line"><span class="string">'Curriculum C'     j        1       2000</span></span><br><span class="line"><span class="string">'Curriculum C'     j        2       2029</span></span><br><span class="line"><span class="string">'Curriculum C'     j        3       2033</span></span><br><span class="line"><span class="string">'Curriculum C'     j        4       2050</span></span><br><span class="line"><span class="string">'Curriculum C'     j        5       2001</span></span><br><span class="line"><span class="string">'Curriculum C'     j        6       1988</span></span><br><span class="line"><span class="string">'Curriculum C'     k        1       2000</span></span><br><span class="line"><span class="string">'Curriculum C'     k        2       1976</span></span><br><span class="line"><span class="string">'Curriculum C'     k        3       2025</span></span><br><span class="line"><span class="string">'Curriculum C'     k        4       2047</span></span><br><span class="line"><span class="string">'Curriculum C'     k        5       2033</span></span><br><span class="line"><span class="string">'Curriculum C'     k        6       1984</span></span><br><span class="line"><span class="string">'Curriculum C'     l        1       2000</span></span><br><span class="line"><span class="string">'Curriculum C'     l        2       2020</span></span><br><span class="line"><span class="string">'Curriculum C'     l        3       2009</span></span><br><span class="line"><span class="string">'Curriculum C'     l        4       2017</span></span><br><span class="line"><span class="string">'Curriculum C'     l        5       1989</span></span><br><span class="line"><span class="string">'Curriculum C'     l        6       2020</span></span><br><span class="line"><span class="string">"</span>)</span><br><span class="line">Data = read.table(textConnection(Input), header=<span class="literal">TRUE</span>)</span><br><span class="line">Data$Instruction = factor(Data$Instruction,</span><br><span class="line">                levels=unique(Data$Instruction))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Define model and conduct analysis of deviance</span></span><br><span class="line"><span class="keyword">library</span>(nlme)</span><br><span class="line">model = lme(Calories.per.day ~ Instruction + Month + Instruction*Month,</span><br><span class="line">            random = ~<span class="number">1</span>|Student,</span><br><span class="line">            correlation = corAR1(form = ~ Month | Student,</span><br><span class="line">                                 value = <span class="number">0.4287</span>),</span><br><span class="line">            data=Data,</span><br><span class="line">            method=<span class="string">"REML"</span>)</span><br><span class="line"><span class="keyword">library</span>(car)</span><br><span class="line">Anova(model)</span><br><span class="line"><span class="comment">#Histogram of residuals</span></span><br><span class="line">x = residuals(model)</span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">plotNormalHistogram(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Test the random effects in the model</span></span><br><span class="line">model.fixed = gls(Calories.per.day ~ Instruction + Month + Instruction*Month,</span><br><span class="line">                  data=Data,</span><br><span class="line">                  method=<span class="string">"REML"</span>)</span><br><span class="line">anova(model, model.fixed)</span><br><span class="line"></span><br><span class="line"><span class="comment"># p-value and pseudo R-squared for model</span></span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">model.null = lme(Calories.per.day ~ <span class="number">1</span>,</span><br><span class="line">                 random = ~<span class="number">1</span>|Student,</span><br><span class="line">                 data = Data)</span><br><span class="line">nagelkerke(model, model.null)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Post-hoc analysis</span></span><br><span class="line"><span class="keyword">library</span>(multcompView)</span><br><span class="line"><span class="keyword">library</span>(lsmeans)</span><br><span class="line">marginal = lsmeans(model, ~ Instruction:Month)</span><br><span class="line"></span><br><span class="line">CLD(marginal,</span><br><span class="line">    alpha   = <span class="number">0.05</span>,</span><br><span class="line">    Letters = letters,     <span class="comment">### Use lower-case letters for .group</span></span><br><span class="line">    adjust  = <span class="string">"tukey"</span>)     <span class="comment">###  Tukey-adjusted comparisons</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Interaction plot</span></span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">Sum = groupwiseMean(Calories.per.day ~ Instruction + Month,</span><br><span class="line">                    data   = Data,</span><br><span class="line">                    conf   = <span class="number">0.95</span>,</span><br><span class="line">                    digits = <span class="number">3</span>,</span><br><span class="line">                    traditional = <span class="literal">FALSE</span>,</span><br><span class="line">                    percentile  = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line">pd = position_dodge(<span class="number">.2</span>)</span><br><span class="line">ggplot(Sum, aes(x =    Month,</span><br><span class="line">                y =    Mean,</span><br><span class="line">                color = Instruction)) +</span><br><span class="line">    geom_errorbar(aes(ymin=Percentile.lower,</span><br><span class="line">                      ymax=Percentile.upper),</span><br><span class="line">                   width=<span class="number">.2</span>, size=<span class="number">0.7</span>, position=pd) +</span><br><span class="line">    geom_point(shape=<span class="number">15</span>, size=<span class="number">4</span>, position=pd) +</span><br><span class="line">    scale_x_continuous(breaks=seq(<span class="number">1</span>, <span class="number">6</span>, <span class="number">1</span>)) + </span><br><span class="line">    ylab(<span class="string">"Mean calories per day"</span>) +</span><br><span class="line">    theme_bw() +</span><br><span class="line">    theme(axis.title = element_text(face = <span class="string">"bold"</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="Advanced-Parametric-Methods"><a href="#Advanced-Parametric-Methods" class="headerlink" title="Advanced Parametric Methods"></a>Advanced Parametric Methods</h3><h4 id="介绍-8"><a href="#介绍-8" class="headerlink" title="介绍"></a>介绍</h4><blockquote>
+<p>Except for <em>t</em>-tests, the approach of this book for parametric statistics has been to develop linear models (with the <em>lm</em> function) or mixed effects models (with the <em>nlme</em> or <em>lme4</em> packages) and then to apply analysis of variance, model checking, and post-hoc testing.</p>
+<p>These relatively simple models can be expanded to include more independent variables of either continuous or factor type.  Likewise, more complex designs can include nested and crossed factors.  Some traditional experimental designs include Latin square, split plot, and incomplete block.</p>
+</blockquote>
+<h4 id="Analysis-of-co-variance"><a href="#Analysis-of-co-variance" class="headerlink" title="Analysis of co-variance"></a>Analysis of co-variance</h4><blockquote>
+<p>当研究者知道有些<a href="https://baike.baidu.com/item/协变量" target="_blank" rel="noopener external nofollow noreferrer">协变量</a>会影响<a href="https://baike.baidu.com/item/因变量" target="_blank" rel="noopener external nofollow noreferrer">因变量</a>，却不能够控制和不感兴趣时（当研究学习时间对学习绩效的影响，学生原来的学习基础、智力学习兴趣就是<strong>协变量</strong>），可以在实验处理前予以观测，然后在统计时运用协方差分析来处理。将协变量对因变量的影响从<a href="https://baike.baidu.com/item/自变量" target="_blank" rel="noopener external nofollow noreferrer">自变量</a>中分离出去，可以进一步提高实验<strong>精确度</strong>和<a href="https://baike.baidu.com/item/统计检验" target="_blank" rel="noopener external nofollow noreferrer">统计检验</a><strong>灵敏度</strong>。</p>
+<p>协方差分析原假设：协变量对观测变量的线性影响是不显著的；在协变量影响扣除的条件下，控制变量各水平下观测变量的总体均值无显著差异，控制变量各水平对观测变量的效应同时为零。</p>
+<p>方差是用来度量单个变量 “自身变异”大小的<a href="https://baike.baidu.com/item/总体参数" target="_blank" rel="noopener external nofollow noreferrer">总体参数</a>，方差越大，该变量的变异越大；协方差是用来度量两个变量之间 “协同变异”大小的总体参数，即二个变量相互影响大小的参数，协方差的绝对值越大，两个变量相互影响越大。</p>
+<p>挖个坑！！这两者的差别是什么，怎么从公式上理解，以及如何在微生物数据上使用：</p>
+<ul>
+<li>偏相关分析，是在排除不可控因素（数值变量）外的数值+数值型变量的相关程度。</li>
+<li>协方差分析，是在排除不可控因素（数值变量）外的类别+数值型变量的影响程度。</li>
+</ul>
+</blockquote>
+<h4 id="Nonlinear-regression-and-curvilinear-regression"><a href="#Nonlinear-regression-and-curvilinear-regression" class="headerlink" title="Nonlinear regression and curvilinear regression"></a>Nonlinear regression and curvilinear regression</h4><p>非线性和曲线回归与线性回归类似，它们之间的差异仅仅在因变量和自变量之间的关系不同，前者存在弯曲关系，后者是线性关系。具体方法有：多项式回归(polynomial regression)、非线性回归(nonlinear regression)和样条回归(spline regression)。</p>
+<h4 id="Multiple-linear-regression"><a href="#Multiple-linear-regression" class="headerlink" title="Multiple linear regression"></a>Multiple linear regression</h4><p>多元线性回归仅仅是因为多个自变量对一个因变量施加影响，多项式回归其实就是多元线性回归的一类。</p>
+<h4 id="Logistic-linear-regression"><a href="#Logistic-linear-regression" class="headerlink" title="Logistic linear regression"></a>Logistic linear regression</h4><p>Logistic 线性回归的因变量是分类变量。标准的Logistic 线性回归的因变量只有两类，而多项式Logistic 线性回归的因变量则可以是多类。</p>
+<h4 id="Analysis-of-count-data"><a href="#Analysis-of-count-data" class="headerlink" title="Analysis of count data"></a>Analysis of count data</h4><p>当因变量是<strong>计数量</strong>而不是<strong>测量值</strong>，最好使用泊松线性回归(Poisson linear regression)</p>
+<blockquote>
+<p>When the dependent variable is a counted quantity and not a measured quantity, it is appropriate to use Poisson regression or related techniques.</p>
+</blockquote>
+<h3 id="Transforming-Data"><a href="#Transforming-Data" class="headerlink" title="Transforming Data"></a>Transforming Data</h3><h4 id="介绍-9"><a href="#介绍-9" class="headerlink" title="介绍"></a>介绍</h4><p>转换数据格式是为了解决某些不符合模型假设的数据，也可以使得某些不同分布的变量具有相似的分布。大部分有参检验要求残差服从正态分布并且残差是同方差的。当残差无法满足假设检验分布时，转换某项或者某几项变量从而使得其服从正态分布，通常是转换模型内的因变量但在复杂模型中也有同时转换自变量和因变量的情况。</p>
+<h4 id="Square-root-transformation"><a href="#Square-root-transformation" class="headerlink" title="Square root transformation"></a>Square root transformation</h4><p>平方根转换数据适合偏态分布数据,如左右偏态数据等,通常使用<code>sqrt</code>函数。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Turbidity = c(<span class="number">1.0</span>, <span class="number">1.2</span>, <span class="number">1.1</span>, <span class="number">1.1</span>, <span class="number">2.4</span>, <span class="number">2.2</span>, <span class="number">2.6</span>, <span class="number">4.1</span>, <span class="number">5.0</span>, <span class="number">10.0</span>, <span class="number">4.0</span>, <span class="number">4.1</span>, <span class="number">4.2</span>, <span class="number">4.1</span>, <span class="number">5.1</span>, <span class="number">4.5</span>, <span class="number">5.0</span>, <span class="number">15.2</span>, <span class="number">10.0</span>, <span class="number">20.0</span>, <span class="number">1.1</span>, <span class="number">1.1</span>, <span class="number">1.2</span>, <span class="number">1.6</span>, <span class="number">2.2</span>, <span class="number">3.0</span>, <span class="number">4.0</span>, <span class="number">10.5</span>)</span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">plotNormalHistogram(Turbidity)</span><br><span class="line"></span><br><span class="line">qqnorm(Turbidity, ylab=<span class="string">"Sample Quantiles for Turbidity"</span>)</span><br><span class="line">qqline(Turbidity, col=<span class="string">"red"</span>)</span><br><span class="line"></span><br><span class="line">T_sqrt = sqrt(Turbidity)</span><br><span class="line">plotNormalHistogram(T_sqrt)</span><br></pre></td></tr></table></figure>
+<h4 id="Cube-root-transformation"><a href="#Cube-root-transformation" class="headerlink" title="Cube root transformation"></a>Cube root transformation</h4><p>立方根转换数据也适合偏态分布数据。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">T_cub = sign(Turbidity) * abs(Turbidity)^(<span class="number">1</span>/<span class="number">3</span>)   <span class="comment"># Avoid complex numbers</span></span><br><span class="line">                                                 <span class="comment">#   for some cube roots</span></span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">plotNormalHistogram(T_cub)</span><br></pre></td></tr></table></figure>
+<h4 id="Log-transformation"><a href="#Log-transformation" class="headerlink" title="Log transformation"></a>Log transformation</h4><p>某些自然界的数据是符合<code>log-normal</code>的，这意味着对这些数据做<code>log</code>转换将使得转换后数据服从正态分布，并且<code>log</code>转换是相对较强的转换方法。一般情况下会优先考虑使用该种转换方式，但与此同时因为<code>log(0)</code>是未定义且不适合负数数值的转换，所以在使用<code>log</code>转换的时候一般会对所有数据添加一个常量，该常量使得所有数据均是正数。适用的数据有偏态分布数据。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">T_log = log(Turbidity)</span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">plotNormalHistogram(T_log)</span><br></pre></td></tr></table></figure>
+<h4 id="Tukey’s-Ladder-of-Powers-transformation"><a href="#Tukey’s-Ladder-of-Powers-transformation" class="headerlink" title="Tukey’s Ladder of Powers transformation"></a>Tukey’s Ladder of Powers transformation</h4><blockquote>
+<p>The approach of Tukey’s Ladder of Powers uses a power transformation on a data set.  For example, raising data to a 0.5 power is equivalent to applying a square root transformation; raising data to a 0.33 power is equivalent to applying a cube root transformation.</p>
+<p>Here, I use the <em>transformTukey</em> function, which performs iterative Shapiro–Wilk tests, and finds the <em>lambda</em> value that maximizes the W statistic from those tests.  In essence, this finds the power transformation that makes the data fit the normal distribution as closely as possible with this type of transformation.</p>
+</blockquote>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">T_tuk = transformTukey(Turbidity,plotit=<span class="literal">FALSE</span>)</span><br><span class="line"><span class="comment">#    lambda     W Shapiro.p.value</span></span><br><span class="line"><span class="comment">#397   -0.1 0.935         0.08248</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># the resultant lambda of –0.1 is slightly stronger than a log transformation, since a log transformation corresponds to a lambda of 0.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">plotNormalHistogram(T_tuk</span><br></pre></td></tr></table></figure>
+<h4 id="Box–Cox-transformation"><a href="#Box–Cox-transformation" class="headerlink" title="Box–Cox transformation"></a>Box–Cox transformation</h4><blockquote>
+<p>The Box–Cox procedure is similar in concept to the Tukey Ladder of Power procedure described above.  However, instead of transforming a single variable, it maximizes a log-likelihood statistic for a linear model (such as ANOVA or linear regression).  It will also work on a single variable using a formula of <em>x ~ 1</em>.</p>
+</blockquote>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Turbidity = c(<span class="number">1.0</span>, <span class="number">1.2</span>, <span class="number">1.1</span>, <span class="number">1.1</span>, <span class="number">2.4</span>, <span class="number">2.2</span>, <span class="number">2.6</span>, <span class="number">4.1</span>, <span class="number">5.0</span>, <span class="number">10.0</span>, <span class="number">4.0</span>, <span class="number">4.1</span>, <span class="number">4.2</span>, <span class="number">4.1</span>, <span class="number">5.1</span>, <span class="number">4.5</span>, <span class="number">5.0</span>, <span class="number">15.2</span>, <span class="number">10.0</span>, <span class="number">20.0</span>, <span class="number">1.1</span>, <span class="number">1.1</span>, <span class="number">1.2</span>, <span class="number">1.6</span>, <span class="number">2.2</span>, <span class="number">3.0</span>, <span class="number">4.0</span>, <span class="number">10.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">plotNormalHistogram(Turbidity)</span><br><span class="line"></span><br><span class="line">qqnorm(Turbidity,ylab=<span class="string">"Sample Quantiles for Turbidity"</span>)</span><br><span class="line">qqline(Turbidity,col=<span class="string">"red"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(MASS)</span><br><span class="line">Box = boxcox(Turbidity ~ <span class="number">1</span>,              <span class="comment"># Transform Turbidity as a single vector</span></span><br><span class="line">             lambda = seq(-<span class="number">6</span>,<span class="number">6</span>,<span class="number">0.1</span>) )     <span class="comment"># Try values -6 to 6 by 0.1           </span></span><br><span class="line">Cox = data.frame(Box$x, Box$y)            <span class="comment"># Create a data frame with the results</span></span><br><span class="line">Cox2 = Cox[with(Cox, order(-Cox$Box.y)),] <span class="comment"># Order the new data frame by decreasing y</span></span><br><span class="line">lambda = Cox2[<span class="number">1</span>, <span class="string">"Box.x"</span>]                 <span class="comment"># Extract that lambda</span></span><br><span class="line">T_box = (Turbidity ^ lambda - <span class="number">1</span>)/lambda   <span class="comment"># Transform the original data</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">plotNormalHistogram(T_box)</span><br></pre></td></tr></table></figure>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol>
+<li><a href="https://rcompanion.org/handbook/I_01.html" target="_blank" rel="noopener external nofollow noreferrer">Parametric Tests</a></li>
+<li><a href="https://rcompanion.org/handbook/E_01.html" target="_blank" rel="noopener external nofollow noreferrer">Likert data</a></li>
+<li><a href="https://blog.csdn.net/u011253874/article/details/42683057" target="_blank" rel="noopener external nofollow noreferrer">正态性检验</a></li>
+<li><a href="https://baike.baidu.com/item/%E5%8D%8F%E6%96%B9%E5%B7%AE%E5%88%86%E6%9E%90/5366621?fr=aladdin" target="_blank" rel="noopener external nofollow noreferrer">协方差分析</a></li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>-------- 本文结束 </span>
+      <i class="fa fa-paw"></i>
+      <span> 感谢阅读 --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/d451ba8f.html" rel="bookmark">非参数统计（nonparametric statistics）</a></div>
+    </li>
+  </ul>
+
+        <div class="reward-container">
+  <div>赞赏一瓶优酸乳</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zouhua.top/archives/ae974f5.html" title="参数统计（parametric statistics）">https://zouhua.top/archives/ae974f5.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/" rel="tag"><i class="fa fa-tags"></i> 假设检验</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/b9aef638.html" rel="prev" title="patchwork:合并多个R图的包">
+      <i class="fa fa-chevron-left"></i> patchwork:合并多个R图的包
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/dfc9dd70.html" rel="next" title="lncRNA,miRNA,mRNA的定义及其关联关系">
+      lncRNA,miRNA,mRNA的定义及其关联关系 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参数检验"><span class="nav-number">1.</span> <span class="nav-text">参数检验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数检验的使用范围"><span class="nav-number">1.1.</span> <span class="nav-text">参数检验的使用范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数检验的假设"><span class="nav-number">1.2.</span> <span class="nav-text">参数检验的假设</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单样本检验"><span class="nav-number">2.</span> <span class="nav-text">单样本检验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#One-sample-t-test"><span class="nav-number">2.1.</span> <span class="nav-text">One-sample t-test</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍"><span class="nav-number">2.1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适合数据"><span class="nav-number">2.1.2.</span> <span class="nav-text">适合数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码"><span class="nav-number">2.1.3.</span> <span class="nav-text">R代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Effect-size"><span class="nav-number">2.1.4.</span> <span class="nav-text">Effect size</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两样本"><span class="nav-number">3.</span> <span class="nav-text">两样本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Two-sample-t-test"><span class="nav-number">3.1.</span> <span class="nav-text">Two-sample t-test</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-1"><span class="nav-number">3.1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适合数据-1"><span class="nav-number">3.1.2.</span> <span class="nav-text">适合数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码-1"><span class="nav-number">3.1.3.</span> <span class="nav-text">R代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Paired-t-test"><span class="nav-number">3.2.</span> <span class="nav-text">Paired t-test</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-2"><span class="nav-number">3.2.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适合数据-2"><span class="nav-number">3.2.2.</span> <span class="nav-text">适合数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码-2"><span class="nav-number">3.2.3.</span> <span class="nav-text">R代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多样本"><span class="nav-number">4.</span> <span class="nav-text">多样本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#One-way-ANOVA"><span class="nav-number">4.1.</span> <span class="nav-text">One-way ANOVA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-3"><span class="nav-number">4.1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适合数据-3"><span class="nav-number">4.1.2.</span> <span class="nav-text">适合数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码-3"><span class="nav-number">4.1.3.</span> <span class="nav-text">R代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#One-way-ANOVA-with-Blocks"><span class="nav-number">4.2.</span> <span class="nav-text">One-way ANOVA with Blocks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-4"><span class="nav-number">4.2.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适合数据-4"><span class="nav-number">4.2.2.</span> <span class="nav-text">适合数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码-4"><span class="nav-number">4.2.3.</span> <span class="nav-text">R代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#One-way-ANOVA-with-Random-Blocks"><span class="nav-number">4.3.</span> <span class="nav-text">One-way ANOVA with Random Blocks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-5"><span class="nav-number">4.3.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适合数据-5"><span class="nav-number">4.3.2.</span> <span class="nav-text">适合数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码-5"><span class="nav-number">4.3.3.</span> <span class="nav-text">R代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Two-way-ANOVA"><span class="nav-number">4.4.</span> <span class="nav-text">Two-way ANOVA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-6"><span class="nav-number">4.4.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适合数据-6"><span class="nav-number">4.4.2.</span> <span class="nav-text">适合数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码-6"><span class="nav-number">4.4.3.</span> <span class="nav-text">R代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Repeated-Measures-ANOVA"><span class="nav-number">4.5.</span> <span class="nav-text">Repeated Measures ANOVA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-7"><span class="nav-number">4.5.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适合数据-7"><span class="nav-number">4.5.2.</span> <span class="nav-text">适合数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码-7"><span class="nav-number">4.5.3.</span> <span class="nav-text">R代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">5.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Advanced-Parametric-Methods"><span class="nav-number">5.1.</span> <span class="nav-text">Advanced Parametric Methods</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-8"><span class="nav-number">5.1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Analysis-of-co-variance"><span class="nav-number">5.1.2.</span> <span class="nav-text">Analysis of co-variance</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nonlinear-regression-and-curvilinear-regression"><span class="nav-number">5.1.3.</span> <span class="nav-text">Nonlinear regression and curvilinear regression</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Multiple-linear-regression"><span class="nav-number">5.1.4.</span> <span class="nav-text">Multiple linear regression</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Logistic-linear-regression"><span class="nav-number">5.1.5.</span> <span class="nav-text">Logistic linear regression</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Analysis-of-count-data"><span class="nav-number">5.1.6.</span> <span class="nav-text">Analysis of count data</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transforming-Data"><span class="nav-number">5.2.</span> <span class="nav-text">Transforming Data</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-9"><span class="nav-number">5.2.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Square-root-transformation"><span class="nav-number">5.2.2.</span> <span class="nav-text">Square root transformation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cube-root-transformation"><span class="nav-number">5.2.3.</span> <span class="nav-text">Cube root transformation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Log-transformation"><span class="nav-number">5.2.4.</span> <span class="nav-text">Log transformation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tukey’s-Ladder-of-Powers-transformation"><span class="nav-number">5.2.5.</span> <span class="nav-text">Tukey’s Ladder of Powers transformation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Box–Cox-transformation"><span class="nav-number">5.2.6.</span> <span class="nav-text">Box–Cox transformation</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">6.</span> <span class="nav-text">引用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  近期文章
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">500k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">7:34</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button" onclick="moonMenuClick()">
+    <svg class="moon-menu-svg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+      <g class="moon-menu-points">
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
+        <circle class="moon-menu-point" r=".2rem"></circle>
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
+      </g>
+    </svg>
+    <div class="moon-menu-icon">
+    </div>
+    <div class="moon-menu-text">
+    </div>
+  </div>
+</div>
+<script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>

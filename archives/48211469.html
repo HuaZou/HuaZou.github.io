@@ -1,0 +1,1154 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="微生物多样性的α多样性反应群落微生物种群的丰富度，而β多样性则反应群落间的差异性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何计算微生物多样性且可视化其结果">
+<meta property="og:url" content="https://zouhua.top/archives/48211469.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="微生物多样性的α多样性反应群落微生物种群的丰富度，而β多样性则反应群落间的差异性。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zouhua.top/images/R_data_08_01.png">
+<meta property="og:image" content="https://zouhua.top/images/R_data_08_02.png">
+<meta property="og:image" content="https://zouhua.top/images/R_data_08_03.png">
+<meta property="og:image" content="https://zouhua.top/images/R_data_08_05.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_data_08_04.png">
+<meta property="article:published_time" content="2020-04-20T10:16:05.000Z">
+<meta property="article:modified_time" content="2020-04-20T12:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="多样性">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zouhua.top/images/R_data_08_01.png">
+
+<link rel="canonical" href="https://zouhua.top/archives/48211469.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>如何计算微生物多样性且可视化其结果 | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/48211469.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何计算微生物多样性且可视化其结果
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-20 18:16:05 / 修改时间：20:00:00" itemprop="dateCreated datePublished" datetime="2020-04-20T18:16:05+08:00">2020-04-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">数据分析</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/48211469.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/48211469.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>14k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="Alpha-多样性（α-diversity）"><a href="#Alpha-多样性（α-diversity）" class="headerlink" title="Alpha 多样性（α-diversity）"></a>Alpha 多样性（α-diversity）</h3><p>α-多样性是指群落本身的多样性，评价群落丰富度指数有<code>Chao</code>和<code>Ace</code>指数，而多样性指数是<code>Shannon</code>和<code>Simpson</code>指数，两者的区别在于前者仅仅指群落中物种的数量，而不考虑相对丰度情况，后者则是群落物种数量和丰度均考虑，尤其是<code>Simpson</code>反映了优势物种在群落的地位和作用。</p>
+<h3 id="Beta多样性（β-diversity）"><a href="#Beta多样性（β-diversity）" class="headerlink" title="Beta多样性（β-diversity）"></a>Beta多样性（β-diversity）</h3><p>β-多样性是利用样本之间的物种组成（在16s分析中还是利用物种间的进化关系）的丰度信息计算样本之间的距离（常用距离有bray-curtis distance，欧氏距离等）。常用的分析方法是PCoA、MDS（两者均适合类似微生物的稀疏矩阵数据）等方法。除此之外，还可以通过计算样本的<code>Multivariate homogeneity of groups dispersions</code>，比较不同群落的该距离。</p>
+<h3 id="稀疏曲线（Rarefaction-curves）"><a href="#稀疏曲线（Rarefaction-curves）" class="headerlink" title="稀疏曲线（Rarefaction curves）"></a>稀疏曲线（Rarefaction curves）</h3><blockquote>
+<p><strong>稀释性曲线(rarefaction curve)</strong>：一般是从样本中随机抽取一定数量的个体，统计出这些个体所代表物种数目，并以个体数与物种数来构建曲线。它可以用来比较测序数量不同的样本物种的丰富度，也可以用来说明样本的取样大小是否合理。分析采用对优化序列进行随机抽样的方法，以抽到的序列数与它们所能代表OTU的数目构建rarefaction curve。稀释性曲线图中，当曲线趋向平坦时，说明取样的数量合理，更多的取样只会产生少量新的<strong>OT</strong>U，反之则表明继续取样还可能产生较多新的OTU。因此，通过作稀释性曲线，可以得出样品的取样深度情况。</p>
+</blockquote>
+<h3 id="物种组成（microbial-composition）"><a href="#物种组成（microbial-composition）" class="headerlink" title="物种组成（microbial composition）"></a>物种组成（microbial composition）</h3><p>微生物的分类水平通常由界、门、纲、目、科、属和种七类组成。查看物种组成既可以是组内，也可以是单个样本，通常我们使用柱状图或者饼图等展示结果。</p>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><h4 id="输入数据"><a href="#输入数据" class="headerlink" title="输入数据"></a>输入数据</h4><ul>
+<li><p>表型数据： 行名是样本ID，包含分组信息列；</p>
+</li>
+<li><p>微生物物种相对丰度表：行是微生物，列是样本ID</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(dplyr)</span><br><span class="line"><span class="keyword">library</span>(tibble)</span><br><span class="line"><span class="keyword">library</span>(data.table)</span><br><span class="line"><span class="keyword">library</span>(ggpubr)</span><br><span class="line"></span><br><span class="line">phen &lt;- read.csv(<span class="string">"phenotype.20200417.csv"</span>)</span><br><span class="line"></span><br><span class="line">chd.s.trim &lt;- read.csv(<span class="string">"Children_species_trim.csv"</span>, row.names = <span class="number">1</span>)</span><br><span class="line">chd.g.trim &lt;- read.csv(<span class="string">"Children_genus_trim.csv"</span>, row.names = <span class="number">1</span>)</span><br><span class="line">chd.f.trim &lt;- read.csv(<span class="string">"Children_phylum_trim.csv"</span>, row.names = <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="alpha-多样性"><a href="#alpha-多样性" class="headerlink" title="alpha 多样性"></a>alpha 多样性</h4><p>使用<code>vegan</code>包内的<code>diversity</code>函数。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># calculate diversity </span></span><br><span class="line">get_alpha_diversity &lt;- <span class="keyword">function</span>(prof, type=<span class="string">"species"</span>)&#123;</span><br><span class="line">  prf &lt;- prof %&gt;% t() %&gt;% data.frame() %&gt;% rownames_to_column(<span class="string">"SampleID"</span>) </span><br><span class="line">  </span><br><span class="line">  alpha &lt;- plyr::ddply(prf, ~SampleID ,<span class="keyword">function</span>(x)&#123;</span><br><span class="line">    data.frame(shannon=vegan::diversity(x[-<span class="number">1</span>], index=c(<span class="string">"shannon"</span>)),</span><br><span class="line">               simpson=vegan::diversity(x[-<span class="number">1</span>], index=c(<span class="string">"simpson"</span>)),</span><br><span class="line">               invsimpson=vegan::diversity(x[-<span class="number">1</span>], index=c(<span class="string">"invsimpson"</span>)))</span><br><span class="line">    &#125;) %&gt;% mutate(Taxonomy=type)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span>(alpha[, c(<span class="number">1</span>, <span class="number">5</span>, <span class="number">2</span>:<span class="number">4</span>)])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">chd.alpha.diverstiy &lt;- rbind(get_alpha_diversity(chd.s.trim, type=<span class="string">"species"</span>), </span><br><span class="line">      get_alpha_diversity(chd.g.trim, type=<span class="string">"genus"</span>),</span><br><span class="line">      get_alpha_diversity(chd.f.trim, type=<span class="string">"phylum"</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># visualization</span></span><br><span class="line">plot_alpha &lt;- <span class="keyword">function</span>(label=<span class="string">"Children"</span>, grouping_column=<span class="string">"Team"</span>)&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span>(is.null(label))&#123;</span><br><span class="line">    pheno &lt;- phen_shan</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(label == <span class="string">"Children"</span>)&#123;</span><br><span class="line">    pheno &lt;- phen_shan %&gt;% filter(Kind%<span class="keyword">in</span>%label) </span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(label == <span class="string">"Control"</span>)&#123;</span><br><span class="line">    pheno &lt;- phen_shan  %&gt;%</span><br><span class="line">      filter(Group%<span class="keyword">in</span>%c(<span class="string">"ET_B"</span>,<span class="string">"ET_P"</span>,<span class="string">"Control1"</span>)) %&gt;%</span><br><span class="line">      mutate(Kind=ifelse(Kind==<span class="string">"BGI"</span>, <span class="string">"BGI_control"</span>, <span class="string">"Children_control"</span>))    </span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  colnames(pheno)[which(colnames(pheno) == grouping_column)] &lt;- <span class="string">"group_col"</span></span><br><span class="line">  pheno$group_col &lt;- factor(as.character(pheno$group_col))</span><br><span class="line">  </span><br><span class="line">  phe &lt;- pheno %&gt;% select(SampleID, group_col)</span><br><span class="line">  mdat &lt;- pheno %&gt;% select(SampleID, phylum, genus, species)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span>(grouping_column == <span class="string">"Team"</span>)&#123;</span><br><span class="line">    grp &lt;- c(<span class="string">"Control"</span>, <span class="string">"Case"</span>)</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(grouping_column == <span class="string">"Group"</span>)&#123;</span><br><span class="line">    grp &lt;- c(<span class="string">"Control1"</span>,<span class="string">"Control2"</span>,<span class="string">"NAFLD"</span>)</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(grouping_column == <span class="string">"MRS_group"</span>)&#123;</span><br><span class="line">    grp &lt;- c(<span class="string">"MRS_control"</span>, <span class="string">"MRS_NAFLD"</span>)</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    grp &lt;- c(<span class="string">"BGI_control"</span>, <span class="string">"Children_control"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  cmp &lt;- <span class="literal">NULL</span></span><br><span class="line">  <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:(length(grp) -<span class="number">1</span> ))&#123;</span><br><span class="line">    <span class="keyword">for</span>(j <span class="keyword">in</span> (i+<span class="number">1</span>):length(grp))&#123;</span><br><span class="line">      tmp &lt;- c(grp[i], grp[j])</span><br><span class="line">      <span class="keyword">if</span>(is.null(cmp))&#123;</span><br><span class="line">        cmp[[<span class="number">1</span>]] &lt;- tmp</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        cmp[[i+<span class="number">1</span>]] &lt;- tmp</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">#coloring function</span></span><br><span class="line">  gg_color_hue &lt;- <span class="keyword">function</span>(n)&#123;</span><br><span class="line">    hues &lt;- seq(<span class="number">15</span>,<span class="number">375</span>,length=n+<span class="number">1</span>)</span><br><span class="line">    hcl(h=hues,l=<span class="number">65</span>,c=<span class="number">100</span>)[<span class="number">1</span>:n]</span><br><span class="line">  &#125;</span><br><span class="line">  cols &lt;- gg_color_hue(length(unique(phe$group_col)))</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span>(</span><br><span class="line">    </span><br><span class="line">    inner_join(phe, mdat, by=<span class="string">"SampleID"</span>) %&gt;%</span><br><span class="line">      tidyr::gather(group, value, -c(<span class="string">"SampleID"</span>, <span class="string">"group_col"</span>)) %&gt;%</span><br><span class="line">      mutate(group_col=factor(group_col, levels = grp),</span><br><span class="line">             group=factor(group, levels = c(<span class="string">"phylum"</span>, <span class="string">"genus"</span>, <span class="string">"species"</span>))) %&gt;%</span><br><span class="line">      ggplot(aes(x=group_col, y=value, fill=group_col))+</span><br><span class="line">        stat_boxplot(geom = <span class="string">"errorbar"</span>, width = <span class="number">.12</span>)+</span><br><span class="line">        geom_boxplot(width = <span class="number">.3</span>, outlier.shape = <span class="number">3</span>, outlier.size = <span class="number">1</span>)+</span><br><span class="line">        guides(fill=guide_legend(<span class="literal">NULL</span>, keywidth = <span class="number">.5</span>, keyheight = <span class="number">.5</span>))+</span><br><span class="line">        facet_wrap(facets = <span class="string">"group"</span>, scales = <span class="string">"free"</span>)+</span><br><span class="line">        stat_compare_means(comparisons = cmp,</span><br><span class="line">                           method = <span class="string">"wilcox.test"</span>,</span><br><span class="line">                           label = <span class="string">"p.label"</span>)+</span><br><span class="line">        xlab(<span class="string">""</span>)+</span><br><span class="line">        ylab(<span class="string">"Shannon Index"</span>)+</span><br><span class="line">        guides(fill = <span class="literal">F</span>)+</span><br><span class="line">        theme_bw()+</span><br><span class="line">        scale_fill_manual(values = cols)+</span><br><span class="line">        theme(plot.title = element_text(size = <span class="number">10</span>, </span><br><span class="line">                        color = <span class="string">"black"</span>, face = <span class="string">"bold"</span>, hjust = <span class="number">0.5</span>), </span><br><span class="line">                    axis.title = element_text(size = <span class="number">10</span>, color = <span class="string">"black"</span>, face = <span class="string">"bold"</span>),</span><br><span class="line">                    axis.text = element_text(size = <span class="number">9</span>, color = <span class="string">"black"</span>),</span><br><span class="line">                    text = element_text(size = <span class="number">8</span>, color = <span class="string">"black"</span>),</span><br><span class="line">                    strip.text = element_text(size = <span class="number">9</span>, color = <span class="string">"black"</span>, face = <span class="string">"bold"</span>),</span><br><span class="line">                    panel.grid = element_blank())</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">phen_shan &lt;- inner_join(phen, rbind(chd.alpha.diverstiy %&gt;% select(SampleID, Taxonomy, shannon) %&gt;%</span><br><span class="line">                          tidyr::spread(Taxonomy, shannon), </span><br><span class="line">                        bgi.alpha.diverstiy %&gt;% select(SampleID, Taxonomy, shannon) %&gt;%</span><br><span class="line">                          tidyr::spread(Taxonomy, shannon)),</span><br><span class="line">                        by = <span class="string">"SampleID"</span>)</span><br><span class="line"></span><br><span class="line">plot_alpha(<span class="string">"Children"</span>, <span class="string">"Group"</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/R_data_08_01.png" alt=""></p>
+<h4 id="beta多样性"><a href="#beta多样性" class="headerlink" title="beta多样性"></a>beta多样性</h4><p>使用<code>vegan</code>包内的<code>vegdist</code>和<code>betadisper</code>函数。前者计算距离，后者计算beta指数。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">centorComp &lt;- <span class="keyword">function</span>(pro, method , config, color)&#123;</span><br><span class="line">            c(<span class="string">"red"</span>, <span class="string">"Blue"</span>)</span><br><span class="line">  id &lt;- intersect(rownames(pro), rownames(config))</span><br><span class="line">  pro &lt;- pro[id, ]</span><br><span class="line">  config &lt;- config[id, ]</span><br><span class="line">  <span class="comment"># compute the distance</span></span><br><span class="line"></span><br><span class="line">  prodis &lt;- vegan::vegdist(pro, method = method)</span><br><span class="line">  mod &lt;- vegan::betadisper(prodis, config)</span><br><span class="line"></span><br><span class="line">  qdata &lt;- data.frame(dis = mod$distance, label = config)</span><br><span class="line"></span><br><span class="line">  my_comparisons = list()</span><br><span class="line">  num &lt;- combn(length(unique(config)), <span class="number">2</span>)</span><br><span class="line">  <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:ncol(num))&#123;</span><br><span class="line">    my_comparisons[[i]] &lt;- num[, i]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  p &lt;- ggboxplot(qdata, x=<span class="string">"label"</span>, y=<span class="string">"dis"</span>, color=<span class="string">"label"</span>, </span><br><span class="line">                 add=<span class="string">"jitter"</span>, alpha=<span class="number">0.6</span>, size=<span class="number">0.5</span>)+</span><br><span class="line">    stat_compare_means(comparisons = my_comparisons)+</span><br><span class="line">    scale_color_manual(values=color)+</span><br><span class="line">    labs(x=<span class="string">""</span>, y=<span class="string">"Distance to centroid"</span>)+</span><br><span class="line">    theme_bw()+</span><br><span class="line">    theme(<span class="comment">#axis.text.x = element_text(vjust = 0.5, hjust = 0.5, angle = 45),</span></span><br><span class="line">          legend.position = <span class="string">"none"</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span>(p)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cowplot::plot_grid(</span><br><span class="line">  centorComp(chd.f.trim %&gt;% t() %&gt;% data.frame(), <span class="string">"bray"</span>,</span><br><span class="line">             phen_shan %&gt;% column_to_rownames(<span class="string">"SampleID"</span>) %&gt;% select(Group),</span><br><span class="line">             c(<span class="string">"red"</span>, <span class="string">"Blue"</span>, <span class="string">"green"</span>)),</span><br><span class="line">  centorComp(chd.g.trim %&gt;% t() %&gt;% data.frame(), <span class="string">"bray"</span>,</span><br><span class="line">             phen_shan %&gt;% column_to_rownames(<span class="string">"SampleID"</span>) %&gt;% select(Group),</span><br><span class="line">             c(<span class="string">"red"</span>, <span class="string">"Blue"</span>, <span class="string">"green"</span>)),</span><br><span class="line">  centorComp(chd.s.trim %&gt;% t() %&gt;% data.frame(), <span class="string">"bray"</span>,</span><br><span class="line">             phen_shan %&gt;% column_to_rownames(<span class="string">"SampleID"</span>) %&gt;% select(Group),</span><br><span class="line">             c(<span class="string">"red"</span>, <span class="string">"Blue"</span>, <span class="string">"green"</span>)),</span><br><span class="line">    labels = c(<span class="string">"Phylum"</span>, <span class="string">"Genus"</span>, <span class="string">"Species"</span>), ncol = <span class="number">3</span>, label_size = <span class="number">8</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/R_data_08_02.png" alt=""></p>
+<h4 id="PCoA"><a href="#PCoA" class="headerlink" title="PCoA"></a>PCoA</h4><p>使用<code>vegan</code>包内的<code>vegdist</code>函数计算距离。<code>ape</code>包的<code>pcoa</code>计算主坐标。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">plot_pcoa &lt;- <span class="keyword">function</span>(label=<span class="string">"Children"</span>, grouping_column=<span class="string">"MRS_group"</span>)&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># label="Children"</span></span><br><span class="line">  <span class="comment"># grouping_column="Group"</span></span><br><span class="line">   </span><br><span class="line">  <span class="keyword">if</span>(label == <span class="string">"Children"</span>)&#123;</span><br><span class="line">    pheno &lt;- phen %&gt;% filter(Kind%<span class="keyword">in</span>%label)</span><br><span class="line">    prof &lt;- chd.s.trim</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span> (label == <span class="string">"Control"</span>) &#123;</span><br><span class="line">    pheno &lt;- rbind(</span><br><span class="line">            phen %&gt;% filter(Kind%<span class="keyword">in</span>%<span class="string">"Children"</span>) %&gt;% filter(Group%<span class="keyword">in</span>%<span class="string">"Control1"</span>) %&gt;% </span><br><span class="line">              mutate(Kind2 = <span class="string">"Children_control"</span>), </span><br><span class="line">            phen %&gt;% filter(Kind%<span class="keyword">in</span>%<span class="string">"BGI"</span>) %&gt;% filter(BMI &lt; <span class="number">25</span>)  %&gt;% </span><br><span class="line">              mutate(Kind2 = <span class="string">"BGI_control"</span>))</span><br><span class="line">    prof &lt;- inner_join(chd.s.trim %&gt;% rownames_to_column(<span class="string">"Type"</span>), </span><br><span class="line">                       bgi.s.trim %&gt;% rownames_to_column(<span class="string">"Type"</span>),</span><br><span class="line">                       by = <span class="string">"Type"</span>) %&gt;%</span><br><span class="line">    column_to_rownames(<span class="string">"Type"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  colnames(pheno)[which(colnames(pheno) == grouping_column)] &lt;- <span class="string">"group_col"</span></span><br><span class="line">  phen &lt;- pheno %&gt;% select(SampleID, group_col) </span><br><span class="line">  </span><br><span class="line">  <span class="comment"># prof</span></span><br><span class="line">  sid &lt;- intersect(phen$SampleID, colnames(prof))</span><br><span class="line">  phe &lt;- phen[phen$SampleID%<span class="keyword">in</span>%sid, ] %&gt;% select(SampleID, group_col)</span><br><span class="line">  prf &lt;- prof[, colnames(prof)%<span class="keyword">in</span>%sid]</span><br><span class="line">  dis &lt;- vegan::vegdist(t(prf), method = <span class="string">"bray"</span>)</span><br><span class="line">  pcoa &lt;- ape::pcoa(dis)</span><br><span class="line">  eig &lt;- pcoa$values[, <span class="string">"Eigenvalues"</span>]</span><br><span class="line">  eig_var &lt;- eig[<span class="number">1</span>:<span class="number">2</span>]</span><br><span class="line">  eig_var_explain &lt;- round(eig_var/sum(eig), <span class="number">4</span>) * <span class="number">100</span> </span><br><span class="line">  explains &lt;- paste0(paste0(<span class="string">"PCoA"</span>, seq(<span class="number">2</span>)), <span class="string">" ("</span>, paste0(eig_var_explain, <span class="string">"%"</span>), <span class="string">")"</span>)</span><br><span class="line">  score &lt;- inner_join(pcoa$vectors[, c(<span class="number">1</span>:<span class="number">2</span>)] %&gt;% data.frame() %&gt;% </span><br><span class="line">                        tibble::rownames_to_column(<span class="string">"SampleID"</span>), </span><br><span class="line">                      phe, by = <span class="string">"SampleID"</span>)</span><br><span class="line">  colnames(score) &lt;- c(<span class="string">"SampleID"</span>, paste0(<span class="string">"PCoA"</span>, seq(<span class="number">2</span>)), <span class="string">"group_col"</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="comment">#correlation spearman</span></span><br><span class="line">  dat &lt;- inner_join(score[, c(<span class="number">1</span>, <span class="number">3</span>)], pheno[pheno$SampleID%<span class="keyword">in</span>%sid, ], by = <span class="string">"SampleID"</span>)</span><br><span class="line">  spearman_res &lt;- data.frame()</span><br><span class="line">  <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">3</span>:(ncol(dat)-<span class="number">2</span>))&#123;</span><br><span class="line">    tmp_data &lt;- dat[, c(<span class="number">2</span>, i)] %&gt;% na.omit() %&gt;% setnames(c(<span class="string">"Xvalue"</span>, <span class="string">"Yvalue"</span>)) %&gt;%</span><br><span class="line">      mutate(Yvalue=as.numeric(Yvalue))</span><br><span class="line">    <span class="keyword">if</span>(nrow(tmp_data) == nrow(dat))&#123;</span><br><span class="line">      tmp_res &lt;- cor.test(tmp_data$Xvalue, tmp_data$Yvalue, method = <span class="string">"spearman"</span>)</span><br><span class="line">      tmp.cln &lt;- data.frame(phen=paste0(<span class="string">"PCoA2_"</span>, colnames(dat)[i]),</span><br><span class="line">                            rho=as.numeric(tmp_res$estimate),</span><br><span class="line">                            pvalue=as.numeric(tmp_res$p.value))</span><br><span class="line">      spearman_res &lt;- rbind(spearman_res, tmp.cln)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  spearman_res$FDR &lt;- p.adjust(spearman_res$pvalue, method = <span class="string">"BH"</span>)</span><br><span class="line">  <span class="comment">#write.csv(spearman_res, "all.spearman_pcoa2_phen.csv")</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">#coloring function</span></span><br><span class="line">  gg_color_hue &lt;- <span class="keyword">function</span>(n)&#123;</span><br><span class="line">    hues &lt;- seq(<span class="number">15</span>,<span class="number">375</span>,length=n+<span class="number">1</span>)</span><br><span class="line">    hcl(h=hues,l=<span class="number">65</span>,c=<span class="number">100</span>)[<span class="number">1</span>:n]</span><br><span class="line">  &#125;</span><br><span class="line">  cols &lt;- gg_color_hue(length(unique(phe$group_col))) </span><br><span class="line">  </span><br><span class="line">  <span class="comment"># PERMANOVA </span></span><br><span class="line">  adn_res &lt;- vegan::adonis(dis ~ group_col, data=phe)</span><br><span class="line">  adn_pvalue &lt;- adn_res[[<span class="number">1</span>]][[<span class="string">"Pr(&gt;F)"</span>]][<span class="number">1</span>]</span><br><span class="line">  adn_rsquared &lt;- round(adn_res[[<span class="number">1</span>]][[<span class="string">"R2"</span>]][<span class="number">1</span>],<span class="number">3</span>)</span><br><span class="line">  adn_res_format &lt;- bquote(atop(atop(<span class="string">"PERMANOVA"</span>,R^<span class="number">2</span>==~.(adn_rsquared)),</span><br><span class="line">                                atop(<span class="string">"p="</span>~.(adn_pvalue), phantom())))</span><br><span class="line">  </span><br><span class="line">  score_v2 &lt;- inner_join(score, </span><br><span class="line">                         pheno[pheno$SampleID%<span class="keyword">in</span>%sid, ] %&gt;% select(-group_col),</span><br><span class="line">                          by = <span class="string">"SampleID"</span>) </span><br><span class="line">    <span class="comment"># %&gt;%</span></span><br><span class="line">    <span class="comment"># mutate(Group = as.character(Group),</span></span><br><span class="line">    <span class="comment">#        Group = ifelse(Group == "ET_B", NA,</span></span><br><span class="line">    <span class="comment">#                   ifelse(Group == "ET_P", NA, Group)))</span></span><br><span class="line">  pl &lt;- ggplot(score, aes(x=PCoA1, y=PCoA2, shape))+</span><br><span class="line">          geom_point(aes(color=group_col), alpha=<span class="number">1</span>, size=<span class="number">2</span>)+</span><br><span class="line">          labs(x=explains[<span class="number">1</span>], y=explains[<span class="number">2</span>])+</span><br><span class="line">          scale_color_manual(values = cols)+</span><br><span class="line">          stat_ellipse(aes(fill = group_col), geom = <span class="string">'polygon'</span>, level = <span class="number">0.95</span>,</span><br><span class="line">                       alpha = <span class="number">0.2</span>, show.legend = <span class="literal">FALSE</span>)+</span><br><span class="line">          scale_fill_manual(values = cols)+</span><br><span class="line">          annotate(<span class="string">"text"</span>, x = max(score$PCoA1), y = min(score$PCoA2)+<span class="number">0.02</span>,</span><br><span class="line">                   label = adn_res_format, size=<span class="number">5</span>)+</span><br><span class="line">          guides(color=guide_legend(title = <span class="literal">NULL</span>,keywidth=<span class="number">.7</span>,keyheight=<span class="number">.7</span>))+</span><br><span class="line">          theme_bw()+</span><br><span class="line">          theme(axis.title = element_text(size=<span class="number">10</span>, color=<span class="string">"black"</span>, face=<span class="string">"bold"</span>),</span><br><span class="line">            axis.text = element_text(size=<span class="number">9</span>, color=<span class="string">"black"</span>),</span><br><span class="line">            text = element_text(size=<span class="number">8</span>, color=<span class="string">"black"</span>),</span><br><span class="line">            strip.text = element_text(size=<span class="number">9</span>, color=<span class="string">"black"</span>, face=<span class="string">"bold"</span>), </span><br><span class="line">            legend.text=element_text(size=<span class="number">10</span>, color = <span class="string">"black"</span>),</span><br><span class="line">            legend.position = c(<span class="number">1</span>, <span class="number">1</span>),</span><br><span class="line">            legend.justification = c(<span class="number">1</span>, <span class="number">1</span>),</span><br><span class="line">            legend.background = element_rect(color = <span class="string">"black"</span>, fill=<span class="string">"white"</span>))</span><br><span class="line">  <span class="comment">#return(list(plot=pl, cor=spearman_res))</span></span><br><span class="line">  <span class="keyword">return</span>(pl)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">plot_pcoa(label=<span class="string">"Children"</span>, grouping_column=<span class="string">"Group"</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/R_data_08_03.png" alt=""></p>
+<h4 id="稀疏曲线"><a href="#稀疏曲线" class="headerlink" title="稀疏曲线"></a>稀疏曲线</h4><p>使用<code>iNEXT</code>包的<code>iNEXT</code>函数计算。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">mdat &lt;- inner_join(phen %&gt;% select(SampleID, Group), </span><br><span class="line">                   chd.s.trim %&gt;% t() %&gt;% data.frame() %&gt;% </span><br><span class="line">                     rownames_to_column(<span class="string">"SampleID"</span>),</span><br><span class="line">                   by = <span class="string">"SampleID"</span>) %&gt;% </span><br><span class="line">  column_to_rownames(<span class="string">"SampleID"</span>) %&gt;% </span><br><span class="line">  group_by(Group) %&gt;% </span><br><span class="line">  summarise_each(funs = <span class="keyword">function</span>(x)&#123;length(x[x!=<span class="number">0</span>])&#125;) %&gt;%</span><br><span class="line">  ungroup() %&gt;% column_to_rownames(<span class="string">"Group"</span>) %&gt;%</span><br><span class="line">  t() %&gt;% data.frame()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">out &lt;- iNEXT(mdat, q=<span class="number">0</span>, datatype=<span class="string">"abundance"</span>, size = seq(<span class="number">1</span>, <span class="number">1000</span>, by=<span class="number">100</span>))</span><br><span class="line"><span class="comment"># ggiNEXT(out, type = 1, facet.var = "site")+</span></span><br><span class="line"><span class="comment">#   theme_bw(base_size = 18)+</span></span><br><span class="line"><span class="comment">#   theme(legend.position = "none")</span></span><br><span class="line"></span><br><span class="line">df &lt;- fortify(out, type=<span class="number">1</span>)</span><br><span class="line">df.point &lt;- df[which(df$method==<span class="string">"observed"</span>),]</span><br><span class="line">df.line &lt;- df[which(df$method!=<span class="string">"observed"</span>),]</span><br><span class="line">df.line$method &lt;- factor(df.line$method, </span><br><span class="line">                         c(<span class="string">"interpolated"</span>, <span class="string">"extrapolated"</span>),</span><br><span class="line">                         c(<span class="string">"interpolation"</span>, <span class="string">"extrapolation"</span>))</span><br><span class="line"> </span><br><span class="line">ggplot(df, aes(x=x, y=y, colour=site)) + </span><br><span class="line">  geom_point(aes(shape=site), size=<span class="number">5</span>, data=df.point) +</span><br><span class="line">  geom_line(aes(linetype=method), lwd=<span class="number">1.5</span>, data=df.line) +</span><br><span class="line">  geom_ribbon(aes(ymin=y.lwr, ymax=y.upr,</span><br><span class="line">                  fill=site, colour=<span class="literal">NULL</span>), alpha=<span class="number">0.2</span>) +</span><br><span class="line">  labs(x=<span class="string">"Number of individuals"</span>, y=<span class="string">"Species diversity"</span>) +</span><br><span class="line">  theme_bw() +</span><br><span class="line">  theme(legend.position = <span class="string">"bottom"</span>, </span><br><span class="line">        legend.title=element_blank(),</span><br><span class="line">        text=element_text(size=<span class="number">18</span>),</span><br><span class="line">        legend.box = <span class="string">"vertical"</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/R_data_08_05.jpg" alt=""></p>
+<h4 id="物种组成"><a href="#物种组成" class="headerlink" title="物种组成"></a>物种组成</h4><p>使用柱状图展示样本之间的物种组成差异。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">tax_bar_plot &lt;- <span class="keyword">function</span>(label=<span class="string">"Children"</span>, prof=chd.s.trim, grouping_column=<span class="string">"MRS_group"</span>, top_num=<span class="number">10</span>)&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># label="Children"</span></span><br><span class="line">  <span class="comment"># prof=chd.g.trim</span></span><br><span class="line">  <span class="comment"># grouping_column="MRS_group"</span></span><br><span class="line">  <span class="comment"># top_num=10</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span>(label == <span class="string">"Children"</span>)&#123;</span><br><span class="line">    pheno &lt;- phen %&gt;% filter(Kind%<span class="keyword">in</span>%label)</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(label==<span class="string">"Control"</span>)&#123;</span><br><span class="line">    pheno &lt;- rbind(</span><br><span class="line">            phen %&gt;% filter(Kind%<span class="keyword">in</span>%<span class="string">"Children"</span>) %&gt;% filter(Group%<span class="keyword">in</span>%<span class="string">"Control1"</span>) %&gt;% </span><br><span class="line">              mutate(Kind = <span class="string">"Children_control"</span>), </span><br><span class="line">            phen %&gt;% filter(Kind%<span class="keyword">in</span>%<span class="string">"BGI"</span>) %&gt;% filter(BMI &lt; <span class="number">25</span>)  %&gt;% </span><br><span class="line">              mutate(Kind = <span class="string">"BGI_control"</span>))  </span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  colnames(pheno)[which(colnames(pheno) == grouping_column)] &lt;- <span class="string">"group_col"</span></span><br><span class="line">  phen.cln &lt;- pheno %&gt;% select(SampleID, group_col) </span><br><span class="line">  <span class="keyword">if</span>(grouping_column == <span class="string">"Team"</span>)&#123;</span><br><span class="line">    grp &lt;- c(<span class="string">"Control"</span>, <span class="string">"Case"</span>)</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(grouping_column == <span class="string">"Group"</span>)&#123;</span><br><span class="line">    grp &lt;- c(<span class="string">"Control1"</span>,<span class="string">"Control2"</span>,<span class="string">"NAFLD"</span>)</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(grouping_column == <span class="string">"MRS_group"</span>)&#123;</span><br><span class="line">    grp &lt;- c(<span class="string">"MRS_control"</span>, <span class="string">"MRS_NAFLD"</span>)</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    grp &lt;- c(<span class="string">"BGI_control"</span>, <span class="string">"Children_control"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># prof</span></span><br><span class="line">  sid &lt;- intersect(phen.cln$SampleID, colnames(prof))</span><br><span class="line">  phe &lt;- phen.cln[phen.cln$SampleID%<span class="keyword">in</span>%sid, ] %&gt;% select(SampleID, group_col)</span><br><span class="line">  prf &lt;- prof[, colnames(prof)%<span class="keyword">in</span>%sid]</span><br><span class="line">  </span><br><span class="line">  tax_top &lt;- data.table(sum=rowSums(prf), tax_name=rownames(prf)) %&gt;%</span><br><span class="line">    arrange(desc(sum)) %&gt;%</span><br><span class="line">    slice(c(<span class="number">1</span>:top_num))</span><br><span class="line">  tax_top_name &lt;- as.character(tax_top$tax_name)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span>(nrow(tax_top) == top_num)&#123;</span><br><span class="line">    tax_top_tmp &lt;- data.table(sum=rowSums(prf), tax_name=rownames(prf)) %&gt;%</span><br><span class="line">                      arrange(desc(sum)) %&gt;%</span><br><span class="line">                      mutate(group=ifelse(tax_name%<span class="keyword">in</span>%tax_top_name, tax_name, <span class="string">"others"</span>))</span><br><span class="line">    </span><br><span class="line">    prf.tmp &lt;- inner_join(tax_top_tmp %&gt;% select(c(<span class="number">2</span>:<span class="number">3</span>)), prf %&gt;% rownames_to_column(<span class="string">"tax_name"</span>), </span><br><span class="line">                          by = <span class="string">"tax_name"</span> ) %&gt;% select(-tax_name) %&gt;%</span><br><span class="line">      group_by(group) %&gt;% summarise_each(sum)</span><br><span class="line">    tax_top_name_new &lt;- c(tax_top_name, <span class="string">"others"</span>)</span><br><span class="line">    </span><br><span class="line">    mdat &lt;- inner_join(phe,  </span><br><span class="line">                     prf.tmp %&gt;% <span class="comment">#rownames_to_column("tax_name")%&gt;% </span></span><br><span class="line">                       <span class="comment">#filter(tax_name%in%tax_top_name) %&gt;%</span></span><br><span class="line">                       column_to_rownames(<span class="string">"group"</span>) %&gt;%</span><br><span class="line">                       t() %&gt;% data.frame() %&gt;%</span><br><span class="line">                       rownames_to_column(<span class="string">"SampleID"</span>), </span><br><span class="line">                     by = <span class="string">"SampleID"</span>) %&gt;%</span><br><span class="line">      tidyr::gather(key=Tax, value=abundance, -c(<span class="string">"SampleID"</span>, <span class="string">"group_col"</span>)) %&gt;%</span><br><span class="line">      mutate(group_col=factor(group_col, levels = grp)) %&gt;%</span><br><span class="line">      mutate(Tax=factor(Tax, levels = tax_top_name_new))</span><br><span class="line">    </span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    mdat &lt;- inner_join(phe,  </span><br><span class="line">                       prf %&gt;% rownames_to_column(<span class="string">"tax_name"</span>)%&gt;% </span><br><span class="line">                         filter(tax_name%<span class="keyword">in</span>%tax_top_name) %&gt;%</span><br><span class="line">                         column_to_rownames(<span class="string">"tax_name"</span>) %&gt;%</span><br><span class="line">                         t() %&gt;% data.frame() %&gt;%</span><br><span class="line">                         rownames_to_column(<span class="string">"SampleID"</span>), </span><br><span class="line">                       by = <span class="string">"SampleID"</span>) %&gt;%</span><br><span class="line">      tidyr::gather(key=Tax, value=abundance, -c(<span class="string">"SampleID"</span>, <span class="string">"group_col"</span>)) %&gt;%</span><br><span class="line">      mutate(group_col=factor(group_col, levels = grp)) %&gt;%</span><br><span class="line">      mutate(Tax=factor(Tax, levels = tax_top_name))</span><br><span class="line">    tax_top_name_new &lt;- tax_top_name</span><br><span class="line">  &#125;</span><br><span class="line">  pl &lt;- ggplot(mdat, aes(x=SampleID, y=abundance, fill=Tax))+</span><br><span class="line">          geom_bar(width=<span class="number">0.6</span>, stat=<span class="string">"identity"</span>)+</span><br><span class="line">          scale_fill_manual(labels=tax_top_name_new, </span><br><span class="line">                          values=rev(c(<span class="string">"#FFFFFF"</span>,<span class="string">"#D26012"</span>,<span class="string">"#848484"</span>, <span class="string">"#8CC168"</span>, <span class="string">"#698ED0"</span>, <span class="string">"#B7B7B7"</span>,</span><br><span class="line">                                   <span class="string">"#F1975A"</span>, <span class="string">"#7CAFDD"</span>, <span class="string">"#43682B"</span>, <span class="string">"#264478"</span>, <span class="string">"#997300"</span>, <span class="string">"#636363"</span>,</span><br><span class="line">                                   <span class="string">"#9E480e"</span>, <span class="string">"#255E91"</span>, <span class="string">"#70AD47"</span>, <span class="string">"#4472C4"</span>, <span class="string">"#FFC000"</span>,</span><br><span class="line">                                   <span class="string">"#A5A5A5"</span>, <span class="string">"#ED7D31"</span>, <span class="string">"#5B9BD5"</span>)))+ </span><br><span class="line">          labs(x=<span class="string">"SampleID"</span>, y=<span class="string">"Relative Abundance"</span>)+</span><br><span class="line">          facet_grid( .~ group_col, scales = <span class="string">"free"</span>)+</span><br><span class="line">          theme_bw()+</span><br><span class="line">          theme(axis.text.x=element_text(angle=<span class="number">90</span>, vjust=<span class="number">0.4</span>, hjust=<span class="number">1</span>),</span><br><span class="line">                legend.title=element_blank()) </span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span>(pl)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">tax_bar_plot(label=<span class="string">"Children"</span>, prof=chd.f.trim, grouping_column=<span class="string">"MRS_group"</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/R_data_08_04.png" alt=""></p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
+<li><a href="http://www.tinygene.com/statistical-approaches-to-estimating-microbial-diversity/rarefaction-curve" target="_blank" rel="noopener external nofollow noreferrer">稀疏曲线</a></li>
+<li><a href="https://cran.r-project.org/web/packages/iNEXT/vignettes/Introduction.html" target="_blank" rel="noopener external nofollow noreferrer">iNEXT tutorial</a></li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>-------- 本文结束 </span>
+      <i class="fa fa-paw"></i>
+      <span> 感谢阅读 --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+
+        <div class="reward-container">
+  <div>赞赏一瓶优酸乳</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zouhua.top/archives/48211469.html" title="如何计算微生物多样性且可视化其结果">https://zouhua.top/archives/48211469.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%9A%E6%A0%B7%E6%80%A7/" rel="tag"><i class="fa fa-tags"></i> 多样性</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/c53c70a3.html" rel="prev" title="MaAsLin2：环境变量与微生物数据的关联分析R包">
+      <i class="fa fa-chevron-left"></i> MaAsLin2：环境变量与微生物数据的关联分析R包
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/e3145f16.html" rel="next" title="分类数据的检验">
+      分类数据的检验 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Alpha-多样性（α-diversity）"><span class="nav-number">1.</span> <span class="nav-text">Alpha 多样性（α-diversity）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Beta多样性（β-diversity）"><span class="nav-number">2.</span> <span class="nav-text">Beta多样性（β-diversity）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#稀疏曲线（Rarefaction-curves）"><span class="nav-number">3.</span> <span class="nav-text">稀疏曲线（Rarefaction curves）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#物种组成（microbial-composition）"><span class="nav-number">4.</span> <span class="nav-text">物种组成（microbial composition）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">5.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#输入数据"><span class="nav-number">5.1.</span> <span class="nav-text">输入数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#alpha-多样性"><span class="nav-number">5.2.</span> <span class="nav-text">alpha 多样性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beta多样性"><span class="nav-number">5.3.</span> <span class="nav-text">beta多样性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCoA"><span class="nav-number">5.4.</span> <span class="nav-text">PCoA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#稀疏曲线"><span class="nav-number">5.5.</span> <span class="nav-text">稀疏曲线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#物种组成"><span class="nav-number">5.6.</span> <span class="nav-text">物种组成</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">6.</span> <span class="nav-text">引用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  近期文章
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">500k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">7:34</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button" onclick="moonMenuClick()">
+    <svg class="moon-menu-svg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+      <g class="moon-menu-points">
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
+        <circle class="moon-menu-point" r=".2rem"></circle>
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
+      </g>
+    </svg>
+    <div class="moon-menu-icon">
+    </div>
+    <div class="moon-menu-text">
+    </div>
+  </div>
+</div>
+<script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>

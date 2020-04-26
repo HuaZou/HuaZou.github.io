@@ -1,0 +1,1353 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="非参数统计又称为秩转换的非参数检验或者秩和检验： 对总体分布不做严格假定，也不对总体参数进行统计推断，而是直接对总体分布的位置进行假设检验。由于这类方法不受总体参数的限制，故称非参数检验，又称任意分布检验（distribution-free test）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="非参数统计（nonparametric statistics）">
+<meta property="og:url" content="https://zouhua.top/archives/d451ba8f.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="非参数统计又称为秩转换的非参数检验或者秩和检验： 对总体分布不做严格假定，也不对总体参数进行统计推断，而是直接对总体分布的位置进行假设检验。由于这类方法不受总体参数的限制，故称非参数检验，又称任意分布检验（distribution-free test）。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zouhua.top/images/statistics18.png">
+<meta property="article:published_time" content="2020-03-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-01T16:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="假设检验">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zouhua.top/images/statistics18.png">
+
+<link rel="canonical" href="https://zouhua.top/archives/d451ba8f.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>非参数统计（nonparametric statistics） | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/d451ba8f.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          非参数统计（nonparametric statistics）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-01 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-01T00:00:00+08:00">2020-04-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-02 00:00:00" itemprop="dateModified" datetime="2020-04-02T00:00:00+08:00">2020-04-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Math/" itemprop="url" rel="index"><span itemprop="name">Math</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Math/%E7%BB%9F%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">统计</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/d451ba8f.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/d451ba8f.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="非参数检验"><a href="#非参数检验" class="headerlink" title="非参数检验"></a>非参数检验</h2><p>非参数统计方法主要是基于<code>rank</code>检验，相互独立的随机变量根据数值大小排列然后计算其相对<code>rank</code>值。非参数检验比较常常是中位数，而中位数具有较好的耐极端值的作用：</p>
+<p>​        <strong>将变量值从小到大或者从弱到强转换秩后再计算检验统计量，从而推断一个总体的分布位置的中位数$M$和已知$M_0$（单样本检验）、两个或者多个总体的分布是否相同（两样本或者多样本间检验）</strong></p>
+<p>特点： 对总体分布的形状差别不敏感，只对总体分布的位置差别敏感。</p>
+<h3 id="秩的概念"><a href="#秩的概念" class="headerlink" title="秩的概念"></a>秩的概念</h3><p>非参数检验中的<strong>秩`(rank)</strong><code>是最常用的概念，秩就是该数据按照升序排列后，每个观测值的位置。例如我们有下面的数据（样本量为10），其中第一行为数据本身，第二行就是它们的秩，可以看出，3最小，秩为1，13其次，秩为2，而最大的是98，秩为10，我们使用</code>rank($x$)`表示$x$的秩，通常也用$R<em>{i}$表示观测值$x</em>{i}$的秩，如下所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>$x_{i}$</th>
+<th>98</th>
+<th>67</th>
+<th>63</th>
+<th>3</th>
+<th>38</th>
+<th>16</th>
+<th>21</th>
+<th>53</th>
+<th>13</th>
+<th>81</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$R<em>{i}=rank(x</em>{i})$</td>
+<td>10</td>
+<td>8</td>
+<td>7</td>
+<td>1</td>
+<td>5</td>
+<td>3</td>
+<td>4</td>
+<td>6</td>
+<td>2</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>秩和</strong>：用秩次号代替原始数据后，所得某些秩次号之和，即按某种顺序排列的序号之和，称为秩和。</p>
+<h3 id="非参检验原理"><a href="#非参检验原理" class="headerlink" title="非参检验原理"></a>非参检验原理</h3><p>秩和检验的原理是：</p>
+<ul>
+<li>单样本：如果零假设中确定了一个中位数$M<em>{0}$，那么样本点应该以同样的概率出现在$M</em>{0}$的两边，也就是说，如果每个样本点送去零假设的中位数，那么得到的差值有些为正，有些为负，如果零假设正确，那么正负符号数目应该差不多，如果差得很多，这就意味着零假设有问题，可以拒绝零假设。这也就是所谓的<strong>符号检验(sign test)</strong>。</li>
+<li>两样本：首先将两类样本混合在一起，对所有样本按照数值大小或者其他特征从小到大排序，分别计算两类样本的<strong>秩和</strong>为$T<em>{1}$和$T</em>{2}$，对秩和做$t$分布检验，计算$T<em>{1}$和$T</em>{2}$的$T$统计量，根据$T$统计量判断是否存在显著差异，当样本数量较大，可以用normal distribution代替$T$分布。</li>
+</ul>
+<h3 id="非参检验适用范围"><a href="#非参检验适用范围" class="headerlink" title="非参检验适用范围"></a>非参检验适用范围</h3><p>实际工作中，非参数统计方法可以发挥作用的情形有：</p>
+<ol>
+<li><strong>总体分布形式未知或分布类型不明</strong>；尤其是对于分布不知是否正态的小样本资料；</li>
+<li>分布呈非正态而又无适当数据转换方法的<strong>偏态分布</strong>的资料（非正态分布的资料）；</li>
+<li><strong>等级资料</strong>：不能精确测定，只能以严重程度、优劣等级、次序先后等表示 ——单向有序行×列表资料；</li>
+<li><strong>不满足参数检验条件的资料</strong>：各组方差明显不齐；</li>
+<li><strong>数据一端或两端是不确定数值</strong>（必选），如“&gt;50kg”等。</li>
+</ol>
+<h3 id="非参检验主要优点"><a href="#非参检验主要优点" class="headerlink" title="非参检验主要优点"></a>非参检验主要优点</h3><ol>
+<li><strong>由于没有条件限制，适用范围广</strong>。它可适用于有序分类资料、偏态分布资料、变异较大或方差不齐的资料、分布型不明的资料及有特大、特小值或数据的某一端有不确定数值的资料；</li>
+<li><strong>搜集资料方便</strong>。由于非参数统计在搜集资料时可用“等级”或“符号”来评定观察结果，因而搜集资料十分方便，更符合实际情况；</li>
+<li><strong>具有较好的稳健性</strong>。参数检验是建立在严格的假定条件的基础上，一旦不符合假定条件，其推断的正确性将受到质疑。非参数检验则是带有最弱的假定，所受条件限制很少，稳健性好。</li>
+</ol>
+<blockquote>
+<ul>
+<li>Most of the traditional nonparametric tests presented in this section are relatively common, and your audience is relatively likely to be familiar with them.</li>
+<li>They are appropriate for interval/ratio or ordinal dependent variables.</li>
+<li>Their nonparametric nature makes them appropriate for data that don’t meet the assumptions of parametric analyses.  These include data that are skewed, non-normal, contain outliers, or possibly are censored. (Censored data is data where there is an upper or lower limit to values.  For example, if ages under 5 are reported as “under 5”.)</li>
+</ul>
+</blockquote>
+<h3 id="非参检验缺点"><a href="#非参检验缺点" class="headerlink" title="非参检验缺点"></a>非参检验缺点</h3><p>对符合参数检验的随机变量采用非参数检验方法因没充分使用参数信息从而使得检验效率降低，并且会增加II类错误（$beta$：假阴性）的概率。</p>
+<blockquote>
+<ul>
+<li>These tests are typically named after their authors, with names like Mann–Whitney, Kruskal–Wallis, and Wilcoxon signed-rank.  It may be difficult to remember these names, or to remember which test is used in which situation.</li>
+<li>Most of the traditional nonparametric tests presented here are limited by the types of experimental designs they can address.   They are typically limited to a one-way comparison of independent groups (e.g. Kruskal–Wallis), or to unreplicated complete block design for paired samples (e.g. Friedman).  The aligned ranks transformation approach, however, allows for more complicated designs.</li>
+<li>Readers are likely to find a lot of contradictory information in different sources about the hypotheses and assumptions of these tests.  In particular, authors will often treat the hypotheses of some tests as corresponding to tests of medians, and then list the assumptions of the test as corresponding to these hypotheses.   However, if this is not explicitly explained, the result is that different sources list different assumptions that data must meet in order for the test to be valid.  This creates unnecessary confusion in the mind of students trying to correctly employ these tests.</li>
+</ul>
+</blockquote>
+<h2 id="单样本检验"><a href="#单样本检验" class="headerlink" title="单样本检验"></a>单样本检验</h2><h3 id="One-sample-Wilcoxon-Signed-rank-Test"><a href="#One-sample-Wilcoxon-Signed-rank-Test" class="headerlink" title="One-sample Wilcoxon Signed-rank Test"></a>One-sample Wilcoxon Signed-rank Test</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>单样本符号检验适合根据某个给定默认值的检验，其原理是根据随机变量观测值与默认值比较。</p>
+<h4 id="适合数据"><a href="#适合数据" class="headerlink" title="适合数据"></a>适合数据</h4><blockquote>
+<ul>
+<li>One-sample data</li>
+<li>Data are interval or ratio</li>
+</ul>
+</blockquote>
+<h4 id="R代码"><a href="#R代码" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- c(<span class="number">1</span>:<span class="number">10</span>)</span><br><span class="line">wilcox.test(x,</span><br><span class="line">            mu=<span class="number">3</span>,</span><br><span class="line">            conf.int=<span class="literal">TRUE</span>,</span><br><span class="line">            conf.level=<span class="number">0.95</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="Sign-Test-for-One-sample-Data"><a href="#Sign-Test-for-One-sample-Data" class="headerlink" title="Sign Test for One-sample Data"></a>Sign Test for One-sample Data</h3><h4 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h4><blockquote>
+<p>The one-sample sign test compares the number of observations greater than or less than the default value without accounting for the magnitude of the difference between each observation and the default value.  The test is similar in purpose to the one-sample Wilcoxon signed-rank test, but looks specifically at the median value, and is not affected by the distribution of the data.</p>
+</blockquote>
+<h4 id="适合数据-1"><a href="#适合数据-1" class="headerlink" title="适合数据"></a>适合数据</h4><blockquote>
+<ul>
+<li>One-sample data</li>
+<li>Data are ordinal, interval or ratio</li>
+</ul>
+</blockquote>
+<h4 id="R代码-1"><a href="#R代码-1" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(EnvStats)</span><br><span class="line">signTest(x, mu = <span class="number">0</span>, conf.level = <span class="number">0.95</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="两样本检验"><a href="#两样本检验" class="headerlink" title="两样本检验"></a>两样本检验</h2><h3 id="Two-sample-Mann–Whitney-U-Test"><a href="#Two-sample-Mann–Whitney-U-Test" class="headerlink" title="Two-sample Mann–Whitney U Test"></a>Two-sample Mann–Whitney U Test</h3><h4 id="介绍-2"><a href="#介绍-2" class="headerlink" title="介绍"></a>介绍</h4><p>U检验和Wilcoxon rank-sum test检验是一致的。检验的假设是两样本的随机变量是独立的，因此该方法不适合配对检验和重复测量数据检验，另外其对随机变量的分布无任何要求。</p>
+<blockquote>
+<p>Significant results can be reported as e.g. “Values for group A were significantly different from those for group B.”</p>
+</blockquote>
+<h4 id="适合数据-2"><a href="#适合数据-2" class="headerlink" title="适合数据"></a>适合数据</h4><blockquote>
+<ul>
+<li>Two-sample data.  That is, one-way data with two groups only</li>
+<li>Dependent variable is ordinal, interval, or ratio</li>
+<li>Independent variable is a factor with two levels.  That is, two groups</li>
+<li>Observations between groups are independent.  That is, not paired or repeated measures data</li>
+<li>In order to be a test of medians, the distributions of values for each group need to be of similar shape and spread.  Otherwise the test is typically a test of stochastic equality.</li>
+</ul>
+</blockquote>
+<h4 id="R代码-2"><a href="#R代码-2" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- c(<span class="number">0.80</span>, <span class="number">0.83</span>, <span class="number">1.89</span>, <span class="number">1.04</span>, <span class="number">1.45</span>, <span class="number">1.38</span>, <span class="number">1.91</span>, <span class="number">1.64</span>, <span class="number">0.73</span>, <span class="number">1.46</span>)</span><br><span class="line">y &lt;- c(<span class="number">1.15</span>, <span class="number">0.88</span>, <span class="number">0.90</span>, <span class="number">0.74</span>, <span class="number">1.21</span>)</span><br><span class="line">wilcox.test(x, y, alternative = <span class="string">"g"</span>)        <span class="comment"># greater</span></span><br><span class="line">wilcox.test(x, y, alternative = <span class="string">"greater"</span>,</span><br><span class="line">            exact = <span class="literal">FALSE</span>, correct = <span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="Mood’s-Median-Test-for-Two-sample-Data"><a href="#Mood’s-Median-Test-for-Two-sample-Data" class="headerlink" title="Mood’s Median Test for Two-sample Data"></a>Mood’s Median Test for Two-sample Data</h3><h4 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h4><blockquote>
+<p>Mood’s median test compares the medians of two or more groups.  The test can be conducted with the <em>mood.medtest</em> function in the <em>RVAideMemoire</em> package or with the <em>median_test</em> function in the <em>coin</em> package.</p>
+</blockquote>
+<h4 id="适合数据："><a href="#适合数据：" class="headerlink" title="适合数据："></a>适合数据：</h4><blockquote>
+<ul>
+<li>One-way data with two or more groups</li>
+<li>Dependent variable is ordinal, interval, or ratio</li>
+<li>Independent variable is a factor with levels indicating groups</li>
+<li>Observations between groups are independent.  That is, not paired or repeated measures data</li>
+</ul>
+</blockquote>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(coin)</span><br><span class="line">x &lt;- c(<span class="number">0.80</span>, <span class="number">0.83</span>, <span class="number">1.89</span>, <span class="number">1.04</span>, <span class="number">1.45</span>, <span class="number">1.38</span>, <span class="number">1.91</span>, <span class="number">1.64</span>, <span class="number">0.73</span>, <span class="number">1.46</span>)</span><br><span class="line">y &lt;- c(<span class="number">1.15</span>, <span class="number">0.88</span>, <span class="number">0.90</span>, <span class="number">0.74</span>, <span class="number">1.21</span>)</span><br><span class="line">median_test(x, y, distribution = approximate(B = <span class="number">10000</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="Two-sample-Paired-Signed-rank-Test"><a href="#Two-sample-Paired-Signed-rank-Test" class="headerlink" title="Two-sample Paired Signed-rank Test"></a>Two-sample Paired Signed-rank Test</h3><h4 id="介绍-3"><a href="#介绍-3" class="headerlink" title="介绍"></a>介绍</h4><p>配对符号检验用于比较同一个组在不同时候的观察值，比如比较同一组人在治疗前后临床表型变化。该方法类似单样本符号检验比较两组样本差值是否为0即可。</p>
+<h4 id="适合数据-3"><a href="#适合数据-3" class="headerlink" title="适合数据"></a>适合数据</h4><blockquote>
+<ul>
+<li>Two-sample paired data.  That is, one-way data with two groups only, where the observations are paired between groups.</li>
+<li>Dependent variable is interval, or ratio</li>
+<li>Independent variable is a factor with two levels.  That is, two groups</li>
+<li>For the test to be a test of the median of the differences, the distribution of differences in paired samples needs to be symmetric</li>
+</ul>
+</blockquote>
+<h4 id="R代码-3"><a href="#R代码-3" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># method1:  Data ordered by ID</span></span><br><span class="line">wilcox.test(value ~ group,</span><br><span class="line">            data = Data,</span><br><span class="line">            paired = <span class="literal">TRUE</span>,</span><br><span class="line">            conf.int = <span class="literal">TRUE</span>,</span><br><span class="line">            conf.level = <span class="number">0.95</span>)</span><br><span class="line"><span class="comment"># method2: PID is the group for paired data</span></span><br><span class="line"><span class="keyword">library</span>(coin)</span><br><span class="line">wilcoxsign_test(value ~ group | PID,</span><br><span class="line">                data = Data)</span><br></pre></td></tr></table></figure>
+<h3 id="Sign-Test-for-Two-sample-Paired-Data"><a href="#Sign-Test-for-Two-sample-Paired-Data" class="headerlink" title="Sign Test for Two-sample Paired Data"></a><strong>Sign Test for Two-sample Paired Data</strong></h3><h4 id="介绍-4"><a href="#介绍-4" class="headerlink" title="介绍"></a>介绍</h4><p>该方法的目的和two-sample Wilcoxon signed-rank test一致，但其更适合比较组间中位数差异。</p>
+<h4 id="适应数据"><a href="#适应数据" class="headerlink" title="适应数据"></a>适应数据</h4><blockquote>
+<ul>
+<li>Two-sample paired data.  That is, one-way data with two groups only, where the observations are paired between groups.</li>
+<li>Dependent variable is ordinal, interval, or ratio.</li>
+<li>Independent variable is a factor with two levels.  That is, two groups.</li>
+</ul>
+</blockquote>
+<h4 id="R-代码"><a href="#R-代码" class="headerlink" title="R 代码"></a>R 代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">Input &lt;- (<span class="string">"</span></span><br><span class="line"><span class="string"> Speaker  Time  Student  Likert</span></span><br><span class="line"><span class="string"> Pooh      1     a        1      </span></span><br><span class="line"><span class="string"> Pooh      1     b        4      </span></span><br><span class="line"><span class="string"> Pooh      1     c        3       </span></span><br><span class="line"><span class="string"> Pooh      1     d        3      </span></span><br><span class="line"><span class="string"> Pooh      1     e        3      </span></span><br><span class="line"><span class="string"> Pooh      1     f        3      </span></span><br><span class="line"><span class="string"> Pooh      1     g        4      </span></span><br><span class="line"><span class="string"> Pooh      1     h        3       </span></span><br><span class="line"><span class="string"> Pooh      1     i        3      </span></span><br><span class="line"><span class="string"> Pooh      1     j        3      </span></span><br><span class="line"><span class="string"> Pooh      2     a        4</span></span><br><span class="line"><span class="string"> Pooh      2     b        5</span></span><br><span class="line"><span class="string"> Pooh      2     c        4</span></span><br><span class="line"><span class="string"> Pooh      2     d        5</span></span><br><span class="line"><span class="string"> Pooh      2     e        4</span></span><br><span class="line"><span class="string"> Pooh      2     f        5</span></span><br><span class="line"><span class="string"> Pooh      2     g        3</span></span><br><span class="line"><span class="string"> Pooh      2     h        4</span></span><br><span class="line"><span class="string"> Pooh      2     i        3</span></span><br><span class="line"><span class="string"> Pooh      2     j        4     </span></span><br><span class="line"><span class="string">"</span>)</span><br><span class="line">Data &lt;- read.table(textConnection(Input),header=<span class="literal">TRUE</span>)</span><br><span class="line">Time.1 &lt;- Data$Likert [Data$Time == <span class="number">1</span>]</span><br><span class="line">Time.2 &lt;- Data$Likert [Data$Time == <span class="number">2</span>]</span><br><span class="line"><span class="keyword">library</span>(BSDA)</span><br><span class="line">SIGN.test(x = Time.1,</span><br><span class="line">          y = Time.2,</span><br><span class="line">          alternative = <span class="string">"two.sided"</span>,</span><br><span class="line">          conf.level = <span class="number">0.95</span>)</span><br><span class="line">          </span><br><span class="line"><span class="keyword">library</span>(DescTools)</span><br><span class="line"></span><br><span class="line">SignTest(x = Time.1,</span><br><span class="line">         y = Time.2)</span><br></pre></td></tr></table></figure>
+<h2 id="多样本"><a href="#多样本" class="headerlink" title="多样本"></a>多样本</h2><h3 id="Kruskal–Wallis-Test"><a href="#Kruskal–Wallis-Test" class="headerlink" title="Kruskal–Wallis Test"></a>Kruskal–Wallis Test</h3><h4 id="介绍-5"><a href="#介绍-5" class="headerlink" title="介绍"></a>介绍</h4><p>该检验方法适合单因素水平分析的多组数据（一般大于2组以上），其原理和Mann–Whitney U test类似。该方法假定组间随机变量是相互独立的，因此不适合配对数据和重复测量数据。</p>
+<p>kw检验只能得出组间存在差异，但哪组和其他组有差异未知，因此一般对差异因素都会做后置检验<code>Post-hoc tests</code>，使用较多的后置检验是<code>dunnTest</code>。</p>
+<h4 id="适用数据"><a href="#适用数据" class="headerlink" title="适用数据"></a>适用数据</h4><blockquote>
+<ul>
+<li>One-way data</li>
+<li>Dependent variable is ordinal, interval, or ratio</li>
+<li>Independent variable is a factor with two or more levels.  That is, two or more groups</li>
+<li>Observations between groups are independent.  That is, not paired or repeated measures data</li>
+<li>In order to be a test of medians, the distributions of values for each group need to be of similar shape and spread.  Otherwise the test is typically a test of stochastic equality.</li>
+</ul>
+</blockquote>
+<h4 id="R代码-4"><a href="#R代码-4" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">Input &lt;- (<span class="string">"</span></span><br><span class="line"><span class="string"> Speaker  Likert</span></span><br><span class="line"><span class="string"> Pooh      3</span></span><br><span class="line"><span class="string"> Pooh      5</span></span><br><span class="line"><span class="string"> Pooh      4</span></span><br><span class="line"><span class="string"> Pooh      4</span></span><br><span class="line"><span class="string"> Pooh      4</span></span><br><span class="line"><span class="string"> Pooh      4</span></span><br><span class="line"><span class="string"> Pooh      4</span></span><br><span class="line"><span class="string"> Pooh      4</span></span><br><span class="line"><span class="string"> Pooh      5</span></span><br><span class="line"><span class="string"> Pooh      5</span></span><br><span class="line"><span class="string"> Piglet    2</span></span><br><span class="line"><span class="string"> Piglet    4</span></span><br><span class="line"><span class="string"> Piglet    2</span></span><br><span class="line"><span class="string"> Piglet    2</span></span><br><span class="line"><span class="string"> Piglet    1</span></span><br><span class="line"><span class="string"> Piglet    2</span></span><br><span class="line"><span class="string"> Piglet    3</span></span><br><span class="line"><span class="string"> Piglet    2</span></span><br><span class="line"><span class="string"> Piglet    2</span></span><br><span class="line"><span class="string"> Piglet    3</span></span><br><span class="line"><span class="string"> Tigger    4</span></span><br><span class="line"><span class="string"> Tigger    4</span></span><br><span class="line"><span class="string"> Tigger    4</span></span><br><span class="line"><span class="string"> Tigger    4</span></span><br><span class="line"><span class="string"> Tigger    5</span></span><br><span class="line"><span class="string"> Tigger    3</span></span><br><span class="line"><span class="string"> Tigger    5</span></span><br><span class="line"><span class="string"> Tigger    4</span></span><br><span class="line"><span class="string"> Tigger    4</span></span><br><span class="line"><span class="string"> Tigger    3</span></span><br><span class="line"><span class="string">"</span>)</span><br><span class="line"></span><br><span class="line">Data &lt;- read.table(textConnection(Input),header=<span class="literal">TRUE</span>)</span><br><span class="line">Data$Speaker = factor(Data$Speaker,levels=unique(Data$Speaker))</span><br><span class="line"><span class="comment"># kw test</span></span><br><span class="line">kruskal.test(Value ~ group,</span><br><span class="line">             data = Data)</span><br><span class="line"><span class="comment"># Post-hoc test: Dunn test for multiple comparisons of groups</span></span><br><span class="line"><span class="keyword">library</span>(FSA)</span><br><span class="line">dunnTest(Likert ~ Speaker,</span><br><span class="line">              data=Data,</span><br><span class="line">              method=<span class="string">"bh"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#Dunn (1964) Kruskal-Wallis multiple comparison</span></span><br><span class="line"><span class="comment">#  p-values adjusted with the Benjamini-Hochberg method.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       Comparison         Z      P.unadj        P.adj</span></span><br><span class="line"><span class="comment">#1   Pooh - Tigger 0.4813074 0.6302980448 0.6302980448</span></span><br><span class="line"><span class="comment">#2   Pooh - Piglet 3.7702412 0.0001630898 0.0004892695</span></span><br><span class="line"><span class="comment">#3 Tigger - Piglet 3.2889338 0.0010056766 0.0015085149</span></span><br></pre></td></tr></table></figure>
+<h3 id="Mood’s-Median-Test"><a href="#Mood’s-Median-Test" class="headerlink" title="Mood’s Median Test"></a>Mood’s Median Test</h3><h4 id="介绍-6"><a href="#介绍-6" class="headerlink" title="介绍"></a>介绍</h4><p>该方法比较多组数据的中位数差异，也需要后置检验找到组A和组B的差异。</p>
+<h4 id="适用数据-1"><a href="#适用数据-1" class="headerlink" title="适用数据"></a>适用数据</h4><blockquote>
+<ul>
+<li>One-way data with two or more groups</li>
+<li>Dependent variable is ordinal, interval, or ratio</li>
+<li>Independent variable is a factor with levels indicating groups</li>
+<li>Observations between groups are independent.  That is, not paired or repeated measures data</li>
+</ul>
+</blockquote>
+<h4 id="R代码-5"><a href="#R代码-5" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">Input &lt;- (<span class="string">"</span></span><br><span class="line"><span class="string"> Speaker  Likert</span></span><br><span class="line"><span class="string"> Pooh      3</span></span><br><span class="line"><span class="string"> Pooh      5</span></span><br><span class="line"><span class="string"> Pooh      4</span></span><br><span class="line"><span class="string"> Pooh      4</span></span><br><span class="line"><span class="string"> Pooh      4</span></span><br><span class="line"><span class="string"> Pooh      4</span></span><br><span class="line"><span class="string"> Pooh      4</span></span><br><span class="line"><span class="string"> Pooh      4</span></span><br><span class="line"><span class="string"> Pooh      5</span></span><br><span class="line"><span class="string"> Pooh      5</span></span><br><span class="line"><span class="string"> Piglet    2</span></span><br><span class="line"><span class="string"> Piglet    4</span></span><br><span class="line"><span class="string"> Piglet    2</span></span><br><span class="line"><span class="string"> Piglet    2       </span></span><br><span class="line"><span class="string"> Piglet    1 </span></span><br><span class="line"><span class="string"> Piglet    2</span></span><br><span class="line"><span class="string"> Piglet    3</span></span><br><span class="line"><span class="string"> Piglet    2</span></span><br><span class="line"><span class="string"> Piglet    2       </span></span><br><span class="line"><span class="string"> Piglet    3</span></span><br><span class="line"><span class="string"> Tigger    4</span></span><br><span class="line"><span class="string"> Tigger    4</span></span><br><span class="line"><span class="string"> Tigger    4</span></span><br><span class="line"><span class="string"> Tigger    4</span></span><br><span class="line"><span class="string"> Tigger    5 </span></span><br><span class="line"><span class="string"> Tigger    3</span></span><br><span class="line"><span class="string"> Tigger    5</span></span><br><span class="line"><span class="string"> Tigger    4</span></span><br><span class="line"><span class="string"> Tigger    4</span></span><br><span class="line"><span class="string"> Tigger    3</span></span><br><span class="line"><span class="string">"</span>)</span><br><span class="line">Data = read.table(textConnection(Input),header=<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(RVAideMemoire)</span><br><span class="line">mood.medtest(Likert ~ Speaker,</span><br><span class="line">             data  = Data,</span><br><span class="line">             exact = <span class="literal">FALSE</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(coin)</span><br><span class="line">median_test(Likert ~ Speaker,</span><br><span class="line">            data = Data,</span><br><span class="line">            distribution = approximate(B = <span class="number">10000</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">### Pairwise median tests</span></span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">PT = pairwiseMedianTest(Likert ~ Speaker,</span><br><span class="line">                        data   = Data,</span><br><span class="line">                        exact  = <span class="literal">NULL</span>,</span><br><span class="line">                        method = <span class="string">"fdr"</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="Friedman-Test"><a href="#Friedman-Test" class="headerlink" title="Friedman Test"></a>Friedman Test</h3><h4 id="介绍-7"><a href="#介绍-7" class="headerlink" title="介绍"></a>介绍</h4><p>该方法用于发现两类因素数据是否存在显著差异。数据格式如下:一个变量是分组<em>treatment</em>，一个是区块变量<em>PID</em>.</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>treatment</th>
+<th>PID</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Before</td>
+<td>P01</td>
+<td>44.55556</td>
+</tr>
+<tr>
+<td>After</td>
+<td>P01</td>
+<td>28.22222</td>
+</tr>
+<tr>
+<td>Before</td>
+<td>P02</td>
+<td>24</td>
+</tr>
+<tr>
+<td>After</td>
+<td>P02</td>
+<td>28.77778</td>
+</tr>
+<tr>
+<td>Before</td>
+<td>P03</td>
+<td>24.55556</td>
+</tr>
+<tr>
+<td>After</td>
+<td>P03</td>
+<td>18.77778</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Friedman检验结果只能告知组间是否存在差异，因此还需要使用后置检验。</p>
+<h4 id="适用数据-2"><a href="#适用数据-2" class="headerlink" title="适用数据"></a>适用数据</h4><blockquote>
+<ul>
+<li>Two-way data arranged in an unreplicated complete block design</li>
+<li>Dependent variable is ordinal, interval, or ratio</li>
+<li>Treatment or group independent variable is a factor with two or more levels.  That is, two or more groups</li>
+<li>Blocking variable is a factor with two or more levels</li>
+<li>Blocks are independent of each other and have no interaction with treatments</li>
+<li>In order to be a test of medians, the distribution of the differences in scores between each pair of groups are all symmetrical, or the distributions of values for each group have similar shape and spread.  Otherwise the test is a test of distributions.</li>
+</ul>
+</blockquote>
+<h4 id="R代码-6"><a href="#R代码-6" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">Input =(<span class="string">"</span></span><br><span class="line"><span class="string"> Instructor        Rater  Likert</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        a      4</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        b      5</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        c      4</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        d      6</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        e      6</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        f      6</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        g     10</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        h      6</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      a      8</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      b      6</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      c      8</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      d      8</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      e      8</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      f      7</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      g     10</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      h      9</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       a      7</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       b      5</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       c      7</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       d      8</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       e      8</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       f      9</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       g     10</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       h      9</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       a      6</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       b      4</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       c      5</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       d      5</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       e      6</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       f      6</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       g      5</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       h      5</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     a      8</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     b      7</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     c      8</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     d      8</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     e      9</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     f      9</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     g      8</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     h     10            </span></span><br><span class="line"><span class="string">"</span>)</span><br><span class="line">Data = read.table(textConnection(Input),header=<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### Order levels of the factor; otherwise R will alphabetize them</span></span><br><span class="line">Data$Instructor = factor(Data$Instructor,</span><br><span class="line">                      levels=unique(Data$Instructor))</span><br><span class="line">friedman.test(Likert ~ Instructor | Rater, data = Data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Post-hoc test: pairwise sign test for multiple comparisons of groups</span></span><br><span class="line">Data$Instructor = factor(Data$Instructor,</span><br><span class="line">                   levels = c(<span class="string">"Linda Belcher"</span>, <span class="string">"Louise Belcher"</span>,</span><br><span class="line">                              <span class="string">"Tina Belcher"</span>, <span class="string">"Bob Belcher"</span>,</span><br><span class="line">                              <span class="string">"Gene Belcher"</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">### Pairwise sign tests</span></span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">PT = pairwiseSignTest(Likert ~ Instructor,</span><br><span class="line">                      data   = Data,</span><br><span class="line">                      method = <span class="string">"fdr"</span>)</span><br><span class="line"><span class="comment">### Conover test</span></span><br><span class="line"><span class="keyword">library</span>(PMCMR)</span><br><span class="line">PT = posthoc.friedman.conover.test(y      = Data$Likert,</span><br><span class="line">                                   groups = Data$Instructor,</span><br><span class="line">                                   blocks = Data$Rater,</span><br><span class="line">                                   p.adjust.method=<span class="string">"fdr"</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="类似检验"><a href="#类似检验" class="headerlink" title="类似检验"></a>类似检验</h4><p><strong>Quade test</strong> 与<strong>Friedman test</strong>类似，但它可能更适合等级数据，可以作为<strong>Friedman test</strong>的备选。差异在于使用不同的分布，因此其统计量不同。前者是F分布，后者是卡方分布。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">quade.test(Likert ~ Instructor | Rater, data = Data)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/statistics18.png" alt=""></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol>
+<li><a href="https://rcompanion.org/handbook/F_01.html" target="_blank" rel="noopener external nofollow noreferrer">Traditional Nonparametric Tests</a></li>
+<li><a href="http://rvdsd.top/2018/06/23/BioStatistics/生物统计-06非参数检验/" target="_blank" rel="noopener external nofollow noreferrer">非参数检验笔记</a></li>
+<li><a href="http://cc.shutcm.edu.cn/G2S/eWebEditor/uploadfile/20150301150144726.pdf" target="_blank" rel="noopener external nofollow noreferrer">秩和检验</a></li>
+<li><a href="https://rcompanion.org/handbook/E_01.html" target="_blank" rel="noopener external nofollow noreferrer">Likert data</a></li>
+</ol>
+<p>​    </p>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>-------- 本文结束 </span>
+      <i class="fa fa-paw"></i>
+      <span> 感谢阅读 --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/ae974f5.html" rel="bookmark">参数统计（parametric statistics）</a></div>
+    </li>
+  </ul>
+
+        <div class="reward-container">
+  <div>赞赏一瓶优酸乳</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zouhua.top/archives/d451ba8f.html" title="非参数统计（nonparametric statistics）">https://zouhua.top/archives/d451ba8f.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/" rel="tag"><i class="fa fa-tags"></i> 假设检验</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/5b2073a5.html" rel="prev" title="假设检验">
+      <i class="fa fa-chevron-left"></i> 假设检验
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/ec7d7221.html" rel="next" title="Hexo搭建个人博客">
+      Hexo搭建个人博客 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#非参数检验"><span class="nav-number">1.</span> <span class="nav-text">非参数检验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#秩的概念"><span class="nav-number">1.1.</span> <span class="nav-text">秩的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非参检验原理"><span class="nav-number">1.2.</span> <span class="nav-text">非参检验原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非参检验适用范围"><span class="nav-number">1.3.</span> <span class="nav-text">非参检验适用范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非参检验主要优点"><span class="nav-number">1.4.</span> <span class="nav-text">非参检验主要优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非参检验缺点"><span class="nav-number">1.5.</span> <span class="nav-text">非参检验缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单样本检验"><span class="nav-number">2.</span> <span class="nav-text">单样本检验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#One-sample-Wilcoxon-Signed-rank-Test"><span class="nav-number">2.1.</span> <span class="nav-text">One-sample Wilcoxon Signed-rank Test</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍"><span class="nav-number">2.1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适合数据"><span class="nav-number">2.1.2.</span> <span class="nav-text">适合数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码"><span class="nav-number">2.1.3.</span> <span class="nav-text">R代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sign-Test-for-One-sample-Data"><span class="nav-number">2.2.</span> <span class="nav-text">Sign Test for One-sample Data</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适合数据-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">适合数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码-1"><span class="nav-number">2.2.3.</span> <span class="nav-text">R代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两样本检验"><span class="nav-number">3.</span> <span class="nav-text">两样本检验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Two-sample-Mann–Whitney-U-Test"><span class="nav-number">3.1.</span> <span class="nav-text">Two-sample Mann–Whitney U Test</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-2"><span class="nav-number">3.1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适合数据-2"><span class="nav-number">3.1.2.</span> <span class="nav-text">适合数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码-2"><span class="nav-number">3.1.3.</span> <span class="nav-text">R代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mood’s-Median-Test-for-Two-sample-Data"><span class="nav-number">3.2.</span> <span class="nav-text">Mood’s Median Test for Two-sample Data</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍："><span class="nav-number">3.2.1.</span> <span class="nav-text">介绍：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适合数据："><span class="nav-number">3.2.2.</span> <span class="nav-text">适合数据：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Two-sample-Paired-Signed-rank-Test"><span class="nav-number">3.3.</span> <span class="nav-text">Two-sample Paired Signed-rank Test</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-3"><span class="nav-number">3.3.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适合数据-3"><span class="nav-number">3.3.2.</span> <span class="nav-text">适合数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码-3"><span class="nav-number">3.3.3.</span> <span class="nav-text">R代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sign-Test-for-Two-sample-Paired-Data"><span class="nav-number">3.4.</span> <span class="nav-text">Sign Test for Two-sample Paired Data</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-4"><span class="nav-number">3.4.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适应数据"><span class="nav-number">3.4.2.</span> <span class="nav-text">适应数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R-代码"><span class="nav-number">3.4.3.</span> <span class="nav-text">R 代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多样本"><span class="nav-number">4.</span> <span class="nav-text">多样本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kruskal–Wallis-Test"><span class="nav-number">4.1.</span> <span class="nav-text">Kruskal–Wallis Test</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-5"><span class="nav-number">4.1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适用数据"><span class="nav-number">4.1.2.</span> <span class="nav-text">适用数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码-4"><span class="nav-number">4.1.3.</span> <span class="nav-text">R代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mood’s-Median-Test"><span class="nav-number">4.2.</span> <span class="nav-text">Mood’s Median Test</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-6"><span class="nav-number">4.2.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适用数据-1"><span class="nav-number">4.2.2.</span> <span class="nav-text">适用数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码-5"><span class="nav-number">4.2.3.</span> <span class="nav-text">R代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Friedman-Test"><span class="nav-number">4.3.</span> <span class="nav-text">Friedman Test</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-7"><span class="nav-number">4.3.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适用数据-2"><span class="nav-number">4.3.2.</span> <span class="nav-text">适用数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码-6"><span class="nav-number">4.3.3.</span> <span class="nav-text">R代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类似检验"><span class="nav-number">4.3.4.</span> <span class="nav-text">类似检验</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  近期文章
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">500k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">7:34</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button" onclick="moonMenuClick()">
+    <svg class="moon-menu-svg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+      <g class="moon-menu-points">
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
+        <circle class="moon-menu-point" r=".2rem"></circle>
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
+      </g>
+    </svg>
+    <div class="moon-menu-icon">
+    </div>
+    <div class="moon-menu-text">
+    </div>
+  </div>
+</div>
+<script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>
