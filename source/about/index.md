@@ -1,17 +1,56 @@
 ---
-title: 关于
+title: About
 date: 2020-04-02 09:14:53
 layout: page
 type: about
 comments: false
 ---
 
-### 关于我
 
-大学那会莫名其妙地进入生物信息领域，自己内心是犹豫彷徨的。直到毕业自身也没有明白自己要做什么，路在哪里。后来考研来了华大，见识到身边牛人后，才明白生信的意义。研究生临近毕业了，但文章没有发表出去，自己就想着把博客捡起来，把自己这几年积累的笔记整理整理，也同时给自己一个**温故而知新**的机会。博客会一直更新，包含研究生生涯的点点滴滴，给自己加油。
 
-### 经历
+### EDUCATION 
 
-- 2011年至2016年，哈尔滨医科大学生物院。
-- 2016年至2020年，深圳华大生命科学研究院。
+- **BGI Education Center, University of Chinese Academy of Sciences**            
 
+  Genomics&emsp;&emsp;&emsp;&emsp;Master&emsp;&emsp;&emsp;&emsp;2016.9 - 2020.6
+
+- **Harbin Medical University**                                      
+
+  Bioinformatics&emsp;&emsp;Bachelor &emsp; &emsp; 2011.9 - 2016.6
+
+
+
+### SKILL 
+
+* Program Languages: R, perl, python and shell etc 
+* Data analysis of NGS DATA
+* Linux server 
+
+### Research direction
+
+* Metagenomics (amplicon)
+* Transcriptomics (Single cell RNA and metatranscriptome)
+
+
+
+### EXPERIENCE
+
+* **Bioland Lab, Guangzhou, China**
+
+  2020.6 - present
+
+* **BGI-Shenzhen, Shenzhen, China**
+
+  2017.3 - 2020.6
+
+
+
+### PUBLICATION
+
+* **Zou, H.,** Wang, D., Ren, H., Cai, K., Chen, P., Fang, C., ... & Zhong, H. (2020). Effect of Caloric Restriction on BMI, Gut Microbiota, and Blood Amino Acid Levels in Non-Obese Adults. *Nutrients*, 12(3), 631.
+
+
+
+### Contact
+
+* Email: zouhua1@outlook.com
