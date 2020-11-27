@@ -28,13 +28,13 @@
 <meta property="og:site_name" content="Hua&#39;s Cabin">
 <meta property="og:description" content="apply函数族是R语言中数据处理的一组核心函数，通过使用apply函数，我们可以实现对数据的循环、分组、过滤、类型控制等操作；apply函数本身就是解决数据循环处理的问题，为了面向不同的数据类型，不同的返回值，apply函数组成了一个函数族，包括了8个功能类似的函数。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zouhua.top/images/R.apply.png">
+<meta property="og:image" content="https://zouhua.top/images/R_base_06/R_base_06_01.png">
 <meta property="article:published_time" content="2018-04-27T02:10:00.000Z">
 <meta property="article:modified_time" content="2019-08-29T16:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
-<meta property="article:tag" content="apply">
+<meta property="article:tag" content="R基础">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zouhua.top/images/R.apply.png">
+<meta name="twitter:image" content="https://zouhua.top/images/R_base_06/R_base_06_01.png">
 
 <link rel="canonical" href="https://zouhua.top/archives/dbeda1ea.html">
 
@@ -148,17 +148,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -261,7 +261,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/R/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">基础知识</span></a>
+                  <a href="/categories/R/Basics/" itemprop="url" rel="index"><span itemprop="name">Basics</span></a>
                 </span>
             </span>
 
@@ -311,7 +311,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="/images/R.apply.png" alt=""></p>
+        <p><img src="/images/R_base_06/R_base_06_01.png" alt=""></p>
 <h3 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h3><p>for循环的首选，可以对matrix、data.frame、array的行和列进行循环计算<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">按行循环， 使得x数据框x1列加1，且计算两列的均值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section"># 生成data.frame</span></span><br><span class="line"><span class="quote">&gt; x &lt;- cbind(x1 = 3, x2 = c(4:1, 2:5)); x</span></span><br><span class="line"><span class="code">     x1 x2</span></span><br><span class="line">[1,]  3  4</span><br><span class="line">[2,]  3  3</span><br><span class="line">[3,]  3  2</span><br><span class="line">[4,]  3  1</span><br><span class="line">[5,]  3  2</span><br><span class="line">[6,]  3  3</span><br><span class="line">[7,]  3  4</span><br><span class="line">[8,]  3  5</span><br><span class="line"></span><br><span class="line"><span class="section"># 自定义函数myFUN，第一个参数x为数据</span></span><br><span class="line"><span class="section"># 第二、三个参数为自定义参数，可以通过apply的'...'进行传入。</span></span><br><span class="line"><span class="quote">&gt; myFUN&lt;- function(x, c1, c2) &#123;</span></span><br><span class="line"><span class="bullet">+   </span>c(sum(x[c1],1), mean(x[c2])) </span><br><span class="line"><span class="bullet">+ </span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="section"># 把数据框按行做循环，每行分别传递给myFUN函数，设置c1,c2对应myFUN的第二、三个参数</span></span><br><span class="line"><span class="quote">&gt; apply(x,1,myFUN,c1='x1',c2=c('x1','x2'))</span></span><br><span class="line"><span class="code">     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]</span></span><br><span class="line">[1,]  4.0    4  4.0    4  4.0    4  4.0    4</span><br><span class="line">[2,]  3.5    3  2.5    2  2.5    3  3.5    4</span><br></pre></td></tr></table></figure></p>
 <h3 id="lapply"><a href="#lapply" class="headerlink" title="lapply"></a>lapply</h3><p>用来对list、data.frame数据集进行循环，并返回和X长度相同的list结果</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 构建一个list数据集x，分别包括a,b,c 三个KEY值。</span></span><br><span class="line"><span class="quote">&gt; x &lt;- list(a = 1:10, b = rnorm(6,10,5), c = c(TRUE,FALSE,FALSE,TRUE));x</span></span><br><span class="line">$a</span><br><span class="line"> [1]  1  2  3  4  5  6  7  8  9 10</span><br><span class="line">$b</span><br><span class="line">[1]  0.7585424 14.3662366 13.3772979 11.6658990  9.7011387 21.5321427</span><br><span class="line">$c</span><br><span class="line">[1]  TRUE FALSE FALSE  TRUE</span><br><span class="line"></span><br><span class="line"><span class="section"># 分别计算每个KEY对应该的数据的分位数。</span></span><br><span class="line"><span class="quote">&gt; lapply(x,fivenum)</span></span><br><span class="line">$a</span><br><span class="line">[1]  1.0  3.0  5.5  8.0 10.0</span><br><span class="line"></span><br><span class="line">$b</span><br><span class="line">[1]  0.7585424  9.7011387 12.5215985 14.3662366 21.5321427</span><br><span class="line"></span><br><span class="line">$c</span><br><span class="line">[1] 0.0 0.0 0.5 1.0 1.0</span><br></pre></td></tr></table></figure>
@@ -320,7 +320,7 @@
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
 <li><a href="http://blog.fens.me/r-apply/" target="_blank" rel="noopener external nofollow noreferrer">apply 家族</a></li>
 </ol>
-<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
     </div>
 
@@ -343,6 +343,24 @@
 	  </div>
 	
       
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/3fab6c1e.html" rel="bookmark">Rmarkdown: 一个科学编写数据分析的框架</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/57f5f73a.html" rel="bookmark">R常用函数打包成R packges</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/44ac9cba.html" rel="bookmark">R包的创建及使用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/fd00cfd6.html" rel="bookmark">R语言基础函数介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/2164a86a.html" rel="bookmark">R语言数据结构基础</a></div>
+    </li>
+  </ul>
 
         <div class="reward-container">
   <div>赞赏一瓶优酸乳</div>
@@ -384,7 +402,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/apply/" rel="tag"><i class="fa fa-tags"></i> apply</a>
+              <a href="/tags/R%E5%9F%BA%E7%A1%80/" rel="tag"><i class="fa fa-tags"></i> R基础</a>
           </div>
 
         
@@ -475,20 +493,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -527,23 +545,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
 				</li>
 			  
 			</ul>
@@ -844,13 +862,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">500k</span>
+    <span title="站点总字数">842k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:34</span>
+    <span title="站点阅读时长">12:46</span>
 </div>
 
 <div id="days"></div>

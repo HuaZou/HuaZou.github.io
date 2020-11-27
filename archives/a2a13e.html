@@ -28,15 +28,15 @@
 <meta property="og:site_name" content="Hua&#39;s Cabin">
 <meta property="og:description" content="hexo是静态博客框架工具，其简单高效的markdown格式生成的静态网页对多数人来说是最佳的，但是也存在某些问题，如master分支只能保存静态网页无法同时保存源码，为此开启分支保存策略就显得如此重要。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zouhua.top/images/hexo01.png">
-<meta property="og:image" content="https://zouhua.top/images/hexo02.png">
-<meta property="og:image" content="https://zouhua.top/images/hexo03.png">
+<meta property="og:image" content="https://zouhua.top/images/Tools_Hexo_01/Tools_Hexo_01_01.png">
+<meta property="og:image" content="https://zouhua.top/images/Tools_Hexo_01/Tools_Hexo_01_02.png">
+<meta property="og:image" content="https://zouhua.top/images/Tools_Hexo_01/Tools_Hexo_01_03.png">
 <meta property="article:published_time" content="2020-04-03T02:36:00.000Z">
 <meta property="article:modified_time" content="2020-04-02T16:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
 <meta property="article:tag" content="Hexo">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zouhua.top/images/hexo01.png">
+<meta name="twitter:image" content="https://zouhua.top/images/Tools_Hexo_01/Tools_Hexo_01_01.png">
 
 <link rel="canonical" href="https://zouhua.top/archives/a2a13e.html">
 
@@ -150,17 +150,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -253,11 +253,11 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+                  <a href="/categories/Tools/" itemprop="url" rel="index"><span itemprop="name">Tools</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E5%85%B7/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
+                  <a href="/categories/Tools/Blog/" itemprop="url" rel="index"><span itemprop="name">Blog</span></a>
                 </span>
             </span>
 
@@ -314,9 +314,9 @@
 </ol>
 <h3 id="源码保存问题"><a href="#源码保存问题" class="headerlink" title="源码保存问题"></a>源码保存问题</h3><p>在<code>master</code>分支只会保存博客的静态网页，无法保存源码。由于每个人可能拥有两台以上的终端，即使使用云盘备份也会很麻烦（比如本人使用OneDrive个人版保存源码，结果因为时常更新静态文件，导致源码一直在同步，这是及其不友好的）。另外，时常需要对博客更新某些功能，这又导致源码经常会修改，而修改记录又无法保存。最严重的问题是，一旦某台终端硬盘损坏，这可能会导致源码完全丢失。git分布式管理系统的分支策略设计完美解决了这一痛点。</p>
 <h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><h4 id="创建source分支"><a href="#创建source分支" class="headerlink" title="创建source分支"></a>创建source分支</h4><p>在github的username.github.io仓库新建source分支，红色箭头处输入新分支名字（我已创建source分支）</p>
-<p><img src="/images/hexo01.png" alt=""></p>
+<p><img src="/images/Tools_Hexo_01/Tools_Hexo_01_01.png" alt=""></p>
 <h4 id="更改默认分支"><a href="#更改默认分支" class="headerlink" title="更改默认分支"></a>更改默认分支</h4><p>把默认的master主支切换成 source分支，该步骤在<code>settings-&gt;Branches-&gt;Default branch</code>，将默认分支由master更改成source，最后update。博客静态网页是发布到master主支，主支不是我们应该关心的问题。</p>
-<p><img src="/images/hexo02.png" alt=""></p>
+<p><img src="/images/Tools_Hexo_01/Tools_Hexo_01_02.png" alt=""></p>
 <h4 id="克隆source分支"><a href="#克隆source分支" class="headerlink" title="克隆source分支"></a>克隆source分支</h4><ol>
 <li>克隆hexo分支到本地, <code>git clone git@github.com:HuaZou/HuaZou.github.io.git</code>；</li>
 <li>在终端中cd进入该username.github.io文件目录,<code>cd username.github.io</code>；</li>
@@ -344,14 +344,14 @@
 <li><p><code>master</code>主支和<code>source</code>分支各自保存着一个版本。<code>master</code>主支用于保存博客静态资源，提供博客页面供人访问；<code>source</code>分支用于备份博客部署文件，供自己维护更新，两者在一个GitHub仓库内也不会有任何冲突。</p>
 </li>
 </ol>
-<p><img src="/images/hexo03.png" alt=""></p>
-<h4 id="同步至其他终端"><a href="#同步至其他终端" class="headerlink" title="同步至其他终端"></a>同步至其他终端</h4><p>添加ssh key至GitHub账户，克隆仓库，按照hexo等。在任何终端对博客做任何修改前先git pull更新最新的文件。</p>
+<p><img src="/images/Tools_Hexo_01/Tools_Hexo_01_03.png" alt=""></p>
+<h4 id="同步至其他终端"><a href="#同步至其他终端" class="headerlink" title="同步至其他终端"></a>同步至其他终端</h4><p>添加ssh key至GitHub账户，克隆仓库，安装hexo等。在任何终端对博客做任何修改前先git pull更新最新的文件。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:HuaZou/HuaZou.github.io.git my_blog</span><br><span class="line"><span class="built_in">cd</span> my_blog</span><br><span class="line"><span class="comment"># 安装node.js</span></span><br><span class="line">npm install hexo</span><br><span class="line">npm install hexo-deployer-git -save</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编写博客</span></span><br><span class="line">hexo new post_name</span><br><span class="line"><span class="built_in">cd</span> <span class="built_in">source</span>/_post</span><br><span class="line">hexo generate (or g)</span><br><span class="line">hexo server (or s)</span><br></pre></td></tr></table></figure>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
 <li><a href="http://www.yangbing.club/2019/06/29/save-hexo-source-post-with-git-branch/" target="_blank" rel="noopener external nofollow noreferrer">使用git分支保存hexo博客源码到github</a></li>
 <li><a href="https://juejin.im/post/5c6e57c151882562c955e909" target="_blank" rel="noopener external nofollow noreferrer">GitHub + Hexo搭建自己博客(三) 多设备管理</a></li>
 </ol>
-<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
     </div>
 
@@ -377,7 +377,7 @@
   <div class="popular-posts-header">相关文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/ec7d7221.html" rel="bookmark">Hexo搭建个人博客</a></div>
+      <div class="popular-posts-title"><a href="/archives/8254c24d.html" rel="bookmark">Hexo SEO设置</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/archives/e635378a.html" rel="bookmark">Hexo-Next主题美化</a></div>
@@ -433,8 +433,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/archives/aed74a6e.html" rel="prev" title="Tex Live简介以及安装">
-      <i class="fa fa-chevron-left"></i> Tex Live简介以及安装
+    <a href="/archives/a01ecd4b.html" rel="prev" title="TexLive简介以及安装">
+      <i class="fa fa-chevron-left"></i> TexLive简介以及安装
     </a></div>
       <div class="post-nav-item">
     <a href="/archives/e635378a.html" rel="next" title="Hexo-Next主题美化">
@@ -515,20 +515,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -567,23 +567,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
 				</li>
 			  
 			</ul>
@@ -884,13 +884,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">500k</span>
+    <span title="站点总字数">842k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:34</span>
+    <span title="站点阅读时长">12:46</span>
 </div>
 
 <div id="days"></div>

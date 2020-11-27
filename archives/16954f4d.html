@@ -31,7 +31,7 @@
 <meta property="article:published_time" content="2018-04-11T15:10:00.000Z">
 <meta property="article:modified_time" content="2019-08-29T16:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
-<meta property="article:tag" content="cygwin">
+<meta property="article:tag" content="terminal">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://zouhua.top/archives/16954f4d.html">
@@ -146,17 +146,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -255,11 +255,11 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+                  <a href="/categories/Tools/" itemprop="url" rel="index"><span itemprop="name">Tools</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E5%85%B7/ssh/" itemprop="url" rel="index"><span itemprop="name">ssh</span></a>
+                  <a href="/categories/Tools/Terminal/" itemprop="url" rel="index"><span itemprop="name">Terminal</span></a>
                 </span>
             </span>
 
@@ -350,7 +350,7 @@
 <ul>
 <li>将公钥复制粘贴到大型机的.ssh目录下authorized_keys（若没有，则创建）</li>
 </ul>
-<h3 id="本地与大型机传输文件"><a href="#本地与大型机传输文件" class="headerlink" title="本地与大型机传输文件"></a>本地与大型机传输文件</h3><p>使用<a href="https://www.cnblogs.com/likui360/p/6011769.html" target="_blank" rel="noopener external nofollow noreferrer">scp</a>命令，在使用期先设置大型机的别名信息，方便使用scp命令</p>
+<h3 id="本地与大型机传输文件"><a href="#本地与大型机传输文件" class="headerlink" title="本地与大型机传输文件"></a>本地与大型机传输文件</h3><p>使用<a href="https://www.cnblogs.com/likui360/p/6011769.html" target="_blank" rel="noopener external nofollow noreferrer">scp</a>命令，在使用前先设置大型机的别名信息，方便使用scp命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">"Host  alias1 \n HostName 192.114.23.43 \n User username"</span> &gt; ~/.ssh/config </span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">"Host  alias2 \n HostName 172.23.22.323 \n User username"</span> &gt;&gt; ~/.ssh/config </span><br><span class="line"></span><br><span class="line">scp -r alias1:/hwfssz1/filedir/  ./  <span class="comment"># 大型机传输到本地</span></span><br><span class="line">scp file.txt  alias2:/hwfssz1/filedir/  <span class="comment"># 本地传输到大型机</span></span><br></pre></td></tr></table></figure>
 <h3 id="小技巧"><a href="#小技巧" class="headerlink" title="小技巧"></a>小技巧</h3><ul>
 <li>命令行打开文件或者文件夹：cygstart: start a program or open a file or url</li>
@@ -377,7 +377,7 @@
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
 <li><a href="http://allthingsmarked.com/2006/08/17/how-to-set-up-a-windows-ssh-server-for-vnc-tunneling/" target="_blank" rel="noopener external nofollow noreferrer">安装过程</a></li>
 </ol>
-<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
     </div>
 
@@ -400,12 +400,6 @@
 	  </div>
 	
       
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/73506437.html" rel="bookmark">自动验证双因素，并登录集群</a></div>
-    </li>
-  </ul>
 
         <div class="reward-container">
   <div>赞赏一瓶优酸乳</div>
@@ -447,7 +441,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/cygwin/" rel="tag"><i class="fa fa-tags"></i> cygwin</a>
+              <a href="/tags/terminal/" rel="tag"><i class="fa fa-tags"></i> terminal</a>
           </div>
 
         
@@ -538,20 +532,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -590,23 +584,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
 				</li>
 			  
 			</ul>
@@ -907,13 +901,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">500k</span>
+    <span title="站点总字数">842k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:34</span>
+    <span title="站点阅读时长">12:46</span>
 </div>
 
 <div id="days"></div>

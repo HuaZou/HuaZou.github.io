@@ -28,16 +28,16 @@
 <meta property="og:site_name" content="Hua&#39;s Cabin">
 <meta property="og:description" content="网络是研究多因素或者环境内多因素互作关系的利器，本文摘抄lyao22III的博文记录下网络分析的基础。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zouhua.top/images/R_data_06_01.png">
-<meta property="og:image" content="https://zouhua.top/images/R_data_06_02.png">
-<meta property="og:image" content="https://zouhua.top/images/R_data_06_03.png">
-<meta property="og:image" content="https://zouhua.top/images/R_data_06_04.png">
+<meta property="og:image" content="https://zouhua.top/images/R_data_06/R_data_06_01.png">
+<meta property="og:image" content="https://zouhua.top/images/R_data_06/R_data_06_02.png">
+<meta property="og:image" content="https://zouhua.top/images/R_data_06/R_data_06_03.png">
+<meta property="og:image" content="https://zouhua.top/images/R_data_06/R_data_06_04.png">
 <meta property="article:published_time" content="2020-04-15T05:16:05.000Z">
 <meta property="article:modified_time" content="2020-04-15T08:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
 <meta property="article:tag" content="网络图">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zouhua.top/images/R_data_06_01.png">
+<meta name="twitter:image" content="https://zouhua.top/images/R_data_06/R_data_06_01.png">
 
 <link rel="canonical" href="https://zouhua.top/archives/c2d62944.html">
 
@@ -151,17 +151,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -258,7 +258,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/R/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">数据分析</span></a>
+                  <a href="/categories/R/DataAnalysis/" itemprop="url" rel="index"><span itemprop="name">DataAnalysis</span></a>
                 </span>
             </span>
 
@@ -289,7 +289,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7k</span>
+              <span>7.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -311,12 +311,12 @@
         <h3 id="网络图基础"><a href="#网络图基础" class="headerlink" title="网络图基础"></a>网络图基础</h3><blockquote>
 <p>在数学中，“网络”（networks）通常被称为“图”（graphs），关于图研究的数学领域称为“图理论”（graph theory）。网络图中的基本元素是节点和边，构建网络图时，我们将对象称为“节点”（vertices或nodes），并通常将它们绘制为点；将节点之间的连接称为“边”（edges或links），并且通常将它们绘制为点之间的线。如此，得到了网络图。</p>
 </blockquote>
-<p><img src="/images/R_data_06_01.png" alt=""></p>
+<p><img src="/images/R_data_06/R_data_06_01.png" alt=""></p>
 <h3 id="网络图基本类型"><a href="#网络图基本类型" class="headerlink" title="网络图基本类型"></a>网络图基本类型</h3><blockquote>
 <p>对于网络图G，若集合E中每条边的两个节点都有次序（即对于u,v∈V，(u,v)与(v,u)不同），则图G称为“有向图”（directed graph或digraph）。这些边被称为“有向边”（directed edges）或“弧”（ares），有向边(u,v)的方向规定从左到右，即从起点u指向终点v。需要注意的是，有向图中一对节点间可能有两条有向边，分别以其中一个节点作为起点，另一个作为终点，此时，两条有向边称为是“双向”（mutual）的。类似的，对于网络图G，若每条边的两个节点没有次序，则图G称为“无向图”（undirected graph）。在某些情况下，也可能允许节点具有自连接，这意味着在网络图中出现某节点从自身到自身的边，即“自环”（loops）。</p>
 <p>若两个节点间存在多余一条边（称为“多重边”，multi-edges）的情况，或者图中出现“自环”的情况，则图被称为“多重图”（multi-graph）。非多重图称为“简单图”（simple graph），其边称为“正常边”（proper edges）。</p>
 <p>如下示例所示有向图、无向图，以及双向和自连接类型等:</p>
-<p><img src="/images/R_data_06_02.png" alt=""></p>
+<p><img src="/images/R_data_06/R_data_06_02.png" alt=""></p>
 </blockquote>
 <h3 id="网络图属性"><a href="#网络图属性" class="headerlink" title="网络图属性"></a>网络图属性</h3><p> 网路图有节点和连接节点的边构成，因此节点和边是其最重要的属性特征，节点和边的大小和颜色均可以修改。另外，描绘网络图特点的参数有：</p>
 <blockquote>
@@ -350,7 +350,7 @@
 <p>微生物互作网络实质上是基于数学模型推断的。从最简单的相似性（相关性或距离）计算、到更复杂的多元回归和贝叶斯网络分析，多种方法可以被用来构建微生物共发生网络。这些方法的效率、准确性、速度和计算要求各不相同。其中基于两两物种之间相似性计算的方法具有构建速度快和易于操作的特点，因而最为流行。理论上，任何计算两两之间关系的方法都可以使用。例如：Bray–Curtis距离计算物种丰度之间的距离，Pearson相关系数评估线性关系，Spearman相关系数计算非线性关系等。</p>
 <p>其中，相关性网络可能是其中最简单、最容易理解的一种方法了，主要依据物种丰度之间的 Pearson或Spearman相关系数来构建共发生网络。如下展示了基于OTUs丰度间相关性的关系构建网络图的原理示例。（在16S/18S/ITS扩增子测序中，微生物类群的基本单位称为OTU，即Operational Taxonomic Unit，你可以大致理解为一种OTU代表了一种微生物，通常OTU很难定位到种水平，介于种到属之间；最后可获得每个环境样本中都包含了哪些种类的OTU，以及它们的丰度，并在此基础上，继续统计得到各门纲目科属等水平的微生物类群种类和丰度）</p>
 </blockquote>
-<p><img src="/images/R_data_06_03.png" alt=""></p>
+<p><img src="/images/R_data_06/R_data_06_03.png" alt=""></p>
 <h4 id="网络构建的常用工具以及需要注意的问题"><a href="#网络构建的常用工具以及需要注意的问题" class="headerlink" title="网络构建的常用工具以及需要注意的问题"></a>网络构建的常用工具以及需要注意的问题</h4><blockquote>
 <p>无论微生物-微生物互作关系，还是微生物-环境因子、微生物-功能基因等的相互关系，我们均是根据数学的方法去推断的。在这方面，研究者们开发出了多种工具来构建共发生网络，常见的如分子生态网络分析（Molecular Ecological Network Analysis，<a href="http://129.15.40.240/mena/login.cgi" target="_blank" rel="noopener external nofollow noreferrer">MENA</a>）、局部相似性分析（Local Similarity Analysis，<a href="http://psbweb05.psb.ugent.be/conet/microbialnetworks/lsa.php" target="_blank" rel="noopener external nofollow noreferrer">LSA</a>）、成分数据的稀疏关联分析（Sparse Correlations for Compositional data，<a href="http://psbweb05.psb.ugent.be/conet/microbialnetworks/sparcc.php" target="_blank" rel="noopener external nofollow noreferrer">SparCC</a>）、<a href="http://psbweb05.psb.ugent.be/conet/microbialnetworks/conet_new.php" target="_blank" rel="noopener external nofollow noreferrer">CoNet</a>分析等；在常用的开源语言R、python中，也有很多被开发用于构建网络的包或模块，如<a href="https://igraph.org/" target="_blank" rel="noopener external nofollow noreferrer">igraph</a>。</p>
 <p>不同的工具构建网络图的算法各有区别，适用情形也不一样。MENA分析将物理学中的随机矩阵理论（Random Matrix Theory，RMT）应用到共发生网络构建中，来自动确定相关系数的阈值（Deng et al. 2012）。在计算时间序列上的关系时，面临着一个问题：一个物种丰度对另一个物种丰度变化的响应需要一定的时间。LSA分析被用来处理这种迟滞效应带来的问题（Ruan et al. 2006）。采用高通量测序技术并不能获得微生物物种的绝对丰度，我们一般使用均一化后的OTU表，然后根据相对丰度计算任意OTU对之间的相关系数和显著性。OTU相对丰度表中任何一个样品的物种相对丰度之和为1，是非独立的成分数据。使用成分数据计算相关性可能会产生假阳性，也就是成分偏差。SparCC 分析通过计算对数转化后的物种相对丰度之间的Pearson相关系数，来针对性地处理成分偏差问题（riedman et al. 2012）。CoNet采用多种相关性和距离算法计算物种之间的关系，利用置换分析计算每个算法的p并将其合并，在最终的网络中仅保留那些在多个算法中同时显著的关系，同时解决了相似性分析带来的成分偏差问题和距离分析带来的异常值问题（Faust et al. 2012b）。开源语言R、python中提供了非常多的网络构建模型供我们选择，简单的如基于相关性阈值和显著性p值筛选的网络构建方法，这也是常见的通用方法；更多的网络构建算法可能更为复杂，通常针对于特定的研究（一般可见相关文献中的描述）。话虽如此，但这里的互作网络毕竟仅为根据数学模型推断，所得结果并非“绝对真实”的相互作用，因此各种方法的适用条件、结果优劣等只是相对而言的。</p>
@@ -367,15 +367,16 @@
 <li>物种属水平相对丰度谱（行名-&gt; 物种；列名-&gt;样本）；</li>
 <li>spearman方法计算非线性相关系数；</li>
 </ul>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(psych)</span><br><span class="line"><span class="keyword">library</span>(tibble)</span><br><span class="line"><span class="keyword">library</span>(dplyr)</span><br><span class="line"><span class="keyword">library</span>(igraph)</span><br><span class="line"></span><br><span class="line">phen &lt;- read.csv(<span class="string">"../datset/phenotype.csv"</span>)</span><br><span class="line">prof &lt;- read.table(<span class="string">"../datset/Genus.profile"</span>, header = <span class="literal">T</span>) </span><br><span class="line"></span><br><span class="line">sid &lt;- intersect(phen %&gt;% filter(Stage==<span class="string">"Before"</span>) %&gt;% dplyr::select(SampleID) %&gt;% t(),</span><br><span class="line">                 colnames(prof))</span><br><span class="line"></span><br><span class="line">prf &lt;- prof  %&gt;% dplyr::select(sid) %&gt;% </span><br><span class="line">    rownames_to_column(<span class="string">"Type"</span>) %&gt;% </span><br><span class="line">    filter(apply(dplyr::select(., -one_of(<span class="string">"Type"</span>)), <span class="number">1</span>, <span class="keyword">function</span>(x)&#123;sum(x != <span class="number">0</span>)/length(x)&#125;) &gt; <span class="number">0.5</span>) %&gt;%</span><br><span class="line">            data.frame(.) %&gt;% </span><br><span class="line">    column_to_rownames(<span class="string">"Type"</span>)</span><br><span class="line"></span><br><span class="line">occor &lt;- corr.test(prf %&gt;% t(), </span><br><span class="line">                   use=<span class="string">"pairwise"</span>, method=<span class="string">"spearman"</span>,</span><br><span class="line">                   adjust=<span class="string">"fdr"</span>, alpha=<span class="number">.05</span>)</span><br><span class="line">occor.r &lt;- occor$r <span class="comment"># 取相关性矩阵R值</span></span><br><span class="line">occor.p &lt;- occor$p <span class="comment"># 取相关性矩阵p值</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 确定物种间存在相互作用关系的阈值，将相关性R矩阵内不符合的数据转换为0</span></span><br><span class="line">occor.r[occor.p &gt; <span class="number">0.05</span>|abs(occor.r) &lt; <span class="number">0.6</span>] = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><strong>所需数据已经上传至百度网盘: <a href="https://pan.baidu.com/s/1jCpBGLpFyFdnATKmb7lPYQ" target="_blank" rel="noopener external nofollow noreferrer">https://pan.baidu.com/s/1jCpBGLpFyFdnATKmb7lPYQ</a>    提取码：fhms</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(psych)</span><br><span class="line"><span class="keyword">library</span>(tibble)</span><br><span class="line"><span class="keyword">library</span>(dplyr)</span><br><span class="line"><span class="keyword">library</span>(igraph)</span><br><span class="line"></span><br><span class="line">phen &lt;- read.csv(<span class="string">"phenotype.csv"</span>)</span><br><span class="line">prof &lt;- read.table(<span class="string">"Genus.profile"</span>, header = <span class="literal">T</span>) </span><br><span class="line"></span><br><span class="line">sid &lt;- intersect(phen %&gt;% filter(Stage==<span class="string">"Before"</span>) %&gt;% dplyr::select(SampleID) %&gt;% t(),</span><br><span class="line">                 colnames(prof))</span><br><span class="line"></span><br><span class="line">prf &lt;- prof  %&gt;% dplyr::select(sid) %&gt;% </span><br><span class="line">    rownames_to_column(<span class="string">"Type"</span>) %&gt;% </span><br><span class="line">    filter(apply(dplyr::select(., -one_of(<span class="string">"Type"</span>)), <span class="number">1</span>, <span class="keyword">function</span>(x)&#123;sum(x != <span class="number">0</span>)/length(x)&#125;) &gt; <span class="number">0.5</span>) %&gt;%</span><br><span class="line">            data.frame(.) %&gt;% </span><br><span class="line">    column_to_rownames(<span class="string">"Type"</span>)</span><br><span class="line"></span><br><span class="line">occor &lt;- corr.test(prf %&gt;% t(), </span><br><span class="line">                   use=<span class="string">"pairwise"</span>, method=<span class="string">"spearman"</span>,</span><br><span class="line">                   adjust=<span class="string">"fdr"</span>, alpha=<span class="number">.05</span>)</span><br><span class="line">occor.r &lt;- occor$r <span class="comment"># 取相关性矩阵R值</span></span><br><span class="line">occor.p &lt;- occor$p <span class="comment"># 取相关性矩阵p值</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 确定物种间存在相互作用关系的阈值，将相关性R矩阵内不符合的数据转换为0</span></span><br><span class="line">occor.r[occor.p &gt; <span class="number">0.05</span>|abs(occor.r) &lt; <span class="number">0.6</span>] = <span class="number">0</span></span><br></pre></td></tr></table></figure>
 <h4 id="构建igraph对象"><a href="#构建igraph对象" class="headerlink" title="构建igraph对象"></a>构建igraph对象</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">igraph &lt;- graph_from_adjacency_matrix(occor.r, mode=<span class="string">"undirected"</span>, weighted=<span class="literal">TRUE</span>, diag=<span class="literal">FALSE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否去掉孤立顶点，根据自己实验而定</span></span><br><span class="line"><span class="comment"># remove isolated nodes，即去掉和所有otu均无相关性的otu 可省略，前期矩阵已处理过</span></span><br><span class="line">bad.vs &lt;- V(igraph)[degree(igraph) == <span class="number">0</span>]</span><br><span class="line">igraph &lt;- delete.vertices(igraph, bad.vs)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将igraph weight属性赋值到igraph.weight</span></span><br><span class="line">igraph.weight &lt;- E(igraph)$weight</span><br><span class="line"></span><br><span class="line"><span class="comment"># 做图前去掉igraph的weight权重，因为做图时某些layout会受到其影响</span></span><br><span class="line">E(igraph)$weight &lt;- <span class="literal">NA</span></span><br><span class="line"></span><br><span class="line">set.seed(<span class="number">123</span>)</span><br><span class="line">plot(igraph,</span><br><span class="line">     main=<span class="string">"Co-occurrence network"</span>,</span><br><span class="line">     vertex.frame.color=<span class="literal">NA</span>,</span><br><span class="line">     vertex.label=<span class="literal">NA</span>,</span><br><span class="line">     edge.width=<span class="number">1</span>,</span><br><span class="line">     vertex.size=<span class="number">5</span>,</span><br><span class="line">     edge.lty=<span class="number">1</span>,</span><br><span class="line">     edge.curved=<span class="literal">TRUE</span>,</span><br><span class="line">     margin=c(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>))</span><br></pre></td></tr></table></figure>
-<p><img src="/images/R_data_06_04.png" alt=""></p>
+<p><img src="/images/R_data_06/R_data_06_04.png" alt=""></p>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
 <li><a href="http://blog.sciencenet.cn/blog-3406804-1193912.html" target="_blank" rel="noopener external nofollow noreferrer">网络分析概述之微生物互作（生态）网络简介</a></li>
 <li><a href="https://kateto.net/networks-r-igraph" target="_blank" rel="noopener external nofollow noreferrer">igraph tutorial</a></li>
 <li><a href="https://tm4ss.github.io/docs/Tutorial_5_Co-occurrence.html" target="_blank" rel="noopener external nofollow noreferrer">Co-occurrence</a></li>
 </ol>
-<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
     </div>
 
@@ -530,20 +531,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -582,23 +583,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
 				</li>
 			  
 			</ul>
@@ -899,13 +900,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">500k</span>
+    <span title="站点总字数">842k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:34</span>
+    <span title="站点阅读时长">12:46</span>
 </div>
 
 <div id="days"></div>

@@ -29,13 +29,13 @@
 <meta property="og:description" content="根据wiki图解，统计学存在描述性统计、推论统计以及回归分析等等。本文主要集中在描述统计学。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=Cov(X%252CY)%253DE%5B(X-E%5BX%5D)(Y-E%5BY%5D)%5D">
-<meta property="og:image" content="https://zouhua.top/archives/![](/images/statistics1.png">
-<meta property="og:image" content="https://zouhua.top/archives/![](/images/statistics2.png">
-<meta property="og:image" content="https://zouhua.top/archives/![](/images/statistics3.png">
+<meta property="og:image" content="https://zouhua.top/archives/![](/images/Math_statistics_02/Math_statistics_02_01.png">
+<meta property="og:image" content="https://zouhua.top/archives/![](/images/Math_statistics_02/Math_statistics_02_02.png">
+<meta property="og:image" content="https://zouhua.top/archives/![](/images/Math_statistics_02/Math_statistics_02_03.png">
 <meta property="article:published_time" content="2019-10-20T00:55:05.000Z">
 <meta property="article:modified_time" content="2019-10-22T16:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
-<meta property="article:tag" content="基础">
+<meta property="article:tag" content="描述性统计">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.zhihu.com/equation?tex=Cov(X%252CY)%253DE%5B(X-E%5BX%5D)(Y-E%5BY%5D)%5D">
 
@@ -151,17 +151,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -264,7 +264,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Math/%E7%BB%9F%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">统计</span></a>
+                  <a href="/categories/Math/Statistics/" itemprop="url" rel="index"><span itemprop="name">Statistics</span></a>
                 </span>
             </span>
 
@@ -356,7 +356,7 @@
 <h5 id="分布形态"><a href="#分布形态" class="headerlink" title="分布形态"></a>分布形态</h5><p>Shape of the distribution</p>
 <p><strong>偏度skewness</strong>:  表征<strong>概率分布密度函数曲线</strong>相对于平均值的不对称程度。直观看来就是<strong>概率分布密度函数曲线尾部</strong>的<strong>相对长度</strong>。衡量随机变量概率分布的不对称性。 正态分布的偏度为0则表明左右两侧尾部长度对称。</p>
 <p>​                                            $S = \frac{\frac{1}{n}\sum<em>{i=1}^n(x_i-\overline{x})^3}{[\frac{1}{n}\sum</em>{i=1}^n(x_i - \overline{x})^2]^\frac{3}{2}}$    (8)</p>
-<p><img src="![](/images/statistics1.png" alt=""></p>
+<p><img src="![](/images/Math_statistics_02/Math_statistics_02_01.png" alt=""></p>
 <blockquote>
 <p>偏度为负，即负偏离（左偏离），则：数据位于平均值左边的比右边的少，直观表现为左边的尾部相对于右边的尾部要长，因为少数变量值很小，使曲线左侧尾部被拖得很长；左侧尾部比右侧长，绝大多数值包括中位数位于平均值的右侧，<strong>平均值左侧的数值又少又小</strong></p>
 <p>偏度为正，即正偏离（右偏态），则：数据位于平均值右边的比左边的少，直观表现为右边的尾部相对于左边的尾部要长，因为少数变量值很大，使曲线右侧尾部被拖得很长；右侧尾部比左侧长，绝大多数值位于平均值的左侧，<strong>平均值右侧的数值又少又大</strong></p>
@@ -364,7 +364,7 @@
 </blockquote>
 <p><strong>峰度kurtosis</strong>： 表征<strong>概率分布密度函数曲线</strong>在平均值处的状态，衡量数据分布的平坦度。 </p>
 <p>​                                $K = \frac{\frac{1}{n}\sum<em>{i=1}^n(x_i-\overline{x})^4}{(\frac{1}{n}\sum</em>{i=1}^n(x_i-\overline{x})^2)^2}$   (9)</p>
-<p><img src="![](/images/statistics2.png" alt=""></p>
+<p><img src="![](/images/Math_statistics_02/Math_statistics_02_02.png" alt=""></p>
 <blockquote>
 <p>若峰度<3，则分布平缓；若峰度>3，则分布陡峭</p>
 <p>正态分布的峰度为常数3（实际中，将峰度做减3处理，使得正态分布的峰度为0）；</p>
@@ -378,14 +378,14 @@
 <p>因此，列联表分析主要包括两个基本任务：一是根据收集的样本数据，产生二维或多维交叉列联表；二是在交叉列联表的基础上，对两个变量间是否存在相关性进行检验。要获得变量之间的相关性，仅仅靠描述性统计的数据是不够的，还需要借助一些表示变量间相关程度的统计量和一些非参数检验的方法。</p>
 <p>通常情况下，通过问卷调查或统计资料获得属性变量的信息，在整理问卷或统计资料获得列联表数据之后，我们将会通过统计假设检验两个属性变量是否具有独立性，进而进行列联表分析。</p>
 </blockquote>
-<p><img src="![](/images/statistics3.png" alt=""></p>
+<p><img src="![](/images/Math_statistics_02/Math_statistics_02_03.png" alt=""></p>
 <p>一般对列联表的频数分布进行$\chi^2$检验：$O_i$表示观察值频数，$E_i$表示期望值频数</p>
 <p>​                        $\chi^2 = \sum_{i=1}^n\frac{(O_i - E_i)^2}{E_i}$  (10)</p>
 <p>观测值频数等于 $E<em>{ij} = X</em>{ij} \times  P(total)$</p>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><blockquote id="fn_1">
 <sup>1</sup>. <a href="http://kaopubear.top/2017-09-16-RandStatistics1/" target="_blank" rel="noopener external nofollow noreferrer">http://kaopubear.top/2017-09-16-RandStatistics1/</a><a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#8617;</a>
 </blockquote>
-<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
     </div>
 
@@ -408,24 +408,6 @@
 	  </div>
 	
       
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/aed74a6e.html" rel="bookmark">Tex Live简介以及安装</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/5b2073a5.html" rel="bookmark">假设检验</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/7ae98763.html" rel="bookmark">单变量分布</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/b80aa44.html" rel="bookmark">推论统计学</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/5ed3d960.html" rel="bookmark">统计基础知识</a></div>
-    </li>
-  </ul>
 
         <div class="reward-container">
   <div>赞赏一瓶优酸乳</div>
@@ -467,7 +449,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag"><i class="fa fa-tags"></i> 基础</a>
+              <a href="/tags/%E6%8F%8F%E8%BF%B0%E6%80%A7%E7%BB%9F%E8%AE%A1/" rel="tag"><i class="fa fa-tags"></i> 描述性统计</a>
           </div>
 
         
@@ -558,20 +540,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -610,23 +592,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
 				</li>
 			  
 			</ul>
@@ -927,13 +909,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">500k</span>
+    <span title="站点总字数">842k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:34</span>
+    <span title="站点阅读时长">12:46</span>
 </div>
 
 <div id="days"></div>

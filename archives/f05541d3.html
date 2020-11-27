@@ -28,13 +28,13 @@
 <meta property="og:site_name" content="Hua&#39;s Cabin">
 <meta property="og:description" content="R语言通常用于数据科学领域，作为分析数据、可视化数据的一门编程语言。随着大数据时代的来临，它已经由只有统计学家使用的小众语言上升到数据分析领域的通用语言。它与python相比，更适合与统计类型分析的领域。本文章主要介绍R语言的起源、软件安装以及包安装管理等。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zouhua.top/images/Rlibrary.png">
+<meta property="og:image" content="https://zouhua.top/images/R_base_01/R_base_01_01.png">
 <meta property="article:published_time" content="2018-04-01T12:06:05.000Z">
 <meta property="article:modified_time" content="2019-08-29T16:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
-<meta property="article:tag" content="简介">
+<meta property="article:tag" content="R基础">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zouhua.top/images/Rlibrary.png">
+<meta name="twitter:image" content="https://zouhua.top/images/R_base_01/R_base_01_01.png">
 
 <link rel="canonical" href="https://zouhua.top/archives/f05541d3.html">
 
@@ -148,17 +148,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -261,7 +261,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/R/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">基础知识</span></a>
+                  <a href="/categories/R/Basics/" itemprop="url" rel="index"><span itemprop="name">Basics</span></a>
                 </span>
             </span>
 
@@ -292,7 +292,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.9k</span>
+              <span>4.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -380,14 +380,16 @@
 <h4 id="4-升级R，但不重装packages"><a href="#4-升级R，但不重装packages" class="headerlink" title="4. 升级R，但不重装packages"></a>4. 升级R，但不重装packages</h4><p><strong>拷贝R旧版本的library目录文件夹至新版本library目录下，再使用如下命令更新</strong></p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update.packages(checkBuilt = <span class="literal">T</span>, ask = <span class="literal">F</span>)</span><br><span class="line"><span class="comment"># or install.packages(.packages(all = T))</span></span><br></pre></td></tr></table></figure>
 <h3 id="设置共同的R-library"><a href="#设置共同的R-library" class="headerlink" title="设置共同的R library"></a>设置共同的R library</h3><p>在实际分析过程中，因为某些包的依赖R版本不同，可能会使用到多个R版本，但每个R版本拥有各自R包library。每次从某个R版本切换到另一个版本，则对应的R包library也会更换，如想使用原来的R包环境则需要迁移大量的R包。为了实现方便快速使用不同版本的R，通过设置共同的R包library为所有的切换R版本的分析提供最佳解决方案，具体实现如下：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>先建立一个共同的目录 Rlibrary;</span><br><span class="line"></span><br><span class="line"><span class="bullet">2. </span>打开R或者Rstudio，在控制台输入.libPaths("dir/Rlibrary");</span><br><span class="line"></span><br><span class="line"><span class="bullet">3. </span>为了永久设置该路径，需要在环境变量的用户变量中添加R<span class="emphasis">_LIBS_</span>USER新变量--&gt;dir/Rlibrary。</span><br></pre></td></tr></table></figure>
-<p><img src="/images/Rlibrary.png" alt=""></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>先建立一个共同的目录 Rlibrary;</span><br><span class="line"></span><br><span class="line"><span class="bullet">2. </span>打开R或者Rstudio，在控制台输入.libPaths("dir/Rlibrary");</span><br><span class="line"></span><br><span class="line"><span class="bullet">3. </span>为了永久设置该路径，需要在环境变量的用户变量中添加R<span class="emphasis">_LIBS_</span>USER新变量--&gt;dir/Rlibrary；</span><br><span class="line"></span><br><span class="line"><span class="bullet">4. </span>.libPaths(MyRlibrary, defaultRlibrary)  # 重新设置顺序library</span><br></pre></td></tr></table></figure>
+<p><img src="/images/R_base_01/R_base_01_01.png" alt=""></p>
+<p>永久更改library顺序需要对.Rprofile文件更改</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">myPaths &lt;- .libPaths()</span><br><span class="line">myPaths &lt;- c(myPaths[<span class="number">2</span>], myPaths[<span class="number">1</span>]) <span class="comment"># swithch paths</span></span><br><span class="line">myPaths &lt;- c(myPaths, <span class="string">"d:/testR"</span>)  <span class="comment"># add new path</span></span><br><span class="line">.libPaths(myPaths)  <span class="comment"># ressign Path</span></span><br></pre></td></tr></table></figure>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
 <li><a href="https://blog.csdn.net/Ying_Xu/article/details/50896310" target="_blank" rel="noopener external nofollow noreferrer">R基础入门教程</a></li>
 <li><a href="https://baike.baidu.com/item/R%E8%AF%AD%E8%A8%80" target="_blank" rel="noopener external nofollow noreferrer">R语言百度百科</a></li>
 <li><a href="https://cran.r-project.org/doc/contrib/Liu-FAQ.pdf" target="_blank" rel="noopener external nofollow noreferrer">153分钟学会R</a></li>
 </ol>
-<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
     </div>
 
@@ -413,7 +415,19 @@
   <div class="popular-posts-header">相关文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/6c42b935.html" rel="bookmark">snakemake：编写任务流程的工具</a></div>
+      <div class="popular-posts-title"><a href="/archives/3fab6c1e.html" rel="bookmark">Rmarkdown: 一个科学编写数据分析的框架</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/57f5f73a.html" rel="bookmark">R常用函数打包成R packges</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/44ac9cba.html" rel="bookmark">R包的创建及使用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/dbeda1ea.html" rel="bookmark">apply函数家族</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/fd00cfd6.html" rel="bookmark">R语言基础函数介绍</a></div>
     </li>
   </ul>
 
@@ -457,7 +471,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E7%AE%80%E4%BB%8B/" rel="tag"><i class="fa fa-tags"></i> 简介</a>
+              <a href="/tags/R%E5%9F%BA%E7%A1%80/" rel="tag"><i class="fa fa-tags"></i> R基础</a>
           </div>
 
         
@@ -545,20 +559,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -597,23 +611,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
 				</li>
 			  
 			</ul>
@@ -914,13 +928,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">500k</span>
+    <span title="站点总字数">842k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:34</span>
+    <span title="站点阅读时长">12:46</span>
 </div>
 
 <div id="days"></div>

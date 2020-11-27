@@ -28,16 +28,16 @@
 <meta property="og:site_name" content="Hua&#39;s Cabin">
 <meta property="og:description" content="MaAsLin2是微生物多变量分析的线性模型最新版本，其作用是高效地分析如临床表型或环境因素与微生物多组学之间的多变量关联分析。它的原理是基于线性回归，构建不同的线性模型并且对因变量进行分类：固定效应和随机效性等。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zouhua.top/images/R_data_07_01.jpg">
-<meta property="og:image" content="https://zouhua.top/images/R_data_07_02.jpg">
-<meta property="og:image" content="https://zouhua.top/images/R_data_07_03.jpg">
-<meta property="og:image" content="https://zouhua.top/images/R_data_07_04.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_data_07/R_data_07_01.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_data_07/R_data_07_02.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_data_07/R_data_07_03.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_data_07/R_data_07_04.jpg">
 <meta property="article:published_time" content="2020-04-20T01:16:05.000Z">
 <meta property="article:modified_time" content="2020-04-20T02:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
-<meta property="article:tag" content="关联分析">
+<meta property="article:tag" content="MaAsLin2">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zouhua.top/images/R_data_07_01.jpg">
+<meta name="twitter:image" content="https://zouhua.top/images/R_data_07/R_data_07_01.jpg">
 
 <link rel="canonical" href="https://zouhua.top/archives/c53c70a3.html">
 
@@ -151,17 +151,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -258,7 +258,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/R/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">数据分析</span></a>
+                  <a href="/categories/R/DataAnalysis/" itemprop="url" rel="index"><span itemprop="name">DataAnalysis</span></a>
                 </span>
             </span>
 
@@ -309,7 +309,7 @@
 
       
         <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>该R包目的是在大队列研究中找到微生物多组学特征和负责表型之间的关联关系。它是基于线性模型发现关联关系的软件，并且其中包含多种分析方法，归一化方法和数据转换等等。</p>
-<p><img src="/images/R_data_07_01.jpg" alt=""></p>
+<p><img src="/images/R_data_07/R_data_07_01.jpg" alt=""></p>
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><ul>
 <li>归一化方法：<em>TSS</em>, <em>CLR</em>, <em>CSS</em>, <em>TMM</em></li>
 <li>线性模型: <em>LM</em>, <em>SLM</em>, <em>CPLM</em>, <em>ZICP,</em> <em>NEGBIN</em>, <em>ZINB</em></li>
@@ -395,12 +395,12 @@
 <li>输入两类数据：</li>
 </ul>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(Maaslin2)</span><br><span class="line">input_data &lt;- read.table(system.file(</span><br><span class="line">    <span class="string">'extdata'</span>,<span class="string">'HMP2_taxonomy.tsv'</span>, package=<span class="string">"Maaslin2"</span>), sep = <span class="string">"\t"</span>, header = <span class="literal">T</span>, row.names = <span class="number">1</span>)</span><br><span class="line">input_metadata &lt;- read.table(system.file(</span><br><span class="line">    <span class="string">'extdata'</span>,<span class="string">'HMP2_metadata.tsv'</span>, package=<span class="string">"Maaslin2"</span>), sep = <span class="string">"\t"</span>, header = <span class="literal">T</span>, row.names = <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="/images/R_data_07_02.jpg" alt=""></p>
+<p><img src="/images/R_data_07/R_data_07_02.jpg" alt=""></p>
 <ul>
 <li>运行模型：</li>
 </ul>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fit_data &lt;- Maaslin2(</span><br><span class="line">    input_data, </span><br><span class="line">    input_metadata, </span><br><span class="line">    <span class="string">'demo_output'</span>, </span><br><span class="line">    transform = <span class="string">"AST"</span>,</span><br><span class="line">    fixed_effects = c(<span class="string">'diagnosis'</span>, <span class="string">'dysbiosisnonIBD'</span>,<span class="string">'dysbiosisUC'</span>,<span class="string">'dysbiosisCD'</span>, <span class="string">'antibiotics'</span>, <span class="string">'age'</span>),</span><br><span class="line">    random_effects = c(<span class="string">'site'</span>, <span class="string">'subject'</span>),</span><br><span class="line">    standardize = <span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="/images/R_data_07_03.jpg" alt=""></p>
+<p><img src="/images/R_data_07/R_data_07_03.jpg" alt=""></p>
 <ul>
 <li><p>运行解读：</p>
 <ul>
@@ -409,7 +409,7 @@
 </ul>
 </li>
 <li><p>输出结果</p>
-<p><img src="/images/R_data_07_04.jpg" alt=""></p>
+<p><img src="/images/R_data_07/R_data_07_04.jpg" alt=""></p>
 <ul>
 <li>存在显著相关关系的微生物特征和表型数据的散点图或者boxplot图等；</li>
 <li><code>heatmap.pdf</code>：表型和微生物特征显著相关的热图；</li>
@@ -423,7 +423,7 @@
 <li><a href="http://huttenhower.sph.harvard.edu/maaslin2" target="_blank" rel="noopener external nofollow noreferrer">MaAsLin2</a></li>
 <li><a href="https://github.com/biobakery/Maaslin2" target="_blank" rel="noopener external nofollow noreferrer">MaAsLin2 tutorial</a></li>
 </ol>
-<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
     </div>
 
@@ -487,7 +487,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%85%B3%E8%81%94%E5%88%86%E6%9E%90/" rel="tag"><i class="fa fa-tags"></i> 关联分析</a>
+              <a href="/tags/MaAsLin2/" rel="tag"><i class="fa fa-tags"></i> MaAsLin2</a>
           </div>
 
         
@@ -500,8 +500,8 @@
       <i class="fa fa-chevron-left"></i> MetaPhlan2:利用宏基因组数据获取微生物群落丰度谱工具
     </a></div>
       <div class="post-nav-item">
-    <a href="/archives/48211469.html" rel="next" title="如何计算微生物多样性且可视化其结果">
-      如何计算微生物多样性且可视化其结果 <i class="fa fa-chevron-right"></i>
+    <a href="/archives/48211469.html" rel="next" title="微生物多样性的计算及可视化">
+      微生物多样性的计算及可视化 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -578,20 +578,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -630,23 +630,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
 				</li>
 			  
 			</ul>
@@ -947,13 +947,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">500k</span>
+    <span title="站点总字数">842k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:34</span>
+    <span title="站点阅读时长">12:46</span>
 </div>
 
 <div id="days"></div>

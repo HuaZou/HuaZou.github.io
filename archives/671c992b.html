@@ -1,0 +1,1188 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="single-cell RNA sequencing generates a large amount of cells and the challenges of this analysis are to deal with the high-dimensional data with low depth sequence and integrate data with inter-indivi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A brief data analysis in single-cell RNA sequencing">
+<meta property="og:url" content="https://zouhua.top/archives/671c992b.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="single-cell RNA sequencing generates a large amount of cells and the challenges of this analysis are to deal with the high-dimensional data with low depth sequence and integrate data with inter-indivi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zouhua.top/images/Omics_scRNA_01brief/sc_workflow.png">
+<meta property="og:image" content="https://zouhua.top/images/Omics_scRNA_01brief/QCPlots.png">
+<meta property="og:image" content="https://zouhua.top/images/Omics_scRNA_01brief/QCparameters.png">
+<meta property="og:image" content="https://zouhua.top/images/Omics_scRNA_01brief/filteredQCplots.png">
+<meta property="og:image" content="https://zouhua.top/images/Omics_scRNA_01brief/cellcycle.png">
+<meta property="og:image" content="https://zouhua.top/images/Omics_scRNA_01brief/PCA.png">
+<meta property="og:image" content="https://zouhua.top/images/Omics_scRNA_01brief/metagenes.png">
+<meta property="og:image" content="https://zouhua.top/images/Omics_scRNA_01brief/elbow.png">
+<meta property="og:image" content="https://zouhua.top/images/Omics_scRNA_01brief/UMAP.png">
+<meta property="og:image" content="https://zouhua.top/images/Omics_scRNA_01brief/featuresPlot.png">
+<meta property="article:published_time" content="2020-11-12T10:26:00.000Z">
+<meta property="article:modified_time" content="2020-11-12T12:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zouhua.top/images/Omics_scRNA_01brief/sc_workflow.png">
+
+<link rel="canonical" href="https://zouhua.top/archives/671c992b.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>A brief data analysis in single-cell RNA sequencing | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/671c992b.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          A brief data analysis in single-cell RNA sequencing
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-12 18:26:00 / 修改时间：20:00:00" itemprop="dateCreated datePublished" datetime="2020-11-12T18:26:00+08:00">2020-11-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OmicsData/" itemprop="url" rel="index"><span itemprop="name">OmicsData</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OmicsData/single-cell/" itemprop="url" rel="index"><span itemprop="name">single cell</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/671c992b.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/671c992b.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="Workflow"><a href="#Workflow" class="headerlink" title="Workflow"></a>Workflow</h3><p>This post will focus on Data normalization and Cluster analysis. Data normalization consist of calculating the Mitochondrial counts ratio and the nFeatures counts,  normalizing  the filtered data and performing principal component analysis (PCA) on these data to Dimension Reduction. Cluster analysis is based on the significant PCs to figure out the different cell types.</p>
+<p align="center">
+<img src="/images/Omics_scRNA_01brief/sc_workflow.png" title="The brief introduction of scRNA-seq data analysis" width="800">
+</p>
+
+<p>​                                                    </p>
+<h3 id="Data-source"><a href="#Data-source" class="headerlink" title="Data source"></a>Data source</h3><p>You can retrieve the raw data whose format was h5 by using the GEO number <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147863" target="_blank" rel="noopener external nofollow noreferrer">GSE147863</a> in the Single Cell Human Kidney Organoid Analysis.</p>
+<h3 id="Library-packages"><a href="#Library-packages" class="headerlink" title="Library packages"></a>Library packages</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(dplyr)</span><br><span class="line"><span class="keyword">library</span>(tibble)</span><br><span class="line"><span class="keyword">library</span>(Seurat)</span><br></pre></td></tr></table></figure>
+<h3 id="load-data"><a href="#load-data" class="headerlink" title="load data"></a>load data</h3><ul>
+<li>h5 file is the one of the output files of CellRanger (a single cell RNA-seq workflow from the raw fastq data to counts)   </li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">KidneyOrganoid &lt;- Read10X_h5(<span class="string">"GSM4447249_KidneyOrganoid_FilteredGeneBCMatrices.h5"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#Error in Read10X_h5("GSM4447249_KidneyOrganoid_FilteredGeneBCMatrices.h5") : </span></span><br><span class="line"><span class="comment">#  Please install hdf5r to read HDF5 files</span></span><br><span class="line"><span class="comment"># install.packages("hdf5r")</span></span><br></pre></td></tr></table></figure>
+<p>The alternative inputs could be three parts:  <u>Read10X(data.dir = path)</u></p>
+<ol>
+<li><strong>barcodes.tsv.gz</strong>; </li>
+<li><strong>features.tsv.gz</strong> </li>
+<li><strong>matrix.mtx.gz</strong> </li>
+</ol>
+<h3 id="Create-Seurate-Object"><a href="#Create-Seurate-Object" class="headerlink" title="Create Seurate Object"></a>Create Seurate Object</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">KidneyOrganoid &lt;- CreateSeuratObject(counts = KidneyOrganoid, </span><br><span class="line">                                     project = <span class="string">"KidneyOrganoid_ACE2"</span>,</span><br><span class="line">                                     assay = <span class="string">"RNA"</span>,</span><br><span class="line">                                     min.cells = <span class="number">3</span>, </span><br><span class="line">                                     min.features = <span class="number">400</span>)</span><br></pre></td></tr></table></figure>
+<p><u>metadata</u> in Seurate Object: <strong>KidneyOrganoid@metadata</strong></p>
+<blockquote>
+<ol>
+<li><code>orig.ident</code>: this often contains the sample identity if known, but will default to <code>project</code> as we had assigned it</li>
+<li><code>nCount_RNA</code>: number of UMIs per cell</li>
+<li><code>nFeature_RNA</code>: number of genes detected per cell</li>
+</ol>
+</blockquote>
+<h3 id="quality-control"><a href="#quality-control" class="headerlink" title="quality control"></a>quality control</h3><ul>
+<li>nFeatures per cell: double cells in one samples have more features and higher counts </li>
+<li>nCounts perl cell</li>
+<li>the percentage of Mitochondrial counts per cells: the death cells maybe have higher MT RNA ratio</li>
+</ul>
+<h4 id="Add-MT-as-quality-control-metrics"><a href="#Add-MT-as-quality-control-metrics" class="headerlink" title="Add %MT as quality control metrics"></a>Add %MT as quality control metrics</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KidneyOrganoid[[<span class="string">"percent.mt"</span>]] &lt;- PercentageFeatureSet(KidneyOrganoid, pattern = <span class="string">"^MT-"</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="quality-control-metrics-Plots"><a href="#quality-control-metrics-Plots" class="headerlink" title="quality control metrics  Plots"></a>quality control metrics  Plots</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VlnPlot(KidneyOrganoid, features = c(<span class="string">"nFeature_RNA"</span>, <span class="string">"nCount_RNA"</span>, <span class="string">"percent.mt"</span>), </span><br><span class="line">        ncol = <span class="number">3</span>,pt.size = <span class="number">0.3</span>)</span><br></pre></td></tr></table></figure>
+<p align="center">
+<img src="/images/Omics_scRNA_01brief/QCPlots.png" width="800">
+</p>
+
+<p><strong>Result</strong>  </p>
+<ol>
+<li>the range of nFeatures: [0, 8000]</li>
+<li>the MT ratio is too large. In fact, plenty of tissues’ cells couldn’t contains lots of MT RNA except Heart’s cells.</li>
+</ol>
+<h4 id="Get-quality-control-Thresholds"><a href="#Get-quality-control-Thresholds" class="headerlink" title="Get quality control Thresholds"></a>Get quality control Thresholds</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">quantile(KidneyOrganoid@meta.data$nCount_RNA, c(<span class="number">0.025</span>, <span class="number">0.975</span>))</span><br><span class="line"><span class="comment">#    2.5%    97.5% </span></span><br><span class="line"><span class="comment">#  667.00 23108.65</span></span><br><span class="line"></span><br><span class="line">quantile(KidneyOrganoid@meta.data$nFeature_RNA, c(<span class="number">0.025</span>, <span class="number">0.975</span>))</span><br><span class="line"><span class="comment"># 2.5% 97.5% </span></span><br><span class="line"><span class="comment">#  488  5653</span></span><br></pre></td></tr></table></figure>
+<p>Result: <strong>choosing the points in the 1st and 4th quartile range as the remained cells</strong></p>
+<h4 id="Quality-control-plots"><a href="#Quality-control-plots" class="headerlink" title="Quality control plots"></a>Quality control plots</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plot(KidneyOrganoid@meta.data$nCount_RNA,</span><br><span class="line">     KidneyOrganoid@meta.data$nFeature_RNA,</span><br><span class="line">     pch=<span class="number">16</span>, cex=<span class="number">0.7</span>, bty=<span class="string">"n"</span>)</span><br><span class="line">abline(h=c(<span class="number">488</span>,<span class="number">5653</span>), v=c(<span class="number">667</span>,<span class="number">23108</span>), lty=<span class="number">2</span>, lwd=<span class="number">1</span>, col=<span class="string">"red"</span>)</span><br></pre></td></tr></table></figure>
+<p align="center">
+<img src="/images/Omics_scRNA_01brief/QCparameters.png" width="600">
+</p>
+
+<h4 id="Filtering-based-on-the-quality-parameters"><a href="#Filtering-based-on-the-quality-parameters" class="headerlink" title="Filtering based on the quality parameters"></a>Filtering based on the quality parameters</h4><p><strong>subset</strong> function is used to choose the subpopulation of the whole data</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">KidneyOrganoid &lt;- subset(KidneyOrganoid, </span><br><span class="line">                         subset = nFeature_RNA &gt; <span class="number">488</span> &amp; nFeature_RNA &lt; <span class="number">5653</span> &amp; </span><br><span class="line">                         nCount_RNA &gt; <span class="number">667</span> &amp; nCount_RNA &lt; <span class="number">23108</span> &amp; </span><br><span class="line">                         percent.mt &lt; <span class="number">50</span>)</span><br><span class="line">VlnPlot(KidneyOrganoid, features = c(<span class="string">"nFeature_RNA"</span>, <span class="string">"nCount_RNA"</span>, <span class="string">"percent.mt"</span>), </span><br><span class="line">        ncol = <span class="number">3</span>,pt.size = <span class="number">0.3</span>)</span><br></pre></td></tr></table></figure>
+<p align="center">
+<img src="/images/Omics_scRNA_01brief/filteredQCplots.png" width="800">
+</p>
+
+<h4 id="Counts-normalization"><a href="#Counts-normalization" class="headerlink" title="Counts normalization"></a>Counts normalization</h4><p>Before performing clustering, we need to normalize our high quality scRNA data to remove many other factors. the main factors in data normalization are sequencing depth and gene length. </p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Log Normalization </span></span><br><span class="line">KidneyOrganoid &lt;- NormalizeData(KidneyOrganoid)</span><br><span class="line"><span class="comment">#Performing log-normalization</span></span><br><span class="line"><span class="comment">#0%   10   20   30   40   50   60   70   80   90   100%</span></span><br><span class="line"><span class="comment">#[----|----|----|----|----|----|----|----|----|----|</span></span><br><span class="line"><span class="comment">#**************************************************|</span></span><br><span class="line"><span class="comment">#  |==========================================================================================| 100%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Scale Data</span></span><br><span class="line">KidneyOrganoid &lt;- ScaleData(KidneyOrganoid, features = rownames(KidneyOrganoid))</span><br></pre></td></tr></table></figure>
+<h4 id="Cell-cycle-effect"><a href="#Cell-cycle-effect" class="headerlink" title="Cell cycle effect"></a>Cell cycle effect</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">load(<span class="string">"cycle.rda"</span>)</span><br><span class="line"><span class="comment">## Cell Cycle Effect</span></span><br><span class="line">KidneyOrganoid &lt;- CellCycleScoring(KidneyOrganoid,</span><br><span class="line">                                   s.features = s_genes,</span><br><span class="line">                                   g2m.features = g2m_genes)</span><br><span class="line">KidneyOrganoid &lt;- RunPCA(KidneyOrganoid, features = unlist(cc.genes))</span><br><span class="line">DimPlot(KidneyOrganoid, reduction = <span class="string">"pca"</span>,dims = c(<span class="number">1</span>,<span class="number">2</span>), split.by = <span class="string">"Phase"</span>)</span><br></pre></td></tr></table></figure>
+<p align="center">
+<img src="/images/Omics_scRNA_01brief/cellcycle.png" width="600">
+</p>
+
+<p>Result: <strong>The dataset has large differences due to cell cycle phase. Finally, we need to regress  out the variation due to the cell cycle</strong></p>
+<h4 id="SCTransform"><a href="#SCTransform" class="headerlink" title="SCTransform"></a>SCTransform</h4><p>the SCTransform is a method of normalizing, estimating the variance of the high quality data and identifying the most variable genes. It requires more resources of server memories.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">KidneyOrganoid &lt;- SCTransform(KidneyOrganoid,</span><br><span class="line">                              vars.to.regress = c(<span class="string">"S.Score"</span>,<span class="string">"G2M.Score"</span>,<span class="string">"percent.mt"</span>,<span class="string">"nFeature_RNA"</span>))</span><br><span class="line"> <span class="comment"># |==========================================================================| 100%</span></span><br><span class="line"> <span class="comment"># |==========================================================================| 100%</span></span><br><span class="line"> <span class="comment"># |===========================================================================| 100%</span></span><br><span class="line"> <span class="comment"># |==========================================================================| 100%</span></span><br><span class="line"> <span class="comment"># |==========================================================================| 100%</span></span><br></pre></td></tr></table></figure>
+<h4 id="Principal-Component-Analysis"><a href="#Principal-Component-Analysis" class="headerlink" title="Principal Component Analysis"></a>Principal Component Analysis</h4><p>Performing PCA based on the most variable genes</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">KidneyOrganoid &lt;- RunPCA(KidneyOrganoid, features = VariableFeatures(object = KidneyOrganoid))</span><br><span class="line">DimPlot(KidneyOrganoid, reduction = <span class="string">"pca"</span>, dims = c(<span class="number">1</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+<p align="center">
+<img src="/images/Omics_scRNA_01brief/PCA.png" width="600">
+</p>
+
+
+
+<h3 id="Clustering"><a href="#Clustering" class="headerlink" title="Clustering"></a>Clustering</h3><ul>
+<li>the metagenes : principal components </li>
+<li>the Shared Nearest Neighbor (SNN) Graph </li>
+</ul>
+<h4 id="Clustering-cells-based-on-top-PCs-metagenes"><a href="#Clustering-cells-based-on-top-PCs-metagenes" class="headerlink" title="Clustering cells based on top PCs (metagenes)"></a>Clustering cells based on top PCs (metagenes)</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DimHeatmap(KidneyOrganoid, </span><br><span class="line">           reduction = <span class="string">"pca"</span>,</span><br><span class="line">           dims = <span class="number">1</span>:<span class="number">9</span>, </span><br><span class="line">           cells = <span class="number">500</span>, </span><br><span class="line">           balanced = <span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<p align="center">
+<img src="/images/Omics_scRNA_01brief/metagenes.png" width="800" height="600">
+</p>
+
+<p>Result: <strong>we can see the differences of each selected PCs with the most variant genes and the next step is to find the top 10 most variable genes per PC</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">print(x = KidneyOrganoid[[<span class="string">"pca"</span>]], </span><br><span class="line">      dims = <span class="number">1</span>:<span class="number">2</span>, <span class="comment"># 1:10 </span></span><br><span class="line">      nfeatures = <span class="number">5</span>)</span><br><span class="line"><span class="comment">#PC_ 1 </span></span><br><span class="line"><span class="comment">#Positive:  DLK1, IGFBP5, LGALS1, COL1A1, COL3A1 </span></span><br><span class="line"><span class="comment">#Negative:  CTGF, MAFB, NPHS2, IGFBP7, MT1E </span></span><br><span class="line"><span class="comment">#PC_ 2 </span></span><br><span class="line"><span class="comment">#Positive:  MT2A, MT1G, MT1E, MT1X, MT1H </span></span><br><span class="line"><span class="comment">#Negative:  CLDN5, ESAM, IL32, PECAM1, GJA4</span></span><br></pre></td></tr></table></figure>
+<h4 id="the-elbow-plot-on-selecting-PCA-Components"><a href="#the-elbow-plot-on-selecting-PCA-Components" class="headerlink" title="the elbow plot on selecting PCA Components"></a>the elbow plot on selecting PCA Components</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ElbowPlot(KidneyOrganoid,ndims = <span class="number">30</span>) + </span><br><span class="line">	geom_vline(xintercept = <span class="number">20</span>, linetype=<span class="number">2</span>) + </span><br><span class="line">	geom_hline(yintercept = <span class="number">4.4</span>, linetype=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p align="center">
+<img src="/images/Omics_scRNA_01brief/elbow.png" width="600">
+</p>
+
+<p>Result: <strong>the parameter for PC components is 20 dimension</strong></p>
+<h4 id="Cluster-analysis"><a href="#Cluster-analysis" class="headerlink" title="Cluster analysis"></a>Cluster analysis</h4><p>using the SNN graph to find the neighbors and then cluster all the data in a unsupervised way. The resolution parameter will determine the number of cluster, we also choose various resolutions to get the suitable result</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">KidneyOrganoid &lt;- FindNeighbors(KidneyOrganoid, dims = <span class="number">1</span>:<span class="number">20</span>)</span><br><span class="line"><span class="comment">#Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck</span></span><br><span class="line"><span class="comment">#Number of nodes: 20673</span></span><br><span class="line"><span class="comment">#Number of edges: 704369</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#KidneyOrganoid &lt;- FindClusters(KidneyOrganoid,  resolution = c(0.4, 0.6, 0.8, 1.0, 1.4))</span></span><br><span class="line">KidneyOrganoid &lt;- FindClusters(KidneyOrganoid,  resolution = <span class="number">0.4</span>)</span><br><span class="line"><span class="comment">#Running Louvain algorithm...</span></span><br><span class="line"><span class="comment">#0%   10   20   30   40   50   60   70   80   90   100%</span></span><br><span class="line"><span class="comment">#[----|----|----|----|----|----|----|----|----|----|</span></span><br><span class="line"><span class="comment">#**************************************************|</span></span><br><span class="line"><span class="comment">#Maximum modularity in 10 random starts: 0.9136</span></span><br><span class="line"><span class="comment">#Number of communities: 17</span></span><br><span class="line"><span class="comment">#Elapsed time: 3 seconds</span></span><br></pre></td></tr></table></figure>
+<h4 id="UMAP-visualization"><a href="#UMAP-visualization" class="headerlink" title="UMAP visualization"></a>UMAP visualization</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">KidneyOrganoid &lt;- RunUMAP(KidneyOrganoid, dims = <span class="number">1</span>:<span class="number">20</span>)</span><br><span class="line">colss &lt;- c(<span class="string">"#A6CEE3"</span>, <span class="string">"#1F78B4"</span>, <span class="string">"#08306B"</span>, <span class="string">"#B2DF8A"</span>, <span class="string">"#006D2C"</span>, <span class="string">"#8E0152"</span>,</span><br><span class="line">         <span class="string">"#DE77AE"</span>, <span class="string">"#CAB2D6"</span>, <span class="string">"#6A3D9A"</span>, <span class="string">"#FB9A99"</span>, <span class="string">"#E31A1C"</span>, <span class="string">"#B15928"</span>,</span><br><span class="line">         <span class="string">"#619CFF"</span>,<span class="string">"#FF67A4"</span>,<span class="string">"#00BCD8"</span>, <span class="string">"#EE2B2B"</span>, <span class="string">"#2D6BB4"</span>)</span><br><span class="line"></span><br><span class="line">DimPlot(KidneyOrganoid, reduction = <span class="string">"umap"</span>, label = <span class="literal">T</span>, cols = colss)</span><br></pre></td></tr></table></figure>
+<p align="center">
+<img src="/images/Omics_scRNA_01brief/UMAP.png" width="800" height="600">
+</p>
+
+<p>Result: <strong>17 clusters have been found in this dataset, but it was different compared to the original result from the article. In fact, the author reclustered the data after identifying the cell types.</strong></p>
+<h4 id="Feature-Plots-on-interesting-genes"><a href="#Feature-Plots-on-interesting-genes" class="headerlink" title="Feature Plots on interesting genes"></a>Feature Plots on interesting genes</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FeaturePlot(KidneyOrganoid,c(<span class="string">"ACE2"</span>), cols = c(<span class="string">"lightgray"</span>,<span class="string">"red"</span>), order = <span class="literal">T</span>)</span><br><span class="line">FeaturePlot(KidneyOrganoid,c(<span class="string">"SLC3A1"</span>,<span class="string">"SLC27A2"</span>,<span class="string">"PODXL"</span>,<span class="string">"NPHS2"</span>,<span class="string">"NPHS1"</span>,<span class="string">"CLDN4"</span>,<span class="string">"MAL"</span>,<span class="string">"CD93"</span>),</span><br><span class="line">            cols = c(<span class="string">"lightgray"</span>,<span class="string">"red"</span>), order = <span class="literal">T</span>)</span><br></pre></td></tr></table></figure>
+<p align="center">
+<img src="/images/Omics_scRNA_01brief/featuresPlot.png" width="800" height="600">
+</p>
+
+<h4 id="Find-Cluster-Markers"><a href="#Find-Cluster-Markers" class="headerlink" title="Find Cluster Markers"></a>Find Cluster Markers</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">KidneyOrganoid.markers &lt;- FindAllMarkers(KidneyOrganoid, only.pos = <span class="literal">TRUE</span>, </span><br><span class="line">                                         min.pct = <span class="number">0.25</span>, logfc.threshold = <span class="number">0.25</span>)</span><br><span class="line"><span class="comment">#Calculating cluster 0</span></span><br><span class="line"><span class="comment">#  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=08s  </span></span><br><span class="line"><span class="comment">#Calculating cluster 1</span></span><br><span class="line"><span class="comment">#  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=03s </span></span><br><span class="line"></span><br><span class="line">KidneyOrganoid.markers$Specific &lt;- KidneyOrganoid.markers$pct.1 - KidneyOrganoid.markers$pct.2</span><br></pre></td></tr></table></figure>
+<p>Result: the gene markers per cluster may contribute to identify the cell types. <strong>pct.1</strong> means the markers’ ratio in their own cluster, and <strong>pct.2</strong> means the ratio in the rest of cluster. <strong>pct.1</strong> minus <strong>pct.2</strong> is the difference value.</p>
+<h3 id="R-session-information"><a href="#R-session-information" class="headerlink" title="R session information"></a>R session information</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sessionInfo()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">R version 4.0.2 (2020-06-22)</span><br><span class="line">Platform: x86_64-conda_cos6-linux-gnu (64-bit)</span><br><span class="line">Running under: CentOS Linux 8 (Core)</span><br><span class="line"></span><br><span class="line">Matrix products: default</span><br><span class="line">BLAS&#x2F;LAPACK: &#x2F;disk&#x2F;share&#x2F;anaconda3&#x2F;lib&#x2F;libopenblasp-r0.3.10.so</span><br><span class="line"></span><br><span class="line">locale:</span><br><span class="line"> [1] LC_CTYPE&#x3D;en_US.UTF-8       LC_NUMERIC&#x3D;C               LC_TIME&#x3D;en_US.UTF-8       </span><br><span class="line"> [4] LC_COLLATE&#x3D;en_US.UTF-8     LC_MONETARY&#x3D;en_US.UTF-8    LC_MESSAGES&#x3D;en_US.UTF-8   </span><br><span class="line"> [7] LC_PAPER&#x3D;en_US.UTF-8       LC_NAME&#x3D;C                  LC_ADDRESS&#x3D;C              </span><br><span class="line">[10] LC_TELEPHONE&#x3D;C             LC_MEASUREMENT&#x3D;en_US.UTF-8 LC_IDENTIFICATION&#x3D;C       </span><br><span class="line"></span><br><span class="line">attached base packages:</span><br><span class="line">[1] stats     graphics  grDevices utils     datasets  methods   base     </span><br><span class="line"></span><br><span class="line">other attached packages:</span><br><span class="line">[1] Seurat_3.2.2 tibble_3.0.4 dplyr_1.0.2 </span><br><span class="line"></span><br><span class="line">loaded via a namespace (and not attached):</span><br><span class="line"> [1] nlme_3.1-150          matrixStats_0.57.0    RcppAnnoy_0.0.16      RColorBrewer_1.1-2   </span><br><span class="line"> [5] httr_1.4.2            sctransform_0.3.1     tools_4.0.2           R6_2.5.0             </span><br><span class="line"> [9] irlba_2.3.3           rpart_4.1-15          KernSmooth_2.23-18    uwot_0.1.8           </span><br><span class="line">[13] mgcv_1.8-33           lazyeval_0.2.2        colorspace_1.4-1      tidyselect_1.1.0     </span><br><span class="line">[17] gridExtra_2.3         compiler_4.0.2        plotly_4.9.2.1        scales_1.1.1         </span><br><span class="line">[21] lmtest_0.9-38         spatstat.data_1.4-3   ggridges_0.5.2        pbapply_1.4-3        </span><br><span class="line">[25] rappdirs_0.3.1        spatstat_1.64-1       goftest_1.2-2         stringr_1.4.0        </span><br><span class="line">[29] digest_0.6.27         spatstat.utils_1.17-0 pkgconfig_2.0.3       htmltools_0.5.0      </span><br><span class="line">[33] fastmap_1.0.1         htmlwidgets_1.5.2     rlang_0.4.8           rstudioapi_0.11      </span><br><span class="line">[37] shiny_1.5.0           generics_0.0.2        zoo_1.8-8             jsonlite_1.7.1       </span><br><span class="line">[41] ica_1.0-2             magrittr_1.5          patchwork_1.0.1       Matrix_1.2-18        </span><br><span class="line">[45] Rcpp_1.0.5            munsell_0.5.0         abind_1.4-5           reticulate_1.18      </span><br><span class="line">[49] lifecycle_0.2.0       stringi_1.5.3         MASS_7.3-53           Rtsne_0.15           </span><br><span class="line">[53] plyr_1.8.6            grid_4.0.2            parallel_4.0.2        listenv_0.8.0        </span><br><span class="line">[57] promises_1.1.1        ggrepel_0.8.2         crayon_1.3.4          miniUI_0.1.1.1       </span><br><span class="line">[61] deldir_0.1-29         lattice_0.20-41       cowplot_1.1.0         splines_4.0.2        </span><br><span class="line">[65] tensor_1.5            knitr_1.30            pillar_1.4.6          igraph_1.2.6         </span><br><span class="line">[69] future.apply_1.6.0    reshape2_1.4.4        codetools_0.2-16      leiden_0.3.3         </span><br><span class="line">[73] glue_1.4.2            data.table_1.13.2     vctrs_0.3.4           png_0.1-7            </span><br><span class="line">[77] httpuv_1.5.4          gtable_0.3.0          RANN_2.6.1            purrr_0.3.4          </span><br><span class="line">[81] polyclip_1.10-0       tidyr_1.1.2           future_1.19.1         ggplot2_3.3.2        </span><br><span class="line">[85] xfun_0.18             rsvd_1.0.3            mime_0.9              xtable_1.8-4         </span><br><span class="line">[89] later_1.1.0.1         survival_3.2-7        viridisLite_0.3.0     tinytex_0.26         </span><br><span class="line">[93] cluster_2.1.0         globals_0.13.1        fitdistrplus_1.1-1    ellipsis_0.3.1       </span><br><span class="line">[97] ROCR_1.0-11</span><br></pre></td></tr></table></figure>
+<h3 id="Declaration"><a href="#Declaration" class="headerlink" title="Declaration"></a>Declaration</h3><p><em><strong>This post was based on <a href="https://github.com/jpromeror/SC_KidneyOrganoid_ACE2" target="_blank" rel="noopener external nofollow noreferrer">Single Cell Human Kidney Organoid Analysis</a> in the github</strong></em></p>
+<h3 id="Citation"><a href="#Citation" class="headerlink" title="Citation"></a>Citation</h3><p><em>Monteil, Vanessa, et al. “Inhibition of SARS-CoV-2 infections in engineered human tissues using clinical-grade soluble human ACE2.” Cell (2020).</em></p>
+<p>If the references cause any infringement issues, you could immediately contact to me via <a href="https://zouhua.top/archives/zouhua1@outlook.com">email</a>.</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>-------- 本文结束 </span>
+      <i class="fa fa-paw"></i>
+      <span> 感谢阅读 --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/e4d57ab8.html" rel="bookmark">从Ribo-seq reads识别CDS序列：PRICE pipeline</a></div>
+    </li>
+  </ul>
+
+        <div class="reward-container">
+  <div>赞赏一瓶优酸乳</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zouhua.top/archives/671c992b.html" title="A brief data analysis in single-cell RNA sequencing">https://zouhua.top/archives/671c992b.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag"><i class="fa fa-tags"></i> 基础</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/ba66703a.html" rel="prev" title="Lesson 2: Shiny App or Web Build a user interface">
+      <i class="fa fa-chevron-left"></i> Lesson 2: Shiny App or Web Build a user interface
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/24380ac9.html" rel="next" title="岭回归和lasso回归的基本概念">
+      岭回归和lasso回归的基本概念 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Workflow"><span class="nav-number">1.</span> <span class="nav-text">Workflow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-source"><span class="nav-number">2.</span> <span class="nav-text">Data source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Library-packages"><span class="nav-number">3.</span> <span class="nav-text">Library packages</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#load-data"><span class="nav-number">4.</span> <span class="nav-text">load data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-Seurate-Object"><span class="nav-number">5.</span> <span class="nav-text">Create Seurate Object</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#quality-control"><span class="nav-number">6.</span> <span class="nav-text">quality control</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Add-MT-as-quality-control-metrics"><span class="nav-number">6.1.</span> <span class="nav-text">Add %MT as quality control metrics</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#quality-control-metrics-Plots"><span class="nav-number">6.2.</span> <span class="nav-text">quality control metrics  Plots</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Get-quality-control-Thresholds"><span class="nav-number">6.3.</span> <span class="nav-text">Get quality control Thresholds</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Quality-control-plots"><span class="nav-number">6.4.</span> <span class="nav-text">Quality control plots</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filtering-based-on-the-quality-parameters"><span class="nav-number">6.5.</span> <span class="nav-text">Filtering based on the quality parameters</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Counts-normalization"><span class="nav-number">6.6.</span> <span class="nav-text">Counts normalization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cell-cycle-effect"><span class="nav-number">6.7.</span> <span class="nav-text">Cell cycle effect</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SCTransform"><span class="nav-number">6.8.</span> <span class="nav-text">SCTransform</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Principal-Component-Analysis"><span class="nav-number">6.9.</span> <span class="nav-text">Principal Component Analysis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Clustering"><span class="nav-number">7.</span> <span class="nav-text">Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Clustering-cells-based-on-top-PCs-metagenes"><span class="nav-number">7.1.</span> <span class="nav-text">Clustering cells based on top PCs (metagenes)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#the-elbow-plot-on-selecting-PCA-Components"><span class="nav-number">7.2.</span> <span class="nav-text">the elbow plot on selecting PCA Components</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cluster-analysis"><span class="nav-number">7.3.</span> <span class="nav-text">Cluster analysis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UMAP-visualization"><span class="nav-number">7.4.</span> <span class="nav-text">UMAP visualization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Feature-Plots-on-interesting-genes"><span class="nav-number">7.5.</span> <span class="nav-text">Feature Plots on interesting genes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Find-Cluster-Markers"><span class="nav-number">7.6.</span> <span class="nav-text">Find Cluster Markers</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R-session-information"><span class="nav-number">8.</span> <span class="nav-text">R session information</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Declaration"><span class="nav-number">9.</span> <span class="nav-text">Declaration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Citation"><span class="nav-number">10.</span> <span class="nav-text">Citation</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">110</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">81</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  近期文章
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">842k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:46</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button" onclick="moonMenuClick()">
+    <svg class="moon-menu-svg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+      <g class="moon-menu-points">
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
+        <circle class="moon-menu-point" r=".2rem"></circle>
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
+      </g>
+    </svg>
+    <div class="moon-menu-icon">
+    </div>
+    <div class="moon-menu-text">
+    </div>
+  </div>
+</div>
+<script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>

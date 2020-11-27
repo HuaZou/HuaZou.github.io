@@ -1,0 +1,1180 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="qiime2是扩增子数据分析的最佳平台之一，其提供了大量从原始data到统计分析的插件，尤其是它的可重复分析且可扩展插件的理念使得其成为扩增子分析首选的平台。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Amplicon sequencing analysis pipeline through qiime2 platform">
+<meta property="og:url" content="https://zouhua.top/archives/e06e2ff3.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="qiime2是扩增子数据分析的最佳平台之一，其提供了大量从原始data到统计分析的插件，尤其是它的可重复分析且可扩展插件的理念使得其成为扩增子分析首选的平台。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zouhua.top/images/pipeline_16s_02/pipeline_16s_02_01.jpg">
+<meta property="og:image" content="https://zouhua.top/images/pipeline_16s_02/pipeline_16s_02_02.jpg">
+<meta property="og:image" content="https://zouhua.top/images/pipeline_16s_02/pipeline_16s_02_03.jpg">
+<meta property="article:published_time" content="2020-09-28T02:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-29T15:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="qiime2">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zouhua.top/images/pipeline_16s_02/pipeline_16s_02_01.jpg">
+
+<link rel="canonical" href="https://zouhua.top/archives/e06e2ff3.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Amplicon sequencing analysis pipeline through qiime2 platform | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/e06e2ff3.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Amplicon sequencing analysis pipeline through qiime2 platform
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+				<i class="fa fa-thumb-tack"></i>
+				<font color=7D26CD>置顶</font>
+				<span class="post-meta-divider">|</span>
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-28 10:00:00" itemprop="dateCreated datePublished" datetime="2020-09-28T10:00:00+08:00">2020-09-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-29 23:00:00" itemprop="dateModified" datetime="2020-09-29T23:00:00+08:00">2020-09-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OmicsData/" itemprop="url" rel="index"><span itemprop="name">OmicsData</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OmicsData/Amplicon-seq/" itemprop="url" rel="index"><span itemprop="name">Amplicon-seq</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/e06e2ff3.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/e06e2ff3.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>16k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>14 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Amplicon-sequencing-analysis-pipeline-through-qiime2"><a href="#Amplicon-sequencing-analysis-pipeline-through-qiime2" class="headerlink" title="Amplicon sequencing analysis pipeline through qiime2"></a>Amplicon sequencing analysis pipeline through qiime2</h2><h3 id="Platform"><a href="#Platform" class="headerlink" title="Platform"></a>Platform</h3><p>qiime2是扩增子数据分析的最佳平台之一，其提供了大量从原始data到统计分析的插件，尤其是它的可重复分析且可扩展插件的理念使得其成为扩增子分析首选的平台。对于如何安装该平台，个人建议使用conda安装，并且官网也提供了conda安装的yaml文件，但为了快速安装，我们需要把conda镜像重新设置修改一下。</p>
+<h4 id="step1-download-the-yaml-file"><a href="#step1-download-the-yaml-file" class="headerlink" title="step1: download the yaml file"></a><strong>step1</strong>: download the yaml file</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://data.qiime2.org/distro/core/qiime2-2020.8-py36-linux-conda.yml</span><br></pre></td></tr></table></figure>
+<h4 id="step2-update-the-conda-version"><a href="#step2-update-the-conda-version" class="headerlink" title="step2: update the conda version"></a><strong>step2</strong>: update the conda version</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda update conda -y</span><br></pre></td></tr></table></figure>
+<h4 id="step3-modify-the-condarc-and-yaml-file"><a href="#step3-modify-the-condarc-and-yaml-file" class="headerlink" title="step3: modify the .condarc and yaml file"></a><strong>step3</strong>: modify the .condarc and yaml file</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># reset the conda channels </span></span><br><span class="line">channels:</span><br><span class="line">  - conda-forge</span><br><span class="line">  - bioconda</span><br><span class="line">  - biobakery</span><br><span class="line">  - qiime2</span><br><span class="line">  - ohmeta</span><br><span class="line">  - defaults</span><br><span class="line">show_channel_urls: <span class="literal">true</span></span><br><span class="line">channel_alias: https://mirrors.bfsu.edu.cn/anaconda</span><br><span class="line">default_channels:</span><br><span class="line">  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/main</span><br><span class="line">  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/free</span><br><span class="line">  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/r</span><br><span class="line">custom_channels:</span><br><span class="line">  conda-forge: https://mirrors.bfsu.edu.cn/anaconda/cloud</span><br><span class="line">  bioconda: https://mirrors.bfsu.edu.cn/anaconda/cloud</span><br><span class="line">  biobakery: https://mirrors.bfsu.edu.cn/anaconda/cloud</span><br><span class="line">  qiime2: https://mirrors.bfsu.edu.cn/anaconda/cloud</span><br><span class="line">  ohmeta: https://mirrors.bfsu.edu.cn/anaconda/cloud</span><br><span class="line">  knights-lab: https://conda.anaconda.org</span><br><span class="line">  alienzj: https://conda.anaconda.org</span><br><span class="line">  </span><br><span class="line"> <span class="comment"># change the yaml channel</span></span><br><span class="line"> - qiime2/label/r2020.8</span><br><span class="line"> + qiime2</span><br></pre></td></tr></table></figure>
+<h4 id="step4-create-the-qiime2-2020-8-conda-environment"><a href="#step4-create-the-qiime2-2020-8-conda-environment" class="headerlink" title="step4: create the qiime2-2020.8 conda environment"></a><strong>step4</strong>: create the qiime2-2020.8 conda environment</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda env create -n qiime2-2020.8 --file qiime2-2020.8-py36-linux-conda_update.yml -y</span><br></pre></td></tr></table></figure>
+<h4 id="step5-activate-environment-and-test-installation"><a href="#step5-activate-environment-and-test-installation" class="headerlink" title="step5: activate environment and test installation"></a><strong>step5</strong>: activate environment and test installation</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># actiavate </span></span><br><span class="line">conda activate qiime2-2020.8 </span><br><span class="line"><span class="comment"># test </span></span><br><span class="line">qiime --<span class="built_in">help</span></span><br><span class="line"><span class="comment"># deactivate </span></span><br><span class="line">conda deactivate </span><br><span class="line"></span><br><span class="line"><span class="comment"># Note: if you have trouble with no activate command, you need use *eval "$(conda shell.bash hook)"*</span></span><br></pre></td></tr></table></figure>
+<h3 id="Analysis-pipeline"><a href="#Analysis-pipeline" class="headerlink" title="Analysis pipeline"></a>Analysis pipeline</h3><p><img src="/images/pipeline_16s_02/pipeline_16s_02_01.jpg" alt=""></p>
+<h4 id="Check-the-fastq-phred-score"><a href="#Check-the-fastq-phred-score" class="headerlink" title="Check the fastq phred score"></a>Check the fastq phred score</h4><p>通过fastqc软件处理fastq获取原始数据的reads质量分布等情况，为后续设置碱基质量阈值做好准备。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastqc --noextract -f fastq input.fq.gz  -o result/outdir</span><br></pre></td></tr></table></figure>
+<h4 id="Get-the-positions-of-primer-in-the-fastq"><a href="#Get-the-positions-of-primer-in-the-fastq" class="headerlink" title="Get the positions of primer in the fastq"></a>Get the positions of primer in the fastq</h4><p>DADA2算法需要提供forward和reverse引物序列在reads上的位置信息，我们可以通过使用usearch和vsearch软件获取引物的位置信息，并将其作为参数配置给qiime2 dada2插件。获取primer_hits.txt文件的开始和结束10个reads的primer信息，找到引物的位置信息。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># step1: merge fq</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"step1: mkdir result and merger all PE fq files"</span></span><br><span class="line">mkdir result</span><br><span class="line">./usearch -fastq_mergepairs rawdata/*_R1.fq -fastqout result/all_samples_merged.fq -relabel @</span><br><span class="line"></span><br><span class="line"><span class="comment"># step2: sampling sequence</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"step2: sampling sequence for primer check"</span></span><br><span class="line">./usearch -fastx_subsample result/all_samples_merged.fq -sample_size 20000 -fastqout result/all_sub_for_primer_check.fq</span><br><span class="line"></span><br><span class="line"><span class="comment"># step3: search primer position</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"step3: search primer position of the sequence"</span></span><br><span class="line">./usearch -search_oligodb result/all_sub_for_primer_check.fq -db primers.fasta -strand both -userout result/primer_hits.txt -userfields query+qlo+qhi+qstrand</span><br><span class="line"></span><br><span class="line"><span class="comment"># step4: obtain the position information of primer</span></span><br><span class="line">head primer_hits.txt  <span class="comment"># head 23  tail 19</span></span><br><span class="line"><span class="comment">#HTN1.182        452     471     -</span></span><br><span class="line"><span class="comment">#HTN1.182        7       23      +</span></span><br><span class="line"><span class="comment">#HTN1.183        447     466     -</span></span><br><span class="line"><span class="comment">#HTN1.183        7       23      +</span></span><br><span class="line"><span class="comment">#HTN1.233        428     447     -</span></span><br><span class="line"><span class="comment">#HTN1.233        7       23      +</span></span><br><span class="line"><span class="comment">#HTN1.570        430     449     -</span></span><br><span class="line"><span class="comment">#HTN1.570        7       23      +</span></span><br><span class="line"><span class="comment">#HTN1.219        448     467     -</span></span><br><span class="line"><span class="comment">#HTN1.219        7       23      +</span></span><br><span class="line">tail primer_hits.txt <span class="comment"># head 23  tail 19</span></span><br><span class="line"><span class="comment">#Normal6.996134  429     448     -</span></span><br><span class="line"><span class="comment">#Normal6.996134  7       23      +</span></span><br><span class="line"><span class="comment">#Normal6.996331  430     449     -</span></span><br><span class="line"><span class="comment">#Normal6.996331  7       23      +</span></span><br><span class="line"><span class="comment">#Normal6.996257  448     467     -</span></span><br><span class="line"><span class="comment">#Normal6.996257  7       23      +</span></span><br><span class="line"><span class="comment">#Normal6.996360  429     448     -</span></span><br><span class="line"><span class="comment">#Normal6.996360  7       23      +</span></span><br><span class="line"><span class="comment">#Normal6.961965  430     449     -</span></span><br><span class="line"><span class="comment">#Normal6.961965  7       23      +</span></span><br></pre></td></tr></table></figure>
+<h4 id="Convert-fastq-into-qza"><a href="#Convert-fastq-into-qza" class="headerlink" title="Convert fastq into qza"></a>Convert fastq into qza</h4><p>step1: 准备符合import格式的文件 manifest.tsv(包含样本ID以及forward和reverse fq路径的文件)和sample-metadata.tsv(样本的分组信息)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># generate manifest.tsv </span></span><br><span class="line">find /rawdata/ -name <span class="string">"*gz"</span> | grep <span class="string">'1_'</span> | sort | perl -e <span class="string">'print"sampleid\tforward-absolute-filepath\treverse-absolute-filepath\n"; while(&lt;&gt;)&#123;chomp; $name=(split("\/", $_))[-1]; $name1=$name; $name2=$_; $name1=~s/_[1|2]_.fq.gz//g; $name2=~s/1_/2_/; print "$name1\t$_\t$name2\n";&#125;'</span>  &gt; pe-33-manifest-trimmed.tsv</span><br><span class="line"></span><br><span class="line"><span class="comment"># sample-metadata.tsv details</span></span><br><span class="line"><span class="comment">#sampleid        Treatment</span></span><br><span class="line"><span class="comment">#HTN1    HTN</span></span><br><span class="line"><span class="comment">#HTN2    HTN</span></span><br><span class="line"><span class="comment">#Normal1 Normal</span></span><br></pre></td></tr></table></figure>
+<p>step2: import fastq into qza，双端和单端数据的import参数不同，并且不同的phred score使用的参数也不一样</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># PE mode </span></span><br><span class="line">qiime tools import \</span><br><span class="line">      --<span class="built_in">type</span> <span class="string">'SampleData[PairedEndSequencesWithQuality]'</span> \</span><br><span class="line">      --input-path pe-33-manifest-trimmed.tsv \</span><br><span class="line">      --output-path result/paired-end-demux.qza \</span><br><span class="line">      --input-format PairedEndFastqManifestPhred33V2</span><br><span class="line"></span><br><span class="line"><span class="comment"># SE mode </span></span><br><span class="line">qiime tools import \</span><br><span class="line">  --<span class="built_in">type</span> <span class="string">"SampleData[SequencesWithQuality]"</span> \</span><br><span class="line">  --input-path single-33-manifest.tsv \</span><br><span class="line">  --output-path result/single-end-demux.qza \</span><br><span class="line">  --input-format SingleEndFastqManifestPhred33V2</span><br></pre></td></tr></table></figure>
+<h4 id="Sequence-quality-control"><a href="#Sequence-quality-control" class="headerlink" title="Sequence quality control"></a>Sequence quality control</h4><p>Step1: 为了更加准确地过滤低质量的碱基，可以再使用qiime2自带summarize插件查看低质量碱基的位置分布，最后再结合第二步usearch和vsearch的primer位置信息设置适合过滤的参数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">qiime demux summarize \</span><br><span class="line">  --i-data result/paired-end-demux.qza \</span><br><span class="line">  --o-visualization result/paired-end-demux-summary.qzv</span><br></pre></td></tr></table></figure>
+<p>Step2: DADA2算法相比常用的OTU算法，其计算的amplicon variant sequences（ASV）的feature会更好一些，feature代替OTU是一种趋势。在此之后，Usearch的开发者Robert C Edgar迅速开发了更好的unoise2算法，该算法已更新到unoise3，并放话unoise2比DADA2更准确。</p>
+<blockquote>
+<p>DADA2是R的一个软件包，可以进行过滤，去重，嵌合体过滤，reads的拼接，可以修正扩增子的测序错误，确定更多的真实变异。扩增子测序本身就具有内在的限制，但是聚类OTU的方式进一步限制了它的发展。OTU不是物种，它们不应该成为错误的一部分，DADA2可以具有更高的分辨率</p>
+<p>DADA(Divisive Amplicon Denoising Algorithm)含义为区分扩增子降噪方程可以确定真实的变异在454测序扩增子数据输出更少的假阳性。DADA2是DADA的扩展和增强可以应用于Illumina测序数据</p>
+<ul>
+<li>特点：DADA2最重要的优势是它用了更多的数据。DADA2的错误模型包含了质量信息，而其他的方法都在过滤低质量之后把序列的质量信息忽略。而且DADA2的错误模型也包括了定量的丰度，而且该模型也计算了各种不同转置的概率A-&gt;C。而且DADA2以自身数据的错误模型为参数，不用依赖于其他参数分布模型。<br> DADA2算法：一种分列式算法</li>
+<li>原理：<ul>
+<li>1 首先将每个reads全部看作单独的单元，Sequence相同的reads被纳入一个sequence，reads个数即成为该sequence的丰度（abundance）（其实就是去冗余的过程）</li>
+<li>2 计算每个sequence丰度的p-value。当最小的p-value低于设定的阈值时， 将产生一个新的partition。每一个sequence将会被归入最可能生成该sequence的partition。</li>
+<li>3 依次类推，完成分割归并。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># DADA2 denosie</span></span><br><span class="line">qiime dada2 denoise-paired \</span><br><span class="line">        --i-demultiplexed-seqs result/paired-end-demux.qza \</span><br><span class="line">        --p-trim-left<span class="_">-f</span> 23 \</span><br><span class="line">        --p-trim-left-r 19 \</span><br><span class="line">        --p-trunc-len<span class="_">-f</span> 0 \</span><br><span class="line">        --p-trunc-len-r 0 \</span><br><span class="line">        --p-n-threads 20 \</span><br><span class="line">        --o-table result/table.qza \</span><br><span class="line">        --o-representative-sequences result/rep-seqs.qza \</span><br><span class="line">        --o-denoising-stats result/stats.qza</span><br><span class="line"></span><br><span class="line"><span class="comment"># summary feature table</span></span><br><span class="line"> qiime feature-table summarize \</span><br><span class="line">        --i-table result/table.qza \</span><br><span class="line">        --o-visualization result/table.qzv \</span><br><span class="line">        --m-sample-metadata-file sample-metadata.tsv</span><br></pre></td></tr></table></figure>
+<h4 id="Taxonomic-annotation"><a href="#Taxonomic-annotation" class="headerlink" title="Taxonomic annotation"></a>Taxonomic annotation</h4><p><strong>step1:</strong> 通过比对已知分类学组成的参考数据库的序列，可以获知feature table的代表序列的物种注释情况。在qiime2通常可以使用已经搭建好的分类学分类器：silva132和Greengene 13_8等。</p>
+<blockquote>
+<p> GreenGene数据库比较明显的问题就是属种水平注释低，所以很多条目里，g和s下划线后面都是空的，如果关注属种水平的注释，则不建议使用该数据库。</p>
+</blockquote>
+<p>结合相关专业人士的反馈意见，个人建议使用silva数据库作为物种注释的首选参考数据库。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># downlaod silva classifier data </span></span><br><span class="line">wget https://data.qiime2.org/2020.8/common/silva-138-99-nb-classifier.qza </span><br><span class="line"></span><br><span class="line"><span class="comment"># annotation</span></span><br><span class="line">qiime feature-classifier classify-sklearn \</span><br><span class="line">                --i-classifier database/silva-138-99-nb-classifier.qza  \</span><br><span class="line">                --i-reads result/rep-seqs.qza \</span><br><span class="line">                --o-classification result/taxonomy-dada2-sliva.qza \</span><br><span class="line">                --p-n-jobs 20 \</span><br><span class="line">                --verbose \</span><br><span class="line">                --output-dir result/</span><br></pre></td></tr></table></figure>
+<p><strong>step2:</strong> 可通过将某些代表序列与扩增子数据库在blast软件下再进行物种注释，该结果与qiime2提供的分类学分类器结果比较，从而可以评估分类学分类器的性能，这适合在构造新的分类学分类器时候使用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># extract the validated sequences by qiime2 view network site</span></span><br><span class="line">qiime feature-table tabulate-seqs \</span><br><span class="line">   --i-data result/rep-seqs.qza \</span><br><span class="line">   --o-visualization result/rep-seqs.qzv</span><br></pre></td></tr></table></figure>
+<h4 id="Filter-the-unsuitable-ASV"><a href="#Filter-the-unsuitable-ASV" class="headerlink" title="Filter the unsuitable ASV"></a>Filter the unsuitable ASV</h4><h5 id="step1-remove-low-occurrence-ASVs"><a href="#step1-remove-low-occurrence-ASVs" class="headerlink" title="step1: remove low occurrence ASVs"></a><strong>step1:</strong> remove low occurrence ASVs</h5><p>根据table的结果设置过滤threshold，阈值有frequency和samples，即ASV在所有样本的总reads和出现在样本数目。计算平均采样深度（对所有ASV的count加和并求平均值），设置采样阈值后再乘以平均采样深度即获得frequency阈值，另外也可以设置ASV出现在多少样本内。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">qiime feature-table filter-features \</span><br><span class="line">   --i-table result/table.qza \</span><br><span class="line">   --p-min-frequency 10 \</span><br><span class="line">   --p-min-samples 1 \</span><br><span class="line">   --o-filtered-table result/table_filter_low_freq.qza</span><br></pre></td></tr></table></figure>
+<h5 id="step2-remove-contamination-and-mitochondria-chloroplast-sequence"><a href="#step2-remove-contamination-and-mitochondria-chloroplast-sequence" class="headerlink" title="step2: remove contamination and mitochondria, chloroplast sequence."></a><strong>step2:</strong> remove contamination and mitochondria, chloroplast sequence.</h5><p>16s扩增子常见污染序列是来自于线粒体和叶绿体等16s序列，另外也存在一些未注释的序列，均需要去除。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">qiime taxa filter-table \</span><br><span class="line">   --i-table result/table_filter_low_freq.qza \</span><br><span class="line">   --i-taxonomy result/taxonomy-dada2-sliva.qza \</span><br><span class="line">   --p-exclude mitochondria,chloroplast \</span><br><span class="line">   --o-filtered-table  result/table_filter_low_freq_contam.qza</span><br></pre></td></tr></table></figure>
+<h5 id="step3-drop-the-low-depth-samples"><a href="#step3-drop-the-low-depth-samples" class="headerlink" title="step3:   drop the low depth samples:"></a><strong>step3:</strong>   drop the low depth samples:</h5><p> 经过上述处理后，某些样本含有较少的ASV总量，因此可以将其剔除。通常使用的threshold的范围是<strong>1,000 - 4,000</strong> reads。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># summarise all the ASV counts in each sample </span></span><br><span class="line">qiime feature-table summarize \</span><br><span class="line">   --i-table result/table_filter_low_freq_contam.qza \</span><br><span class="line">   --o-visualization result/table_filter_low_freq_contam_summary.qzv</span><br><span class="line"><span class="comment"># remove samples</span></span><br><span class="line">qiime feature-table filter-samples \</span><br><span class="line">   --i-table  result/table_filter_low_freq_contam.qza \</span><br><span class="line">   --p-min-frequency 4000 \</span><br><span class="line">   --o-filtered-table  result/final_table.qza </span><br><span class="line"><span class="comment"># representative sequence</span></span><br><span class="line">qiime feature-table filter-seqs \</span><br><span class="line">   --i-data result/rep-seqs.qza \</span><br><span class="line">   --i-table result/final_table.qza \</span><br><span class="line">   --o-filtered-data result/final_rep_seqs.qza</span><br><span class="line"><span class="comment"># reannotate</span></span><br><span class="line">qiime feature-classifier classify-sklearn \</span><br><span class="line">   --i-classifier database/silva-138-99-nb-classifier.qza  \</span><br><span class="line">   --i-reads result/final_rep_seqs.qza \</span><br><span class="line">   --o-classification result/final_taxonomy_sliva.qza \</span><br><span class="line">   --p-n-jobs 20 \</span><br><span class="line">   --verbose \</span><br><span class="line">   --output-dir result/</span><br><span class="line"><span class="comment"># core features</span></span><br><span class="line">qiime feature-table core-features \</span><br><span class="line">   --i-table result/final_table.qza \</span><br><span class="line">   --p-min-fraction 0.6 \</span><br><span class="line">   --p-max-fraction 1 \</span><br><span class="line">   --p-steps 11 \</span><br><span class="line">   --o-visualization result/final_table_cores.qzv \</span><br><span class="line">   --output-dir result</span><br></pre></td></tr></table></figure>
+<h3 id="Downstream-analysis"><a href="#Downstream-analysis" class="headerlink" title="Downstream analysis"></a>Downstream analysis</h3><h4 id="Constructing-phylogenetic-tree-and-diversity-analysis"><a href="#Constructing-phylogenetic-tree-and-diversity-analysis" class="headerlink" title="Constructing phylogenetic tree and diversity analysis"></a>Constructing phylogenetic tree and diversity analysis</h4><h5 id="step1-系统发育树能够服务于后续多样性分析"><a href="#step1-系统发育树能够服务于后续多样性分析" class="headerlink" title="step1: 系统发育树能够服务于后续多样性分析"></a><strong>step1:</strong> 系统发育树能够服务于后续多样性分析</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">qiime phylogeny align-to-tree-mafft-fasttree \</span><br><span class="line">      --i-sequences result/final_rep_seqs.qza \</span><br><span class="line">      --o-alignment result/final_rep_seqs_aligned.qza \</span><br><span class="line">      --o-masked-alignment result/final_rep_seqs_masked.qza \</span><br><span class="line">      --p-n-threads 20 \</span><br><span class="line">      --o-tree result/unrooted-tree.qza \</span><br><span class="line">      --o-rooted-tree result/rooted-tree.qza</span><br></pre></td></tr></table></figure>
+<h5 id="step2-rarefication-curve"><a href="#step2-rarefication-curve" class="headerlink" title="step2: rarefication curve:"></a><strong>step2:</strong> rarefication curve:</h5><p>稀疏曲线可以了解测序深度与ASV的关系</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">qiime diversity alpha-rarefaction \</span><br><span class="line">     --i-table result/final_table.qza \</span><br><span class="line">     --i-phylogeny result/rooted-tree.qza \</span><br><span class="line">     --p-max-depth 60000 \</span><br><span class="line">     --m-metadata-file sample-metadata.tsv \</span><br><span class="line">     --o-visualization result/p-max-depth-60000-alpha-rarefaction.qzv</span><br></pre></td></tr></table></figure>
+<h5 id="step3-diversity-analysis"><a href="#step3-diversity-analysis" class="headerlink" title="step3: diversity analysis"></a><strong>step3:</strong> diversity analysis</h5><p>根据ASV的最小测序深度设置sampling参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># all diversity index and distance </span></span><br><span class="line">qiime diversity core-metrics-phylogenetic \</span><br><span class="line">     --i-phylogeny result/rooted-tree.qza \</span><br><span class="line">     --i-table result/final_table.qza \</span><br><span class="line">     --p-sampling-depth 60000 \</span><br><span class="line">     --m-metadata-file sample-metadata.tsv \</span><br><span class="line">     --output-dir result/sample-depth-60000-core-metrics-results</span><br></pre></td></tr></table></figure>
+<h5 id="step4-faith-pd-diversity-parameters"><a href="#step4-faith-pd-diversity-parameters" class="headerlink" title="step4:  faith_pd diversity parameters"></a><strong>step4:</strong>  faith_pd diversity parameters</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># example for faith_pd_vector of group analysis</span></span><br><span class="line">qiime diversity alpha-group-significance \</span><br><span class="line">     --i-alpha-diversity result/sample-depth-60000-core-metrics-results/faith_pd_vector.qza \</span><br><span class="line">     --m-metadata-file sample-metadata.tsv \</span><br><span class="line">     --o-visualization result/sample-depth-60000-core-metrics-results/faith-pd-group-significance.qzv</span><br><span class="line"><span class="comment"># example for alpha diversity of group analysis</span></span><br><span class="line">qiime diversity alpha-group-significance \</span><br><span class="line">     --i-alpha-diversity result/sample-depth-60000-core-metrics-results/shannon_vector.qza \</span><br><span class="line">     --m-metadata-file sample-metadata.tsv \</span><br><span class="line">     --o-visualization result/shannon_compare_groups.qzv </span><br><span class="line"><span class="comment"># beta diversity </span></span><br><span class="line">qiime diversity beta-group-significance \</span><br><span class="line">  	--i-distance-matrix result/sample-depth-60000-core-metrics-results/unweighted_unifrac_distance_matrix.qza \</span><br><span class="line">  	--m-metadata-file sample-metadata.tsv \</span><br><span class="line">  	--m-metadata-column Treatment \</span><br><span class="line">  	--p-pairwise <span class="literal">false</span> \</span><br><span class="line">  	--p-permutations 999 \</span><br><span class="line">  	--o-visualization result/unweighted-unifrac-subject-significance.qzv </span><br><span class="line"><span class="comment"># three dimensions to show beta diversity</span></span><br><span class="line">qiime emperor plot \</span><br><span class="line">  	--i-pcoa result/sample-depth-60000-core-metrics-results/unweighted_unifrac_pcoa_results.qza \</span><br><span class="line">  	--m-metadata-file sample-metadata.tsv \</span><br><span class="line">  	--p-custom-axes Treatment \</span><br><span class="line">  	--o-visualization result/unweighted-unifrac-emperor-height.qzv</span><br></pre></td></tr></table></figure>
+<h4 id="visualizing-taxonomic-composition"><a href="#visualizing-taxonomic-composition" class="headerlink" title="visualizing taxonomic composition"></a>visualizing taxonomic composition</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">qiime taxa barplot \</span><br><span class="line">     --i-table result/final_table.qza \</span><br><span class="line">     --i-taxonomy result/final_taxonomy_sliva.qza \</span><br><span class="line">     --m-metadata-file sample-metadata.tsv \</span><br><span class="line">     --o-visualization result/final_taxa_barplots_sliva.qzv</span><br></pre></td></tr></table></figure>
+<h4 id="Analysis-of-composition-of-microbiomes-ANCOM"><a href="#Analysis-of-composition-of-microbiomes-ANCOM" class="headerlink" title="Analysis of composition of microbiomes (ANCOM)"></a>Analysis of composition of microbiomes (ANCOM)</h4><p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4450248/pdf/MEHD-26-27663.pdf" target="_blank" rel="noopener external nofollow noreferrer">ANCOM</a>（可以了解下sparse compositional correlation (SparCC) to analyze correlation networks among taxa）可用于比较微生物在组间差异的分析方法， 结果与LEfse类似。该方法基于成分对数比的方法，即先对count数据进行对数转换，再通过简单的秩和检验（stats包内的aov, friedman.test, lme等函数）进行比较，最后计算统计量w。ANCOM的结果用W值来衡量组间差异显著性。W值越高代表该物种在组间的差异显著性越高。<a href="https://github.com/sidhujyatha/ANCOM" target="_blank" rel="noopener external nofollow noreferrer">ANCOM的R代码</a>(推荐！！！)。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># add pseudocount for log transform</span></span><br><span class="line">qiime composition add-pseudocount \</span><br><span class="line">   --i-table result/final_table.qza \</span><br><span class="line">   --p-pseudocount 1 \</span><br><span class="line">   --o-composition-table result/final_table_pseudocount.qza</span><br><span class="line"><span class="comment"># ANCOM </span></span><br><span class="line">qiime composition ancom \</span><br><span class="line">   --i-table result/final_table_pseudocount.qza \</span><br><span class="line">   --m-metadata-file sample-metadata.tsv \</span><br><span class="line">   --m-metadata-column Treatment \</span><br><span class="line">   --output-dir result/ancom_output</span><br></pre></td></tr></table></figure>
+<h4 id="export-qza-into-other-format-type-data"><a href="#export-qza-into-other-format-type-data" class="headerlink" title="export qza into other format type data"></a>export qza into other format type data</h4><p>qza数据文件</p>
+<blockquote>
+<p>QIIME2为了使分析流程标准化，分析过程可重复，制定了统一的分析过程文件格式<code>.qza</code>；qza文件类似于一个封闭的系统，里面包括原始数据、分析的过程和结果；这样保证了文件格式的标准，同时可以追溯每一步的分析，以及图表绘制参数。这一方案为实现将来可重复的分析提供了基础。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># representative sequences</span></span><br><span class="line">qiime tools <span class="built_in">export</span> \</span><br><span class="line">   --input-path result/final_rep_seqs.qza \</span><br><span class="line">   --output-path final_result</span><br><span class="line"><span class="comment"># features table</span></span><br><span class="line">qiime tools <span class="built_in">export</span> \</span><br><span class="line">   --input-path result/final_table.qza \</span><br><span class="line">   --output-path final_result</span><br><span class="line">biom normalize-table \</span><br><span class="line">	-i final_result/feature-table.biom \</span><br><span class="line">	-r \</span><br><span class="line">	-o final_result/feature-table-norm.biom</span><br><span class="line">biom convert \</span><br><span class="line">	-i final_result/feature-table-norm.biom \</span><br><span class="line">	-o final_result/feature-table-norm.tsv \</span><br><span class="line">	--to-tsv \</span><br><span class="line">	--header-key taxonomy</span><br></pre></td></tr></table></figure>
+<h4 id="LEfse"><a href="#LEfse" class="headerlink" title="LEfse"></a>LEfse</h4><p>LEfse是LDA Effect Size分析，其本质是一类判别分析。其结果一般配合进化分支图使用，也即是展示差异物种在进化上的关系。推荐使用<a href="https://github.com/ying14/yingtools2" target="_blank" rel="noopener external nofollow noreferrer">yintools的LEfse的R脚本</a>。<strong>remotes::install_github(“ying14/yingtools2”)</strong><img src="/images/pipeline_16s_02/pipeline_16s_02_02.jpg" alt=""></p>
+<blockquote>
+<p><strong>原理：</strong>首先使用non-parametric factorial Kruskal-Wallis (KW) sum-rank test（非参数因子克鲁斯卡尔—沃利斯和秩验检）检测具有显著丰度差异特征，并找到与丰度有显著性差异的类群。最后，LEfSe采用线性判别分析（LDA）来估算每个组分（物种）丰度对差异效果影响的大小。</p>
+<p><strong>进化分支图：</strong>由内至外辐射的圆圈代表了由门至属（或种）的分类级别。在不同分类级别上的每一个小圆圈代表该水平下的一个分类，小圆圈直径大小与相对丰度大小呈正比。着色原则：无显著差异的物种统一着色为黄色，差异物种Biomarker跟随组进行着色，红色节点表示在红色组别中起到重要作用的微生物类群，绿色节点表示在绿色组别中起到重要作用的微生物类群，若图中某一组缺失，则表明此组中并无差异显著的物种，故此组缺失。图中英文字母表示的物种名称在右侧图例中进行展示。</p>
+</blockquote>
+<h5 id="step1-install-lefse-through-conda"><a href="#step1-install-lefse-through-conda" class="headerlink" title="step1: install lefse through conda"></a><strong>step1:</strong> install lefse through conda</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda create -n lefse -c biobakery lefse -y </span><br><span class="line">conda activate lefse </span><br><span class="line"><span class="built_in">which</span> format_input.py</span><br></pre></td></tr></table></figure>
+<h5 id="step2-collapse-the-table-gza-to-the-L6-level"><a href="#step2-collapse-the-table-gza-to-the-L6-level" class="headerlink" title="step2: collapse the table.gza to the L6 level"></a><strong>step2:</strong> collapse the table.gza to the L6 level</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">qiime taxa collapse \</span><br><span class="line">    --i-table result/final_table.qza \</span><br><span class="line">    --o-collapsed-table collapse/collapse.table.qza \</span><br><span class="line">    --p-level 6 \</span><br><span class="line">    --i-taxonomy result/final_taxonomy_sliva.qza</span><br></pre></td></tr></table></figure>
+<h5 id="step3-calculate-relative-frequency-for-the-collapsed-table-relative-abundance-instead-of-counts"><a href="#step3-calculate-relative-frequency-for-the-collapsed-table-relative-abundance-instead-of-counts" class="headerlink" title="step3: calculate relative-frequency for the collapsed table (relative abundance instead of counts)"></a><strong>step3:</strong> calculate relative-frequency for the collapsed table (relative abundance instead of counts)</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">qiime feature-table relative-frequency \</span><br><span class="line">    --i-table collapse/collapse.table.qza \</span><br><span class="line">    --o-relative-frequency-table collapse/collapse.frequency.table.qza \</span><br><span class="line">    --output-dir collapse/</span><br></pre></td></tr></table></figure>
+<h5 id="step4-export-biom-file"><a href="#step4-export-biom-file" class="headerlink" title="step4: export biom file"></a><strong>step4:</strong> export biom file</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">qiime tools <span class="built_in">export</span> \</span><br><span class="line">    --input-path collapse/collapse.frequency.table.qza \</span><br><span class="line">    --output-path collapse/</span><br></pre></td></tr></table></figure>
+<h5 id="step5-convert-biom-to-text-file"><a href="#step5-convert-biom-to-text-file" class="headerlink" title="step5: convert biom to text file"></a><strong>step5:</strong> convert biom to text file</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">biom convert \</span><br><span class="line">    -i collapse/feature-table.biom \</span><br><span class="line">    -o collapse/collapse.frequency.table.tsv \</span><br><span class="line">    --header-key <span class="string">"taxonomy"</span> \</span><br><span class="line">    --to-tsv</span><br></pre></td></tr></table></figure>
+<h5 id="step6-filter-tax"><a href="#step6-filter-tax" class="headerlink" title="step6: filter tax"></a><strong>step6:</strong> filter tax</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sed <span class="string">'s/;/\|/g'</span> collapse/collapse.frequency.table.tsv | \</span><br><span class="line">    awk <span class="string">'&#123;split($1, a, "|");if( a[6] != "__")&#123;print $0&#125;&#125;'</span> | \</span><br><span class="line">    <span class="comment">#sed 's/d\_\_Bacteria|//g' | \</span></span><br><span class="line">    grep -vE <span class="string">"g__uncultured|d__Archaea|p__WPS-2|p__SAR324_clade|Constructed"</span> | \</span><br><span class="line">    sed <span class="string">'s/#OTU ID/Group/g;s/taxonomy//g'</span> &gt; collapse/collapse.frequency.table.lefse.tsv</span><br></pre></td></tr></table></figure>
+<h5 id="step7-run-lefse"><a href="#step7-run-lefse" class="headerlink" title="step7: run lefse"></a><strong>step7:</strong> run lefse</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">conda activate lefse</span><br><span class="line"><span class="comment"># convert text file into lefse.input file </span></span><br><span class="line">format_input.py \</span><br><span class="line">	collapse/collapse.frequency.table.lefse.tsv \</span><br><span class="line">	result/collapse.frequency.table.lefse.in \</span><br><span class="line">	-c 1 \</span><br><span class="line">	-m f \</span><br><span class="line">	-o 100000</span><br><span class="line"><span class="comment"># run lefse</span></span><br><span class="line">run_lefse.py \</span><br><span class="line">	result/collapse.frequency.table.lefse.in \</span><br><span class="line">	result/collapse.frequency.table.lefse.res </span><br><span class="line"><span class="comment"># select significant result Lefse</span></span><br><span class="line">grep -E <span class="string">"HTN|Normal"</span> \</span><br><span class="line">		result/collapse.frequency.table.lefse.res \</span><br><span class="line">		&gt; result/collapse.frequency.table.lefse_signif.res</span><br><span class="line"><span class="comment"># plot lda </span></span><br><span class="line">plot_res.py \</span><br><span class="line">	result/collapse.frequency.table.lefse_signif.res \</span><br><span class="line">	result/lefse_final_lda.pdf \</span><br><span class="line">	--format pdf \</span><br><span class="line">	--autoscale 0</span><br><span class="line"><span class="comment"># plot cladogram </span></span><br><span class="line">plot_cladogram.py \</span><br><span class="line">	result/collapse.frequency.table.lefse_signif.res \</span><br><span class="line">	result/lefse_total_clado.pdf \</span><br><span class="line">	--format pdf</span><br></pre></td></tr></table></figure>
+<h4 id="Functional-prediction-picrust2"><a href="#Functional-prediction-picrust2" class="headerlink" title="Functional prediction: picrust2"></a>Functional prediction: picrust2</h4><p>Picrust是Phylogenetic Investigationof Communities by Reconstruction of Unobserved States的简称，是一款基于16s rRNA基因序列预测微生物群落功能的软件。</p>
+<p><img src="/images/pipeline_16s_02/pipeline_16s_02_03.jpg" alt=""></p>
+<p>其原理：</p>
+<blockquote>
+<p><strong>（1）基因内容预测（gene content inference）</strong>。该步先对Greengenes数据库的“closed reference”序列划分OTU后构建进化树，通过祖先状态重构（Ancestralstate reconstruction）算法并结合IMG/M数据库，预测出树中未进行全基因组测序OTU的基因组信息。</p>
+<p><strong>（2）宏基因组预测（metagenome inference）</strong>。将16SrDNA测序结果与Greengenes数据库进行比对，挑选出与“closed reference”数据库相似性高的（默认为≥97%）OTU；根据OTU对应基因组中16SrDNA的拷贝数信息，将每个OTU对应序列数除以其16S拷贝数来进行标准化；最后，将标准化的数据乘以其对应的基因组中基因含量从而实现宏基因组预测的目的。获得的预测结果可以通过KEGG Orthology、COGs或Pfams等对基因家族进行分类。</p>
+</blockquote>
+<p>qiime2-2020.8版本暂时无法安装q2-picrust插件，因此使用picurst2软件做微生物功能预测分析。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># install picrust2</span></span><br><span class="line">conda create -n picrust2 -c bioconda -c conda-forge picrust2=2.3.0_b -y </span><br><span class="line"><span class="comment"># export representative sequences</span></span><br><span class="line">conda activate qiime2-2020.8</span><br><span class="line">qiime tools <span class="built_in">export</span> --input-path result/final_rep_seqs.qza --output-path ./ </span><br><span class="line">conda deactivate </span><br><span class="line"><span class="comment"># run picrust2</span></span><br><span class="line">conda activate picrust2</span><br><span class="line">picrust2_pipeline.py -s dna-sequences.fasta -i feature-table.biom -o picrust2_out_pipeline -p 30</span><br><span class="line">conda deactivate</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>The key output files are</strong>:</p>
+<ul>
+<li><code>EC_metagenome_out</code> - Folder containing unstratified EC number metagenome predictions (<code>pred_metagenome_unstrat.tsv.gz</code>), sequence table normalized by predicted 16S copy number abundances (<code>seqtab_norm.tsv.gz</code>), and the per-sample NSTI values weighted by the abundance of each ASV (<code>weighted_nsti.tsv.gz</code>).</li>
+<li><code>KO_metagenome_out</code> - As <code>EC_metagenome_out</code> above, but for KO metagenomes.</li>
+<li><code>pathways_out</code> - Folder containing predicted pathway abundances and coverages per-sample, based on predicted EC number abundances.</li>
+</ul>
+</blockquote>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
+<li><a href="https://docs.qiime2.org/2020.8/install/" target="_blank" rel="noopener external nofollow noreferrer">qiime2 docs</a></li>
+<li><a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/" target="_blank" rel="noopener external nofollow noreferrer">fastqc tutorial</a></li>
+<li><a href="https://www.drive5.com/usearch/manual/" target="_blank" rel="noopener external nofollow noreferrer">usearch tutorial</a></li>
+<li><a href="https://github.com/torognes/vsearch" target="_blank" rel="noopener external nofollow noreferrer">vsearch tutorial</a></li>
+<li><a href="https://docs.qiime2.org/2020.8/tutorials/importing/" target="_blank" rel="noopener external nofollow noreferrer">import data in qiime2</a></li>
+<li><a href="https://www.jianshu.com/p/94105dcd60a5" target="_blank" rel="noopener external nofollow noreferrer">扩增子分析软件qiime2必知必会</a></li>
+<li><a href="https://mp.weixin.qq.com/s/yx1F97n_2xh0IrpolAzYVA?" target="_blank" rel="noopener external nofollow noreferrer">扩增子数据库整理</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzIyNzk1NjUxOA==&amp;mid=2247483671&amp;idx=1&amp;sn=c4b0ac99ce53b8f0305788a98fa9f477&amp;chksm=e858035edf2f8a48437cf5420efcc684eb97983ffd33593f03a70786fbd2f51822fb98381a9c&amp;scene=21#wechat_redirect" target="_blank" rel="noopener external nofollow noreferrer">Greengene数据库整理</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzIyNzk1NjUxOA==&amp;mid=2247483667&amp;idx=1&amp;sn=6a6e49cfeebfcb3b2e732c9c26901c2d&amp;chksm=e858035adf2f8a4c315e18efd6375b8a02065f3b7c3532dd0cbc0493e0262bc32f0321af9201&amp;scene=21#wechat_redirect" target="_blank" rel="noopener external nofollow noreferrer">SILVA 数据库整理</a></li>
+<li><a href="https://www.jianshu.com/p/67be9b3806cd" target="_blank" rel="noopener external nofollow noreferrer">差异检验</a></li>
+<li><a href="https://forum.qiime2.org/t/lefse-after-qiime2/4496/7" target="_blank" rel="noopener external nofollow noreferrer">lefse after qiime2</a></li>
+<li><a href="https://github.com/SegataLab/lefse" target="_blank" rel="noopener external nofollow noreferrer">lefse scripts github</a></li>
+<li><a href="https://www.jianshu.com/p/6a0b85b96874" target="_blank" rel="noopener external nofollow noreferrer">picrust2安装及对16s数据进行功能预测</a></li>
+<li><a href="https://github.com/picrust/picrust2/wiki" target="_blank" rel="noopener external nofollow noreferrer">picrust2 wiki</a></li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>-------- 本文结束 </span>
+      <i class="fa fa-paw"></i>
+      <span> 感谢阅读 --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+
+        <div class="reward-container">
+  <div>赞赏一瓶优酸乳</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zouhua.top/archives/e06e2ff3.html" title="Amplicon sequencing analysis pipeline through qiime2 platform">https://zouhua.top/archives/e06e2ff3.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/qiime2/" rel="tag"><i class="fa fa-tags"></i> qiime2</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/264ac7c7.html" rel="prev" title="微生物物种组成和差异物种可视化">
+      <i class="fa fa-chevron-left"></i> 微生物物种组成和差异物种可视化
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/7d0e9fa6.html" rel="next" title="STAMP的扩展error bar图">
+      STAMP的扩展error bar图 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Amplicon-sequencing-analysis-pipeline-through-qiime2"><span class="nav-number">1.</span> <span class="nav-text">Amplicon sequencing analysis pipeline through qiime2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Platform"><span class="nav-number">1.1.</span> <span class="nav-text">Platform</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#step1-download-the-yaml-file"><span class="nav-number">1.1.1.</span> <span class="nav-text">step1: download the yaml file</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step2-update-the-conda-version"><span class="nav-number">1.1.2.</span> <span class="nav-text">step2: update the conda version</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step3-modify-the-condarc-and-yaml-file"><span class="nav-number">1.1.3.</span> <span class="nav-text">step3: modify the .condarc and yaml file</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step4-create-the-qiime2-2020-8-conda-environment"><span class="nav-number">1.1.4.</span> <span class="nav-text">step4: create the qiime2-2020.8 conda environment</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step5-activate-environment-and-test-installation"><span class="nav-number">1.1.5.</span> <span class="nav-text">step5: activate environment and test installation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-pipeline"><span class="nav-number">1.2.</span> <span class="nav-text">Analysis pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Check-the-fastq-phred-score"><span class="nav-number">1.2.1.</span> <span class="nav-text">Check the fastq phred score</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Get-the-positions-of-primer-in-the-fastq"><span class="nav-number">1.2.2.</span> <span class="nav-text">Get the positions of primer in the fastq</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Convert-fastq-into-qza"><span class="nav-number">1.2.3.</span> <span class="nav-text">Convert fastq into qza</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sequence-quality-control"><span class="nav-number">1.2.4.</span> <span class="nav-text">Sequence quality control</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Taxonomic-annotation"><span class="nav-number">1.2.5.</span> <span class="nav-text">Taxonomic annotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter-the-unsuitable-ASV"><span class="nav-number">1.2.6.</span> <span class="nav-text">Filter the unsuitable ASV</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-remove-low-occurrence-ASVs"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">step1: remove low occurrence ASVs</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step2-remove-contamination-and-mitochondria-chloroplast-sequence"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">step2: remove contamination and mitochondria, chloroplast sequence.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step3-drop-the-low-depth-samples"><span class="nav-number">1.2.6.3.</span> <span class="nav-text">step3:   drop the low depth samples:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Downstream-analysis"><span class="nav-number">1.3.</span> <span class="nav-text">Downstream analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Constructing-phylogenetic-tree-and-diversity-analysis"><span class="nav-number">1.3.1.</span> <span class="nav-text">Constructing phylogenetic tree and diversity analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-系统发育树能够服务于后续多样性分析"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">step1: 系统发育树能够服务于后续多样性分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step2-rarefication-curve"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">step2: rarefication curve:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step3-diversity-analysis"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">step3: diversity analysis</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step4-faith-pd-diversity-parameters"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">step4:  faith_pd diversity parameters</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#visualizing-taxonomic-composition"><span class="nav-number">1.3.2.</span> <span class="nav-text">visualizing taxonomic composition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Analysis-of-composition-of-microbiomes-ANCOM"><span class="nav-number">1.3.3.</span> <span class="nav-text">Analysis of composition of microbiomes (ANCOM)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#export-qza-into-other-format-type-data"><span class="nav-number">1.3.4.</span> <span class="nav-text">export qza into other format type data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LEfse"><span class="nav-number">1.3.5.</span> <span class="nav-text">LEfse</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-install-lefse-through-conda"><span class="nav-number">1.3.5.1.</span> <span class="nav-text">step1: install lefse through conda</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step2-collapse-the-table-gza-to-the-L6-level"><span class="nav-number">1.3.5.2.</span> <span class="nav-text">step2: collapse the table.gza to the L6 level</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step3-calculate-relative-frequency-for-the-collapsed-table-relative-abundance-instead-of-counts"><span class="nav-number">1.3.5.3.</span> <span class="nav-text">step3: calculate relative-frequency for the collapsed table (relative abundance instead of counts)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step4-export-biom-file"><span class="nav-number">1.3.5.4.</span> <span class="nav-text">step4: export biom file</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step5-convert-biom-to-text-file"><span class="nav-number">1.3.5.5.</span> <span class="nav-text">step5: convert biom to text file</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step6-filter-tax"><span class="nav-number">1.3.5.6.</span> <span class="nav-text">step6: filter tax</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step7-run-lefse"><span class="nav-number">1.3.5.7.</span> <span class="nav-text">step7: run lefse</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Functional-prediction-picrust2"><span class="nav-number">1.3.6.</span> <span class="nav-text">Functional prediction: picrust2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">1.4.</span> <span class="nav-text">引用</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">110</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">81</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  近期文章
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">842k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:46</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button" onclick="moonMenuClick()">
+    <svg class="moon-menu-svg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+      <g class="moon-menu-points">
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
+        <circle class="moon-menu-point" r=".2rem"></circle>
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
+      </g>
+    </svg>
+    <div class="moon-menu-icon">
+    </div>
+    <div class="moon-menu-text">
+    </div>
+  </div>
+</div>
+<script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>

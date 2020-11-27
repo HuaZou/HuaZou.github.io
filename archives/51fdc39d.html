@@ -1,0 +1,1199 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="miRNA可以调节靶基因的表达。miRNA序列较短，在测序过程中可能混入了其他RNA，因此miRNA的分析流程需要多次过滤非miRNA序列。另外在比对miRNA到reference时候，推荐使用短序列比对软bowtie。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A full workflow of miRNA-seq pipeline">
+<meta property="og:url" content="https://zouhua.top/archives/51fdc39d.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="miRNA可以调节靶基因的表达。miRNA序列较短，在测序过程中可能混入了其他RNA，因此miRNA的分析流程需要多次过滤非miRNA序列。另外在比对miRNA到reference时候，推荐使用短序列比对软bowtie。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zouhua.top/images/Pipeline_miRNA-seq_01/Pipeline_miRNA-seq_01_01.jpg">
+<meta property="article:published_time" content="2020-08-01T10:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-02T15:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="miRNA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zouhua.top/images/Pipeline_miRNA-seq_01/Pipeline_miRNA-seq_01_01.jpg">
+
+<link rel="canonical" href="https://zouhua.top/archives/51fdc39d.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>A full workflow of miRNA-seq pipeline | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/51fdc39d.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          A full workflow of miRNA-seq pipeline
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-01 18:00:00" itemprop="dateCreated datePublished" datetime="2020-08-01T18:00:00+08:00">2020-08-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-02 23:00:00" itemprop="dateModified" datetime="2020-09-02T23:00:00+08:00">2020-09-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OmicsData/" itemprop="url" rel="index"><span itemprop="name">OmicsData</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OmicsData/miRNA-seq/" itemprop="url" rel="index"><span itemprop="name">miRNA-seq</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/51fdc39d.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/51fdc39d.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>27k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>25 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="A-full-workflow-of-miRNA-seq-pipeline"><a href="#A-full-workflow-of-miRNA-seq-pipeline" class="headerlink" title="A full workflow of miRNA-seq pipeline"></a>A full workflow of miRNA-seq pipeline</h2><p>miRNA可以调节靶基因的表达。miRNA序列较短，在测序过程中可能混入了其他RNA，因此miRNA的分析流程需要多次过滤非miRNA序列。另外在比对miRNA到reference时候，推荐使用短序列比对软bowtie。<img src="/images/Pipeline_miRNA-seq_01/Pipeline_miRNA-seq_01_01.jpg" alt=""></p>
+<blockquote>
+<p>MicroRNA (miRNA)  是一类内生的、长度约为20-24个核苷酸的小 RNA，其在细胞内具有多种重要的调节作用。每个 miRNA 可以有多个靶基因的表达，而几个 miRNA 也可以调节同一个基因的表达。据推测，miRNA 调节着人类三分之一的基因。</p>
+<p>miRNA的特点</p>
+<ol>
+<li><p>hsa、mmu、rno分别代表人、小鼠、大鼠。</p>
+</li>
+<li><p>mir、MIR、miR分别代表动物未成熟miRNA、植物未成熟miRNA、成熟 RNA。</p>
+</li>
+<li><p>即阿拉伯数字。代表miRNA发现的先后顺序。一般情况下，数字越小，发现越早。</p>
+</li>
+<li><p>对于相似度非常高但又不完全相同（如：仅差一两个碱基）的成熟miRNA，加上一个英文小写字母（a,b,c,…）以示区别。</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="install-software"><a href="#install-software" class="headerlink" title="install software"></a>install software</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">conda install -c bioconda fastqc -y       <span class="comment"># check reads status </span></span><br><span class="line">conda install -c bioconda cutadapt -y     <span class="comment"># remove adapter </span></span><br><span class="line">conda install -c bioconda mirdeep2 -y     <span class="comment"># identify old or novel miRNA </span></span><br><span class="line">conda install -c bioconda blast -y        <span class="comment"># alignment </span></span><br><span class="line">conda install -c bioconda seqtk -y        <span class="comment"># convert multiplines into one line </span></span><br><span class="line">conda install -c bioconda bowtie -y       <span class="comment"># map miRNA into reference</span></span><br></pre></td></tr></table></figure>
+<p>mirdeep2软件可以识别已知miRNA并鉴定出新miRNA，其涉及到的软件：</p>
+<ul>
+<li>bowtie:  比对短序列</li>
+<li>viennaRNA: 预测二级结构</li>
+<li>SQUID library: 辅助randfold</li>
+<li>randfold: 检测RNA的折叠自由是否属于miRNA</li>
+</ul>
+<h3 id="RNA-data"><a href="#RNA-data" class="headerlink" title="RNA data"></a>RNA data</h3><ol>
+<li>Rfam data              </li>
+<li>Mus_ncRNA</li>
+<li>Musculus_UCSC exon.fa and intron.fa </li>
+<li>mirbase</li>
+<li>Mus_primary_assembly_dna</li>
+</ol>
+<h3 id="pipeline"><a href="#pipeline" class="headerlink" title="pipeline"></a>pipeline</h3><h4 id="Download-reference-and-curate-the-data"><a href="#Download-reference-and-curate-the-data" class="headerlink" title="Download reference and curate the data"></a>Download reference and curate the data</h4><p>该流程需要过滤掉non-coding RNA序列以及外显子内的类似miRNA序列，最后再将序列比对到mirbase的成熟和全部miRNA序列上，因此需要下载较多的参考数据。</p>
+<ol>
+<li><p>下载ncRNA数据，ncRNA数据由musculus的ncRNA和Rfam数据库的RNA构成，合并两类fa后再进行建索引；</p>
+<p>step1: 从EBI的Rfam下载ncRNA数据，由于最新版14.2没有找到注释文件，暂时下载14.1版本（相较14.2版本，其少了10个ncRNA的序列）；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># go to ebi to download fa</span></span><br><span class="line">curl -O ftp://ftp.ebi.ac.uk/pub/databases/Rfam/14.1/fasta_files/RF0[0001-3115].fa.gz</span><br><span class="line"><span class="comment"># download rfam_14.1_anno_ncRNA.txt</span></span><br></pre></td></tr></table></figure>
+<p>step2: 下载release100的musculus ncRNA数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget ftp://ftp.ensembl.org/pub/release-100/fasta/mus_musculus/ncrna/Mus_musculus.GRCm38.ncrna.fa.gz</span><br></pre></td></tr></table></figure>
+<p>step3: 整合Rfam和Musculus的ncRNA数据，并获取rRNA、tRNA、sRNA和snRNA的fa文件以及使用makeblastdb建立其对应的索引，为后面过滤ncRNA服务。</p>
+<p>​    <strong>get_fa.py脚本</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys, re, os</span><br><span class="line"><span class="keyword">from</span> Bio <span class="keyword">import</span> SeqIO</span><br><span class="line"><span class="keyword">import</span> argparse <span class="keyword">as</span> ap</span><br><span class="line"></span><br><span class="line">rna_type_Rfam = [<span class="string">'rRNA'</span>, <span class="string">'tRNA'</span>, <span class="string">'sRNA'</span>, <span class="string">'snRNA'</span>]</span><br><span class="line">rna_type_mus  = [<span class="string">'gene_biotype:'</span> + x <span class="keyword">for</span> x <span class="keyword">in</span> rna_type_Rfam]</span><br><span class="line">tax_tag       = <span class="string">'Mus musculus'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_argument</span><span class="params">(args)</span>:</span></span><br><span class="line">        parser = ap.ArgumentParser(description=<span class="string">'make blast index of ncRNA in Mus musculus'</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-a'</span>, <span class="string">'--anno'</span>, metavar=<span class="string">'&lt;annotation&gt;'</span>, type=str,</span><br><span class="line">                help=<span class="string">'annotation file of Rfam 14.1'</span>, required=<span class="literal">True</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-d'</span>, <span class="string">'--dir'</span>, metavar=<span class="string">'&lt;directory&gt;'</span>, type=str,</span><br><span class="line">                 help=<span class="string">'directory of Rfam fasta sequence'</span>, required=<span class="literal">True</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-m'</span>, <span class="string">'--mus'</span>, metavar=<span class="string">'&lt;musculus&gt;'</span>, type=str,</span><br><span class="line">                 help=<span class="string">'the fasta of musculus ncRNA sequence'</span>, required=<span class="literal">True</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-t'</span>, <span class="string">'--type'</span>, metavar=<span class="string">'&lt;type&gt;'</span>, type=str,</span><br><span class="line">                help=<span class="string">'type of fasta single or integrated fasta'</span>, default=<span class="string">"single"</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-r'</span>, <span class="string">'--rna'</span>, metavar=<span class="string">'&lt;rna&gt;'</span>, type=str,</span><br><span class="line">                help=<span class="string">'rna type'</span>, required=<span class="literal">True</span>, default=<span class="string">"rRNA"</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-o'</span>, <span class="string">'--out'</span>, metavar=<span class="string">'&lt;output&gt;'</span>, type=str,</span><br><span class="line">                help=<span class="string">'output directory'</span>, required=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> parser.parse_args()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_dir</span><span class="params">(path)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">        os.makedirs(path)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_RF_RNA</span><span class="params">(anno_file, rna)</span>:</span></span><br><span class="line">    lab_dict = &#123;&#125;</span><br><span class="line">    <span class="keyword">with</span> open(anno_file, <span class="string">'r'</span>) <span class="keyword">as</span> in_f:</span><br><span class="line">        lines = in_f.readlines()</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">        line = line.strip()</span><br><span class="line">        sample = re.split(<span class="string">r'\t'</span>, line)</span><br><span class="line">        <span class="keyword">if</span> re.findall(rna, sample[<span class="number">2</span>]):</span><br><span class="line">            lab_dict[sample[<span class="number">0</span>]] = rna</span><br><span class="line">    <span class="keyword">return</span> lab_dict</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_RNA_fa</span><span class="params">(ann_file, RF_directory, mus_fasta, rna_type, rna_name, out_dir)</span>:</span></span><br><span class="line">    create_dir(out_dir)</span><br><span class="line">    <span class="keyword">if</span> rna_type == <span class="string">'single'</span>:</span><br><span class="line">        out_put = out_dir + <span class="string">'/'</span> + rna_name + <span class="string">'_Rfam_Mus.fa'</span></span><br><span class="line">        rna_lab_dict = get_RF_RNA(ann_file, rna_name)</span><br><span class="line">        <span class="keyword">for</span> key <span class="keyword">in</span> rna_lab_dict.keys():</span><br><span class="line">            file_path = RF_directory + <span class="string">'/'</span> + key + <span class="string">'.fa'</span></span><br><span class="line">            <span class="keyword">if</span> os.path.isfile(file_path):</span><br><span class="line">                <span class="keyword">with</span> open(file_path, <span class="string">"r"</span>) <span class="keyword">as</span> handle:</span><br><span class="line">                    <span class="keyword">for</span> record <span class="keyword">in</span> SeqIO.parse(handle, <span class="string">"fasta"</span>):</span><br><span class="line">                        <span class="keyword">if</span> re.findall(tax_tag, record.description):</span><br><span class="line">                            <span class="keyword">with</span> open(out_put, <span class="string">"a"</span>) <span class="keyword">as</span> output_handle:</span><br><span class="line">                                SeqIO.write(record, output_handle, <span class="string">"fasta"</span>)</span><br><span class="line">        rna_name2 = rna_type_mus[rna_type_Rfam.index(rna_name)]</span><br><span class="line">        <span class="keyword">with</span> open(mus_fasta, <span class="string">'r'</span>) <span class="keyword">as</span> in_f:</span><br><span class="line">            <span class="keyword">for</span> record <span class="keyword">in</span> SeqIO.parse(in_f, <span class="string">'fasta'</span>):</span><br><span class="line">                <span class="keyword">if</span> re.findall(rna_name2, record.description):</span><br><span class="line">                    <span class="keyword">with</span> open(out_put, <span class="string">'a'</span>) <span class="keyword">as</span> output_handle:</span><br><span class="line">                        SeqIO.write(record, output_handle, <span class="string">'fasta'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        out_put = out_dir + <span class="string">'/'</span> + <span class="string">'allRNA_Rfam_Mus.fa'</span></span><br><span class="line">        <span class="keyword">for</span> rnaname <span class="keyword">in</span> rna_type_Rfam:</span><br><span class="line">            rna_lab_dict = get_RF_RNA(ann_file, rnaname)</span><br><span class="line">            <span class="keyword">for</span> key <span class="keyword">in</span> rna_lab_dict.keys():</span><br><span class="line">                file_path = RF_directory + <span class="string">'/'</span> + key + <span class="string">'.fa'</span></span><br><span class="line">                <span class="keyword">if</span> os.path.isfile(file_path):</span><br><span class="line">                    <span class="keyword">with</span> open(file_path, <span class="string">"r"</span>) <span class="keyword">as</span> handle:</span><br><span class="line">                        <span class="keyword">for</span> record <span class="keyword">in</span> SeqIO.parse(handle, <span class="string">"fasta"</span>):</span><br><span class="line">                            <span class="keyword">if</span> re.findall(tax_tag, record.description):</span><br><span class="line">                                <span class="keyword">with</span> open(out_put, <span class="string">"a"</span>) <span class="keyword">as</span> output_handle:</span><br><span class="line">                                    SeqIO.write(record, output_handle, <span class="string">"fasta"</span>)</span><br><span class="line">        <span class="keyword">for</span> rnaname2 <span class="keyword">in</span> rna_type_mus:</span><br><span class="line">            <span class="keyword">with</span> open(mus_fasta, <span class="string">'r'</span>) <span class="keyword">as</span> in_f:</span><br><span class="line">                <span class="keyword">for</span> record <span class="keyword">in</span> SeqIO.parse(in_f, <span class="string">'fasta'</span>):</span><br><span class="line">                    <span class="keyword">if</span> re.findall(rnaname2, record.description):</span><br><span class="line">                        <span class="keyword">with</span> open(out_put, <span class="string">'a'</span>) <span class="keyword">as</span> output_handle:</span><br><span class="line">                            SeqIO.write(record, output_handle, <span class="string">'fasta'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    args = parse_argument(sys.argv)</span><br><span class="line">    get_RNA_fa(args.anno, args.dir, args.mus, args.type, args.rna, args.out)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>​    <strong>获取fa和建索引命令</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">python get_fa.py -a rfam_14.1_anno_ncRNA.txt -d RF1_3125_fa/ -m Mus_musculus.GRCm38.ncrna.fa -r rRNA -o ./</span><br><span class="line">python get_fa.py -a rfam_14.1_anno_ncRNA.txt -d RF1_3125_fa/ -m Mus_musculus.GRCm38.ncrna.fa -r tRNA -o ./</span><br><span class="line">python get_fa.py -a rfam_14.1_anno_ncRNA.txt -d RF1_3125_fa/ -m Mus_musculus.GRCm38.ncrna.fa -r sRNA -o ./</span><br><span class="line">python get_fa.py -a rfam_14.1_anno_ncRNA.txt -d RF1_3125_fa/ -m Mus_musculus.GRCm38.ncrna.fa -r snRNA -o ./</span><br><span class="line"></span><br><span class="line">makeblastdb -<span class="keyword">in</span> rRNA_Rfam_Mus.fa -dbtype nucl -title rRNA_Rfam_Mus -out blast_index/rRNA_Rfam_Mus</span><br><span class="line">makeblastdb -<span class="keyword">in</span> snRNA_Rfam_Mus.fa -dbtype nucl -title snRNA_Rfam_Mus -out blast_index/snRNA_Rfam_Mus</span><br><span class="line">makeblastdb -<span class="keyword">in</span> sRNA_Rfam_Mus.fa -dbtype nucl -title sRNA_Rfam_Mus -out blast_index/sRNA_Rfam_Mus</span><br><span class="line">makeblastdb -<span class="keyword">in</span> tRNA_Rfam_Mus.fa -dbtype nucl -title tRNA_Rfam_Mus -out blast_index/tRNA_Rfam_Mus</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>下载UCSC的Musculus外显子和内含子数据（ENSEMBLE数据库需要自己提取该数据集，因此暂不使用）；</p>
+<p>​    上<a href="http://www.genome.ucsc.edu/" target="_blank" rel="noopener external nofollow noreferrer">UCSC</a>官网查找Musculus物种，然后按照教程下载外显子和内含子序列（Tools-&gt; Table Browser）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bowtie-build Mus_musculus.exon.fasta bowtie_index/Musculus_exon</span><br><span class="line">bowtie-build Mus_musculus.intron.fasta bowtie_index/Musculus_intron</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>因为mirdeep2软件只能识别没有空格的fa注释title，因此需要对Mus_primary_assembly_dna的title进行无空格处理；</p>
+<p>step1: 下载primary_dna.fa，并处理title的空格</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># download dna fasta </span></span><br><span class="line">wget ftp://ftp.ensembl.org/pub/release-100/fasta/mus_musculus/dna/Mus_musculus.GRCm38.dna.primary.fa.gz</span><br><span class="line"><span class="comment"># remove whitespace</span></span><br><span class="line">sed <span class="string">'s/[ \t]*//g'</span> Mus_musculus.GRCm38.dna_sm.primary_assembly.fa &gt; Mus_musculus.GRCm38.dn_sm.primary_assembly_remove_whitespace.fa</span><br><span class="line"><span class="comment"># bowtie-build index</span></span><br><span class="line">bowtie-build Mus_musculus.GRCm38.dna_sm.primary_assembly_remove_whitespace.fa --threads 30 bowtie_remove_whitespace_index/Mus_musculus.GRCm38</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载mirbase的成熟miRNA和miRNA前体序列数据</p>
+<p>Download data </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># download fasta</span></span><br><span class="line">wget ftp://mirbase.org/pub/mirbase/CURRENT/mature.fa.gz</span><br><span class="line">wget ftp://mirbase.org/pub/mirbase/CURRENT/hairpin.fa.gz</span><br></pre></td></tr></table></figure>
+<p>get_mus_fa.py  script</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys, re, os</span><br><span class="line"><span class="keyword">from</span> Bio <span class="keyword">import</span> SeqIO</span><br><span class="line"><span class="keyword">from</span> Bio.Seq <span class="keyword">import</span> Seq</span><br><span class="line"><span class="keyword">import</span> argparse <span class="keyword">as</span> ap</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_argument</span><span class="params">(args)</span>:</span></span><br><span class="line">        parser = ap.ArgumentParser(description=<span class="string">'get tax miRNA fasta'</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-f'</span>, <span class="string">'--fa'</span>, metavar=<span class="string">'&lt;fasta&gt;'</span>, type=str,</span><br><span class="line">                help=<span class="string">'fasta'</span>, required=<span class="literal">True</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-t'</span>, <span class="string">'--tax'</span>, metavar=<span class="string">'&lt;tax&gt;'</span>, type=str,</span><br><span class="line">                 help=<span class="string">'taxonoy'</span>, required=<span class="literal">True</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-o'</span>, <span class="string">'--out'</span>, metavar=<span class="string">'&lt;output&gt;'</span>, type=str,</span><br><span class="line">                help=<span class="string">'output name'</span>, required=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> parser.parse_args()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_tax_fa</span><span class="params">(fasta, taxo, out)</span>:</span></span><br><span class="line">    out_f = open(out, <span class="string">'w'</span>)</span><br><span class="line">    <span class="keyword">with</span> open(fasta, <span class="string">"r"</span>) <span class="keyword">as</span> handle:</span><br><span class="line">        <span class="keyword">for</span> record <span class="keyword">in</span> SeqIO.parse(handle, <span class="string">"fasta"</span>):</span><br><span class="line">            <span class="keyword">if</span> re.findall(taxo, record.description):</span><br><span class="line">                record.description = record.id</span><br><span class="line">                record.seq = Seq(re.sub(<span class="string">'[uU]'</span>, <span class="string">"T"</span>, str(record.seq)))</span><br><span class="line">                SeqIO.write(record, out_f, <span class="string">'fasta'</span>)</span><br><span class="line">    out_f.close()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    args = parse_argument(sys.argv)</span><br><span class="line">    get_tax_fa(args.fa, args.tax, args.out)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>extract Musculus miRNA sequence</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python get_mus_fa.py -f mature.fa -t musculus -o Mus_mature.fa</span><br><span class="line">python get_mus_fa.py -f hairpin.fa -t musculus -o Mus_hairpin.fa</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="input-data"><a href="#input-data" class="headerlink" title="input data"></a>input data</h4><p><strong>miRNA.samples.path.tsv</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /01.rename/ -name <span class="string">"*.gz"</span> | grep <span class="string">"miRNA"</span> | perl -e <span class="string">'print"SampleID\tLaneID\tPath\n";while(&lt;&gt;)&#123;chomp; $name=(split("\/", $_))[-1]; $name1=$name; $name2=$name; $name1=~s/_miRNA.*//g; $name2=~s/.fq.gz//; print "$name1\t$name2\t$_\n";&#125;'</span> &gt; miRNA.samples.path.tsv</span><br></pre></td></tr></table></figure>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>SampleID</th>
+<th>LaneID</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TAC_NC01</td>
+<td>TAC_NC01_miRNA_b1</td>
+<td>01.rename/TAC_NC01_miRNA_b1.fq.gz</td>
+</tr>
+<tr>
+<td>TAC_NC03</td>
+<td>TAC_NC03_miRNA_novo</td>
+<td>01.rename/TAC_NC03_miRNA_novo.fq.gz</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>adater_miRNA.fa</strong> &amp; <strong>adapter_miRNA_novo.fa</strong></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;adapter_miRNA</span><br><span class="line">AACTGTAGGCACCATCAAT</span><br><span class="line">&gt;novo_miRNA</span><br><span class="line">AGATCGGAAGAG</span><br></pre></td></tr></table></figure>
+<h4 id="Quality-Scanning"><a href="#Quality-Scanning" class="headerlink" title="Quality Scanning"></a>Quality Scanning</h4><p>Raw data质控前应该都需要对其进行扫描，检查其状况（测序长度、碱基质量、接头序列、GC分布等等），fastqc软件提供了最简单最易用的命令。 <strong>batch_fqc.pl</strong> </p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> warnings;</span><br><span class="line"><span class="keyword">use</span> strict;</span><br><span class="line"><span class="keyword">use</span> Getopt::Long;</span><br><span class="line"><span class="comment">#use Cwd 'abs_path';</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#my $cwd = abs_path;</span></span><br><span class="line"><span class="keyword">my</span> ($file, $out, $help, $version);</span><br><span class="line">GetOptions(</span><br><span class="line">    <span class="string">"f|file:s"</span>       =&gt;  \$file,</span><br><span class="line">    <span class="string">"o|out:s"</span>        =&gt;  \$out,</span><br><span class="line">    <span class="string">"h|help:s"</span>       =&gt;  \$help,</span><br><span class="line">    <span class="string">"v|version"</span>      =&gt;  \$version</span><br><span class="line">);</span><br><span class="line">&amp;usage <span class="keyword">if</span>(!<span class="keyword">defined</span> $out);</span><br><span class="line"><span class="keyword">my</span> $out_name = (<span class="keyword">split</span>(<span class="string">".sh"</span>, $out))[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">my</span> $out_path = <span class="keyword">join</span>(<span class="string">"/"</span>, <span class="string">"./result"</span>, $out_name);</span><br><span class="line"><span class="keyword">system</span> <span class="string">"mkdir -p $out_path"</span> <span class="keyword">unless</span>(-d $out_path);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span>(IN1, $file) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $file"</span>;</span><br><span class="line"><span class="keyword">my</span> %file_name;</span><br><span class="line">&lt;IN1&gt;;</span><br><span class="line"><span class="keyword">while</span>(&lt;IN1&gt;)&#123;</span><br><span class="line">    <span class="keyword">chomp</span>;</span><br><span class="line">    <span class="keyword">my</span> @tmp = <span class="keyword">split</span>(<span class="string">"\t"</span>, $_);</span><br><span class="line">    $file_name&#123;$tmp[<span class="number">1</span>]&#125; = $tmp[<span class="number">2</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(IN1);</span><br><span class="line"></span><br><span class="line"><span class="keyword">my</span> ($fq);</span><br><span class="line"><span class="keyword">open</span>(OT, <span class="string">"&gt; $out"</span>) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $out\n"</span>;</span><br><span class="line"><span class="keyword">foreach</span> <span class="keyword">my</span> $key (<span class="keyword">keys</span> %file_name)&#123;</span><br><span class="line">    <span class="keyword">if</span>(-e $file_name&#123;$key&#125;)&#123;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"fastqc  -o $out_path --noextract -t 2 $file_name&#123;$key&#125;\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(OT);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">usage</span></span>&#123;</span><br><span class="line">        <span class="keyword">print</span> &lt;&lt;USAGE;</span><br><span class="line">usage:</span><br><span class="line">        perl $0 -f &lt;file&gt; -o &lt;out&gt;</span><br><span class="line">options:</span><br><span class="line">        -f|file          :[essential].</span><br><span class="line">        -o|out           :[essential].</span><br><span class="line"></span><br><span class="line">USAGE</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">version</span> </span>&#123;</span><br><span class="line">    <span class="keyword">print</span> &lt;&lt;VERSION;</span><br><span class="line">    version:    v1.<span class="number">3</span></span><br><span class="line">    update:     <span class="number">20200801</span> - <span class="number">20200831</span></span><br><span class="line">    author:     zouhua1\@outlook.com</span><br><span class="line">VERSION</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Generate fastqc shell </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">perl batch_fqc.pl -f miRNA.samples.path.tsv -o 01.fastqc.sh</span><br></pre></td></tr></table></figure>
+<h4 id="Remove-adapter-and-filter-low-quality-reads"><a href="#Remove-adapter-and-filter-low-quality-reads" class="headerlink" title="Remove adapter and filter low quality reads"></a>Remove adapter and filter low quality reads</h4><p>Raw data通常包含测序的接头序列，因此可以使用cutadapt去除接头，再使用trimmomatic去除低质量的序列，后者设置参数的时候需要注意<strong>LEADING:20 TRAILING:20 SLIDINGWINDOW:4:20 MINLEN:17</strong>。<strong>batch_trim.pl</strong></p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> warnings;</span><br><span class="line"><span class="keyword">use</span> strict;</span><br><span class="line"><span class="keyword">use</span> Getopt::Long;</span><br><span class="line"><span class="comment">#use Cwd 'abs_path';</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#my $cwd = abs_path;</span></span><br><span class="line"><span class="keyword">my</span> ($file, $out, $adapter, $adapter2, $help, $version);</span><br><span class="line">GetOptions(</span><br><span class="line">    <span class="string">"f|file:s"</span>       =&gt;  \$file,</span><br><span class="line">    <span class="string">"a|adapter:s"</span>    =&gt;  \$adapter,</span><br><span class="line">    <span class="string">"a2|adapter2:s"</span>  =&gt;  \$adapter2,</span><br><span class="line">    <span class="string">"o|out:s"</span>        =&gt;  \$out,</span><br><span class="line">    <span class="string">"h|help:s"</span>       =&gt;  \$help,</span><br><span class="line">    <span class="string">"v|version"</span>      =&gt;  \$version</span><br><span class="line">);</span><br><span class="line">&amp;usage <span class="keyword">if</span>(!<span class="keyword">defined</span> $out);</span><br><span class="line"><span class="keyword">my</span> $out_name = (<span class="keyword">split</span>(<span class="string">".sh"</span>, $out))[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">my</span> $out_path = <span class="keyword">join</span>(<span class="string">"/"</span>, <span class="string">"./result"</span>, $out_name);</span><br><span class="line"><span class="keyword">my</span> $out_path_trim = <span class="keyword">join</span>(<span class="string">"/"</span>, $out_path, <span class="string">"cutadapt"</span>);</span><br><span class="line"><span class="keyword">my</span> $out_path_filter = <span class="keyword">join</span>(<span class="string">"/"</span>, $out_path, <span class="string">"trimmomatic"</span>);</span><br><span class="line"><span class="keyword">system</span> <span class="string">"mkdir -p $out_path $out_path_trim $out_path_filter"</span> <span class="keyword">unless</span>(-d $out_path &amp;&amp; $out_path_trim &amp;&amp; $out_path_filter);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span>(IN1, $file) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $file"</span>;</span><br><span class="line"><span class="keyword">my</span> %file_name;</span><br><span class="line">&lt;IN1&gt;;</span><br><span class="line"><span class="keyword">while</span>(&lt;IN1&gt;)&#123;</span><br><span class="line">    <span class="keyword">chomp</span>;</span><br><span class="line">    <span class="keyword">my</span> @tmp = <span class="keyword">split</span>(<span class="string">"\t"</span>, $_);</span><br><span class="line">    $file_name&#123;$tmp[<span class="number">1</span>]&#125; = $tmp[<span class="number">2</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(IN1);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span>(OT, <span class="string">"&gt; $out"</span>) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $out\n"</span>;</span><br><span class="line"><span class="keyword">foreach</span> <span class="keyword">my</span> $key (<span class="keyword">keys</span> %file_name)&#123;</span><br><span class="line">    <span class="keyword">my</span> $new_key = $1 <span class="keyword">if</span> $key =~ <span class="regexp">/(\S+)\_miRNA/</span>;</span><br><span class="line">    <span class="comment">#print "$new_key\t$file_name&#123;$key&#125;\n";</span></span><br><span class="line">    <span class="keyword">my</span> $prefix_trim = <span class="keyword">join</span>(<span class="string">"/"</span>, $out_path_trim, $new_key);</span><br><span class="line">    <span class="keyword">my</span> $prefix_filter = <span class="keyword">join</span>(<span class="string">"/"</span>, $out_path_filter, $new_key);</span><br><span class="line">    <span class="keyword">if</span>(-e $file_name&#123;$key&#125;)&#123;</span><br><span class="line">        <span class="keyword">if</span>($key =~ <span class="regexp">/novo$/</span>)&#123;</span><br><span class="line">            <span class="keyword">print</span> OT <span class="string">"cutadapt -a $adapter2 --minimum-length=17 --maximum-length=35 -o $prefix_trim\.trimmed.fq $file_name&#123;$key&#125;\n"</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">print</span> OT <span class="string">"cutadapt -a $adapter --minimum-length=17 --maximum-length=35 -o $prefix_trim\.trimmed.fq $file_name&#123;$key&#125;\n"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"trimmomatic SE -threads 4 -phred33 $prefix_trim\.trimmed.fq $prefix_filter\.clean.fq LEADING:20 TRAILING:20 SLIDINGWINDOW:4:20 MINLEN:17\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"rm $prefix_trim\.trimmed.fq\ngzip $prefix_filter\.clean.fq\nrm $prefix_filter\.clean.fq\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(OT);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">usage</span></span>&#123;</span><br><span class="line">        <span class="keyword">print</span> &lt;&lt;USAGE;</span><br><span class="line">usage:</span><br><span class="line">        perl $0 -f &lt;file&gt; -o &lt;out&gt; -a &lt;adapter&gt; -a2 &lt;adapter2&gt;</span><br><span class="line">options:</span><br><span class="line">        -f|file       :[essential].</span><br><span class="line">        -o|out        :[essential].</span><br><span class="line">        -a|adapter    :[essential] adapter.</span><br><span class="line">        -a2|adapter2  :[essential] adapter2.</span><br><span class="line">USAGE</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">version</span> </span>&#123;</span><br><span class="line">    <span class="keyword">print</span> &lt;&lt;VERSION;</span><br><span class="line">    version:    v1.<span class="number">3</span></span><br><span class="line">    update:     <span class="number">20200801</span> - <span class="number">20200831</span></span><br><span class="line">    author:     zouhua1\@outlook.com</span><br><span class="line">VERSION</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>run the 2nd fastqc for trimmed data  <strong>batch_fqc_2nd.pl</strong></p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> warnings;</span><br><span class="line"><span class="keyword">use</span> strict;</span><br><span class="line"><span class="keyword">use</span> Getopt::Long;</span><br><span class="line"><span class="comment">#use Cwd 'abs_path';</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#my $cwd = abs_path;</span></span><br><span class="line"><span class="keyword">my</span> ($file, $out, $help, $version);</span><br><span class="line">GetOptions(</span><br><span class="line">    <span class="string">"f|file:s"</span>       =&gt;  \$file,</span><br><span class="line">    <span class="string">"o|out:s"</span>        =&gt;  \$out,</span><br><span class="line">    <span class="string">"h|help:s"</span>       =&gt;  \$help,</span><br><span class="line">    <span class="string">"v|version"</span>      =&gt;  \$version</span><br><span class="line">);</span><br><span class="line">&amp;usage <span class="keyword">if</span>(!<span class="keyword">defined</span> $out);</span><br><span class="line"><span class="keyword">my</span> $out_name = (<span class="keyword">split</span>(<span class="string">".sh"</span>, $out))[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">my</span> $out_path = <span class="keyword">join</span>(<span class="string">"/"</span>, <span class="string">"./result/02.trim/fastqc"</span>);</span><br><span class="line"><span class="keyword">system</span> <span class="string">"mkdir -p $out_path"</span> <span class="keyword">unless</span>(-d $out_path);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span>(IN1, $file) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $file"</span>;</span><br><span class="line"><span class="keyword">my</span> %file_name;</span><br><span class="line">&lt;IN1&gt;;</span><br><span class="line"><span class="keyword">while</span>(&lt;IN1&gt;)&#123;</span><br><span class="line">    <span class="keyword">chomp</span>;</span><br><span class="line">    <span class="keyword">my</span> @tmp = <span class="keyword">split</span>(<span class="string">"\t"</span>, $_);</span><br><span class="line">    $file_name&#123;$tmp[<span class="number">1</span>]&#125; = $tmp[<span class="number">2</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(IN1);</span><br><span class="line"></span><br><span class="line"><span class="keyword">my</span> ($fq);</span><br><span class="line"><span class="keyword">open</span>(OT, <span class="string">"&gt; $out"</span>) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $out\n"</span>;</span><br><span class="line"><span class="keyword">foreach</span> <span class="keyword">my</span> $key (<span class="keyword">keys</span> %file_name)&#123;</span><br><span class="line">    <span class="keyword">if</span>(-e $file_name&#123;$key&#125;)&#123;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"fastqc  -o $out_path --noextract -t 2 $file_name&#123;$key&#125;\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(OT);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">usage</span></span>&#123;</span><br><span class="line">        <span class="keyword">print</span> &lt;&lt;USAGE;</span><br><span class="line">usage:</span><br><span class="line">        perl $0 -f &lt;file&gt; -o &lt;out&gt;</span><br><span class="line">options:</span><br><span class="line">        -f|file          :[essential].</span><br><span class="line">        -o|out           :[essential].</span><br><span class="line"></span><br><span class="line">USAGE</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">version</span> </span>&#123;</span><br><span class="line">    <span class="keyword">print</span> &lt;&lt;VERSION;</span><br><span class="line">    version:    v1.<span class="number">3</span></span><br><span class="line">    update:     <span class="number">20200801</span> - <span class="number">20200831</span></span><br><span class="line">    author:     zouhua1\@outlook.com</span><br><span class="line">VERSION</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Generate trim shell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">perl batch_trim.pl -f miRNA.samples.path.tsv -a AACTGTAGGCACCATCAAT -a2 AGATCGGAAGAG -o 02.trim.sh</span><br><span class="line">rm miRNA.samples.path.tsv</span><br><span class="line">find /result/02.trim/trimmomatic/ -name <span class="string">"*.fq.gz"</span> | perl -e <span class="string">'print"SampleID\tLaneID\tPath\n";while(&lt;&gt;)&#123;chomp; $name=(split("\/", $_))[-1]; $name1=$name; $name2=$name; $name1=~s/.clean.*//g; $name2=~s/.fq.gz//; print "$name1\t$name2\t$_\n";&#125;'</span>  &gt; miRNA_clean.samples.path.tsv</span><br><span class="line">perl batch_fqc_2nd.pl -f miRNA_clean.samples.path.tsv -o 02.trim_fastqc.sh</span><br></pre></td></tr></table></figure>
+<h4 id="Convert-fastq-to-fasta"><a href="#Convert-fastq-to-fasta" class="headerlink" title="Convert fastq to fasta"></a>Convert fastq to fasta</h4><p>在blast核酸比对中，需要使用fasta格式且还需要替换fasta的title，使其符合mirdeep2的fasta title格式。也即是如下格式：</p>
+<p><strong>物种_顺序标签_x其他</strong></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">- </span>&gt;HISEQ:942:CCNTHANXX:1:1101:1181:2229 1:N:0:GAGTGGAT</span><br><span class="line"><span class="bullet">+ </span>&gt;mmu<span class="emphasis">_0_</span>x1418363</span><br><span class="line">TTGGTCCCCTTCAACCAGCT</span><br><span class="line"><span class="bullet">- </span>&gt;HISEQ:942:CCNTHANXX:1:1101:1391:2064 1:N:0:GAGTGGAT</span><br><span class="line"><span class="bullet">+ </span>&gt;mmu<span class="emphasis">_1418363_</span>x443357</span><br><span class="line">ATCACATTGCCAGGGATTTCC</span><br><span class="line"><span class="bullet">- </span>&gt;HISEQ:942:CCNTHANXX:1:1101:1261:2213 1:N:0:GAGTGGAT</span><br><span class="line"><span class="bullet">+ </span>&gt;mmu<span class="emphasis">_1861720_</span>x342003</span><br><span class="line">TGAGGTAGTAGATTGTATAGT</span><br></pre></td></tr></table></figure>
+<p>转换的perl脚本：<strong>batch_collapse.pl</strong></p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> warnings;</span><br><span class="line"><span class="keyword">use</span> strict;</span><br><span class="line"><span class="keyword">use</span> Getopt::Long;</span><br><span class="line"><span class="comment">#use Cwd 'abs_path';</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#my $cwd = abs_path;</span></span><br><span class="line"><span class="keyword">my</span> ($file, $out, $help, $version);</span><br><span class="line">GetOptions(</span><br><span class="line">    <span class="string">"f|file:s"</span>       =&gt;  \$file,</span><br><span class="line">    <span class="string">"o|out:s"</span>        =&gt;  \$out,</span><br><span class="line">    <span class="string">"h|help:s"</span>       =&gt;  \$help,</span><br><span class="line">    <span class="string">"v|version"</span>      =&gt;  \$version</span><br><span class="line">);</span><br><span class="line">&amp;usage <span class="keyword">if</span>(!<span class="keyword">defined</span> $out);</span><br><span class="line"><span class="keyword">my</span> $out_name = (<span class="keyword">split</span>(<span class="string">".sh"</span>, $out))[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">my</span> $out_path = <span class="keyword">join</span>(<span class="string">"/"</span>, <span class="string">"./result"</span>, $out_name);</span><br><span class="line"><span class="keyword">my</span> $out_path_fasta = <span class="keyword">join</span>(<span class="string">"/"</span>, $out_path, <span class="string">"fasta"</span>);</span><br><span class="line"><span class="keyword">my</span> $out_path_collapse = <span class="keyword">join</span>(<span class="string">"/"</span>, $out_path, <span class="string">"collapse"</span>);</span><br><span class="line"><span class="keyword">system</span> <span class="string">"mkdir -p $out_path $out_path_fasta $out_path_collapse"</span> <span class="keyword">unless</span>(-d $out_path &amp;&amp; $out_path_fasta &amp;&amp; $out_path_collapse);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span>(IN1, $file) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $file"</span>;</span><br><span class="line"><span class="keyword">my</span> %file_name;</span><br><span class="line">&lt;IN1&gt;;</span><br><span class="line"><span class="keyword">while</span>(&lt;IN1&gt;)&#123;</span><br><span class="line">    <span class="keyword">chomp</span>;</span><br><span class="line">    <span class="keyword">my</span> @tmp = <span class="keyword">split</span>(<span class="string">"\t"</span>, $_);</span><br><span class="line">    $file_name&#123;$tmp[<span class="number">1</span>]&#125; = $tmp[<span class="number">2</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(IN1);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span>(OT, <span class="string">"&gt; $out"</span>) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $out\n"</span>;</span><br><span class="line"><span class="keyword">foreach</span> <span class="keyword">my</span> $key (<span class="keyword">keys</span> %file_name)&#123;</span><br><span class="line">    <span class="keyword">my</span> $new_key = $1 <span class="keyword">if</span> $key =~ <span class="regexp">/(\S+)\.clean/</span>;</span><br><span class="line">    <span class="keyword">my</span> $prefix_fasta = <span class="keyword">join</span>(<span class="string">"/"</span>, $out_path_fasta, $new_key);</span><br><span class="line">    <span class="keyword">my</span> $prefix_collapse = <span class="keyword">join</span>(<span class="string">"/"</span>, $out_path_collapse, $new_key);</span><br><span class="line">    <span class="keyword">if</span>(-e $file_name&#123;$key&#125;)&#123;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"seqtk seq -a  $file_name&#123;$key&#125; &gt; $prefix_fasta\.fa\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"collapse_reads_md.pl $prefix_fasta\.fa mmu &gt; $prefix_collapse\.collapse\.fa\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(OT);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">usage</span></span>&#123;</span><br><span class="line">        <span class="keyword">print</span> &lt;&lt;USAGE;</span><br><span class="line">usage:</span><br><span class="line">        perl $0 -f &lt;file&gt; -o &lt;out&gt;</span><br><span class="line">options:</span><br><span class="line">        -f|file          :[essential].</span><br><span class="line">        -o|out           :[essential].</span><br><span class="line">USAGE</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">version</span> </span>&#123;</span><br><span class="line">    <span class="keyword">print</span> &lt;&lt;VERSION;</span><br><span class="line">    version:    v1.<span class="number">2</span></span><br><span class="line">    update:     <span class="number">20200801</span> - <span class="number">20200901</span></span><br><span class="line">    author:     zouhua1\@outlook.com</span><br><span class="line">VERSION</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Generate collapse shell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">perl batch_collapse.pl -f miRNA_clean.samples.path.tsv -o 03.collapse.sh</span><br><span class="line">rm miRNA_clean.samples.path.tsv</span><br></pre></td></tr></table></figure>
+<h4 id="Remove-ncRNA"><a href="#Remove-ncRNA" class="headerlink" title="Remove ncRNA"></a>Remove ncRNA</h4><p>miRNA测序过程可能包含了较多的非miRNA的ncRNA，比如rRNA, tRAN, sRNA和snRNA等，因此需要将其剔除掉，<strong>batch_blast.pl</strong></p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> warnings;</span><br><span class="line"><span class="keyword">use</span> strict;</span><br><span class="line"><span class="keyword">use</span> Getopt::Long;</span><br><span class="line"><span class="comment">#use Cwd 'abs_path';</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#my $cwd = abs_path;</span></span><br><span class="line"><span class="keyword">my</span> ($file, $out, $database, $help, $version);</span><br><span class="line">GetOptions(</span><br><span class="line">    <span class="string">"f|file:s"</span>       =&gt;  \$file,</span><br><span class="line">    <span class="string">"o|out:s"</span>        =&gt;  \$out,</span><br><span class="line">    <span class="string">"d|database:s"</span>   =&gt;  \$database,</span><br><span class="line">    <span class="string">"h|help:s"</span>       =&gt;  \$help,</span><br><span class="line">    <span class="string">"v|version"</span>      =&gt;  \$version</span><br><span class="line">);</span><br><span class="line">&amp;usage <span class="keyword">if</span>(!<span class="keyword">defined</span> $out);</span><br><span class="line"><span class="keyword">my</span> $out_name = (<span class="keyword">split</span>(<span class="string">".sh"</span>, $out))[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">my</span> $out_path = <span class="keyword">join</span>(<span class="string">"/"</span>, <span class="string">"./result"</span>, $out_name);</span><br><span class="line"><span class="keyword">system</span> <span class="string">"mkdir -p $out_path"</span> <span class="keyword">unless</span>(-d $out_path);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span>(IN1, $file) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $file"</span>;</span><br><span class="line"><span class="keyword">my</span> %file_name;</span><br><span class="line">&lt;IN1&gt;;</span><br><span class="line"><span class="keyword">while</span>(&lt;IN1&gt;)&#123;</span><br><span class="line">    <span class="keyword">chomp</span>;</span><br><span class="line">    <span class="keyword">my</span> @tmp = <span class="keyword">split</span>(<span class="string">"\t"</span>, $_);</span><br><span class="line">    $file_name&#123;$tmp[<span class="number">1</span>]&#125; = $tmp[<span class="number">2</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(IN1);</span><br><span class="line"></span><br><span class="line"><span class="comment"># RNA database</span></span><br><span class="line"><span class="keyword">my</span>($rRNA, $sRNA, $tRNA, $snRNA);</span><br><span class="line">$rRNA = <span class="keyword">join</span>(<span class="string">"/"</span>, $database, <span class="string">"rRNA_Rfam_Mus"</span>);</span><br><span class="line">$sRNA = <span class="keyword">join</span>(<span class="string">"/"</span>, $database, <span class="string">"sRNA_Rfam_Mus"</span>);</span><br><span class="line">$tRNA = <span class="keyword">join</span>(<span class="string">"/"</span>, $database, <span class="string">"tRNA_Rfam_Mus"</span>);</span><br><span class="line">$snRNA = <span class="keyword">join</span>(<span class="string">"/"</span>, $database, <span class="string">"snRNA_Rfam_Mus"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span>(OT, <span class="string">"&gt; $out"</span>) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $out\n"</span>;</span><br><span class="line"><span class="keyword">foreach</span> <span class="keyword">my</span> $key (<span class="keyword">keys</span> %file_name)&#123;</span><br><span class="line">    <span class="keyword">my</span> $prefix = <span class="keyword">join</span>(<span class="string">"/"</span>, $out_path, $key);</span><br><span class="line">    <span class="keyword">if</span>(-e $file_name&#123;$key&#125;)&#123;</span><br><span class="line">        <span class="keyword">my</span> $fa = <span class="keyword">join</span>(<span class="string">"."</span>, $prefix, <span class="string">"remained.fa"</span>);</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"blastn -task blastn-short -query $file_name&#123;$key&#125; -out $prefix\_rRNA.blast -db $rRNA -outfmt 6 -evalue 0.01 -num_threads 4\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"blastn -task blastn-short -query $file_name&#123;$key&#125; -out $prefix\_sRNA.blast -db $sRNA -outfmt 6 -evalue 0.01 -num_threads 4\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"blastn -task blastn-short -query $file_name&#123;$key&#125; -out $prefix\_tRNA.blast -db $tRNA -outfmt 6 -evalue 0.01 -num_threads 4\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"blastn -task blastn-short -query $file_name&#123;$key&#125; -out $prefix\_snRNA.blast -db $snRNA -outfmt 6 -evalue 0.01 -num_threads 4\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"cat $prefix\*.blast | awk \'&#123;print \$1&#125;\' | sort | uniq &gt; $prefix\.annotated_RNA.txt\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"sed -n \'/^&gt;/p\' $file_name&#123;$key&#125; | sed \'s/^&gt;//g\' | sort &gt; $prefix\.all_seq.txt\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"sort $prefix\.all_seq.txt $prefix\.annotated_RNA.txt $prefix\.annotated_RNA.txt | uniq -u &gt; $prefix\.unannotated_RNA.txt\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"python get_unannotated_fasta.py -f $file_name&#123;$key&#125; -d $prefix\.unannotated_RNA.txt -o $prefix\.remained.fa\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(OT);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">usage</span></span>&#123;</span><br><span class="line">        <span class="keyword">print</span> &lt;&lt;USAGE;</span><br><span class="line">usage:</span><br><span class="line">        perl $0 -f &lt;file&gt; -o &lt;out&gt;</span><br><span class="line">options:</span><br><span class="line">        -f|file              :[essential].</span><br><span class="line">        -o|out           :[essential].</span><br><span class="line">USAGE</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">version</span> </span>&#123;</span><br><span class="line">    <span class="keyword">print</span> &lt;&lt;VERSION;</span><br><span class="line">    version:    v1.<span class="number">2</span></span><br><span class="line">    update:     <span class="number">20200801</span> - <span class="number">20200901</span></span><br><span class="line">    author:     zouhua1\@outlook.com</span><br><span class="line">VERSION</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>提取unannotated fasta by using   <strong>get_unannotated_fasta.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> argparse <span class="keyword">as</span> ap</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_argument</span><span class="params">(args)</span>:</span></span><br><span class="line">        parser = ap.ArgumentParser(description=<span class="string">'make blast index of ncRNA in Mus musculus'</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-f'</span>, <span class="string">'--fasta'</span>, metavar=<span class="string">'&lt;fasta&gt;'</span>, type=str,</span><br><span class="line">                help=<span class="string">'fasta file'</span>, required=<span class="literal">True</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-d'</span>, <span class="string">'--id'</span>, metavar=<span class="string">'&lt;id&gt;'</span>, type=str,</span><br><span class="line">                 help=<span class="string">'idlist file'</span>, required=<span class="literal">True</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-o'</span>, <span class="string">'--out'</span>, metavar=<span class="string">'&lt;output&gt;'</span>, type=str,</span><br><span class="line">                help=<span class="string">'output prefix'</span>, required=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> parser.parse_args()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    args = parse_argument(sys.argv)</span><br><span class="line">    outf = open(args.out, <span class="string">'w'</span>)</span><br><span class="line">    dict = &#123;&#125;</span><br><span class="line">    <span class="keyword">with</span> open(args.fasta, <span class="string">'r'</span>) <span class="keyword">as</span> fastaf:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> fastaf:</span><br><span class="line">            <span class="keyword">if</span> line.startswith(<span class="string">'&gt;'</span>):</span><br><span class="line">                name = line.strip().split()[<span class="number">0</span>][<span class="number">1</span>:]</span><br><span class="line">                dict[name] = <span class="string">''</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dict[name] += line.replace(<span class="string">'\n'</span>,<span class="string">''</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> open(args.id,<span class="string">'r'</span>) <span class="keyword">as</span> listf:</span><br><span class="line">        <span class="keyword">for</span> row <span class="keyword">in</span> listf:</span><br><span class="line">            row = row.strip()</span><br><span class="line">            <span class="keyword">for</span> key <span class="keyword">in</span> dict.keys():</span><br><span class="line">                <span class="keyword">if</span> key == row:</span><br><span class="line">                    outf.write(<span class="string">'&gt;'</span> + key+ <span class="string">'\n'</span>)</span><br><span class="line">                    outf.write(dict[key] + <span class="string">'\n'</span>)</span><br><span class="line">    outf.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">        main()</span><br></pre></td></tr></table></figure>
+<p>Generate blast shell </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find /result/03.collapse/collapse/ -name <span class="string">"*.fa"</span> | perl -e <span class="string">'print"SampleID\tLaneID\tPath\n";while(&lt;&gt;)&#123;chomp; $name=(split("\/", $_))[-1]; $name1=$name; $name1 =~ s/\.collapse\.fa//; print "$name1\t$name1\t$_\n";&#125;'</span> &gt; miRNA_collapse.samples.path.tsv</span><br><span class="line">perl batch_blast.pl -f miRNA_collapse.samples.path.tsv -d /disk/share/database/Mus_Rfam_ncRNA/blast_index -o 04.blast.sh</span><br><span class="line">rm miRNA_collapse.samples.path.tsv</span><br></pre></td></tr></table></figure>
+<h4 id="Remove-miRNA-in-exon"><a href="#Remove-miRNA-in-exon" class="headerlink" title="Remove miRNA in exon"></a>Remove miRNA in exon</h4><p>大部分miRNA是位于内含子区域，但上述得到的序列可能存在外显子区域，因此将上一步过滤得到的fasta文件先比对到exon参考序列，如果无法比对上则直接保留，否则继续比对到intro序列，比对上则保留，无法比对上则丢弃。<strong>batch_mapped_intron.pl</strong></p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> warnings;</span><br><span class="line"><span class="keyword">use</span> strict;</span><br><span class="line"><span class="keyword">use</span> Getopt::Long;</span><br><span class="line"><span class="comment">#use Cwd 'abs_path';</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#my $cwd = abs_path;</span></span><br><span class="line"><span class="keyword">my</span> ($file, $out, $database, $help, $version);</span><br><span class="line">GetOptions(</span><br><span class="line">    <span class="string">"f|file:s"</span>       =&gt;  \$file,</span><br><span class="line">    <span class="string">"o|out:s"</span>        =&gt;  \$out,</span><br><span class="line">    <span class="string">"d|database:s"</span>   =&gt;  \$database,</span><br><span class="line">    <span class="string">"h|help:s"</span>       =&gt;  \$help,</span><br><span class="line">    <span class="string">"v|version"</span>      =&gt;  \$version</span><br><span class="line">);</span><br><span class="line">&amp;usage <span class="keyword">if</span>(!<span class="keyword">defined</span> $out);</span><br><span class="line"><span class="keyword">my</span> $out_name = (<span class="keyword">split</span>(<span class="string">".sh"</span>, $out))[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">my</span> $out_path = <span class="keyword">join</span>(<span class="string">"/"</span>, <span class="string">"./result"</span>, $out_name);</span><br><span class="line"><span class="keyword">system</span> <span class="string">"mkdir -p $out_path"</span> <span class="keyword">unless</span>(-d $out_path);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span>(IN1, $file) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $file"</span>;</span><br><span class="line"><span class="keyword">my</span> %file_name;</span><br><span class="line">&lt;IN1&gt;;</span><br><span class="line"><span class="keyword">while</span>(&lt;IN1&gt;)&#123;</span><br><span class="line">    <span class="keyword">chomp</span>;</span><br><span class="line">    <span class="keyword">my</span> @tmp = <span class="keyword">split</span>(<span class="string">"\t"</span>, $_);</span><br><span class="line">    $file_name&#123;$tmp[<span class="number">1</span>]&#125; = $tmp[<span class="number">2</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(IN1);</span><br><span class="line"></span><br><span class="line"><span class="comment"># database</span></span><br><span class="line"><span class="keyword">my</span>($exon, $intron);</span><br><span class="line">$exon   = <span class="keyword">join</span>(<span class="string">"/"</span>, $database, <span class="string">"Musculus_exon"</span>);</span><br><span class="line">$intron = <span class="keyword">join</span>(<span class="string">"/"</span>, $database, <span class="string">"Musculus_intron"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span>(OT, <span class="string">"&gt; $out"</span>) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $out\n"</span>;</span><br><span class="line"><span class="keyword">foreach</span> <span class="keyword">my</span> $key (<span class="keyword">keys</span> %file_name)&#123;</span><br><span class="line">    <span class="keyword">my</span> $prefix = <span class="keyword">join</span>(<span class="string">"/"</span>, $out_path, $key);</span><br><span class="line">    <span class="keyword">if</span>(-e $file_name&#123;$key&#125;)&#123;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"bowtie -S -f -a -v 1 --best --strata -m 20 -p 2 --al $prefix\_for\_intron.fa --un $prefix\_no\_exon.fa -x $exon $file_name&#123;$key&#125; $prefix\_exon\_alignment.sam\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"rm $prefix\_exon\_alignment.sam\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"bowtie -S -f -a -v 1 --best --strata -m 20 -p 2 --al $prefix\_intron\_positive.fa -x $intron $prefix\_for\_intron.fa $prefix\_intron\_alignment.sam\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"rm $prefix\_intron\_alignment.sam\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"rm $prefix\_for\_intron.fa\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"cat $prefix\_no\_exon.fa $prefix\_intron\_positive.fa &gt; $prefix\_exonintron\_filtered.fa\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"rm $prefix\_no\_exon.fa\n"</span>;</span><br><span class="line">        <span class="keyword">print</span> OT <span class="string">"rm $prefix\_intron\_positive.fa\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(OT);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">usage</span></span>&#123;</span><br><span class="line">        <span class="keyword">print</span> &lt;&lt;USAGE;</span><br><span class="line">usage:</span><br><span class="line">        perl $0 -f &lt;file&gt; -o &lt;out&gt;</span><br><span class="line">options:</span><br><span class="line">        -f|file          :[essential].</span><br><span class="line">        -o|out           :[essential].</span><br><span class="line">        -d|database      :[essential].</span><br><span class="line">USAGE</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">version</span> </span>&#123;</span><br><span class="line">    <span class="keyword">print</span> &lt;&lt;VERSION;</span><br><span class="line">    version:    v1.<span class="number">2</span></span><br><span class="line">    update:     <span class="number">20200801</span> - <span class="number">20200901</span></span><br><span class="line">    author:     zouhua1\@outlook.com</span><br><span class="line">VERSION</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>generate mapping shell </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find /result/04.blast/ -name <span class="string">"*.fa"</span> | perl -e <span class="string">'print"SampleID\tLaneID\tPath\n";while(&lt;&gt;)&#123;chomp; $name=(split("\/", $_))[-1]; $name1=$name; $name1 =~ s/\.remained\.fa//; print "$name1\t$name1\t$_\n";&#125;'</span> &gt; miRNA_remained.samples.path.tsv</span><br><span class="line">perl batch_mapped_intron.pl -f miRNA_remained.samples.path.tsv -d /disk/share/database/Musculus_UCSC/bowtie_index -o 05.exon_intron.sh</span><br><span class="line">rm miRNA_remained.samples.path.tsv</span><br></pre></td></tr></table></figure>
+<h4 id="Discover-known-and-novel-miRNA"><a href="#Discover-known-and-novel-miRNA" class="headerlink" title="Discover known and novel miRNA"></a>Discover known and novel miRNA</h4><p>这一步分成两个步骤，先使用mapper.pl将reads比对到它们的参考基因组上，再利用其生成的arf文件作为miRDeep2.pl的输入文件识别miRNA。<strong>batch_mirdeep2.pl</strong></p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> warnings;</span><br><span class="line"><span class="keyword">use</span> strict;</span><br><span class="line"><span class="keyword">use</span> Getopt::Long;</span><br><span class="line"><span class="comment">#use Cwd 'abs_path';</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#my $cwd = abs_path;</span></span><br><span class="line"><span class="keyword">my</span> ($file, $out, $database, $fasta, $mirbase, $help, $version);</span><br><span class="line">GetOptions(</span><br><span class="line">    <span class="string">"f|file:s"</span>       =&gt;  \$file,</span><br><span class="line">    <span class="string">"o|out:s"</span>        =&gt;  \$out,</span><br><span class="line">    <span class="string">"d|database:s"</span>   =&gt;  \$database,</span><br><span class="line">    <span class="string">"fa|fasta:s"</span>     =&gt;  \$fasta,</span><br><span class="line">    <span class="string">"m|mirbase:s"</span>    =&gt;  \$mirbase,</span><br><span class="line">    <span class="string">"h|help:s"</span>       =&gt;  \$help,</span><br><span class="line">    <span class="string">"v|version"</span>      =&gt;  \$version</span><br><span class="line">);</span><br><span class="line">&amp;usage <span class="keyword">if</span>(!<span class="keyword">defined</span> $out);</span><br><span class="line"><span class="keyword">my</span> $out_name = (<span class="keyword">split</span>(<span class="string">".sh"</span>, $out))[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">my</span> $out_path = <span class="keyword">join</span>(<span class="string">"/"</span>, <span class="string">"./result"</span>, $out_name);</span><br><span class="line"><span class="keyword">system</span> <span class="string">"mkdir -p $out_path"</span> <span class="keyword">unless</span>(-d $out_path);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span>(IN1, $file) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $file"</span>;</span><br><span class="line"><span class="keyword">my</span> %file_name;</span><br><span class="line">&lt;IN1&gt;;</span><br><span class="line"><span class="keyword">while</span>(&lt;IN1&gt;)&#123;</span><br><span class="line">    <span class="keyword">chomp</span>;</span><br><span class="line">    <span class="keyword">my</span> @tmp = <span class="keyword">split</span>(<span class="string">"\t"</span>, $_);</span><br><span class="line">    <span class="comment"># change sampleID for the regulation of sanity_check_reads_ready_file.pl (identifier must be three letters)</span></span><br><span class="line">    <span class="comment"># TAC01-&gt;TAC10  =&gt; T01-&gt;T10</span></span><br><span class="line">    <span class="comment"># TAC_NC01-&gt;TAC_NC10 =&gt; N01-&gt;N10</span></span><br><span class="line">    <span class="comment"># HF01-&gt;HF08 =&gt; H01-&gt;H08</span></span><br><span class="line">    <span class="comment"># HF_NC01-&gt;HF_NC05 =&gt; C01-&gt;C05</span></span><br><span class="line">    <span class="keyword">if</span>($tmp[<span class="number">1</span>] =~ <span class="regexp">/^TAC\d+/</span>)&#123;</span><br><span class="line">        $tmp[<span class="number">1</span>] =~ <span class="regexp">s/AC//g</span>;</span><br><span class="line">    &#125;<span class="keyword">elsif</span>($tmp[<span class="number">1</span>] =~ <span class="regexp">/^TAC\_NC/</span>)&#123;</span><br><span class="line">        $tmp[<span class="number">1</span>] =~ <span class="regexp">s/TAC\_//g</span>;</span><br><span class="line">        $tmp[<span class="number">1</span>] =~ <span class="regexp">s/C//g</span>;</span><br><span class="line">    &#125;<span class="keyword">elsif</span>($tmp[<span class="number">1</span>] =~ <span class="regexp">/^HF\d+/</span>)&#123;</span><br><span class="line">        $tmp[<span class="number">1</span>] =~ <span class="regexp">s/F//g</span>;</span><br><span class="line">    &#125;<span class="keyword">elsif</span>($tmp[<span class="number">1</span>] =~ <span class="regexp">/^HF\_NC/</span>)&#123;</span><br><span class="line">        $tmp[<span class="number">1</span>] =~ <span class="regexp">s/HF\_N//g</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"$tmp[1]\n"</span>;</span><br><span class="line">    $file_name&#123;$tmp[<span class="number">1</span>]&#125; = $tmp[<span class="number">2</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(IN1);</span><br><span class="line"></span><br><span class="line"><span class="comment"># database</span></span><br><span class="line"><span class="keyword">my</span> $genome = <span class="keyword">join</span>(<span class="string">"/"</span>, $database, <span class="string">"Mus_musculus.GRCm38"</span>);</span><br><span class="line"><span class="keyword">my</span> $mature = <span class="keyword">join</span>(<span class="string">"/"</span>, $mirbase, <span class="string">"Mus_mature.fa"</span>);</span><br><span class="line"><span class="keyword">my</span> $hairpin = <span class="keyword">join</span>(<span class="string">"/"</span>, $mirbase, <span class="string">"Mus_hairpin.fa"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">my</span> $all_fa = <span class="keyword">join</span>(<span class="string">"/"</span>, $out_path, <span class="string">"all_samples.fa"</span>);</span><br><span class="line"><span class="keyword">open</span>(OT, <span class="string">"&gt; $all_fa"</span>) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"$! $all_fa\n"</span>;</span><br><span class="line"><span class="keyword">foreach</span> <span class="keyword">my</span> $key (<span class="keyword">keys</span> %file_name)&#123;</span><br><span class="line">    <span class="comment">#my $prefix = join("/", $out_path, $key);</span></span><br><span class="line">    <span class="comment">#my $new_key = join("", split("\_", $key));</span></span><br><span class="line">    <span class="keyword">if</span>(-e $file_name&#123;$key&#125;)&#123;</span><br><span class="line">        <span class="comment"># merge all fa into onfile</span></span><br><span class="line">        <span class="keyword">open</span>(IN2, $file_name&#123;$key&#125;) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $file_name&#123;$key&#125;\n"</span>;</span><br><span class="line">        <span class="keyword">while</span>(&lt;IN2&gt;)&#123;</span><br><span class="line">            <span class="keyword">chomp</span>;</span><br><span class="line">            <span class="keyword">if</span>($_ =~ <span class="regexp">/^&gt;/</span>)&#123;</span><br><span class="line">                $_ =~ <span class="regexp">s/mmu/$key/</span>;</span><br><span class="line">                <span class="keyword">print</span> OT <span class="string">"$_\n"</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">print</span> OT <span class="string">"$_\n"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(OT);</span><br><span class="line"><span class="keyword">open</span>(OT2, <span class="string">"&gt; $out"</span>) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"can't open $out\n"</span>;</span><br><span class="line"><span class="keyword">if</span>(-e $all_fa)&#123;</span><br><span class="line">    <span class="keyword">print</span> OT2 <span class="string">"mapper.pl $all_fa -v -u -c -l 17 -r 10 -n -q -p $genome -t $out_path\/all\_aligned\.arf\n"</span>;</span><br><span class="line">    <span class="keyword">print</span> OT2 <span class="string">"miRDeep2.pl $all_fa $fasta $out_path\/all\_aligned\.arf $mature none $hairpin -t Mouse -P\n"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">close</span>(OT2);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">usage</span></span>&#123;</span><br><span class="line">        <span class="keyword">print</span> &lt;&lt;USAGE;</span><br><span class="line">usage:</span><br><span class="line">        perl $0 -f &lt;file&gt; -o &lt;out&gt; -d &lt;database&gt; -fa &lt;primary fasta&gt; -<span class="keyword">m</span> &lt;mirbase&gt;</span><br><span class="line">options:</span><br><span class="line">        -f|file          :[essential].</span><br><span class="line">        -o|out           :[essential].</span><br><span class="line">        -d|database      :[essential].</span><br><span class="line">        -fa|fasta        :[essential].</span><br><span class="line">        -<span class="keyword">m</span>|mirbase       :[essential].</span><br><span class="line">USAGE</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">version</span> </span>&#123;</span><br><span class="line">    <span class="keyword">print</span> &lt;&lt;VERSION;</span><br><span class="line">    version:    v1.<span class="number">2</span></span><br><span class="line">    update:     <span class="number">20200801</span> - <span class="number">20200901</span></span><br><span class="line">    author:     zouhua1\@outlook.com</span><br><span class="line">VERSION</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>generate mirdeept2 shell </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find /result/05.exon_intron/ -name <span class="string">"*.fa"</span> | perl -e <span class="string">'print"SampleID\tLaneID\tPath\n";while(&lt;&gt;)&#123;chomp; $name=(split("\/", $_))[-1]; $name1=$name; $name1 =~ s/\_exonintron\_filtered\.fa//; print "$name1\t$name1\t$_\n";&#125;'</span> &gt; miRNA_exon.samples.path.tsv</span><br><span class="line">perl batch_mirdeep2.pl -f miRNA_exon.samples.path.tsv -d /disk/share/database/Mus_musculus.GRCm38_release100/bowtie_remove_whitespace_index -fa /disk/share/database/Mus_musculus.GRCm38_release100/Mus_musculus.GRCm38.dna_sm.primary_assembly_remove_whitespace.fa -m /disk/share/database/mirbase -o 06.mirdeep2.sh</span><br><span class="line">rm miRNA_exon.samples.path.tsv</span><br></pre></td></tr></table></figure>
+<p>最后批量运行该脚本后，发现生成的结果文件会在运行脚本的当前目录，因此需要使用mv讲结果移至指定输出目录。</p>
+<h4 id="get-miRNA-expression-matrix"><a href="#get-miRNA-expression-matrix" class="headerlink" title="get miRNA expression matrix"></a>get miRNA expression matrix</h4><p>提取miRNA的表达值 <strong>get_profile.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="keyword">import</span> sys, os, re</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> argparse <span class="keyword">as</span> ap</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_argument</span><span class="params">(args)</span>:</span></span><br><span class="line">        parser = ap.ArgumentParser(description=<span class="string">'get profile and rename the colnames'</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-p'</span>, <span class="string">'--prof'</span>, metavar=<span class="string">'&lt;profile&gt;'</span>, type=str,</span><br><span class="line">                help=<span class="string">'miRNA expression profile'</span>, required=<span class="literal">True</span>)</span><br><span class="line">        parser.add_argument(</span><br><span class="line">                <span class="string">'-o'</span>, <span class="string">'--out'</span>, metavar=<span class="string">'&lt;output&gt;'</span>, type=str,</span><br><span class="line">                help=<span class="string">'output directory'</span>, required=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">return</span> parser.parse_args()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_profile</span><span class="params">(infile)</span>:</span></span><br><span class="line">    profile = pd.read_table(infile)</span><br><span class="line">    profile = profile.rename(columns = &#123;<span class="string">'#miRNA'</span> : <span class="string">'miRNA'</span>&#125;)</span><br><span class="line">    prf = profile.rename(columns = <span class="keyword">lambda</span> x: re.sub(<span class="string">r'^H'</span>, <span class="string">"HF"</span>, x))</span><br><span class="line">    prf = prf.rename(columns = <span class="keyword">lambda</span> x: re.sub(<span class="string">r'^C'</span>, <span class="string">"HF_NC"</span>, x))</span><br><span class="line">    prf = prf.rename(columns = <span class="keyword">lambda</span> x: re.sub(<span class="string">r'^T'</span>, <span class="string">"TAC"</span>, x))</span><br><span class="line">    prf = prf.rename(columns = <span class="keyword">lambda</span> x: re.sub(<span class="string">r'^N'</span>, <span class="string">"TAC_NC"</span>, x))</span><br><span class="line">    <span class="keyword">return</span> prf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_norm_profile</span><span class="params">(infile, output)</span>:</span></span><br><span class="line">    file_name = os.path.join(output, <span class="string">"miRNA_norm_profile.tsv"</span>)</span><br><span class="line">    dat = get_profile(infile)</span><br><span class="line"></span><br><span class="line">    norm_colnames_list = [x <span class="keyword">for</span> x <span class="keyword">in</span> dat.columns <span class="keyword">if</span> re.findall(<span class="string">r'norm'</span>, x)]</span><br><span class="line">    norm_colnames_list.append(<span class="string">'miRNA'</span>)</span><br><span class="line">    norm_colnames_list.append(<span class="string">'precursor'</span>)</span><br><span class="line">    dat_norm = dat[norm_colnames_list]</span><br><span class="line">    dat_norm = dat_norm.rename(columns = <span class="keyword">lambda</span> x: re.sub(<span class="string">r'\(norm\)$'</span>, <span class="string">''</span>, x))</span><br><span class="line">    dat_norm.index = dat_norm.miRNA</span><br><span class="line">    <span class="keyword">del</span> dat_norm[<span class="string">'miRNA'</span>]</span><br><span class="line">    dat_norm.to_csv(file_name, sep=<span class="string">'\t'</span>, encoding = <span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_count_profile</span><span class="params">(infile, output)</span>:</span></span><br><span class="line">    file_name = os.path.join(output, <span class="string">"miRNA_count_profile.tsv"</span>)</span><br><span class="line">    dat = get_profile(infile)</span><br><span class="line">    count_colnames_list = [x <span class="keyword">for</span> x <span class="keyword">in</span> dat.columns <span class="keyword">if</span> <span class="keyword">not</span> re.findall(<span class="string">r'norm'</span>, x)]</span><br><span class="line">    dat_count = dat[count_colnames_list]</span><br><span class="line">    dat_count.index = dat_count.miRNA</span><br><span class="line">    dat_count_drop = dat_count.drop([<span class="string">'read_count'</span>, <span class="string">'total'</span>, <span class="string">'miRNA'</span>], axis=<span class="number">1</span>)</span><br><span class="line">    dat_count_drop.to_csv(file_name, sep=<span class="string">'\t'</span>, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    args = parse_argument(sys.argv)</span><br><span class="line">    get_norm_profile(args.prof, args.out)</span><br><span class="line">    get_count_profile(args.prof, args.out)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">        main()</span><br></pre></td></tr></table></figure>
+<p>run script </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python get_profile.py -p ./result/06.mirdeep2/miRNAs_expressed_all_samples_03_09_2020_t_10_55_13.csv -o ./result/06.mirdeep2/</span><br><span class="line"></span><br><span class="line">ln -s result/06.mirdeep2/miRNA_count_profile.tsv</span><br><span class="line">ln -s result/06.mirdeep2/miRNA_norm_profile.tsv</span><br></pre></td></tr></table></figure>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
+<li><a href="https://blog.csdn.net/weixin_30300225/article/details/102212950" target="_blank" rel="noopener external nofollow noreferrer">miRNA基础知识</a></li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>-------- 本文结束 </span>
+      <i class="fa fa-paw"></i>
+      <span> 感谢阅读 --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+
+        <div class="reward-container">
+  <div>赞赏一瓶优酸乳</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zouhua.top/archives/51fdc39d.html" title="A full workflow of miRNA-seq pipeline">https://zouhua.top/archives/51fdc39d.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/miRNA/" rel="tag"><i class="fa fa-tags"></i> miRNA</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/535ec7e6.html" rel="prev" title="生信服务器的搭建之旅">
+      <i class="fa fa-chevron-left"></i> 生信服务器的搭建之旅
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/365b09c8.html" rel="next" title="RNA-seq pipeline through kallisto or salmon">
+      RNA-seq pipeline through kallisto or salmon <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#A-full-workflow-of-miRNA-seq-pipeline"><span class="nav-number">1.</span> <span class="nav-text">A full workflow of miRNA-seq pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#install-software"><span class="nav-number">1.1.</span> <span class="nav-text">install software</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RNA-data"><span class="nav-number">1.2.</span> <span class="nav-text">RNA data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pipeline"><span class="nav-number">1.3.</span> <span class="nav-text">pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Download-reference-and-curate-the-data"><span class="nav-number">1.3.1.</span> <span class="nav-text">Download reference and curate the data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#input-data"><span class="nav-number">1.3.2.</span> <span class="nav-text">input data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Quality-Scanning"><span class="nav-number">1.3.3.</span> <span class="nav-text">Quality Scanning</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Remove-adapter-and-filter-low-quality-reads"><span class="nav-number">1.3.4.</span> <span class="nav-text">Remove adapter and filter low quality reads</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Convert-fastq-to-fasta"><span class="nav-number">1.3.5.</span> <span class="nav-text">Convert fastq to fasta</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Remove-ncRNA"><span class="nav-number">1.3.6.</span> <span class="nav-text">Remove ncRNA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Remove-miRNA-in-exon"><span class="nav-number">1.3.7.</span> <span class="nav-text">Remove miRNA in exon</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Discover-known-and-novel-miRNA"><span class="nav-number">1.3.8.</span> <span class="nav-text">Discover known and novel miRNA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#get-miRNA-expression-matrix"><span class="nav-number">1.3.9.</span> <span class="nav-text">get miRNA expression matrix</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">1.4.</span> <span class="nav-text">引用</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">110</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">81</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  近期文章
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">842k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:46</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button" onclick="moonMenuClick()">
+    <svg class="moon-menu-svg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+      <g class="moon-menu-points">
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
+        <circle class="moon-menu-point" r=".2rem"></circle>
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
+      </g>
+    </svg>
+    <div class="moon-menu-icon">
+    </div>
+    <div class="moon-menu-text">
+    </div>
+  </div>
+</div>
+<script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>

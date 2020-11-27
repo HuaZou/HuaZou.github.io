@@ -28,13 +28,13 @@
 <meta property="og:site_name" content="Hua&#39;s Cabin">
 <meta property="og:description" content="非参数统计又称为秩转换的非参数检验或者秩和检验： 对总体分布不做严格假定，也不对总体参数进行统计推断，而是直接对总体分布的位置进行假设检验。由于这类方法不受总体参数的限制，故称非参数检验，又称任意分布检验（distribution-free test）。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zouhua.top/images/statistics18.png">
+<meta property="og:image" content="https://zouhua.top/images/Math_statistics_06/Math_statistics_06_01.png">
 <meta property="article:published_time" content="2020-03-31T16:00:00.000Z">
 <meta property="article:modified_time" content="2020-04-01T16:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
 <meta property="article:tag" content="假设检验">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zouhua.top/images/statistics18.png">
+<meta name="twitter:image" content="https://zouhua.top/images/Math_statistics_06/Math_statistics_06_01.png">
 
 <link rel="canonical" href="https://zouhua.top/archives/d451ba8f.html">
 
@@ -148,17 +148,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -261,7 +261,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Math/%E7%BB%9F%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">统计</span></a>
+                  <a href="/categories/Math/Statistics/" itemprop="url" rel="index"><span itemprop="name">Statistics</span></a>
                 </span>
             </span>
 
@@ -526,14 +526,13 @@
 <h4 id="R代码-6"><a href="#R代码-6" class="headerlink" title="R代码"></a>R代码</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">Input =(<span class="string">"</span></span><br><span class="line"><span class="string"> Instructor        Rater  Likert</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        a      4</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        b      5</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        c      4</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        d      6</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        e      6</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        f      6</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        g     10</span></span><br><span class="line"><span class="string"> 'Bob Belcher'        h      6</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      a      8</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      b      6</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      c      8</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      d      8</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      e      8</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      f      7</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      g     10</span></span><br><span class="line"><span class="string"> 'Linda Belcher'      h      9</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       a      7</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       b      5</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       c      7</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       d      8</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       e      8</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       f      9</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       g     10</span></span><br><span class="line"><span class="string"> 'Tina Belcher'       h      9</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       a      6</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       b      4</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       c      5</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       d      5</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       e      6</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       f      6</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       g      5</span></span><br><span class="line"><span class="string"> 'Gene Belcher'       h      5</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     a      8</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     b      7</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     c      8</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     d      8</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     e      9</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     f      9</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     g      8</span></span><br><span class="line"><span class="string"> 'Louise Belcher'     h     10            </span></span><br><span class="line"><span class="string">"</span>)</span><br><span class="line">Data = read.table(textConnection(Input),header=<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### Order levels of the factor; otherwise R will alphabetize them</span></span><br><span class="line">Data$Instructor = factor(Data$Instructor,</span><br><span class="line">                      levels=unique(Data$Instructor))</span><br><span class="line">friedman.test(Likert ~ Instructor | Rater, data = Data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Post-hoc test: pairwise sign test for multiple comparisons of groups</span></span><br><span class="line">Data$Instructor = factor(Data$Instructor,</span><br><span class="line">                   levels = c(<span class="string">"Linda Belcher"</span>, <span class="string">"Louise Belcher"</span>,</span><br><span class="line">                              <span class="string">"Tina Belcher"</span>, <span class="string">"Bob Belcher"</span>,</span><br><span class="line">                              <span class="string">"Gene Belcher"</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">### Pairwise sign tests</span></span><br><span class="line"><span class="keyword">library</span>(rcompanion)</span><br><span class="line">PT = pairwiseSignTest(Likert ~ Instructor,</span><br><span class="line">                      data   = Data,</span><br><span class="line">                      method = <span class="string">"fdr"</span>)</span><br><span class="line"><span class="comment">### Conover test</span></span><br><span class="line"><span class="keyword">library</span>(PMCMR)</span><br><span class="line">PT = posthoc.friedman.conover.test(y      = Data$Likert,</span><br><span class="line">                                   groups = Data$Instructor,</span><br><span class="line">                                   blocks = Data$Rater,</span><br><span class="line">                                   p.adjust.method=<span class="string">"fdr"</span>)</span><br></pre></td></tr></table></figure>
 <h4 id="类似检验"><a href="#类似检验" class="headerlink" title="类似检验"></a>类似检验</h4><p><strong>Quade test</strong> 与<strong>Friedman test</strong>类似，但它可能更适合等级数据，可以作为<strong>Friedman test</strong>的备选。差异在于使用不同的分布，因此其统计量不同。前者是F分布，后者是卡方分布。</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">quade.test(Likert ~ Instructor | Rater, data = Data)</span><br></pre></td></tr></table></figure>
-<p><img src="/images/statistics18.png" alt=""></p>
+<p><img src="/images/Math_statistics_06/Math_statistics_06_01.png" alt=""></p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol>
 <li><a href="https://rcompanion.org/handbook/F_01.html" target="_blank" rel="noopener external nofollow noreferrer">Traditional Nonparametric Tests</a></li>
 <li><a href="http://rvdsd.top/2018/06/23/BioStatistics/生物统计-06非参数检验/" target="_blank" rel="noopener external nofollow noreferrer">非参数检验笔记</a></li>
 <li><a href="http://cc.shutcm.edu.cn/G2S/eWebEditor/uploadfile/20150301150144726.pdf" target="_blank" rel="noopener external nofollow noreferrer">秩和检验</a></li>
 <li><a href="https://rcompanion.org/handbook/E_01.html" target="_blank" rel="noopener external nofollow noreferrer">Likert data</a></li>
 </ol>
-<p>​    </p>
 <p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
     </div>
@@ -560,7 +559,13 @@
   <div class="popular-posts-header">相关文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/d4c96916.html" rel="bookmark">Mantel test: 检验两距离矩阵的相关性</a></div>
+    </li>
+    <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/archives/ae974f5.html" rel="bookmark">参数统计（parametric statistics）</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/5b2073a5.html" rel="bookmark">假设检验</a></div>
     </li>
   </ul>
 
@@ -695,20 +700,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -747,23 +752,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
 				</li>
 			  
 			</ul>
@@ -1064,13 +1069,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">500k</span>
+    <span title="站点总字数">842k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:34</span>
+    <span title="站点阅读时长">12:46</span>
 </div>
 
 <div id="days"></div>

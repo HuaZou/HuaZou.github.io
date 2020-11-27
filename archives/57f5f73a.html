@@ -28,18 +28,18 @@
 <meta property="og:site_name" content="Hua&#39;s Cabin">
 <meta property="og:description" content="R语言常用于图形可视化和统计假设检验分析。在分析的过程中，积累了较多常用的R代码，因此将常用的R代码改写成R函数，并打包成R包是一件必要的事情。随着越来越多的函数添加，R包和本博客会不断的更新。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zouhua.top/images/R.package1.png">
-<meta property="og:image" content="https://zouhua.top/images/R.package2.png">
-<meta property="og:image" content="https://zouhua.top/images/R.package3.png">
-<meta property="og:image" content="https://zouhua.top/images/R.package4.png">
-<meta property="og:image" content="https://zouhua.top/images/R.package5.png">
-<meta property="og:image" content="https://zouhua.top/images/R.package6.png">
+<meta property="og:image" content="https://zouhua.top/images/R_base_08/R_base_08_01.png">
+<meta property="og:image" content="https://zouhua.top/images/R_base_08/R_base_08_02.png">
+<meta property="og:image" content="https://zouhua.top/images/R_base_08/R_base_08_03.png">
+<meta property="og:image" content="https://zouhua.top/images/R_base_08/R_base_08_04.png">
+<meta property="og:image" content="https://zouhua.top/images/R_base_08/R_base_08_05.png">
+<meta property="og:image" content="https://zouhua.top/images/R_base_08/R_base_08_06.png">
 <meta property="article:published_time" content="2019-09-04T02:06:05.000Z">
 <meta property="article:modified_time" content="2019-09-03T16:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
-<meta property="article:tag" content="自建R包">
+<meta property="article:tag" content="R基础">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zouhua.top/images/R.package1.png">
+<meta name="twitter:image" content="https://zouhua.top/images/R_base_08/R_base_08_01.png">
 
 <link rel="canonical" href="https://zouhua.top/archives/57f5f73a.html">
 
@@ -153,17 +153,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -260,7 +260,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/R/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">基础知识</span></a>
+                  <a href="/categories/R/Basics/" itemprop="url" rel="index"><span itemprop="name">Basics</span></a>
                 </span>
             </span>
 
@@ -326,19 +326,19 @@
 <h4 id="创建R程序包"><a href="#创建R程序包" class="headerlink" title="创建R程序包"></a>创建R程序包</h4><ul>
 <li>打开Rstudio，点击<code>File</code>，进入<code>New project</code>选项。</li>
 </ul>
-<p><img src="/images/R.package1.png" alt=""></p>
+<p><img src="/images/R_base_08/R_base_08_01.png" alt=""></p>
 <ul>
 <li>创建新R包，命名<code>Rpackage</code>，注意<code>package name</code>不能包含下划线等其他非字母和数字的符号。</li>
 </ul>
-<p><img src="/images/R.package2.png" alt=""></p>
+<p><img src="/images/R_base_08/R_base_08_02.png" alt=""></p>
 <ul>
 <li>检查是否进入<code>R</code>环境（该选项也可以创建R project）。</li>
 </ul>
-<p><img src="/images/R.package3.png" alt=""></p>
+<p><img src="/images/R_base_08/R_base_08_03.png" alt=""></p>
 <ul>
 <li><code>Rpackage</code>的目录结构。顶部功能菜单栏可对文件进行新增、删除和重命名等。</li>
 </ul>
-<p><img src="/images/R.package4.png" alt=""></p>
+<p><img src="/images/R_base_08/R_base_08_04.png" alt=""></p>
 <h4 id="编写R源代码函数"><a href="#编写R源代码函数" class="headerlink" title="编写R源代码函数"></a>编写R源代码函数</h4><ul>
 <li><code>可视化图形函数</code>，函数包含title和主体部分。title是描述函数使用、返回值和例子等。<strong>Ctrl+Shift+Alt+R（光标放在函数名上)会自动创建注释。</strong></li>
 </ul>
@@ -362,19 +362,19 @@
 <ul>
 <li><strong>检查R包</strong>左下角<code>build</code>选项栏的<code>check</code>按钮。检查结果有<code>error</code>，<code>warning</code>和<code>notes</code>，确保无任何error信息后继续<code>build</code>包。</li>
 </ul>
-<p><img src="/images/R.package5.png" alt=""></p>
+<p><img src="/images/R_base_08/R_base_08_05.png" alt=""></p>
 <ul>
 <li>检查结果不包含任何错误信息后，可以选择以源码方式打包R程序包（两种方式）。</li>
 </ul>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">devtools::build()</span><br></pre></td></tr></table></figure>
-<p><img src="/images/R.package6.png" alt=""></p>
+<p><img src="/images/R_base_08/R_base_08_06.png" alt=""></p>
 <h3 id="本地安装新建立包"><a href="#本地安装新建立包" class="headerlink" title="本地安装新建立包"></a>本地安装新建立包</h3><p>以先前已经成功打包好的<a href="https://github.com/HuaZou/MyRtools" target="_blank" rel="noopener external nofollow noreferrer"><code>MyRtools</code></a>包作为范例</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 本地安装MyRtools</span></span><br><span class="line">install.packages(<span class="string">"path/MyRtools_0.1.2.tar.gz"</span>, repos = <span class="literal">NULL</span>, type = <span class="string">"source"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载R包</span></span><br><span class="line"><span class="keyword">library</span>(MyRtools)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看MyRtools内置函数</span></span><br><span class="line">?wilcox_rank</span><br></pre></td></tr></table></figure>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
 <li><a href="https://www.wzyblog.top/post/2018/09/19/creating-r-packages/" target="_blank" rel="noopener external nofollow noreferrer">创建R包</a></li>
 <li><a href="https://bookdown.org/yihui/r-ninja/r-package.html" target="_blank" rel="noopener external nofollow noreferrer">R语言忍者秘籍</a></li>
 </ol>
-<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
     </div>
 
@@ -397,6 +397,24 @@
 	  </div>
 	
       
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/3fab6c1e.html" rel="bookmark">Rmarkdown: 一个科学编写数据分析的框架</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/44ac9cba.html" rel="bookmark">R包的创建及使用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/dbeda1ea.html" rel="bookmark">apply函数家族</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/fd00cfd6.html" rel="bookmark">R语言基础函数介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/2164a86a.html" rel="bookmark">R语言数据结构基础</a></div>
+    </li>
+  </ul>
 
         <div class="reward-container">
   <div>赞赏一瓶优酸乳</div>
@@ -438,7 +456,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E8%87%AA%E5%BB%BAR%E5%8C%85/" rel="tag"><i class="fa fa-tags"></i> 自建R包</a>
+              <a href="/tags/R%E5%9F%BA%E7%A1%80/" rel="tag"><i class="fa fa-tags"></i> R基础</a>
           </div>
 
         
@@ -529,20 +547,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -581,23 +599,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
 				</li>
 			  
 			</ul>
@@ -898,13 +916,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">500k</span>
+    <span title="站点总字数">842k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:34</span>
+    <span title="站点阅读时长">12:46</span>
 </div>
 
 <div id="days"></div>

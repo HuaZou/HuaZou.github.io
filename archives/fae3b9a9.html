@@ -23,19 +23,19 @@
 
   <meta name="description" content="火山图是用来展示差异表达的基因或者物种，其常常出现RNA-seq，amplicon-seq分析的结果中。其主要根据差异分析结果的p值和Fold change值进行展示结果。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用EnhancedVolcano包可视化火山图">
+<meta property="og:title" content="火山图可视化之EnhancedVolcano">
 <meta property="og:url" content="https://zouhua.top/archives/fae3b9a9.html">
 <meta property="og:site_name" content="Hua&#39;s Cabin">
 <meta property="og:description" content="火山图是用来展示差异表达的基因或者物种，其常常出现RNA-seq，amplicon-seq分析的结果中。其主要根据差异分析结果的p值和Fold change值进行展示结果。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zouhua.top/images/R_visual_07_01.jpg">
-<meta property="og:image" content="https://zouhua.top/images/R_visual_07_02.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_visual_07/R_visual_07_01.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_visual_07/R_visual_07_02.jpg">
 <meta property="article:published_time" content="2020-04-13T04:20:00.000Z">
 <meta property="article:modified_time" content="2020-04-13T05:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
-<meta property="article:tag" content="Volcano">
+<meta property="article:tag" content="火山图">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zouhua.top/images/R_visual_07_01.jpg">
+<meta name="twitter:image" content="https://zouhua.top/images/R_visual_07/R_visual_07_01.jpg">
 
 <link rel="canonical" href="https://zouhua.top/archives/fae3b9a9.html">
 
@@ -50,7 +50,7 @@
   };
 </script>
 
-  <title>使用EnhancedVolcano包可视化火山图 | Hua's Cabin</title>
+  <title>火山图可视化之EnhancedVolcano | Hua's Cabin</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
     <script>
@@ -149,17 +149,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -231,7 +231,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          使用EnhancedVolcano包可视化火山图
+          火山图可视化之EnhancedVolcano
         </h1>
 
         <div class="post-meta">
@@ -256,7 +256,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/R/%E5%8F%AF%E8%A7%86%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">可视化</span></a>
+                  <a href="/categories/R/Visualization/" itemprop="url" rel="index"><span itemprop="name">Visualization</span></a>
                 </span>
             </span>
 
@@ -287,14 +287,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.8k</span>
+              <span>2.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -316,11 +316,13 @@
 <li>箭头指向的红框是组间比较，根据<code>Fold changes</code>值设置富集方向，并在图中表示出来；</li>
 <li><code>DataFrame</code>的红框部分是火山图的坐标轴，$log<em>{2}$FoldChange是<code>x</code>轴，<code>padj</code>是<code>y</code>轴（可以对其取$log</em>{10}$）；</li>
 </ul>
-<p><img src="/images/R_visual_07_01.jpg" alt=""></p>
+<p><strong>所需数据已经上传至百度网盘: <a href="https://pan.baidu.com/s/1wk246tToRNYtk41NC6Leow" target="_blank" rel="noopener external nofollow noreferrer">https://pan.baidu.com/s/1wk246tToRNYtk41NC6Leow</a>   提取码：请邮件 zouhua1@outlook.com</strong></p>
+<p><img src="/images/R_visual_07/R_visual_07_01.jpg" alt=""></p>
 <h3 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h3><ul>
-<li><p>读取数据：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(dplyr)</span><br><span class="line"><span class="keyword">library</span>(tibble)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"><span class="keyword">library</span>(EnhancedVolcano)</span><br><span class="line"></span><br><span class="line"><span class="comment"># pre-run : save(miRNA_Deseq2, file="../../Result/Differential_expression/RNA_DEseq2.RData")</span></span><br><span class="line"></span><br><span class="line">load(<span class="string">"../../Result/Differential_expression/RNA_DEseq2.RData"</span>)</span><br></pre></td></tr></table></figure>
-</li>
+<li>读取数据：</li>
+</ul>
+  <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(dplyr)</span><br><span class="line"><span class="keyword">library</span>(tibble)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"><span class="keyword">library</span>(EnhancedVolcano)</span><br><span class="line"></span><br><span class="line">load(<span class="string">"RNA_DEseq2.RData"</span>)</span><br></pre></td></tr></table></figure>
+<ul>
 <li><p>画图函数：</p>
 <ul>
 <li><p>设置富集方向标签；</p>
@@ -330,17 +332,17 @@
 </li>
 <li><p>Run结果：</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># miRNA</span></span><br><span class="line">Volcanofun(miRNA.des2, type=<span class="string">"miRNA"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># lncRNA</span></span><br><span class="line">Volcanofun(RNA.des2, type=<span class="string">"lncRNA"</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="/images/R_visual_07_02.jpg" alt=""></p>
+<p><img src="/images/R_visual_07/R_visual_07_02.jpg" alt=""></p>
 </li>
 </ul>
 </li>
 </ul>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
-<li><a href="https://www.bioconductor.org/packages/release/bioc/vignettes/EnhancedVolcano/inst/doc/EnhancedVolcano.html" target="_blank" rel="noopener external nofollow noreferrer">EnhancedVolcano</a>；</li>
+<li><a href="https://www.bioconductor.org/packages/release/bioc/vignettes/EnhancedVolcano/inst/doc/EnhancedVolcano.html" target="_blank" rel="noopener external nofollow noreferrer">EnhancedVolcano</a></li>
 <li><a href="https://github.com/kevinblighe/EnhancedVolcano#over-ride-colouring-scheme-with-custom-key-value-pairs" target="_blank" rel="noopener external nofollow noreferrer">Color points by label</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/38373861" target="_blank" rel="noopener external nofollow noreferrer">火山图含义</a></li>
 </ol>
-<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
     </div>
 
@@ -393,7 +395,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://zouhua.top/archives/fae3b9a9.html" title="使用EnhancedVolcano包可视化火山图">https://zouhua.top/archives/fae3b9a9.html</a>
+    <a href="https://zouhua.top/archives/fae3b9a9.html" title="火山图可视化之EnhancedVolcano">https://zouhua.top/archives/fae3b9a9.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -404,7 +406,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Volcano/" rel="tag"><i class="fa fa-tags"></i> Volcano</a>
+              <a href="/tags/%E7%81%AB%E5%B1%B1%E5%9B%BE/" rel="tag"><i class="fa fa-tags"></i> 火山图</a>
           </div>
 
         
@@ -417,8 +419,8 @@
       <i class="fa fa-chevron-left"></i> Window 10下安装Window Subsystem for Linux
     </a></div>
       <div class="post-nav-item">
-    <a href="/archives/ba4e94d.html" rel="next" title="使用clusterProfiler包做功能分析">
-      使用clusterProfiler包做功能分析 <i class="fa fa-chevron-right"></i>
+    <a href="/archives/ba4e94d.html" rel="next" title="基因富集分析之clusterProfiler">
+      基因富集分析之clusterProfiler <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -495,20 +497,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -547,23 +549,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
 				</li>
 			  
 			</ul>
@@ -864,13 +866,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">500k</span>
+    <span title="站点总字数">842k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:34</span>
+    <span title="站点阅读时长">12:46</span>
 </div>
 
 <div id="days"></div>

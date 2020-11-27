@@ -28,15 +28,15 @@
 <meta property="og:site_name" content="Hua&#39;s Cabin">
 <meta property="og:description" content="宏基因组数据的微生物注释为后续微生物关联分析奠定了基础，而众多的物种注释工具之一的MetaPhan2是2015年发表于Nature Method期刊，它是分析微生物群落如细菌、古菌、真核生物和病毒组成的工具。它的使用也很简单，只需要一条命令即可获取为微生物的物种丰度信息（微生物宏基因组数据一般需要经过拆样本、质控、组装和比对等步骤）。除此之外，该工具还包含了统计和可视化脚本，极大方便了初学者从事生">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zouhua.top/images/Biosoftware_metaphlan2_01_01.jpg">
-<meta property="og:image" content="https://zouhua.top/images/Biosoftware_metaphlan2_01_02.jpg">
-<meta property="og:image" content="https://zouhua.top/images/Biosoftware_metaphlan2_01_03.png">
+<meta property="og:image" content="https://zouhua.top/images/Biosoftware_metaphlan2_01/Biosoftware_metaphlan2_01_01.jpg">
+<meta property="og:image" content="https://zouhua.top/images/Biosoftware_metaphlan2_01/Biosoftware_metaphlan2_01_02.jpg">
+<meta property="og:image" content="https://zouhua.top/images/Biosoftware_metaphlan2_01/Biosoftware_metaphlan2_01_03.png">
 <meta property="article:published_time" content="2020-04-17T05:00:00.000Z">
 <meta property="article:modified_time" content="2020-04-18T04:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
-<meta property="article:tag" content="metaphlan2">
+<meta property="article:tag" content="MetaPhlan2">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zouhua.top/images/Biosoftware_metaphlan2_01_01.jpg">
+<meta name="twitter:image" content="https://zouhua.top/images/Biosoftware_metaphlan2_01/Biosoftware_metaphlan2_01_01.jpg">
 
 <link rel="canonical" href="https://zouhua.top/archives/58333102.html">
 
@@ -150,17 +150,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -263,7 +263,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Biosoftware/annotation/" itemprop="url" rel="index"><span itemprop="name">annotation</span></a>
+                  <a href="/categories/Biosoftware/Annotation/" itemprop="url" rel="index"><span itemprop="name">Annotation</span></a>
                 </span>
             </span>
 
@@ -338,8 +338,8 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install -c bioconda metaphlan2</span><br></pre></td></tr></table></figure>
 <h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="输入文件"><a href="#输入文件" class="headerlink" title="输入文件"></a>输入文件</h4><p>软件的输入文件可以是<code>fastq</code>，<code>fasta</code>，甚至是两者的打包压缩文件<code>tar.bz2</code>; 由多个输入文件的时候，使用逗号隔开。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">metaphlan2.py </span><br><span class="line">--input_type multifastq </span><br><span class="line">--bowtie2out FG1004.rmhost.bowtie.bac.sam </span><br><span class="line">--nproc 5 </span><br><span class="line">--ignore_viruses </span><br><span class="line">--ignore_eukaryotes</span><br><span class="line">--ignore_archaea</span><br><span class="line">FG1004.rmhost.1.fq.gz,FG1004.rmhost.2.fq.gz,FG1004.rmhost.single.fq.gz Metaphlan2_v2/FG1004.meta.bac.out</span><br></pre></td></tr></table></figure>
-<p><img src="/images/Biosoftware_metaphlan2_01_01.jpg" alt=""></p>
-<h4 id="结果解读"><a href="#结果解读" class="headerlink" title="结果解读"></a>结果解读</h4><p><img src="/images/Biosoftware_metaphlan2_01_02.jpg" alt=""></p>
+<p><img src="/images/Biosoftware_metaphlan2_01/Biosoftware_metaphlan2_01_01.jpg" alt=""></p>
+<h4 id="结果解读"><a href="#结果解读" class="headerlink" title="结果解读"></a>结果解读</h4><p><img src="/images/Biosoftware_metaphlan2_01/Biosoftware_metaphlan2_01_02.jpg" alt=""></p>
 <ul>
 <li>包含七类物种分类水平的丰度信息，分类水平从高到低分布；</li>
 <li>同一分类水平的丰度总和是100，因此在后续分析过程需要进行再除以100处理；</li>
@@ -356,7 +356,7 @@
 <li>进化树<code>cladogram</code>:  进化树展示物种之间的关系，通过使用<code>graphlan</code>函数。</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装graphlan</span></span><br><span class="line">conda install -c biobakery graphlan</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成graphlan输入文件</span></span><br><span class="line">export2graphlan.py --skip_rows 1,2  <span class="comment"># 跳过第一和第二行</span></span><br><span class="line">-i merged_abundance_table.txt </span><br><span class="line">--tree merged_abundance.tree.txt </span><br><span class="line">--annotation merged_abundance.annot.txt </span><br><span class="line">--most_abundant 100      <span class="comment"># 100个最高丰度的分支（物种）</span></span><br><span class="line">--abundance_threshold 1  <span class="comment"># 最低丰度阈值的注释进化树</span></span><br><span class="line">--least_biomarkers 10    <span class="comment"># 最小marker数目</span></span><br><span class="line">--annotations 5,6        <span class="comment"># 第五或第六层生物学分类</span></span><br><span class="line">--external_annotations 7 <span class="comment"># 最外圈注释物种是第七类分类学</span></span><br><span class="line">--min_clade_size 1       <span class="comment"># 被注释的进化树最小marker数目为1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建进化树</span></span><br><span class="line">graphlan_annotate.py --annot merged_abundance.annot.txt merged_abundance.tree.txt merged_abundance.xml</span><br><span class="line">graphlan.py --dpi 300 merged_abundance.xml merged_abundance.png --external_legends</span><br></pre></td></tr></table></figure>
-<p><img src="/images/Biosoftware_metaphlan2_01_03.png" alt=""></p>
+<p><img src="/images/Biosoftware_metaphlan2_01/Biosoftware_metaphlan2_01_03.png" alt=""></p>
 <h4 id="后续分析"><a href="#后续分析" class="headerlink" title="后续分析"></a>后续分析</h4><blockquote>
 <p><a href="https://bitbucket.org/biobakery/biobakery/wiki/metaphlan2#rst-header-id34" target="_blank" rel="noopener external nofollow noreferrer"><strong>Create a strain-level marker-based heatmap (PanPhlAn)</strong></a> </p>
 <p><a href="http://segatalab.cibio.unitn.it/tools/panphlan/" target="_blank" rel="noopener external nofollow noreferrer">PanPhlAn</a> provides one way to identify, track, and phylogenetically place individual strains from metagenomes. It uses phylogenomics, or the co-occurrence of gene presence / absence across strains in a metagenome collection. Here, we’ll show a simple example of identifying strains in demonstration data and visualizing them as a marker-based heatmap.</p>
@@ -366,7 +366,7 @@
 <li><a href="https://www.nature.com/articles/nmeth.3589?page=2" target="_blank" rel="noopener external nofollow noreferrer">MetaPhlAn2 for enhanced metagenomic taxonomic profiling</a></li>
 <li><a href="http://segatalab.cibio.unitn.it/tools/metaphlan2/" target="_blank" rel="noopener external nofollow noreferrer">metaphlan2 information</a></li>
 </ol>
-<p>参考文章如引起任何侵权问题，可以与我<a href="https://github.com/HuaZou/" target="_blank" rel="noopener external nofollow noreferrer">联系</a>，谢谢。</p>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
     </div>
 
@@ -430,7 +430,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/metaphlan2/" rel="tag"><i class="fa fa-tags"></i> metaphlan2</a>
+              <a href="/tags/MetaPhlan2/" rel="tag"><i class="fa fa-tags"></i> MetaPhlan2</a>
           </div>
 
         
@@ -521,20 +521,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -573,23 +573,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
 				</li>
 			  
 			</ul>
@@ -890,13 +890,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">500k</span>
+    <span title="站点总字数">842k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:34</span>
+    <span title="站点阅读时长">12:46</span>
 </div>
 
 <div id="days"></div>

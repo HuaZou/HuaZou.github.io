@@ -1,0 +1,1166 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="一台装有centos系统的服务器是生信人员所必须的，它可用于大数据分析，但如何搭建却并不是所有的生信分析人员的必须技能，现记录下自己从头搭建该平台的历程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="生信服务器的搭建之旅">
+<meta property="og:url" content="https://zouhua.top/archives/535ec7e6.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="一台装有centos系统的服务器是生信人员所必须的，它可用于大数据分析，但如何搭建却并不是所有的生信分析人员的必须技能，现记录下自己从头搭建该平台的历程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-20T10:00:00.000Z">
+<meta property="article:modified_time" content="2020-07-22T15:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="Installation">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://zouhua.top/archives/535ec7e6.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>生信服务器的搭建之旅 | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/535ec7e6.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          生信服务器的搭建之旅
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-20 18:00:00" itemprop="dateCreated datePublished" datetime="2020-07-20T18:00:00+08:00">2020-07-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-22 23:00:00" itemprop="dateModified" datetime="2020-07-22T23:00:00+08:00">2020-07-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Manage/" itemprop="url" rel="index"><span itemprop="name">Manage</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/535ec7e6.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/535ec7e6.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="如何搭建服务器"><a href="#如何搭建服务器" class="headerlink" title="如何搭建服务器"></a>如何搭建服务器</h2><p>服务器是生信人员所必须的，如何搭建服务器则是必须技能之一，本文将记录自己如何搭建生信平台之安装centos8系统。搭建服务器，真的好辛苦。我个人比较喜欢centos系统，于是本文中主要基于centos8系统开展的。</p>
+<blockquote>
+<ul>
+<li>Linux是自由软件，其发展出来的版本有很多。</li>
+<li>Red Hat：我们常说的红帽，开源但收费。</li>
+<li>Ubuntu：乌班图，开源、免费，主要面向桌面用户。</li>
+<li>SUSE：主要是占领欧洲市场。有数据显示占据了近80%的Linux市场，数据未经验证。</li>
+<li>CentOS：全名为“社区企业操作系统（Community Enterprise Operating System）”，提供长期免费升级和更新服务，自由使用。国内最大的服务器操作系统，现在基本所有的互联网公司后台服务器都采用CentOS。</li>
+</ul>
+</blockquote>
+<h3 id="安装CentOS8-系统"><a href="#安装CentOS8-系统" class="headerlink" title="安装CentOS8 系统"></a>安装CentOS8 系统</h3><h4 id="下载CentOS-8-ISO-文件；"><a href="#下载CentOS-8-ISO-文件；" class="headerlink" title="下载CentOS 8 ISO 文件；"></a>下载CentOS 8 ISO 文件；</h4><p>从官网<a href="https://www.centos.og/下载安装包是最可靠的" target="_blank" rel="noopener external nofollow noreferrer">https://www.centos.og/下载安装包是最可靠的</a> x86_64版本即可</p>
+<h4 id="制作U盘启动盘"><a href="#制作U盘启动盘" class="headerlink" title="制作U盘启动盘"></a>制作U盘启动盘</h4><p>使用UltralSO软件将该文件刻录到U盘（大小16G），作为启动盘；重启系统，选择U盘启动；这里不建议使用UltralSO软件，本人在使用的过程出现了写入U盘的文件存在缺失的问题，推荐使用Win32DiskImager软件。</p>
+<h4 id="选择启动方式"><a href="#选择启动方式" class="headerlink" title="选择启动方式"></a>选择启动方式</h4><p>一般服务器的硬盘是需要设置阵列硬盘也就是raid，该阵列既可以是硬件raid也可以是软件raid，但是本次我们不设置。选择启动方式是U盘启动，这需要设置BIOS卡的设置，不同的品牌的电脑刷入BIOS的按键不一样，戴尔是F12。进入BIOS选择U盘启动，然后进入到 <strong>Install CentOS 8</strong>选项。先择偏好语言后，进入安装模式。</p>
+<h4 id="配置系统"><a href="#配置系统" class="headerlink" title="配置系统"></a>配置系统</h4><ol>
+<li>设置键盘布局；</li>
+<li>日期和时间；</li>
+<li>安装来源；</li>
+<li>软件选择：Server with      GUI;</li>
+<li>安装目标：指定CentOS      8安装到哪一个硬盘；最下方的删除和增加可以对硬盘进行处理</li>
+<li>自定义分区：<ol>
+<li>/boot     -2GB   (ext4)；       -&gt; 4GB         : 用来存放与Linux系统启动有关的程序，建议大小1G</li>
+<li>/           -12GB（ext4)；      -&gt; 200GB     ：根目录，所有的目录都在该目录下面，建议大小为5G以上</li>
+<li>/home  -20GB（ext4)；      -&gt; 300GB     ：存放普通用户的配置文件，是普通用户的宿主目录</li>
+<li>/disk     -7TB (ext4)；          -&gt; 6TB         : 用户工作目录之一（单独划出一个/data分区存放数据）</li>
+<li>swap    -1GB（swap)；       -&gt; 100GB     : 交换区，建议大小是物理内存的1~2倍</li>
+<li>/tmp     -5GB（ext4)；         -&gt; 50GB      ：降临时盘在独立的分区，可避免文件系统塞满是影响系统的稳定性，建议大小1G以上</li>
+<li>/usr    -10GB (ext4)；         -&gt; 50GB      : 用来存放Linux系统中的应用，其相关数据较多</li>
+<li>/var    -10GB（ext4)；      -&gt; 50GB       : 用来存放Linux系统中经常变化的数据及日志文件</li>
+</ol>
+</li>
+<li>Kdump: 强烈建议开启该功能；</li>
+<li>点击完成安装，然后再点击accept changes，以上分区设置会写入硬盘中；</li>
+<li>选择安装：begin installation;</li>
+<li>设置root用户及其密码；</li>
+<li>创建新用户；</li>
+<li>完成安装并重启系统。</li>
+</ol>
+<h3 id="配置网络"><a href="#配置网络" class="headerlink" title="配置网络"></a>配置网络</h3><p>在<code>/etc/sysconfig/network-scripts</code>目录下存放着网卡的配置文件，文件名称是<code>ifcfg- 网卡名称</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls /etc/sysconfig/network-scripts/</span><br><span class="line"><span class="comment"># ifcfg-enp6s0 ifcfg-enp7s0</span></span><br></pre></td></tr></table></figure>
+<p>设置备份网卡文件后，修改网卡文件并设置静态IP地址</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">TYPE=Ethernet</span><br><span class="line">PROXY_METHOD=none</span><br><span class="line">BROWSER_ONLY=no</span><br><span class="line">BOOTPROTO=static  <span class="comment"># default dhcp</span></span><br><span class="line">DEFROUTE=yes</span><br><span class="line"><span class="comment">################ new setting ################</span></span><br><span class="line">IPADDR=192.168.116.39  <span class="comment">#setting IP address</span></span><br><span class="line">NETMASK=225.225.225.0  <span class="comment">#set netmask</span></span><br><span class="line">GATEWAY=192.168.116.1</span><br><span class="line">DNS1=114.114.114.114</span><br><span class="line"><span class="comment">############################################</span></span><br><span class="line">IPV4_FAILURE_FATAL=no</span><br><span class="line">IPV6INIT=yes</span><br><span class="line">IPV6_AUTOCONF=yes</span><br><span class="line">IPV6_DEFROUTE=yes</span><br><span class="line">IPV6_FAILURE_FATAL=no</span><br><span class="line">IPV6_ADDR_GEN_MODE=stable-privacy</span><br><span class="line">NAME=enp7s0</span><br><span class="line">UUID=3b469111-5e5a-448f-89a0-ca29e13b</span><br><span class="line">DEVICE=enp7s0</span><br><span class="line">ONBOOT=yes <span class="comment"># default value "no"</span></span><br></pre></td></tr></table></figure>
+<p>重启网络服务，使用nmcli reload命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmcli reload</span><br></pre></td></tr></table></figure>
+<h3 id="防火墙端口管理"><a href="#防火墙端口管理" class="headerlink" title="防火墙端口管理"></a>防火墙端口管理</h3><p>Linux的防火墙默认对外只开启22端口，该端口适合ssh远程登陆，其他端口需要自己设定。</p>
+<p>查看防火墙状态</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --state</span><br></pre></td></tr></table></figure>
+<p>查看防火墙所有开放的端口</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --list-ports</span><br></pre></td></tr></table></figure>
+<p>开放和关闭8080端口</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=8080/tcp --permanent </span><br><span class="line"></span><br><span class="line">firewall-cmd --zone=public --remove-port=8080/tcp --permanent</span><br></pre></td></tr></table></figure>
+<p>配置立即生效</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<p>关闭防火墙</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld.service</span><br></pre></td></tr></table></figure>
+<p>查看监听的端口</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnpt</span><br></pre></td></tr></table></figure>
+<h3 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h3><h4 id="新增用户并设置密码"><a href="#新增用户并设置密码" class="headerlink" title="新增用户并设置密码"></a>新增用户并设置密码</h4><p>useradd 是新增用户；passwd是新用户设置密码。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">root@dong ^_^ useradd user2		//新增用户</span><br><span class="line">root@dong ^_^ passwd user2		//修改密码</span><br><span class="line">Changing password <span class="keyword">for</span> user user2.</span><br><span class="line">New password:				  //第一次输入密码</span><br><span class="line">BAD PASSWORD: The password is shorter than 8 characters</span><br><span class="line">Retype new password:		  //第二次输入密码</span><br><span class="line">passwd: all authentication tokens updated successfully.</span><br><span class="line"></span><br><span class="line"><span class="comment"># 永久删除用户</span></span><br><span class="line">userdel (-r) usename</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改账户</span></span><br><span class="line">usermod -s /bin/ksh -d /home/z –g developer sam</span><br><span class="line"><span class="comment"># 此命令将用户sam的登录Shell修改为ksh，主目录改为/home/z，用户组改为developer</span></span><br></pre></td></tr></table></figure>
+<h4 id="ssh登陆集群并修改密码"><a href="#ssh登陆集群并修改密码" class="headerlink" title="ssh登陆集群并修改密码"></a>ssh登陆集群并修改密码</h4><p>下载putty或者其他终端软件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh user2@192.168.106.205   // ssh远程登陆</span><br><span class="line"></span><br><span class="line"><span class="built_in">pwd</span>						  //修改用户密码</span><br></pre></td></tr></table></figure>
+<h4 id="查看用户信息"><a href="#查看用户信息" class="headerlink" title="查看用户信息"></a>查看用户信息</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id zouhua</span><br><span class="line"><span class="comment"># 1001(zouhua) gid=1001(zouhua) groups=1001(zouhua)</span></span><br></pre></td></tr></table></figure>
+<h4 id="创建用户组"><a href="#创建用户组" class="headerlink" title="创建用户组"></a>创建用户组</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立组别</span></span><br><span class="line">groupadd  groupname</span><br><span class="line"><span class="comment"># 新建用户同时增加工作组</span></span><br><span class="line">useradd -g groupname username</span><br><span class="line"><span class="comment"># 给已有用户增加工作组</span></span><br><span class="line">gpasswd -a useranme groupname </span><br><span class="line"><span class="comment"># 从某组移除用户</span></span><br><span class="line">gpasswd -d username groupname</span><br><span class="line"><span class="comment"># 修改文件属主</span></span><br><span class="line">chown -R  username:gorupname folder</span><br></pre></td></tr></table></figure>
+<h4 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h4><p>权限类型</p>
+<ul>
+<li>r 读(4)</li>
+<li>w 写(2)</li>
+<li>x 执行(1)</li>
+<li>-无权限(0)</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看文件权限</span></span><br><span class="line">ls -lh</span><br><span class="line"><span class="comment">###################################################</span></span><br><span class="line"><span class="comment"># drwxr-xr-x. 1 root group    0 Jul 14 18:15 testfile</span></span><br><span class="line"><span class="comment"># 1）root用户对testfile的权限是:rwx(7)</span></span><br><span class="line"><span class="comment"># 2）group组对testfile的权限是:rx(5)</span></span><br><span class="line"><span class="comment"># 3）other用户对testfile的权限是x(1)</span></span><br><span class="line"><span class="comment">################################################## </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 权限分配</span></span><br><span class="line">chmod (-R) 755 testfile</span><br></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/zsg88/article/details/74937977" target="_blank" rel="noopener external nofollow noreferrer">linux用户和用户组管理</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修改目录用户组</span></span><br><span class="line">chgrp bioinfor ./user</span><br><span class="line"><span class="comment"># 赋予组写的权限</span></span><br><span class="line">chmod g+w ./user</span><br><span class="line"><span class="comment"># 赋予组sgid属性</span></span><br><span class="line">chmod g+s ./user</span><br></pre></td></tr></table></figure>
+<h4 id="配置个人环境"><a href="#配置个人环境" class="headerlink" title="配置个人环境"></a>配置个人环境</h4><p>在修改密码或访问成功后，用户可以在根目录下配置（修改<strong>.bashrc</strong>或<strong>.bash_profile</strong>）终端。通常建议用户做如下配置：<strong>vi ~/.bash_profile</strong> 按住<strong>insert</strong>或<strong>i</strong>使得vim进入可编辑状态，然后粘贴以下内容，保存后退出，最后再在终端输入<strong>source ~/.bash_profile</strong>即可加载新环境。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># alias</span></span><br><span class="line"><span class="built_in">alias</span> ls=<span class="string">'ls -hF --color=tty'</span>                 <span class="comment"># classify files in colour</span></span><br><span class="line"><span class="built_in">alias</span> dir=<span class="string">'ls --color=auto --format=vertical'</span></span><br><span class="line"><span class="built_in">alias</span> vdir=<span class="string">'ls --color=auto --format=long'</span></span><br><span class="line"><span class="built_in">alias</span> ll=<span class="string">'ls -l'</span>                              </span><br><span class="line"><span class="built_in">alias</span> la=<span class="string">'ls -A'</span>                              </span><br><span class="line"><span class="built_in">alias</span> l=<span class="string">'ls -CF'</span></span><br><span class="line"><span class="built_in">alias</span> llh=<span class="string">'ls -lh'</span></span><br><span class="line"><span class="built_in">alias</span> le=<span class="string">'less -S'</span></span><br><span class="line"><span class="built_in">alias</span> brc=<span class="string">'vi ~/.bash_profile'</span></span><br><span class="line"><span class="built_in">alias</span> src=<span class="string">'source ~/.bash_profile'</span></span><br><span class="line"><span class="built_in">alias</span> wl=<span class="string">'wc -l'</span></span><br><span class="line"><span class="built_in">alias</span> rm=<span class="string">'rm -i'</span></span><br><span class="line"><span class="built_in">alias</span> d1=<span class="string">'cd /disk1/'</span></span><br><span class="line"><span class="built_in">alias</span> d2=<span class="string">'cd /disk2/'</span></span><br><span class="line"><span class="built_in">alias</span> d3=<span class="string">'cd /disk3/'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># export</span></span><br><span class="line"><span class="built_in">export</span> CLICOLOR=1</span><br><span class="line"><span class="built_in">export</span> PS1=<span class="string">"\[\e[01;32m\]\u@\h \[\033[36;1m\]\w\[\033[0m\]\n\[\e[32;1m\]&gt; \[\e[0m\]"</span></span><br><span class="line"></span><br><span class="line">. /disk/share/common_env/ComEnv</span><br></pre></td></tr></table></figure>
+<p>另外建议用户配置vim文件 <strong>vi ~/.vimrc</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> number</span><br><span class="line"><span class="built_in">set</span> nocompatible    <span class="string">" no compatible</span></span><br><span class="line"><span class="string">set showmode    "</span> show vim mode</span><br><span class="line"><span class="built_in">set</span> guioptions-=T   <span class="string">" delete gui toolbar</span></span><br><span class="line"><span class="string">set ruler   "</span> show the last row status</span><br><span class="line">filetype on <span class="string">" check filetype</span></span><br><span class="line"><span class="string">syntax on   "</span> color and syntax</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> <span class="built_in">history</span>=1000    <span class="string">" line of history</span></span><br><span class="line"><span class="string">set background=dark "</span> <span class="built_in">bg</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> autoindent  <span class="string">" auto indent</span></span><br><span class="line"><span class="string">set smartindent "</span> smart indent</span><br><span class="line"><span class="built_in">set</span> ts=4                <span class="string">" tab for 4 spaces</span></span><br><span class="line"><span class="string">set expandtab</span></span><br><span class="line"><span class="string">set autoindent</span></span><br><span class="line"><span class="string">set shiftwidth=4  "</span> <span class="built_in">shift</span> <span class="keyword">for</span> 4 spaces</span><br><span class="line"><span class="built_in">set</span> cursorline  <span class="string">" line under cursor</span></span><br><span class="line"><span class="string">set backspace=indent,eol,start</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">set hlsearch    "</span> highlight search</span><br><span class="line"><span class="built_in">set</span> showmatch   <span class="string">" match mode</span></span><br><span class="line"><span class="string">set incsearch   "</span> search <span class="keyword">while</span> inputing</span><br><span class="line"></span><br><span class="line"><span class="built_in">let</span> &amp;termencoding=&amp;encoding</span><br><span class="line"><span class="built_in">set</span> fileencodings=utf-8-bom,ucs-bom,utf-8,cp936,gb18030,ucs,big5,gbk</span><br><span class="line"><span class="built_in">set</span> fileencodings=utf8,ucs-bom,gb18030,gbk,gb2312,cp936</span><br><span class="line"><span class="built_in">set</span> termencoding=utf8</span><br><span class="line"><span class="built_in">set</span> encoding=utf8</span><br></pre></td></tr></table></figure>
+<h3 id="扩展硬盘"><a href="#扩展硬盘" class="headerlink" title="扩展硬盘"></a>扩展硬盘</h3><p>因服务器存储太小，需要对其进行扩展存储。扩展过程包含格式化硬盘以及挂载硬盘。</p>
+<h4 id="查看服务器硬盘"><a href="#查看服务器硬盘" class="headerlink" title="查看服务器硬盘"></a>查看服务器硬盘</h4><p>需要在root账户下，使用该命令。能看到/dev/sde 盘阵是刚刚加载的盘。也可以使用 <code>lsblk -f</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">sudo  fdisk -l </span><br><span class="line"></span><br><span class="line"><span class="comment">#################################################################</span></span><br><span class="line"><span class="comment"># Disk /dev/sda: 477 GiB, 512110190592 bytes, 1000215216 sectors</span></span><br><span class="line"><span class="comment"># Units: sectors of 1 * 512 = 512 bytes</span></span><br><span class="line"><span class="comment"># Sector size (logical/physical): 512 bytes / 512 bytes</span></span><br><span class="line"><span class="comment"># I/O size (minimum/optimal): 512 bytes / 512 bytes</span></span><br><span class="line"><span class="comment"># Disklabel type: dos</span></span><br><span class="line"><span class="comment"># Disk identifier: 0x911ebd79</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># Disk /dev/sde: 7.3 TiB, 8001563222016 bytes, 1953506646 sectors</span></span><br><span class="line"><span class="comment"># Units: sectors of 1 * 4096 = 4096 bytes</span></span><br><span class="line"><span class="comment"># Sector size (logical/physical): 4096 bytes / 4096 bytes</span></span><br><span class="line"><span class="comment"># I/O size (minimum/optimal): 4096 bytes / 4096 bytes</span></span><br><span class="line"><span class="comment"># Disklabel type: dos</span></span><br><span class="line"><span class="comment"># Disk identifier: 0x108d1bc4</span></span><br><span class="line"><span class="comment">#################################################################</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">lsblk -f</span><br><span class="line"></span><br><span class="line"><span class="comment">#################################################################</span></span><br><span class="line"><span class="comment"># NAME   FSTYPE LABEL UUID                                 MOUNTPOINT</span></span><br><span class="line"><span class="comment"># sda</span></span><br><span class="line"><span class="comment"># └─sda1 ext4         f76fa31e-4be2-4ae4-8c66-175a293e07e2 /</span></span><br><span class="line"><span class="comment"># sdb</span></span><br><span class="line"><span class="comment"># ├─sdb1 ext4         e11d15f6-8659-415f-9979-67d7a70de8ce /boot</span></span><br><span class="line"><span class="comment"># ├─sdb2 ext4         6ccc51c3-7e70-4e2d-bd4d-7bc19d4b4be6 /home</span></span><br><span class="line"><span class="comment"># ├─sdb3 swap         6816dbbb-a69e-4aea-989d-d58145572b37 [SWAP]</span></span><br><span class="line"><span class="comment"># ├─sdb4 xfs          fde75538-01ff-46c1-aa89-06f9bcf63e52 /usr</span></span><br><span class="line"><span class="comment"># ├─sdb5 ext4         bf3ac317-a7ce-4436-89d0-e333c0df0f66 /tmp</span></span><br><span class="line"><span class="comment"># └─sdb6 ext4         e3814a16-55d3-42e0-ac1d-b741efd1eaf2 /var</span></span><br><span class="line"><span class="comment"># sdc    ext4         589488b4-8ee3-4a26-aa54-a5198fc7ce7f /disk1</span></span><br><span class="line"><span class="comment"># sdd    ext4         e2a1da00-a9bd-4b8b-9b2b-b7deacb38b5c /disk2</span></span><br><span class="line"><span class="comment"># sde</span></span><br><span class="line"><span class="comment">#################################################################</span></span><br></pre></td></tr></table></figure>
+<p>sde盘是刚刚加载的盘阵，filesystem 不是linux ext4文件系统，需要格式化后再挂载。</p>
+<h4 id="使用fdisk命令对sde硬盘分区"><a href="#使用fdisk命令对sde硬盘分区" class="headerlink" title="使用fdisk命令对sde硬盘分区"></a>使用fdisk命令对sde硬盘分区</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sde </span><br><span class="line"></span><br><span class="line"><span class="comment">#################################################################</span></span><br><span class="line"><span class="comment"># Welcome to fdisk (util-linux 2.32.1).</span></span><br><span class="line"><span class="comment"># Changes will remain in memory only, until you decide to write them.</span></span><br><span class="line"><span class="comment"># Be careful before using the write command.</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># Command (m for help): n</span></span><br><span class="line"><span class="comment"># Partition type</span></span><br><span class="line"><span class="comment">#    p   primary (0 primary, 0 extended, 4 free)</span></span><br><span class="line"><span class="comment">#    e   extended (container for logical partitions)</span></span><br><span class="line"><span class="comment"># Select (default p): p   # 打印分区</span></span><br><span class="line"><span class="comment"># Partition number (1-4, default 1): 1   # 新建分区</span></span><br><span class="line"><span class="comment"># First sector (256-1953506645, default 256):</span></span><br><span class="line"><span class="comment"># Last sector, +sectors or +size&#123;K,M,G,T,P&#125; (256-1953506645, default 1953506645):</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># Created a new partition 1 of type 'Linux' and of size 7.3 TiB.</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># Command (m for help): w</span></span><br><span class="line"><span class="comment"># The partition table has been altered.</span></span><br><span class="line"><span class="comment">#################################################################</span></span><br></pre></td></tr></table></figure>
+<h4 id="格式化硬盘"><a href="#格式化硬盘" class="headerlink" title="格式化硬盘"></a>格式化硬盘</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkfs -t ext4 -c /dev/sde</span><br></pre></td></tr></table></figure>
+<h4 id="挂载硬盘"><a href="#挂载硬盘" class="headerlink" title="挂载硬盘"></a>挂载硬盘</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 短暂挂载</span></span><br><span class="line">mkdir /disk3 </span><br><span class="line">mount /dev/sde /disk3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 永久挂载</span></span><br><span class="line">vi /etc/fstab </span><br><span class="line">/dev/sde        /disk3       ext4        defaults        0  0</span><br></pre></td></tr></table></figure>
+<h4 id="查看是否正常挂载"><a href="#查看是否正常挂载" class="headerlink" title="查看是否正常挂载"></a>查看是否正常挂载</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /disk1</span><br><span class="line">df -h ./</span><br><span class="line"></span><br><span class="line"><span class="comment">#################################################################</span></span><br><span class="line"><span class="comment"># Filesystem      Size  Used Avail Use% Mounted on</span></span><br><span class="line"><span class="comment"># /dev/sdd        7.3T   93M  6.9T   1% /disk2</span></span><br><span class="line"><span class="comment">#################################################################</span></span><br></pre></td></tr></table></figure>
+<h3 id="查看服务器资源使用情况"><a href="#查看服务器资源使用情况" class="headerlink" title="查看服务器资源使用情况"></a>查看服务器资源使用情况</h3><p>可以通过<strong>top</strong>或<strong>htop</strong>命令查看服务器资源使用情况，也可以加入<em>- u username</em>参数查看指定用户资源使用情况。方便用户按照剩余资源运行脚本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">top </span><br><span class="line"><span class="comment">#top - 08:57:00 up 14:04,  3 users,  load average: 1.06, 0.90, 0.53</span></span><br><span class="line"><span class="comment">#Tasks: 719 total,   2 running, 717 sleeping,   0 stopped,   0 zombie</span></span><br><span class="line"><span class="comment">#%Cpu(s):  1.8 us,  0.2 sy,  0.0 ni, 98.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</span></span><br><span class="line"><span class="comment">#MiB Mem : 128561.0 total, 122560.4 free,   4129.2 used,   1871.4 buff/cache</span></span><br><span class="line"><span class="comment">#MiB Swap:  32768.0 total,  32768.0 free,      0.0 used. 123462.3 avail Mem</span></span><br><span class="line"><span class="comment"># 关注%Cpu(s)的wa前面的数字，数值越大表明CPU占用越多；MiB Mem展示服务器内存使用情况；</span></span><br></pre></td></tr></table></figure>
+<h3 id="查看服务器硬盘使用情况"><a href="#查看服务器硬盘使用情况" class="headerlink" title="查看服务器硬盘使用情况"></a>查看服务器硬盘使用情况</h3><ul>
+<li><p>显示文件或目录所占的磁盘空间</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">du [option] 文件/目录</span><br><span class="line"></span><br><span class="line">-h 以容易理解的格式(给人看的格式)输出文件系统分区使用情况，例如 10kB、10MB、10GB 等。</span><br><span class="line">-s 显示文件或整个目录的大小，默认单位为 kB。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查磁盘空间占用情况(并不能查看某个目录占用的磁盘大小)</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">df [option]</span><br><span class="line"></span><br><span class="line">-h 以容易理解的格式(给人看的格式)输出文件系统分区使用情况，例如 10kB、10MB、10GB 等。</span><br><span class="line">-k 以 kB 为单位输出文件系统分区使用情况。</span><br><span class="line">-m 以 mB 为单位输出文件系统分区使用情况。</span><br><span class="line">-a 列出所有的文件系统分区，包含大小为 0 的文件系统分区。</span><br><span class="line">-i 列出文件系统分区的 inodes 信息。</span><br><span class="line">-T 显示磁盘分区的文件系统类型。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
+<li><a href="https://www.zhaozhuji.net/298.html/" target="_blank" rel="noopener external nofollow noreferrer">搭建生信服务器指南：如何优雅地捡垃圾</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/79047510" target="_blank" rel="noopener external nofollow noreferrer">Centos 7教程 初步入门及安装</a></li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>-------- 本文结束 </span>
+      <i class="fa fa-paw"></i>
+      <span> 感谢阅读 --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+
+        <div class="reward-container">
+  <div>赞赏一瓶优酸乳</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zouhua.top/archives/535ec7e6.html" title="生信服务器的搭建之旅">https://zouhua.top/archives/535ec7e6.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Installation/" rel="tag"><i class="fa fa-tags"></i> Installation</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/1cac9fe5.html" rel="prev" title="Differential Gene expression in RNA-seq pipeline Workflow">
+      <i class="fa fa-chevron-left"></i> Differential Gene expression in RNA-seq pipeline Workflow
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/51fdc39d.html" rel="next" title="A full workflow of miRNA-seq pipeline">
+      A full workflow of miRNA-seq pipeline <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何搭建服务器"><span class="nav-number">1.</span> <span class="nav-text">如何搭建服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装CentOS8-系统"><span class="nav-number">1.1.</span> <span class="nav-text">安装CentOS8 系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载CentOS-8-ISO-文件；"><span class="nav-number">1.1.1.</span> <span class="nav-text">下载CentOS 8 ISO 文件；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#制作U盘启动盘"><span class="nav-number">1.1.2.</span> <span class="nav-text">制作U盘启动盘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选择启动方式"><span class="nav-number">1.1.3.</span> <span class="nav-text">选择启动方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置系统"><span class="nav-number">1.1.4.</span> <span class="nav-text">配置系统</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置网络"><span class="nav-number">1.2.</span> <span class="nav-text">配置网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙端口管理"><span class="nav-number">1.3.</span> <span class="nav-text">防火墙端口管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户管理"><span class="nav-number">1.4.</span> <span class="nav-text">用户管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#新增用户并设置密码"><span class="nav-number">1.4.1.</span> <span class="nav-text">新增用户并设置密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ssh登陆集群并修改密码"><span class="nav-number">1.4.2.</span> <span class="nav-text">ssh登陆集群并修改密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看用户信息"><span class="nav-number">1.4.3.</span> <span class="nav-text">查看用户信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建用户组"><span class="nav-number">1.4.4.</span> <span class="nav-text">创建用户组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#权限管理"><span class="nav-number">1.4.5.</span> <span class="nav-text">权限管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置个人环境"><span class="nav-number">1.4.6.</span> <span class="nav-text">配置个人环境</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展硬盘"><span class="nav-number">1.5.</span> <span class="nav-text">扩展硬盘</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查看服务器硬盘"><span class="nav-number">1.5.1.</span> <span class="nav-text">查看服务器硬盘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用fdisk命令对sde硬盘分区"><span class="nav-number">1.5.2.</span> <span class="nav-text">使用fdisk命令对sde硬盘分区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#格式化硬盘"><span class="nav-number">1.5.3.</span> <span class="nav-text">格式化硬盘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#挂载硬盘"><span class="nav-number">1.5.4.</span> <span class="nav-text">挂载硬盘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看是否正常挂载"><span class="nav-number">1.5.5.</span> <span class="nav-text">查看是否正常挂载</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看服务器资源使用情况"><span class="nav-number">1.6.</span> <span class="nav-text">查看服务器资源使用情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看服务器硬盘使用情况"><span class="nav-number">1.7.</span> <span class="nav-text">查看服务器硬盘使用情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">1.8.</span> <span class="nav-text">引用</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">110</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">81</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zouhua1@outlook.com" title="E-Mail → zouhua1@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  近期文章
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">842k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:46</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button" onclick="moonMenuClick()">
+    <svg class="moon-menu-svg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+      <g class="moon-menu-points">
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
+        <circle class="moon-menu-point" r=".2rem"></circle>
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
+      </g>
+    </svg>
+    <div class="moon-menu-icon">
+    </div>
+    <div class="moon-menu-text">
+    </div>
+  </div>
+</div>
+<script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>

@@ -28,14 +28,14 @@
 <meta property="og:site_name" content="Hua&#39;s Cabin">
 <meta property="og:description" content="在数据样本中，某些特定组存在样本量的个数称为频数，因此对分类数据的分析就是对频数的分析。当两个或者多个组进行比较的时候，数据通常以频数表也即是列联表形式展示。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zouhua.top/images/Math_statistics_10_01.png">
-<meta property="og:image" content="https://zouhua.top/images/Math_statistics_10_02.png">
+<meta property="og:image" content="https://zouhua.top/images/Math_statistics_10/Math_statistics_10_01.png">
+<meta property="og:image" content="https://zouhua.top/images/Math_statistics_10/Math_statistics_10_02.png">
 <meta property="article:published_time" content="2020-04-22T09:26:00.000Z">
 <meta property="article:modified_time" content="2020-04-22T10:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
 <meta property="article:tag" content="分类检验">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zouhua.top/images/Math_statistics_10_01.png">
+<meta name="twitter:image" content="https://zouhua.top/images/Math_statistics_10/Math_statistics_10_01.png">
 
 <link rel="canonical" href="https://zouhua.top/archives/e3145f16.html">
 
@@ -149,17 +149,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">52</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">81</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">35</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">72</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">110</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -256,7 +256,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Math/%E7%BB%9F%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">统计</span></a>
+                  <a href="/categories/Math/Statistics/" itemprop="url" rel="index"><span itemprop="name">Statistics</span></a>
                 </span>
             </span>
 
@@ -307,7 +307,7 @@
 
       
         <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;在数据样本中，某些特定组存在样本量的个数称为频数，因此对分类数据的分析就是对频数的分析。当两个或者多个组进行比较的时候，数据通常以频数表也即是列联表形式展示。</p>
-<p><img src="/images/Math_statistics_10_01.png" alt=""></p>
+<p><img src="/images/Math_statistics_10/Math_statistics_10_01.png" alt=""></p>
 <p>&emsp;&emsp;列联表常用的统计检验方法有以下几类：</p>
 <ul>
 <li><strong>卡方检验：</strong>它检查表1内的性别和色觉两因素之间是否存在差异，主要通过计算单元格内数据是否是服从同一个卡方分布；</li>
@@ -330,7 +330,7 @@
 expectedFrequency\,=\,\frac{RowTotal\times ColumnTotal}{n}</script><p>&emsp;&emsp;观察值是$o_i$，期望值是$e_i$。所有数据都来自同一总体的零假设下，卡方检验的统计量$\chi$为：</p>
 <script type="math/tex; mode=display">
 V\,=\,\sum_{i}\frac{(o_i-e_i)^2}{e_i}\,\approx \, \chi_{f}^{2}</script><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(<span class="string">"MASS"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create a data frame from the main data set.</span></span><br><span class="line">car.data &lt;- data.frame(Cars93$AirBags, Cars93$Type)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create a table with the needed variables.</span></span><br><span class="line">car.data &lt;- table(Cars93$AirBags, Cars93$Type) </span><br><span class="line"></span><br><span class="line"><span class="comment"># Perform the Chi-Square test.</span></span><br><span class="line">print(chisq.test(car.data))</span><br></pre></td></tr></table></figure>
-<p><img src="/images/Math_statistics_10_02.png" alt=""></p>
+<p><img src="/images/Math_statistics_10/Math_statistics_10_02.png" alt=""></p>
 <p>数据是一个3X6的列联表，自由度是10$df = (nrow -1)X(ncol -1)$，检验结果说明两个因素之间存在显著相关性。</p>
 <h4 id="Fisher精确检验"><a href="#Fisher精确检验" class="headerlink" title="Fisher精确检验"></a>Fisher精确检验</h4><p>该检验的原理依据是超几何分布，并且可以设置单侧或者双侧检验：</p>
 <script type="math/tex; mode=display">
@@ -512,12 +512,12 @@ p= \frac{\binom{M}{i}\binom{N-M}{n-i}}{\binom{N}{n}}</script><ul>
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/archives/48211469.html" rel="prev" title="如何计算微生物多样性且可视化其结果">
-      <i class="fa fa-chevron-left"></i> 如何计算微生物多样性且可视化其结果
+    <a href="/archives/48211469.html" rel="prev" title="微生物多样性的计算及可视化">
+      <i class="fa fa-chevron-left"></i> 微生物多样性的计算及可视化
     </a></div>
       <div class="post-nav-item">
-    <a href="/archives/a47fabdd.html" rel="next" title="永远的李德胜">
-      永远的李德胜 <i class="fa fa-chevron-right"></i>
+    <a href="/archives/a47fabdd.html" rel="next" title="永远的教员">
+      永远的教员 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -594,20 +594,20 @@ p= \frac{\binom{M}{i}\binom{N-M}{n-i}}{\binom{N}{n}}</script><ul>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -646,23 +646,23 @@ p= \frac{\binom{M}{i}\binom{N-M}{n-i}}{\binom{N}{n}}</script><ul>
 			  
 			  
 				<li>
-				  <a href="/archives/d133440d.html" title="线性回归初认识" target="_blank">线性回归初认识</a>
+				  <a href="/archives/abf82640.html" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation" target="_blank">Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/3523c8f0.html" title="怎么准备毕业答辩" target="_blank">怎么准备毕业答辩</a>
+				  <a href="/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍" target="_blank">(一) 单细胞转录组分析：单细胞测序介绍</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/93baa0de.html" title="文章是怎样练成的" target="_blank">文章是怎样练成的</a>
+				  <a href="/archives/e4d57ab8.html" title="从Ribo-seq reads识别CDS序列：PRICE pipeline" target="_blank">从Ribo-seq reads识别CDS序列：PRICE pipeline</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/e54c6a4d.html" title="Shotgun metagenomics, from sampling to analysis" target="_blank">Shotgun metagenomics, from sampling to analysis</a>
+				  <a href="/archives/619fe135.html" title="RNA-seq数据的批次校正方法" target="_blank">RNA-seq数据的批次校正方法</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/44f80e84.html" title="phyloseq: 扩增子统计分析利器" target="_blank">phyloseq: 扩增子统计分析利器</a>
+				  <a href="/archives/24380ac9.html" title="岭回归和lasso回归的基本概念" target="_blank">岭回归和lasso回归的基本概念</a>
 				</li>
 			  
 			</ul>
@@ -963,13 +963,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">500k</span>
+    <span title="站点总字数">842k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:34</span>
+    <span title="站点阅读时长">12:46</span>
 </div>
 
 <div id="days"></div>
