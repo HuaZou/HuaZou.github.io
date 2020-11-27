@@ -8,3 +8,5 @@ public/
 source/_posts/
 *_config.yml
 themes/next/_config.yml
+*_rmd/
+
