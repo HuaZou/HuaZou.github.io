@@ -293,14 +293,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2.6k</span>
+              <span>3.2k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
+              <span>3 mins.</span>
             </span>
 
         </div>
@@ -352,12 +352,20 @@
 <h4 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h4><blockquote>
 <p>Hexo基于<strong>Node.js</strong>，Node.js下载地址：<a href="https://link.zhihu.com/?target=https%3A//nodejs.org/en/download/" rel="external nofollow noreferrer">Download | Node.js</a> 下载安装包，注意安装Node.js会包含环境变量及npm的安装，安装后，检测Node.js是否安装成功，在命令行中输入 node -v 或者 npm -v:</p>
 </blockquote>
+<ul>
+<li><p>ubuntu </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Install Node.js</span></span><br><span class="line">curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -  <span class="comment"># 12,x 13.x</span></span><br><span class="line">sudo apt-get install nodejs</span><br><span class="line"></span><br><span class="line"><span class="comment"># Install Hexo (https://stackoverflow.com/questions/47675478/npm-install-errorunexpected-end-of-json-input-while-parsing-near-nt-webpack?page=1&amp;tab=votes#tab-top)</span></span><br><span class="line">sudo npm cache clean --force</span><br><span class="line">sudo npm cache verify</span><br><span class="line">sudo npm i npm@latest -g</span><br><span class="line">sudo npm install hexo-cli -g</span><br><span class="line">sudo npm install hexo -g</span><br><span class="line">sudo npm update hexo -g</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 <h4 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a><strong>安装Hexo</strong></h4><ol>
 <li><p>使用npm命令安装Hexo（可以在git bash界面处理），输入：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli </span><br><span class="line">npm install hexo -g <span class="comment">#安装Hexo</span></span><br><span class="line">npm update hexo -g <span class="comment">#升级</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>安装插件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-abbrlink</span><br><span class="line">npm install hexo-baidu-url-submit</span><br><span class="line">npm install hexo-blog-encrypt</span><br><span class="line">npm install hexo-cake-moon-menu</span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-generator-archive</span><br><span class="line">npm install hexo-generator-category</span><br><span class="line">npm install hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>出现高危险的漏洞</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#found 30 vulnerabilities (16 low, 8 moderate, 6 high)</span></span><br><span class="line"><span class="comment">#  run `npm audit fix` to fix them, or `npm audit` for details</span></span><br><span class="line">  </span><br><span class="line">  sudo npm audit fix --fore</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <h4 id="推送网站"><a href="#推送网站" class="headerlink" title="推送网站"></a>推送网站</h4><p>安装<strong>notepad++</strong>软件，目的是为了打开配置文件等文本文件;</p>
@@ -401,6 +409,7 @@
 <li><a href="https://blog.csdn.net/xky1306102chenhong/article/details/88875358" target="_blank" rel="noopener external nofollow noreferrer"> Jekyll和Hexo区别</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/26625249" target="_blank" rel="noopener external nofollow noreferrer">搭建步骤</a></li>
 <li><a href="https://huazou.github.io/archives/a2a13e.html#more" target="_blank" rel="noopener external nofollow noreferrer">保存源代码</a></li>
+<li><a href="https://www.howtoforge.com/how-to-install-and-create-a-blog-with-hexo-on-ubuntu-20-04/" target="_blank" rel="noopener external nofollow noreferrer">ubuntu install hexo</a></li>
 </ol>
 <p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
@@ -930,7 +939,7 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">842k</span>
+    <span title="Symbols count total">843k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
