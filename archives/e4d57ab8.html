@@ -286,14 +286,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>8.1k</span>
+              <span>9.4k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>7 mins.</span>
+              <span>9 mins.</span>
             </span>
 
         </div>
@@ -358,14 +358,14 @@
 <p>gedi参数</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">gedi -e IndexGenome &lt;Options&gt;</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line"> -s &lt;fasta-file&gt;        Fasta file containing chromosomes</span><br><span class="line"> -a &lt;gtf-file&gt;          Gtf file containing annotation</span><br><span class="line"> -organism &lt;name&gt;       Organism name to download data from ensembl (e.g. homo_sapiens)</span><br><span class="line"> -version &lt;version&gt;     Ensembl version to download (e.g. 75)</span><br><span class="line"> -gb &lt;genbank-file&gt;     Genbank file containing annotation and sequence</span><br><span class="line"> -gblabel &lt;label&gt;       Which genbank entry to take as gene and transcript label (default: label)</span><br><span class="line"> -f &lt;folder&gt;            Output folder (Default: next to Fasta and Gtf / genbank)</span><br><span class="line"> -n &lt;name&gt;              Name of the genome <span class="keyword">for</span> later use (Default: file name of gtf/genbank-file)</span><br><span class="line"> -o &lt;file&gt;              Specify output file (Default: ~/.gedi/genomic/<span class="variable">$&#123;name&#125;</span>.oml)</span><br><span class="line"> -nobowtie              Do not create bowtie indices</span><br><span class="line"> -nostar                Do not create STAR indices</span><br><span class="line"> -p                     Show progress</span><br><span class="line"> -h                     Show this message</span><br><span class="line"> -D                     Output debugging information</span><br></pre></td></tr></table></figure>
 <h4 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h4><ul>
-<li>构建PRICE参考基因组，该步可结合下载数据步骤共同运行，也可单独运行</li>
+<li>构建PRICE参考基因组，该步可结合下载数据步骤共同运行，也可单独运行（基因组和注释文件命名尽量一致，否者最后生成的index文件会以两者作为名字，这也是该建索引方法的一个bug）。</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># download and build index </span></span><br><span class="line">gedi -e IndexGenome -organism homo_sapiens -version 75 -p -nobowtie -nostar -nokallisto</span><br><span class="line"><span class="comment"># build index </span></span><br><span class="line">gedi -e IndexGenome -s homo_sapiens.75.fasta -a homo_sapiens.75.gtf -n homo_sapiens.75</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># download and build index </span></span><br><span class="line">gedi -e IndexGenome -organism homo_sapiens -version 75 -p -nobowtie -nostar -nokallisto</span><br><span class="line"><span class="comment"># build index </span></span><br><span class="line">gedi -e IndexGenome -s homo_sapiens.75.fasta -a homo_sapiens.75.gtf -n homo_sapiens.75 </span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用新的fasta和gtf, the follow command are in work.sh</span></span><br><span class="line">ln -s /data/share/database/Homo_sapiens.GRCh38_release101/Homo_sapiens.GRCh38.dna.primary_assembly.fa homo_sapiens.101.fasta </span><br><span class="line">ln -s /data/share/database/Homo_sapiens.GRCh38_release101/Homo_sapiens.GRCh38.101.gtf homo_sapiens.101.gtf </span><br><span class="line">gedi -e IndexGenome -s homo_sapiens.101.fasta -a homo_sapiens.101.gtf -n homo_sapiens.101 </span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果文件会生成脚本运行目录下（完成） </span></span><br><span class="line"><span class="comment">#lrwxrwxrwx 1 zouhua zouhua   95 Dec  7 10:28 homo_sapiens.101.fasta -&gt; /data/share/database/Homo_sapiens.GRCh38_release101/Homo_sapiens.GRCh38.dna.primary_assembly.fa</span></span><br><span class="line"><span class="comment">#-rw-rw-r-- 1 zouhua zouhua 6.7K Dec  7 10:31 homo_sapiens.101.fi</span></span><br><span class="line"><span class="comment">#lrwxrwxrwx 1 zouhua zouhua   79 Dec  7 10:28 homo_sapiens.101.gtf -&gt; /data/share/database/Homo_sapiens.GRCh38_release101/Homo_sapiens.GRCh38.101.gtf</span></span><br><span class="line"><span class="comment">#-rw-rw-r-- 1 zouhua zouhua 2.8M Dec  7 10:32 homo_sapiens.101.gtf.genes.tab</span></span><br><span class="line"><span class="comment">#-rw-rw-r-- 1 zouhua zouhua  45M Dec  7 10:32 homo_sapiens.101.gtf.index.cit</span></span><br><span class="line"><span class="comment">#-rw-rw-r-- 1 zouhua zouhua 3.0G Dec  7 10:38 homo_sapiens.101.gtf.kallisto</span></span><br><span class="line"><span class="comment">#-rw-rw-r-- 1 zouhua zouhua 358M Dec  7 10:32 homo_sapiens.101.gtf.transcripts.fasta</span></span><br><span class="line"><span class="comment">#-rw-rw-r-- 1 zouhua zouhua 8.5M Dec  7 10:32 homo_sapiens.101.gtf.transcripts.fi</span></span><br><span class="line"><span class="comment">#-rw-rw-r-- 1 zouhua zouhua  11M Dec  7 10:32 homo_sapiens.101.gtf.transcripts.tab</span></span><br><span class="line"><span class="comment">#-rw-rw-r-- 1 zouhua zouhua  164 Dec  7 10:30 work.sh</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>Using PRICE</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gedi -e Price -reads &lt;mapped-reads&gt; -genomic &lt;prepared-genomes&gt; -prefix &lt;prefix&gt;</span><br></pre></td></tr></table></figure>
-<p>必须参数：</p>
+<p>必须参数：输入reads一般是BAM文件</p>
 <ul>
 <li><code>-reads</code>: Can either be a single BAM file containing mapped reads (make sure that you mapped reads in end-to-end mode, otherwise the information of 5’-end mismatches is lost; also, PRICE needs the MD attribute to identify mismatches, so make sure it is present in the BAM file!), a <code>*.bamlist</code> file containing names of BAM files (one per line), or a <a href="https://github.com/erhard-lab/gedi/wiki/CIT" target="_blank" rel="noopener external nofollow noreferrer">CIT</a> file (e.g. as produced by the pipeline).</li>
 <li><code>-genomic</code>: one or several (separated by space) names of prepared references; make sure that these are the same as used to map the reads!</li>
@@ -945,13 +945,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">856k</span>
+    <span title="Symbols count total">857k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">12:58</span>
+    <span title="Reading time total">12:59</span>
 </div>
 
 <div id="days"></div>
