@@ -284,7 +284,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>8.1k</span>
+              <span>7.9k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -368,11 +368,171 @@
 </li>
 </ul>
 <ul>
-<li><p>结果解读: DIAMOND默认输出结果和BLAST m6格式一致，分为12列</p>
-<p>| query序列ID | subject序列ID | Identity | 匹配长度 | 错配长度 | Gap的次数 | query序列起始位点 | query序列结束位点 | subject序列起始位点 | subject序列结束位点 | E-vaule值 | bitscore得分 |<br>| —————- | ——————- | ———— | ———— | ———— | ————- | ————————- | ————————- | —————————- | —————————- | ————- | —————— |<br>| d1dlwa<em>     | d1dlwa</em>       | 100      | 116      | 0        | 0         | 1                 | 116               | 1                   | 116                 | 1.10E-58  | 220.7        |<br>| d1dlwa<em>     | d2gkma</em>       | 35.4     | 113      | 73       | 0         | 1                 | 113               | 13                  | 125                 | 1.40E-16  | 80.9         |<br>| d1dlwa<em>     | d4i0va</em>       | 31.9     | 119      | 75       | 2         | 1                 | 113               | 2                   | 120                 | 9.50E-10  | 58.2         |<br>| d1dlwa<em>     | d6bmea</em>       | 32.5     | 114      | 73       | 1         | 1                 | 110               | 2                   | 115                 | 2.30E-08  | 53.5         |<br>| d2gkma<em>     | d2gkma</em>       | 100      | 127      | 0        | 0         | 1                 | 127               | 1                   | 127                 | 5.40E-67  | 248.4        |<br>| d2gkma<em>     | d1dlwa</em>       | 34.8     | 115      | 75       | 0         | 13                | 127               | 1                   | 115                 | 1.40E-17  | 84.3         |<br>| d2gkma<em>     | d4i0va</em>       | 33.6     | 110      | 69       | 1         | 13                | 118               | 2                   | 111                 | 2.40E-14  | 73.6         |<br>| d2gkma<em>     | d6bmea</em>       | 35.5     | 110      | 67       | 1         | 13                | 118               | 2                   | 111                 | 7.70E-13  | 68.6         |<br>| d2gkma<em>     | d2bkma</em>       | 37.3     | 67       | 38       | 2         | 13                | 76                | 5                   | 70                  | 1.70E-04  | 40.8         |<br>| d1ngka<em>     | d1ngka</em>       | 100      | 126      | 0        | 0         | 1                 | 126               | 1                   | 126                 | 1.20E-69  | 257.3        |</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1. query序列ID</span><br><span class="line">2. subject序列ID</span><br><span class="line">3. Identity百分比   <span class="comment"># 一致性，query序列与database相似程度，值越大越好     </span></span><br><span class="line">4. 匹配长度         <span class="comment"># 根据匹配长度排序，从长到短</span></span><br><span class="line">5. 错配长度</span><br><span class="line">6. 打开Gap的次数</span><br><span class="line">7. query序列起始位点</span><br><span class="line">8. query序列结束位点</span><br><span class="line">9. subject序列起始位点</span><br><span class="line">10. subject序列结束位点</span><br><span class="line">11. E-vaule值     <span class="comment"># 评估query序列匹配到database的得分情况，分值越低越好</span></span><br><span class="line">12. bitscore得分  <span class="comment"># 当前能匹配到query的数据库要求的大小，值越大则序列越相似</span></span><br></pre></td></tr></table></figure>
-</li>
+<li>结果解读: DIAMOND默认输出结果和BLAST m6格式一致，分为12列</li>
 </ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>query序列ID</th>
+<th>subject序列ID</th>
+<th>Identity</th>
+<th>匹配长度</th>
+<th>错配长度</th>
+<th>Gap的次数</th>
+<th>query序列起始位点</th>
+<th>query序列结束位点</th>
+<th>subject序列起始位点</th>
+<th>subject序列结束位点</th>
+<th>E-vaule值</th>
+<th>bitscore得分</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>d1dlwa_</td>
+<td>d1dlwa_</td>
+<td>100</td>
+<td>116</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>116</td>
+<td>1</td>
+<td>116</td>
+<td>1.10E-58</td>
+<td>220.7</td>
+</tr>
+<tr>
+<td>d1dlwa_</td>
+<td>d2gkma_</td>
+<td>35.4</td>
+<td>113</td>
+<td>73</td>
+<td>0</td>
+<td>1</td>
+<td>113</td>
+<td>13</td>
+<td>125</td>
+<td>1.40E-16</td>
+<td>80.9</td>
+</tr>
+<tr>
+<td>d1dlwa_</td>
+<td>d4i0va_</td>
+<td>31.9</td>
+<td>119</td>
+<td>75</td>
+<td>2</td>
+<td>1</td>
+<td>113</td>
+<td>2</td>
+<td>120</td>
+<td>9.50E-10</td>
+<td>58.2</td>
+</tr>
+<tr>
+<td>d1dlwa_</td>
+<td>d6bmea_</td>
+<td>32.5</td>
+<td>114</td>
+<td>73</td>
+<td>1</td>
+<td>1</td>
+<td>110</td>
+<td>2</td>
+<td>115</td>
+<td>2.30E-08</td>
+<td>53.5</td>
+</tr>
+<tr>
+<td>d2gkma_</td>
+<td>d2gkma_</td>
+<td>100</td>
+<td>127</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>127</td>
+<td>1</td>
+<td>127</td>
+<td>5.40E-67</td>
+<td>248.4</td>
+</tr>
+<tr>
+<td>d2gkma_</td>
+<td>d1dlwa_</td>
+<td>34.8</td>
+<td>115</td>
+<td>75</td>
+<td>0</td>
+<td>13</td>
+<td>127</td>
+<td>1</td>
+<td>115</td>
+<td>1.40E-17</td>
+<td>84.3</td>
+</tr>
+<tr>
+<td>d2gkma_</td>
+<td>d4i0va_</td>
+<td>33.6</td>
+<td>110</td>
+<td>69</td>
+<td>1</td>
+<td>13</td>
+<td>118</td>
+<td>2</td>
+<td>111</td>
+<td>2.40E-14</td>
+<td>73.6</td>
+</tr>
+<tr>
+<td>d2gkma_</td>
+<td>d6bmea_</td>
+<td>35.5</td>
+<td>110</td>
+<td>67</td>
+<td>1</td>
+<td>13</td>
+<td>118</td>
+<td>2</td>
+<td>111</td>
+<td>7.70E-13</td>
+<td>68.6</td>
+</tr>
+<tr>
+<td>d2gkma_</td>
+<td>d2bkma_</td>
+<td>37.3</td>
+<td>67</td>
+<td>38</td>
+<td>2</td>
+<td>13</td>
+<td>76</td>
+<td>5</td>
+<td>70</td>
+<td>1.70E-04</td>
+<td>40.8</td>
+</tr>
+<tr>
+<td>d1ngka_</td>
+<td>d1ngka_</td>
+<td>100</td>
+<td>126</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>126</td>
+<td>1</td>
+<td>126</td>
+<td>1.20E-69</td>
+<td>257.3</td>
+</tr>
+</tbody>
+</table>
+</div>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1. query序列ID</span><br><span class="line">2. subject序列ID</span><br><span class="line">3. Identity百分比   <span class="comment"># 一致性，query序列与database相似程度，值越大越好     </span></span><br><span class="line">4. 匹配长度         <span class="comment"># 根据匹配长度排序，从长到短</span></span><br><span class="line">5. 错配长度</span><br><span class="line">6. 打开Gap的次数</span><br><span class="line">7. query序列起始位点</span><br><span class="line">8. query序列结束位点</span><br><span class="line">9. subject序列起始位点</span><br><span class="line">10. subject序列结束位点</span><br><span class="line">11. E-vaule值     <span class="comment"># 评估query序列匹配到database的得分情况，分值越低越好</span></span><br><span class="line">12. bitscore得分  <span class="comment"># 当前能匹配到query的数据库要求的大小，值越大则序列越相似</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>筛选结果</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 长度从长到短筛选</span></span><br><span class="line">cat out.tsv| sort -n -r -k4 &gt; out.sort.tsv</span><br><span class="line"><span class="comment"># 根据自身研究选择符合的E-value值，E-value值受到数据库大小和query序列长度等因素影响</span></span><br><span class="line"><span class="comment"># 还可以根据identity再次筛选结果</span></span><br></pre></td></tr></table></figure>
@@ -903,7 +1063,7 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">870k</span>
+    <span title="Symbols count total">869k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
