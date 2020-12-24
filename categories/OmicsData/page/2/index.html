@@ -21,26 +21,18 @@
     var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="哈佛大学单细胞转录组分析课程一，它主要介绍单细胞转录组分析的概念。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="(一) 单细胞转录组分析：单细胞测序介绍">
-<meta property="og:url" content="https://zouhua.top/archives/a38313c0.html">
+  <meta name="description" content="不积跬步无以至千里">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hua&#39;s Cabin">
+<meta property="og:url" content="https://zouhua.top/categories/OmicsData/page/2/index.html">
 <meta property="og:site_name" content="Hua&#39;s Cabin">
-<meta property="og:description" content="哈佛大学单细胞转录组分析课程一，它主要介绍单细胞转录组分析的概念。">
+<meta property="og:description" content="不积跬步无以至千里">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://zouhua.top/images/Course_scRNA_01intro/scRNA.jpg">
-<meta property="og:image" content="https://zouhua.top/images/Course_scRNA_01intro/scRNA-seq_cell_diversity.png">
-<meta property="og:image" content="https://zouhua.top/images/Course_scRNA_01intro/sc_analyses.png">
-<meta property="og:image" content="https://zouhua.top/images/Course_scRNA_01intro/batch_effect_pca.png">
-<meta property="og:image" content="https://zouhua.top/images/Course_scRNA_01intro/sc_biol_variability.png">
-<meta property="article:published_time" content="2020-11-22T00:38:00.000Z">
-<meta property="article:modified_time" content="2020-11-22T15:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
-<meta property="article:tag" content="lesson">
+<meta property="article:tag" content="Bioinformatics">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zouhua.top/images/Course_scRNA_01intro/scRNA.jpg">
 
-<link rel="canonical" href="https://zouhua.top/archives/a38313c0.html">
+<link rel="canonical" href="https://zouhua.top/categories/OmicsData/page/2/">
 
 
 <script id="page-configurations">
@@ -48,12 +40,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'en'
   };
 </script>
 
-  <title>(一) 单细胞转录组分析：单细胞测序介绍 | Hua's Cabin</title>
+  <title>Category: OmicsData | Hua's Cabin</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
     <script>
@@ -219,305 +211,60 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content category">
             
 
-    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/a38313c0.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Hua Zou">
-      <meta itemprop="description" content="不积跬步无以至千里">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hua's Cabin">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          (一) 单细胞转录组分析：单细胞测序介绍
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-			
-			
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-11-22 08:38:00 / Modified: 23:00:00" itemprop="dateCreated datePublished" datetime="2020-11-22T08:38:00+08:00">2020-11-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Course/" itemprop="url" rel="index"><span itemprop="name">Course</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Course/scRNA/" itemprop="url" rel="index"><span itemprop="name">scRNA</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="eye || fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">Views: </span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
   
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/archives/a38313c0.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/archives/a38313c0.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2.5k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h2 id="Single-cell-RNA-seq"><a href="#Single-cell-RNA-seq" class="headerlink" title="Single-cell RNA-seq"></a>Single-cell RNA-seq</h2><p>单细胞转录组测序：从组织中分离出单个细胞，并对单个细胞内部的RNA进行测序的新一代研究转录组水平RNA的方法。</p>
-<p align="center">
-<img src="/images/Course_scRNA_01intro/scRNA.jpg" width="600">
-</p>
-
-
-
-<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>bulk RNA-seq是对研究组织的所有RNA进行测序的方法，相当于该组织所有细胞的RNA表达值的平均，但tissues内的细胞拥有者让人难以置信的多样性、状态和相互作用。为了更好理解组织内部细胞的异质性，针对组织内部的单个细胞测序的方法就被开发出来了。它可以观测到单个细胞水平的genes表达情况，这为我们研究同一组织的不同细胞奠定了基础。</p>
-<p align="center">
-<img src="/images/Course_scRNA_01intro/scRNA-seq_cell_diversity.png" width="600">
-</p>
-
-
-
-<p>单细胞转录组技术可以用于：</p>
-<ul>
-<li>探究组织内的细胞类型</li>
-<li>鉴定未知或稀有的细胞类型或细胞状态</li>
-<li>阐明组织内细胞类型在不同处理方法或时间等因素上的基因表达情况</li>
-<li>识别不同条件下的某特定细胞类型的差异表达基因</li>
-<li>可结合空间、调控和蛋白质信息，探索细胞类型的变化</li>
-</ul>
-<p>基于以上的分析方面，常见的研究有如下几类：</p>
-<ul>
-<li>组织内细胞的异质性研究(Cell heterogeneity)</li>
-<li>谱系追踪研究(lineage tracing study)</li>
-<li>随机基因表达研究 (Stochastic gene expression study)</li>
-</ul>
-<p align="center">
-<img src="/images/Course_scRNA_01intro/sc_analyses.png" width="600">
-</p>
-
-
-
-
-
-<h3 id="Challenges-of-scRNA-seq-analysis"><a href="#Challenges-of-scRNA-seq-analysis" class="headerlink" title="Challenges of scRNA-seq analysis"></a>Challenges of scRNA-seq analysis</h3><p>bullk RNA-seq无法在细胞水平研究基因表达的差异性，这可能会掩盖组织内部不同celltype之间基因差异的现象。虽然scRNA-seq能够从细胞水平研究基因差异，但它的样本制备和建库要更加昂贵，并且它的分析更加复杂且结果解读更加难。这是因为scRNA-seq的数据：</p>
-<ul>
-<li>数据量大，成千上万个细胞；$m<em>{gene} x n</em>{cell}$</li>
-<li>每个细胞的测序深度低</li>
-<li>Technical variability across cells/samples</li>
-<li>Biological variability across cells/samples</li>
-</ul>
-<h4 id="Large-volume-of-data"><a href="#Large-volume-of-data" class="headerlink" title="Large volume of data"></a>Large volume of data</h4><p>表达数据包含了成千上万个含有数以万计的细胞，这意味着需要消耗更多的计算资源以及需要更长的分析时间。</p>
-<h4 id="Low-depth-of-sequencing-per-cell"><a href="#Low-depth-of-sequencing-per-cell" class="headerlink" title="Low depth of sequencing per cell"></a>Low depth of sequencing per cell</h4><p>根据droplet 方法测序结果，每个细胞只能测到10~50%的转录组，这导致了很多基因表达值为0 。如果一个基因表达值为0，那么可能是该基因没有表达或该基因的转录本没有检测到。在整个细胞群内，具有较高表达水平的基因倾向于具有较少的0值（这类似微生物binning原理，来自同一微生物的contig应该具有相似的丰度且四核苷酸频率也类似）。由于此特征，所以在任何细胞内都不会检测到很多基因并且细胞之间的基因表达高度差异。</p>
-<blockquote>
-<p><strong>Zero-inflated?</strong> scRNA-seq data is often referred to as zero-inflated; however, recent analyses suggest that it does not contain more zeros than what would be expected given the sequencing depth [<a href="http://www.nxn.se/valent/2017/11/16/droplet-scrna-seq-is-not-zero-inflated" target="_blank" rel="noopener external nofollow noreferrer">Valentine Svensson’s blog post</a>].</p>
-</blockquote>
-<h4 id="Technical-variability-across-cells-samples"><a href="#Technical-variability-across-cells-samples" class="headerlink" title="Technical variability across cells/samples"></a>Technical variability across cells/samples</h4><p>技术变异的引入会导致细胞内部的基因表达更加趋同或趋异，而不是基于生物学意义，这可能会掩盖细胞的类型。技术变异主要有：</p>
-<ul>
-<li><strong>细胞特异性捕获效率(Cell-specific capture efficiency):</strong> 不同细胞之间的转录本千差万别，这导致它们的测序深度可能不一样</li>
-<li><strong>建库质量(Library quality):</strong> 降解RNA、死细胞和对细胞定量不准确等均会导致质量指标下降</li>
-<li><strong>扩增偏好性(Amplification bias):</strong> PCR扩增时，并不是所有的转录本均可以扩增到同一水平</li>
-<li><strong>批次效应(Batch effects):</strong> 批次效应可能出现在采样，建库和测序等所有步骤中，在合并数据时需要特别考虑到</li>
-</ul>
-<p>如何验证细胞之间是否存在批次效应：</p>
-<ul>
-<li>是否同一天提取所有RNA</li>
-<li>是否同一天建库</li>
-<li>是否同一人对所有样本取样建库</li>
-<li>是否对所用样本使用同一类试剂</li>
-<li>是否在同一地点对所有样本进行分离和建库操作</li>
-</ul>
-<p align="center">
-<img src="/images/Course_scRNA_01intro/batch_effect_pca.png" width="600">
-</p>
-
-
-
-<h4 id="Biological-variability-across-cells-samples"><a href="#Biological-variability-across-cells-samples" class="headerlink" title="Biological variability across cells/samples"></a>Biological variability across cells/samples</h4><p>非生物学意义来源的变异也会导致和技术变异类似的结果，它们对识别细胞类型有干扰作用。非生物学意义的变异有：</p>
-<ul>
-<li><strong>转录状态(Transcriptional bursting):</strong>  基因转录的开启和关闭对提取RNA有较大影响，它们不可能同时转录</li>
-<li><strong>RNA处理速率不同(Varying rates of RNA processing):</strong> 不同的RNA的处理速率是不一样</li>
-<li><strong>如何定义细胞(Continuous or discrete cell identities):</strong> 定义细胞是连续型还是离散型</li>
-<li><strong>环境刺激(Environment stimuli):</strong> 依赖空间位置或信号分子等因素的细胞的局部环境将会影响基因表达</li>
-<li><strong>时间变化(Temporal changes):</strong> 基本的细胞流动过程，如细胞周期都将影响单个细胞的基因表达 </li>
-</ul>
-<p align="center">
-<img src="/images/Course_scRNA_01intro/sc_biol_variability.png" width="500">
-</p>
-
-
-
-<h3 id="Conclusions"><a href="#Conclusions" class="headerlink" title="Conclusions"></a>Conclusions</h3><p>虽然scRNA-seq技术作为强有力的工具在单个细胞分辨率上研究基因表达发挥着重要作用，但它仍然具有很多调整并且众多变异来源将使数据分析变得更加复杂。综上，最后建议大家：</p>
-<ul>
-<li>能用简单且便宜的bulk RNA-seq解决问题的就用它，除非所要研究的科学问题一定要在单个细胞水平上才可以阐述，这时候使用scRNA-seq最佳</li>
-<li>根据实验设计的问题去对单细胞建库和数据分析，不同的问题下的建库和分析方法可能差别很大</li>
-<li>避免技术来源的变异引入，一般需要做以下工作：<ul>
-<li>和有经验的专业人士反复探讨实验设计是否符合要研究的科学问题</li>
-<li>分离和提取RNA在同一时间进行</li>
-<li>同时制备上机样品或备选样品避免批次效应</li>
-<li>不要混淆与生物学意义无关的变量，如性别、年龄或批次效应</li>
-</ul>
-</li>
-</ul>
-<p><strong>好的研究必然是基于好的实验设计之上。</strong></p>
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ol>
-<li><a href="https://github.com/hbctraining/scRNA-seq" target="_blank" rel="noopener external nofollow noreferrer">single cell RNA squencing ing  <em>Harvard Chan Bioinformatics Core</em></a></li>
-</ol>
-<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
-
-    </div>
-
-    
-    
-    
-	
-	  <div>
-	    ﻿<div>
-  
-    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
-      <span>------------- The End </span>
-      <i class="fa fa-paw"></i>
-      <span> Thanks for reading --------</span>
-    </div>
-  
-</div>
-
-
-	  </div>
-	
-      
-  <div class="popular-posts-header">Related Posts</div>
-  <ul class="popular-posts">
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/78f56d69.html" rel="bookmark">Lesson 3: Shiny App or Web Add control widgets</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/ba66703a.html" rel="bookmark">Lesson 2: Shiny App or Web Build a user interface</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/69edb1f7.html" rel="bookmark">Lesson 1: Shiny App or Web Welcome to shiny</a></div>
-    </li>
-  </ul>
-
-        <div class="reward-container">
-  <div></div>
-  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
-    Donate
-  </button>
-  <div id="qr" style="display: none;">
-      
-      <div style="display: inline-block;">
-        <img src="/images/wechatpay.png" alt="Hua Zou WeChat Pay">
-        <p>WeChat Pay</p>
-      </div>
-      
-      <div style="display: inline-block;">
-        <img src="/images/alipay.png" alt="Hua Zou Alipay">
-        <p>Alipay</p>
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        <h2 class="collection-header">OmicsData
+          <small>Category</small>
+        </h2>
       </div>
 
-  </div>
-</div>
-
-        
-
-<div>
-<ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>Post author:  </strong>Hua Zou
-  </li>
-  <li class="post-copyright-link">
-    <strong>Post link: </strong>
-    <a href="https://zouhua.top/archives/a38313c0.html" title="(一) 单细胞转录组分析：单细胞测序介绍">https://zouhua.top/archives/a38313c0.html</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
-  </li>
-</ul>
-</div>
-
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/lesson/" rel="tag"><i class="fa fa-tags"></i> lesson</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/archives/e4d57ab8.html" rel="prev" title="从Ribo-seq reads识别CDS序列：PRICE pipeline">
-      <i class="fa fa-chevron-left"></i> 从Ribo-seq reads识别CDS序列：PRICE pipeline
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/archives/abf82640.html" rel="next" title="Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation">
-      Single-Cell Sequencing of Mouse Heart Immune Infiltrate in Pressure Overload-Driven Heart Failure Reveals Extent of Immune Activation <i class="fa fa-chevron-right"></i>
-    </a></div>
+      
+    <div class="collection-year">
+      <span class="collection-header">2019</span>
     </div>
-      </footer>
-    
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2019-09-01T00:00:00+08:00"
+              content="2019-09-01">
+          09-01
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/archives/194665d.html" itemprop="url">
+            <span itemprop="name">扩增子分析：16s rRNA分析流程</span>
+          </a>
+      </div>
+
+    </header>
   </article>
+
+    </div>
+  </div>
   
   
   
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/categories/OmicsData/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/categories/OmicsData/">1</a><span class="page-number current">2</span>
+  </nav>
 
 
 
           </div>
           
-    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -564,7 +311,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Single-cell-RNA-seq"><span class="nav-number">1.</span> <span class="nav-text">Single-cell RNA-seq</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction"><span class="nav-number">1.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenges-of-scRNA-seq-analysis"><span class="nav-number">1.2.</span> <span class="nav-text">Challenges of scRNA-seq analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Large-volume-of-data"><span class="nav-number">1.2.1.</span> <span class="nav-text">Large volume of data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Low-depth-of-sequencing-per-cell"><span class="nav-number">1.2.2.</span> <span class="nav-text">Low depth of sequencing per cell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Technical-variability-across-cells-samples"><span class="nav-number">1.2.3.</span> <span class="nav-text">Technical variability across cells&#x2F;samples</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Biological-variability-across-cells-samples"><span class="nav-number">1.2.4.</span> <span class="nav-text">Biological variability across cells&#x2F;samples</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusions"><span class="nav-number">1.3.</span> <span class="nav-text">Conclusions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">1.4.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -1103,61 +849,6 @@ document.querySelectorAll('.pdfobject-container').forEach(element => {
   
 
   
-      
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-          load: ['[tex]/mhchem'],
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-          packages: {'[+]': ['mhchem']},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-    
 
   
 
