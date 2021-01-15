@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -44,7 +44,7 @@
     lang   : 'en'
   };
 </script>
-
+<link rel="stylesheet" type="text/css" href="/css/injector.css" />
   <title>Hua's Cabin</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
@@ -149,12 +149,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">45</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">46</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">120</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">125</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -216,8 +216,8 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/1cac9fe5.html">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,zh-CN,default">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/34100332.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -231,7 +231,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/archives/1cac9fe5.html" class="post-title-link" itemprop="url">Differential Gene expression in RNA-seq pipeline Workflow</a>
+            <a href="/archives/34100332.html" class="post-title-link" itemprop="url">Gene Set Variation Analysis (GSVA) & single sample gene set enrichment analysis (ssGSEA)</a>
         </h2>
 
         <div class="post-meta">
@@ -242,340 +242,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-11 18:00:00 / Modified: 23:00:00" itemprop="dateCreated datePublished" datetime="2020-07-11T18:00:00+08:00">2020-07-11</time>
+              <time title="Created: 2020-09-07 11:26:00" itemprop="dateCreated datePublished" datetime="2020-09-07T11:26:00+08:00">2020-09-07</time>
             </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OmicsData/" itemprop="url" rel="index"><span itemprop="name">OmicsData</span></a>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
                 </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OmicsData/RNA-seq/" itemprop="url" rel="index"><span itemprop="name">RNA-seq</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/archives/1cac9fe5.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/archives/1cac9fe5.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-08 23:00:00" itemprop="dateModified" datetime="2020-09-08T23:00:00+08:00">2020-09-08</time>
               </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>19k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>17 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          基于STAR比对软件的RNA-seq分析流程：从raw data到gene count matrix再到简单统计分析。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/1cac9fe5.html#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-	
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/40769f33.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Hua Zou">
-      <meta itemprop="description" content="不积跬步无以至千里">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hua's Cabin">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/40769f33.html" class="post-title-link" itemprop="url">面试</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-			
-			
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-06-01 16:00:05 / Modified: 23:30:00" itemprop="dateCreated datePublished" datetime="2020-06-01T16:00:05+08:00">2020-06-01</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/Diary/" itemprop="url" rel="index"><span itemprop="name">Diary</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/archives/40769f33.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/archives/40769f33.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>26k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>24 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          有东西被加密了, 请输入密码查看.
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/40769f33.html#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-	
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/e91c2e6d.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Hua Zou">
-      <meta itemprop="description" content="不积跬步无以至千里">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hua's Cabin">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/e91c2e6d.html" class="post-title-link" itemprop="url">初步了解RNA_seq分析流程</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-			
-			
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-05-26 18:00:00 / Modified: 23:00:00" itemprop="dateCreated datePublished" datetime="2020-05-26T18:00:00+08:00">2020-05-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OmicsData/" itemprop="url" rel="index"><span itemprop="name">OmicsData</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OmicsData/RNA-seq/" itemprop="url" rel="index"><span itemprop="name">RNA-seq</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/archives/e91c2e6d.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/archives/e91c2e6d.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>3.2k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>3 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          RNA-seq是利用测序手段对稳定状态下样本内的RNA进行定量测量的一类方法。研究点：基因差异表达（外显子exon）；新转录本（novel transcripts）；alternative splice（mRNA的可变剪切）；SNPs（Single Nucleotide Polymorphisom）。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/e91c2e6d.html#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-	
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/f5f7e032.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Hua Zou">
-      <meta itemprop="description" content="不积跬步无以至千里">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hua's Cabin">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/f5f7e032.html" class="post-title-link" itemprop="url">三元图（ternary plot）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-			
-			
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-05-22 09:15:00 / Modified: 10:00:00" itemprop="dateCreated datePublished" datetime="2020-05-22T09:15:00+08:00">2020-05-22</time>
-            </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -586,7 +262,7 @@
                 </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/R/Visualization/" itemprop="url" rel="index"><span itemprop="name">Visualization</span></a>
+                  <a href="/categories/R/DataAnalysis/" itemprop="url" rel="index"><span itemprop="name">DataAnalysis</span></a>
                 </span>
             </span>
 
@@ -599,8 +275,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/archives/f5f7e032.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/archives/f5f7e032.html" itemprop="commentCount"></span>
+    <a title="valine" href="/archives/34100332.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/34100332.html" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -610,14 +286,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2.8k</span>
+              <span>9.8k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>3 mins.</span>
+              <span>9 mins.</span>
             </span>
 
         </div>
@@ -629,10 +305,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          三元图是重心图的一种，它有三个变量，但需要三者总和为恒定值。在一个等边三角形坐标系中，图中某一点的位置代表三个变量间的比例关系。常用于物理化学、 岩石学、矿物学、冶金学和其它物理科学，用于表示在同一个系统中三组分间的比例。在群体遗传学中，它被称做Finetti图；在博弈论中，常被称为simplex图。
+          评估差异通路的方法有很多，主要分成两类：基于拓扑结构和不基于拓扑结构，拓扑结果指的是代谢通路酶之间的相关关系。GSVA和ssGSEA均是不基于拓扑结构的代谢通路富集分析的方法。
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/archives/f5f7e032.html#more" rel="contents">
+              <a class="btn" href="/archives/34100332.html#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -656,8 +332,8 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/4635a5ed.html">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,zh-CN,default">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/9bb97837.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -671,7 +347,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/archives/4635a5ed.html" class="post-title-link" itemprop="url">随机森林基础及其实现方法</a>
+            <a href="/archives/9bb97837.html" class="post-title-link" itemprop="url">基因富集分析之Deseq2, clusterProfiler和pathview</a>
         </h2>
 
         <div class="post-meta">
@@ -682,21 +358,27 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-04-29 13:32:00 / Modified: 23:00:00" itemprop="dateCreated datePublished" datetime="2020-04-29T13:32:00+08:00">2020-04-29</time>
+              <time title="Created: 2020-08-20 18:00:00" itemprop="dateCreated datePublished" datetime="2020-08-20T18:00:00+08:00">2020-08-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-22 23:00:00" itemprop="dateModified" datetime="2020-08-22T23:00:00+08:00">2020-08-22</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Math/" itemprop="url" rel="index"><span itemprop="name">Math</span></a>
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
                 </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Math/Machine-learning/" itemprop="url" rel="index"><span itemprop="name">Machine learning</span></a>
+                  <a href="/categories/R/DataAnalysis/" itemprop="url" rel="index"><span itemprop="name">DataAnalysis</span></a>
                 </span>
             </span>
 
@@ -709,8 +391,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/archives/4635a5ed.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/archives/4635a5ed.html" itemprop="commentCount"></span>
+    <a title="valine" href="/archives/9bb97837.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/9bb97837.html" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -720,7 +402,117 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>9k</span>
+              <span>5.6k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>5 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          基因富集分析（Gene Set Enrichment Analysis，GSEA）是一种针对全基因组表达谱芯片数据的分析方法，将基因与预定义的基因集进行比较。即综合现有的对基因的定位、性质、功能、生物学意义等信息基础，构建一个分子标签数据库，在此数据库中将已知基因按照染色体位置、已建立基因集、模序、肿瘤相关基因集和GO基因集等多个功能基因集进行分组与归类。通过分析基因表达谱数据，了解它们在特定的功能基因集中的表达状况，以及这种表达状况是否存在某种统计学显著性。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/9bb97837.html#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+	
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,zh-CN,default">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/365b09c8.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/365b09c8.html" class="post-title-link" itemprop="url">RNA-seq pipeline through kallisto or salmon</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-11 18:00:00 / Modified: 23:00:00" itemprop="dateCreated datePublished" datetime="2020-08-11T18:00:00+08:00">2020-08-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OmicsData/" itemprop="url" rel="index"><span itemprop="name">OmicsData</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OmicsData/RNA-seq/" itemprop="url" rel="index"><span itemprop="name">RNA-seq</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/archives/365b09c8.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/365b09c8.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>8.9k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -739,10 +531,242 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          随机森林是一种Bagging类型的集成算法，通过组合多个弱分类器（决策树）构成判决森林，最终结果通过每个分类器的投票或取均值，使得整体模型的结果具有较高的精确度和泛化性能。“随机”使模型具有抗过拟合能力，“森林”使模型更加精准。
+          kallisto 和salmon相比含有hisat2和STAR等软的RNA-seq流程而言，速度更快，这是因为该软件基于转录组序列reference（也即是cDNA序列）。通常如果想研究RNA-seq过程基因发生了何种变化且不需知道新转录本，可以直接使用kallisto或salmon获取转录本的丰度信息。
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/archives/4635a5ed.html#more" rel="contents">
+              <a class="btn" href="/archives/365b09c8.html#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+	
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,zh-CN,default">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/51fdc39d.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/51fdc39d.html" class="post-title-link" itemprop="url">A full workflow of miRNA-seq pipeline</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-08-01 18:00:00" itemprop="dateCreated datePublished" datetime="2020-08-01T18:00:00+08:00">2020-08-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-02 23:00:00" itemprop="dateModified" datetime="2020-09-02T23:00:00+08:00">2020-09-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OmicsData/" itemprop="url" rel="index"><span itemprop="name">OmicsData</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OmicsData/miRNA-seq/" itemprop="url" rel="index"><span itemprop="name">miRNA-seq</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/archives/51fdc39d.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/51fdc39d.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>27k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>25 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          miRNA可以调节靶基因的表达。miRNA序列较短，在测序过程中可能混入了其他RNA，因此miRNA的分析流程需要多次过滤非miRNA序列。另外在比对miRNA到reference时候，推荐使用短序列比对软bowtie。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/51fdc39d.html#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+	
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,zh-CN,default">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/535ec7e6.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/535ec7e6.html" class="post-title-link" itemprop="url">生信服务器的搭建之旅</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-20 18:00:00" itemprop="dateCreated datePublished" datetime="2020-07-20T18:00:00+08:00">2020-07-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-22 23:00:00" itemprop="dateModified" datetime="2020-07-22T23:00:00+08:00">2020-07-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Manage/" itemprop="url" rel="index"><span itemprop="name">Manage</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/archives/535ec7e6.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/535ec7e6.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>8.2k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>7 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          一台装有centos系统的服务器是生信人员所必须的，它可用于大数据分析，但如何搭建却并不是所有的生信分析人员的必须技能，现记录下自己从头搭建该平台的历程。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/535ec7e6.html#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -766,7 +790,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -834,14 +858,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-count">46</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -886,23 +910,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/9d8099c8.html" title="MetaPhlAn 3.0:  宏基因组物种组成分析软件" target="_blank">MetaPhlAn 3.0:  宏基因组物种组成分析软件</a>
+				  <a href="/archives/5f7d60d7.html" title="机器学习（五）：建模" target="_blank">机器学习（五）：建模</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/ed207fe7.html" title="Metagenomic sequencing pipeline: from rawdata to taxonomy and function profile(Operation)" target="_blank">Metagenomic sequencing pipeline: from rawdata to taxonomy and function profile(Operation)</a>
+				  <a href="/archives/e60214f7.html" title="机器学习（四）：数据分割" target="_blank">机器学习（四）：数据分割</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/36ef12a1.html" title="Metagenomic sequencing pipeline: from rawdata to taxonomy and function profile" target="_blank">Metagenomic sequencing pipeline: from rawdata to taxonomy and function profile</a>
+				  <a href="/archives/c6d9290f.html" title="机器学习（三）：特征选择" target="_blank">机器学习（三）：特征选择</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/75a56465.html" title="Metagenomic sequencing pipeline: Mind Map" target="_blank">Metagenomic sequencing pipeline: Mind Map</a>
+				  <a href="/archives/77cc47f3.html" title="机器学习（二）：数据预处理" target="_blank">机器学习（二）：数据预处理</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/95cf1317.html" title="网络图: 如何对网络图进行分组展示" target="_blank">网络图: 如何对网络图进行分组展示</a>
+				  <a href="/archives/8930e5df.html" title="机器学习（一）：初步认识机器学习" target="_blank">机器学习（一）：初步认识机器学习</a>
 				</li>
 			  
 			</ul>
@@ -1203,13 +1227,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">902k</span>
+    <span title="Symbols count total">933k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">13:40</span>
+    <span title="Reading time total">14:08</span>
 </div>
 
 <div id="days"></div>
@@ -1453,23 +1477,17 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       <i class='fa fa-chevron-up'></i>    </div>
     
   </div>
-  <div class="moon-menu-button" onclick="moonMenuClick()">
-    <svg class="moon-menu-svg">
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
       <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
       <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
-      <g class="moon-menu-points">
-        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
-        <circle class="moon-menu-point" r=".2rem"></circle>
-        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
-      </g>
     </svg>
-    <div class="moon-menu-icon">
-    </div>
-    <div class="moon-menu-text">
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
     </div>
   </div>
-</div>
-<script src="/js/injector.js"></script>
+</div><script src="/js/injector.js"></script>
   
   ﻿
 

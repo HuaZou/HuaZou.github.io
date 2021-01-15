@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -50,7 +50,7 @@
     lang   : 'en'
   };
 </script>
-
+<link rel="stylesheet" type="text/css" href="/css/injector.css" />
   <title>Amplicon sequencing analysis pipeline through qiime2 platform | Hua's Cabin</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
@@ -155,12 +155,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">45</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">46</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">120</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">125</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -566,7 +566,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Amplicon-sequencing-analysis-pipeline-through-qiime2"><span class="nav-number">1.</span> <span class="nav-text">Amplicon sequencing analysis pipeline through qiime2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Platform"><span class="nav-number">1.1.</span> <span class="nav-text">Platform</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#step1-download-the-yaml-file"><span class="nav-number">1.1.1.</span> <span class="nav-text">step1: download the yaml file</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step2-update-the-conda-version"><span class="nav-number">1.1.2.</span> <span class="nav-text">step2: update the conda version</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step3-modify-the-condarc-and-yaml-file"><span class="nav-number">1.1.3.</span> <span class="nav-text">step3: modify the .condarc and yaml file</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step4-create-the-qiime2-2020-8-conda-environment"><span class="nav-number">1.1.4.</span> <span class="nav-text">step4: create the qiime2-2020.8 conda environment</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step5-activate-environment-and-test-installation"><span class="nav-number">1.1.5.</span> <span class="nav-text">step5: activate environment and test installation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-pipeline"><span class="nav-number">1.2.</span> <span class="nav-text">Analysis pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Check-the-fastq-phred-score"><span class="nav-number">1.2.1.</span> <span class="nav-text">Check the fastq phred score</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Get-the-positions-of-primer-in-the-fastq"><span class="nav-number">1.2.2.</span> <span class="nav-text">Get the positions of primer in the fastq</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Convert-fastq-into-qza"><span class="nav-number">1.2.3.</span> <span class="nav-text">Convert fastq into qza</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sequence-quality-control"><span class="nav-number">1.2.4.</span> <span class="nav-text">Sequence quality control</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Taxonomic-annotation"><span class="nav-number">1.2.5.</span> <span class="nav-text">Taxonomic annotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter-the-unsuitable-ASV"><span class="nav-number">1.2.6.</span> <span class="nav-text">Filter the unsuitable ASV</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-remove-low-occurrence-ASVs"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">step1: remove low occurrence ASVs</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step2-remove-contamination-and-mitochondria-chloroplast-sequence"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">step2: remove contamination and mitochondria, chloroplast sequence.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step3-drop-the-low-depth-samples"><span class="nav-number">1.2.6.3.</span> <span class="nav-text">step3:   drop the low depth samples:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Downstream-analysis"><span class="nav-number">1.3.</span> <span class="nav-text">Downstream analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Constructing-phylogenetic-tree-and-diversity-analysis"><span class="nav-number">1.3.1.</span> <span class="nav-text">Constructing phylogenetic tree and diversity analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-系统发育树能够服务于后续多样性分析"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">step1: 系统发育树能够服务于后续多样性分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step2-rarefication-curve"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">step2: rarefication curve:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step3-diversity-analysis"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">step3: diversity analysis</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step4-faith-pd-diversity-parameters"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">step4:  faith_pd diversity parameters</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#visualizing-taxonomic-composition"><span class="nav-number">1.3.2.</span> <span class="nav-text">visualizing taxonomic composition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Analysis-of-composition-of-microbiomes-ANCOM"><span class="nav-number">1.3.3.</span> <span class="nav-text">Analysis of composition of microbiomes (ANCOM)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#export-qza-into-other-format-type-data"><span class="nav-number">1.3.4.</span> <span class="nav-text">export qza into other format type data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LEfse"><span class="nav-number">1.3.5.</span> <span class="nav-text">LEfse</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-install-lefse-through-conda"><span class="nav-number">1.3.5.1.</span> <span class="nav-text">step1: install lefse through conda</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step2-collapse-the-table-gza-to-the-L6-level"><span class="nav-number">1.3.5.2.</span> <span class="nav-text">step2: collapse the table.gza to the L6 level</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step3-calculate-relative-frequency-for-the-collapsed-table-relative-abundance-instead-of-counts"><span class="nav-number">1.3.5.3.</span> <span class="nav-text">step3: calculate relative-frequency for the collapsed table (relative abundance instead of counts)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step4-export-biom-file"><span class="nav-number">1.3.5.4.</span> <span class="nav-text">step4: export biom file</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step5-convert-biom-to-text-file"><span class="nav-number">1.3.5.5.</span> <span class="nav-text">step5: convert biom to text file</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step6-filter-tax"><span class="nav-number">1.3.5.6.</span> <span class="nav-text">step6: filter tax</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step7-run-lefse"><span class="nav-number">1.3.5.7.</span> <span class="nav-text">step7: run lefse</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Functional-prediction-picrust2"><span class="nav-number">1.3.6.</span> <span class="nav-text">Functional prediction: picrust2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">1.4.</span> <span class="nav-text">引用</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Amplicon-sequencing-analysis-pipeline-through-qiime2"><span class="nav-number">1.</span> <span class="nav-text">Amplicon sequencing analysis pipeline through qiime2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Platform"><span class="nav-number">1.1.</span> <span class="nav-text">Platform</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#step1-download-the-yaml-file"><span class="nav-number">1.1.1.</span> <span class="nav-text">step1: download the yaml file</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step2-update-the-conda-version"><span class="nav-number">1.1.2.</span> <span class="nav-text">step2: update the conda version</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step3-modify-the-condarc-and-yaml-file"><span class="nav-number">1.1.3.</span> <span class="nav-text">step3: modify the .condarc and yaml file</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step4-create-the-qiime2-2020-8-conda-environment"><span class="nav-number">1.1.4.</span> <span class="nav-text">step4: create the qiime2-2020.8 conda environment</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step5-activate-environment-and-test-installation"><span class="nav-number">1.1.5.</span> <span class="nav-text">step5: activate environment and test installation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-pipeline"><span class="nav-number">1.2.</span> <span class="nav-text">Analysis pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Check-the-fastq-phred-score"><span class="nav-number">1.2.1.</span> <span class="nav-text">Check the fastq phred score</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Get-the-positions-of-primer-in-the-fastq"><span class="nav-number">1.2.2.</span> <span class="nav-text">Get the positions of primer in the fastq</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Convert-fastq-into-qza"><span class="nav-number">1.2.3.</span> <span class="nav-text">Convert fastq into qza</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sequence-quality-control"><span class="nav-number">1.2.4.</span> <span class="nav-text">Sequence quality control</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Taxonomic-annotation"><span class="nav-number">1.2.5.</span> <span class="nav-text">Taxonomic annotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter-the-unsuitable-ASV"><span class="nav-number">1.2.6.</span> <span class="nav-text">Filter the unsuitable ASV</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-remove-low-occurrence-ASVs"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">step1: remove low occurrence ASVs</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step2-remove-contamination-and-mitochondria-chloroplast-sequence"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">step2: remove contamination and mitochondria, chloroplast sequence.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step3-drop-the-low-depth-samples"><span class="nav-number">1.2.6.3.</span> <span class="nav-text">step3:   drop the low depth samples:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Downstream-analysis"><span class="nav-number">1.3.</span> <span class="nav-text">Downstream analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Constructing-phylogenetic-tree-and-diversity-analysis"><span class="nav-number">1.3.1.</span> <span class="nav-text">Constructing phylogenetic tree and diversity analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2%E6%A0%91%E8%83%BD%E5%A4%9F%E6%9C%8D%E5%8A%A1%E4%BA%8E%E5%90%8E%E7%BB%AD%E5%A4%9A%E6%A0%B7%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">step1: 系统发育树能够服务于后续多样性分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step2-rarefication-curve"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">step2: rarefication curve:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step3-diversity-analysis"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">step3: diversity analysis</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step4-faith-pd-diversity-parameters"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">step4:  faith_pd diversity parameters</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#visualizing-taxonomic-composition"><span class="nav-number">1.3.2.</span> <span class="nav-text">visualizing taxonomic composition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Analysis-of-composition-of-microbiomes-ANCOM"><span class="nav-number">1.3.3.</span> <span class="nav-text">Analysis of composition of microbiomes (ANCOM)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#export-qza-into-other-format-type-data"><span class="nav-number">1.3.4.</span> <span class="nav-text">export qza into other format type data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LEfse"><span class="nav-number">1.3.5.</span> <span class="nav-text">LEfse</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-install-lefse-through-conda"><span class="nav-number">1.3.5.1.</span> <span class="nav-text">step1: install lefse through conda</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step2-collapse-the-table-gza-to-the-L6-level"><span class="nav-number">1.3.5.2.</span> <span class="nav-text">step2: collapse the table.gza to the L6 level</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step3-calculate-relative-frequency-for-the-collapsed-table-relative-abundance-instead-of-counts"><span class="nav-number">1.3.5.3.</span> <span class="nav-text">step3: calculate relative-frequency for the collapsed table (relative abundance instead of counts)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step4-export-biom-file"><span class="nav-number">1.3.5.4.</span> <span class="nav-text">step4: export biom file</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step5-convert-biom-to-text-file"><span class="nav-number">1.3.5.5.</span> <span class="nav-text">step5: convert biom to text file</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step6-filter-tax"><span class="nav-number">1.3.5.6.</span> <span class="nav-text">step6: filter tax</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step7-run-lefse"><span class="nav-number">1.3.5.7.</span> <span class="nav-text">step7: run lefse</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Functional-prediction-picrust2"><span class="nav-number">1.3.6.</span> <span class="nav-text">Functional prediction: picrust2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">1.4.</span> <span class="nav-text">引用</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -582,14 +582,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-count">46</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -634,23 +634,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/9d8099c8.html" title="MetaPhlAn 3.0:  宏基因组物种组成分析软件" target="_blank">MetaPhlAn 3.0:  宏基因组物种组成分析软件</a>
+				  <a href="/archives/5f7d60d7.html" title="机器学习（五）：建模" target="_blank">机器学习（五）：建模</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/ed207fe7.html" title="Metagenomic sequencing pipeline: from rawdata to taxonomy and function profile(Operation)" target="_blank">Metagenomic sequencing pipeline: from rawdata to taxonomy and function profile(Operation)</a>
+				  <a href="/archives/e60214f7.html" title="机器学习（四）：数据分割" target="_blank">机器学习（四）：数据分割</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/36ef12a1.html" title="Metagenomic sequencing pipeline: from rawdata to taxonomy and function profile" target="_blank">Metagenomic sequencing pipeline: from rawdata to taxonomy and function profile</a>
+				  <a href="/archives/c6d9290f.html" title="机器学习（三）：特征选择" target="_blank">机器学习（三）：特征选择</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/75a56465.html" title="Metagenomic sequencing pipeline: Mind Map" target="_blank">Metagenomic sequencing pipeline: Mind Map</a>
+				  <a href="/archives/77cc47f3.html" title="机器学习（二）：数据预处理" target="_blank">机器学习（二）：数据预处理</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/95cf1317.html" title="网络图: 如何对网络图进行分组展示" target="_blank">网络图: 如何对网络图进行分组展示</a>
+				  <a href="/archives/8930e5df.html" title="机器学习（一）：初步认识机器学习" target="_blank">机器学习（一）：初步认识机器学习</a>
 				</li>
 			  
 			</ul>
@@ -951,13 +951,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">902k</span>
+    <span title="Symbols count total">933k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">13:40</span>
+    <span title="Reading time total">14:08</span>
 </div>
 
 <div id="days"></div>
@@ -1146,23 +1146,17 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       <i class='fa fa-chevron-up'></i>    </div>
     
   </div>
-  <div class="moon-menu-button" onclick="moonMenuClick()">
-    <svg class="moon-menu-svg">
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
       <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
       <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
-      <g class="moon-menu-points">
-        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
-        <circle class="moon-menu-point" r=".2rem"></circle>
-        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
-      </g>
     </svg>
-    <div class="moon-menu-icon">
-    </div>
-    <div class="moon-menu-text">
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
     </div>
   </div>
-</div>
-<script src="/js/injector.js"></script>
+</div><script src="/js/injector.js"></script>
   
   ﻿
 

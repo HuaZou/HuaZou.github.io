@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -48,7 +48,7 @@
     lang   : 'en'
   };
 </script>
-
+<link rel="stylesheet" type="text/css" href="/css/injector.css" />
   <title>R编程语言简介 | Hua's Cabin</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
@@ -153,12 +153,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">45</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">46</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">120</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">125</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -548,7 +548,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#R起源"><span class="nav-number">1.</span> <span class="nav-text">R起源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#R特点"><span class="nav-number">1.1.</span> <span class="nav-text">R特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R软件安装和编辑器RStudio"><span class="nav-number">2.</span> <span class="nav-text">R软件安装和编辑器RStudio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R包的安装"><span class="nav-number">3.</span> <span class="nav-text">R包的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-基本安装，直接从R的CRAN下载"><span class="nav-number">3.1.</span> <span class="nav-text">1. 基本安装，直接从R的CRAN下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上"><span class="nav-number">3.2.</span> <span class="nav-text">2. github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-基于bioconductor安装"><span class="nav-number">3.3.</span> <span class="nav-text">3. 基于bioconductor安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-本地安装-zip压缩等文件"><span class="nav-number">3.4.</span> <span class="nav-text">4. 本地安装.zip压缩等文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R包管理和查看"><span class="nav-number">4.</span> <span class="nav-text">R包管理和查看</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-加载包的两种方式，library和require"><span class="nav-number">4.1.</span> <span class="nav-text">1. 加载包的两种方式，library和require</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-查看R包"><span class="nav-number">4.2.</span> <span class="nav-text">2. 查看R包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-更新和卸载包"><span class="nav-number">4.3.</span> <span class="nav-text">3. 更新和卸载包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-升级R，但不重装packages"><span class="nav-number">4.4.</span> <span class="nav-text">4. 升级R，但不重装packages</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置共同的R-library"><span class="nav-number">5.</span> <span class="nav-text">设置共同的R library</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">6.</span> <span class="nav-text">引用</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#R%E8%B5%B7%E6%BA%90"><span class="nav-number">1.</span> <span class="nav-text">R起源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#R%E7%89%B9%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">R特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E5%92%8C%E7%BC%96%E8%BE%91%E5%99%A8RStudio"><span class="nav-number">2.</span> <span class="nav-text">R软件安装和编辑器RStudio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R%E5%8C%85%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">3.</span> <span class="nav-text">R包的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%EF%BC%8C%E7%9B%B4%E6%8E%A5%E4%BB%8ER%E7%9A%84CRAN%E4%B8%8B%E8%BD%BD"><span class="nav-number">3.1.</span> <span class="nav-text">1. 基本安装，直接从R的CRAN下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-github%E5%AE%89%E8%A3%85%EF%BC%8C%E5%9B%A0%E4%B8%BA%E6%9C%89%E4%BA%9B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8C%85%E6%98%AFgithub%E5%BC%80%E5%8F%91%E8%80%85%E5%BC%80%E5%8F%91%E4%B8%94%E6%B2%A1%E6%9C%89%E6%8F%90%E4%BA%A4%E5%88%B0CRAN%E4%B8%8A"><span class="nav-number">3.2.</span> <span class="nav-text">2. github安装，因为有些第三方包是github开发者开发且没有提交到CRAN上</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%9F%BA%E4%BA%8Ebioconductor%E5%AE%89%E8%A3%85"><span class="nav-number">3.3.</span> <span class="nav-text">3. 基于bioconductor安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85-zip%E5%8E%8B%E7%BC%A9%E7%AD%89%E6%96%87%E4%BB%B6"><span class="nav-number">3.4.</span> <span class="nav-text">4. 本地安装.zip压缩等文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R%E5%8C%85%E7%AE%A1%E7%90%86%E5%92%8C%E6%9F%A5%E7%9C%8B"><span class="nav-number">4.</span> <span class="nav-text">R包管理和查看</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%8A%A0%E8%BD%BD%E5%8C%85%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%8Clibrary%E5%92%8Crequire"><span class="nav-number">4.1.</span> <span class="nav-text">1. 加载包的两种方式，library和require</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%9F%A5%E7%9C%8BR%E5%8C%85"><span class="nav-number">4.2.</span> <span class="nav-text">2. 查看R包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%9B%B4%E6%96%B0%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%8C%85"><span class="nav-number">4.3.</span> <span class="nav-text">3. 更新和卸载包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%8D%87%E7%BA%A7R%EF%BC%8C%E4%BD%86%E4%B8%8D%E9%87%8D%E8%A3%85packages"><span class="nav-number">4.4.</span> <span class="nav-text">4. 升级R，但不重装packages</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%85%B1%E5%90%8C%E7%9A%84R-library"><span class="nav-number">5.</span> <span class="nav-text">设置共同的R library</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">6.</span> <span class="nav-text">引用</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -564,14 +564,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-count">46</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -616,23 +616,23 @@
 			  
 			  
 				<li>
-				  <a href="/archives/9d8099c8.html" title="MetaPhlAn 3.0:  宏基因组物种组成分析软件" target="_blank">MetaPhlAn 3.0:  宏基因组物种组成分析软件</a>
+				  <a href="/archives/5f7d60d7.html" title="机器学习（五）：建模" target="_blank">机器学习（五）：建模</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/ed207fe7.html" title="Metagenomic sequencing pipeline: from rawdata to taxonomy and function profile(Operation)" target="_blank">Metagenomic sequencing pipeline: from rawdata to taxonomy and function profile(Operation)</a>
+				  <a href="/archives/e60214f7.html" title="机器学习（四）：数据分割" target="_blank">机器学习（四）：数据分割</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/36ef12a1.html" title="Metagenomic sequencing pipeline: from rawdata to taxonomy and function profile" target="_blank">Metagenomic sequencing pipeline: from rawdata to taxonomy and function profile</a>
+				  <a href="/archives/c6d9290f.html" title="机器学习（三）：特征选择" target="_blank">机器学习（三）：特征选择</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/75a56465.html" title="Metagenomic sequencing pipeline: Mind Map" target="_blank">Metagenomic sequencing pipeline: Mind Map</a>
+				  <a href="/archives/77cc47f3.html" title="机器学习（二）：数据预处理" target="_blank">机器学习（二）：数据预处理</a>
 				</li>
 			  
 				<li>
-				  <a href="/archives/95cf1317.html" title="网络图: 如何对网络图进行分组展示" target="_blank">网络图: 如何对网络图进行分组展示</a>
+				  <a href="/archives/8930e5df.html" title="机器学习（一）：初步认识机器学习" target="_blank">机器学习（一）：初步认识机器学习</a>
 				</li>
 			  
 			</ul>
@@ -933,13 +933,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">902k</span>
+    <span title="Symbols count total">933k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">13:40</span>
+    <span title="Reading time total">14:08</span>
 </div>
 
 <div id="days"></div>
@@ -1128,23 +1128,17 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       <i class='fa fa-chevron-up'></i>    </div>
     
   </div>
-  <div class="moon-menu-button" onclick="moonMenuClick()">
-    <svg class="moon-menu-svg">
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
       <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
       <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
-      <g class="moon-menu-points">
-        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
-        <circle class="moon-menu-point" r=".2rem"></circle>
-        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
-      </g>
     </svg>
-    <div class="moon-menu-icon">
-    </div>
-    <div class="moon-menu-text">
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
     </div>
   </div>
-</div>
-<script src="/js/injector.js"></script>
+</div><script src="/js/injector.js"></script>
   
   ﻿
 

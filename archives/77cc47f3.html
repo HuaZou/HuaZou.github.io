@@ -1,0 +1,1233 @@
+﻿<!DOCTYPE html>
+<html lang="en,zh-CN,default">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="一般初始数据可能存在缺失值、重复值等现象，在建模前需要对数据进行预处理。数据预处理的规则有：处理缺失值、数据标准化正则化、特征选择和去除线性相关变量等，没有统一的流程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习（二）：数据预处理">
+<meta property="og:url" content="https://zouhua.top/archives/77cc47f3.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="一般初始数据可能存在缺失值、重复值等现象，在建模前需要对数据进行预处理。数据预处理的规则有：处理缺失值、数据标准化正则化、特征选择和去除线性相关变量等，没有统一的流程。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://zouhua.top/images/Course_ML_02process/unnamed-chunk-9-1.png">
+<meta property="article:published_time" content="2021-01-03T03:26:00.000Z">
+<meta property="article:modified_time" content="2021-01-03T15:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="lesson">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zouhua.top/images/Course_ML_02process/unnamed-chunk-9-1.png">
+
+<link rel="canonical" href="https://zouhua.top/archives/77cc47f3.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="/css/injector.css" />
+  <title>机器学习（二）：数据预处理 | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">90</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">46</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">125</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>Message</a>
+
+  </li>
+        <li class="menu-item menu-item-bookdown">
+
+    <a href="/bookdown/" rel="section"><i class="fa fa-book fa-fw"></i>bookdown</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/77cc47f3.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习（二）：数据预处理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-03 11:26:00 / Modified: 23:00:00" itemprop="dateCreated datePublished" datetime="2021-01-03T11:26:00+08:00">2021-01-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Course/" itemprop="url" rel="index"><span itemprop="name">Course</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Course/Machine-learning/" itemprop="url" rel="index"><span itemprop="name">Machine learning</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/archives/77cc47f3.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/77cc47f3.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>7.1k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>6 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>一般初始数据可能存在缺失值、重复值等现象，在建模前需要对数据进行预处理。数据预处理的规则有：处理缺失值、数据标准化正则化、特征选择和去除线性相关变量等，没有统一的流程。一般处理方法有：</p>
+<ul>
+<li><p>零方差和近似零方差特征变量（Zero- and Near Zero-Variance Predictors）</p>
+</li>
+<li><p>识别相关的特征变量（Identifying Correlated Predictors）</p>
+</li>
+<li><p>线性相关（Linear Dependencies）</p>
+</li>
+<li><p>补齐缺失值（filling missing values）</p>
+</li>
+<li><p>数据标准化和正则化（normalization）</p>
+</li>
+<li><p>特征变量转化（Transforming Predictors）</p>
+</li>
+</ul>
+<h3 id="零方差和近似零方差特征变量（Zero-and-Near-Zero-Variance-Predictors）"><a href="#零方差和近似零方差特征变量（Zero-and-Near-Zero-Variance-Predictors）" class="headerlink" title="零方差和近似零方差特征变量（Zero- and Near Zero-Variance Predictors）"></a>零方差和近似零方差特征变量（Zero- and Near Zero-Variance Predictors）</h3><blockquote>
+<p>识别清除近似零方差的特征变量的原因： </p>
+<ul>
+<li>在某些情况下，数据产生机制只创建具有单一值的特征变量（例如零方差特征变量）。这对于大多数模型（不包括树模型）来说，这可能造成模型的破坏，或者数据拟合的不稳定。</li>
+<li>同样的，特征变量中可能有一些出现频率非常低的唯一值，当这样的数据使用交叉验证（cross-validation）或自助法（bootstrap）抽样或一些样本可能对模型有过度影响的时候，这些特征变量可能变成零方差的特征变量</li>
+</ul>
+<p>识别此种特征变量的方法：</p>
+<ul>
+<li>最大频率数值的频数比上第二频率数值的频数（称作频数比率（frequency ratio）），对于平衡的特征变量其值接近1，对于高度不平衡的数据其值会非常大</li>
+<li>唯一值比例就是唯一值的个数除以样本的总数再乘以100， 它随着数据粒度的增大而几近于0。</li>
+</ul>
+</blockquote>
+<ul>
+<li>读取数据：nR11数据存在大量零值</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">library(caret)</span><br><span class="line"></span><br><span class="line">data(mdrr)</span><br><span class="line">data.frame(table(mdrrDescr$nR11))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>计算出现率：数值出现率和唯一值的比率</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nzv &lt;- nearZeroVar(mdrrDescr, saveMetrics= <span class="literal">TRUE</span>)</span><br><span class="line">print(nzv[nzv$nzv, ][<span class="number">1</span>:<span class="number">10</span>, ])</span><br></pre></td></tr></table></figure>
+<ul>
+<li>过滤数据: nzv变量返回可能存在问题的变量</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dim</span>(mdrrDescr)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 528 342</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nzv &lt;- nearZeroVar(mdrrDescr)</span><br><span class="line">filteredDescr &lt;- mdrrDescr[, -nzv]</span><br><span class="line"><span class="built_in">dim</span>(filteredDescr)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 528 297</span><br></pre></td></tr></table></figure>
+<h3 id="识别相关的特征变量（Identifying-Correlated-Predictors）"><a href="#识别相关的特征变量（Identifying-Correlated-Predictors）" class="headerlink" title="识别相关的特征变量（Identifying Correlated Predictors）"></a>识别相关的特征变量（Identifying Correlated Predictors）</h3><p>相关特征变量对模型的效能影响较大，如最小二乘法。可通过建立相关系数矩阵，过滤相关的特征变量</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">descrCor &lt;-  cor(filteredDescr)</span><br><span class="line"><span class="comment">#highCorr &lt;- sum(abs(descrCor[upper.tri(descrCor)]) &gt; .999)</span></span><br><span class="line"></span><br><span class="line">highlyCorDescr &lt;- findCorrelation(descrCor, cutoff = <span class="number">.75</span>)  <span class="comment"># 设置相关系数阈值0.75</span></span><br><span class="line">filteredDescr &lt;- filteredDescr[, -highlyCorDescr]</span><br><span class="line">descrCor2 &lt;- cor(filteredDescr)</span><br><span class="line">summary(descrCor2[upper.tri(descrCor2)])</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span><br><span class="line">## -0.70728 -0.05378  0.04418  0.06692  0.18858  0.74458</span><br></pre></td></tr></table></figure>
+<h3 id="线性相关（Linear-Dependencies）"><a href="#线性相关（Linear-Dependencies）" class="headerlink" title="线性相关（Linear Dependencies）"></a>线性相关（Linear Dependencies）</h3><p>函数<code>findLinearCombos</code>使用QR分解来枚举线性组合的集合</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ltfrDesign &lt;- matrix(<span class="number">0</span>, nrow=<span class="number">6</span>, ncol=<span class="number">6</span>)</span><br><span class="line">ltfrDesign[,<span class="number">1</span>] &lt;- <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">ltfrDesign[,<span class="number">2</span>] &lt;- <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">ltfrDesign[,<span class="number">3</span>] &lt;- <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">ltfrDesign[,<span class="number">4</span>] &lt;- <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">ltfrDesign[,<span class="number">5</span>] &lt;- <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>)</span><br><span class="line">ltfrDesign[,<span class="number">6</span>] &lt;- <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">comboInfo &lt;- findLinearCombos(ltfrDesign)</span><br><span class="line">comboInfo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">## $linearCombos</span><br><span class="line">## $linearCombos[[1]]</span><br><span class="line">## [1] 3 1 2</span><br><span class="line">## </span><br><span class="line">## $linearCombos[[2]]</span><br><span class="line">## [1] 6 1 4 5</span><br><span class="line">## </span><br><span class="line">## </span><br><span class="line">## $remove</span><br><span class="line">## [1] 3 6</span><br></pre></td></tr></table></figure>
+<h3 id="补齐缺失值（filling-missing-values）"><a href="#补齐缺失值（filling-missing-values）" class="headerlink" title="补齐缺失值（filling missing values）"></a>补齐缺失值（filling missing values）</h3><p>常见的缺失值补全方法均值插补、同类均值插补、建模预测、高维映射、多重插补、极大似然估计、压缩感知和矩阵补全</p>
+<blockquote>
+<p>（1）均值插补<br>如果样本属性的距离是可度量的，则使用该属性有效值的平均值来插补缺失的值；如果的距离是不可度量的，则使用该属性有效值的众数来插补缺失的值。</p>
+<p>（2）同类均值插补<br>首先将样本进行分类，然后以该类中样本的均值来插补缺失值。</p>
+<p>（3）建模预测<br>将缺失的属性作为预测目标来预测，将数据集按照是否含有特定属性的缺失值分为两类，利用现有的机器学习算法对待预测数据集的缺失值进行预测。<br>该方法的根本的缺陷是如果其他属性和缺失属性无关，则预测的结果毫无意义，但是若预测结果相当准确，则说明这个缺失属性是没必要纳入数据集中的，一般的情况是介于两者之间。</p>
+<p>（4）高维映射<br>将属性映射到高维空间，采用独热码编码（one-hot）技术。将包含K个离散取值范围的属性值扩展为K+1个属性值，若该属性值缺失，则扩展后的第K+1个属性值置为1。<br>这种做法是最精确的做法，保留了所有的信息，也未添加任何额外信息，若预处理时把所有的变量都这样处理，会大大增加数据的维度。这样做的好处是完整保留了原始数据的全部信息、不用考虑缺失值；缺点是计算量大大提升，且只有在样本量非常大的时候效果才好。</p>
+<p>（5）多重插补（MultipleImputation，MI）<br>多重插补认为待插补的值是随机的，实践上通常是估计出待插补的值，再加上不同的噪声，形成多组可选插补值，根据某种选择依据，选取最合适的插补值。</p>
+<p>（6）压缩感知和矩阵补全</p>
+</blockquote>
+<p>先前使用过<code>impute</code>R包的k最近邻填补插值，其他方法待定</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="number">0</span>)&#123;</span><br><span class="line">  library(impute)</span><br><span class="line">  <span class="comment"># impute.knn </span></span><br><span class="line">  set.seed(<span class="number">12345</span>)</span><br><span class="line">  saved.state &lt;- .Random.seed</span><br><span class="line">  dat.imputed &lt;- impute.knn(as.matrix(dat.symbol))  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="数据标准化和正则化（normalization）"><a href="#数据标准化和正则化（normalization）" class="headerlink" title="数据标准化和正则化（normalization）"></a>数据标准化和正则化（normalization）</h3><p><code>preProcess</code>函数可以对特征变量施行很多操作，包括中心化和标准化，也可以对数据进行填充</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">set.seed(<span class="number">96</span>)</span><br><span class="line">inTrain &lt;- sample(seq(along = mdrrClass), <span class="built_in">length</span>(mdrrClass)/<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">training &lt;- filteredDescr[inTrain,]</span><br><span class="line">test &lt;- filteredDescr[-inTrain,]</span><br><span class="line">trainMDRR &lt;- mdrrClass[inTrain]</span><br><span class="line">testMDRR &lt;- mdrrClass[-inTrain]</span><br><span class="line"></span><br><span class="line">preProcValues &lt;- preProcess(training, method = <span class="built_in">c</span>(<span class="string">&quot;center&quot;</span>, <span class="string">&quot;scale&quot;</span>))</span><br><span class="line">preProcValues</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">## Created from 264 samples and 50 variables</span><br><span class="line">## </span><br><span class="line">## Pre-processing:</span><br><span class="line">##   - centered (50)</span><br><span class="line">##   - ignored (0)</span><br><span class="line">##   - scaled (50)</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">trainTransformed &lt;- predict(preProcValues, training)</span><br><span class="line">testTransformed &lt;- predict(preProcValues, test)</span><br></pre></td></tr></table></figure>
+<h3 id="特征变量转化（Transforming-Predictors）"><a href="#特征变量转化（Transforming-Predictors）" class="headerlink" title="特征变量转化（Transforming Predictors）"></a>特征变量转化（Transforming Predictors）</h3><p>高维数据可通过主成分分析转化成新的特征向量的线性组合变量，并且新变量之间不存在相关关系。在单细胞数据分析过程中，常常会用到PCA方法降维获取重要的主成分。常用转化特征向量的方法有：</p>
+<ol>
+<li><p>Principal component analysis: PCA</p>
+</li>
+<li><p>Independent component analysis: ICA </p>
+</li>
+<li><p>spatial sign transformation: 空间转化</p>
+</li>
+<li><p>Box-Cox transformation: 适用于自变量数据大于0</p>
+</li>
+</ol>
+<ul>
+<li>spatial sign transformation: 空间转化</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">library(AppliedPredictiveModeling)</span><br><span class="line">transparentTheme(trans = <span class="number">.4</span>)</span><br><span class="line"></span><br><span class="line">plotSubset &lt;- data.frame(scale(mdrrDescr[, <span class="built_in">c</span>(<span class="string">&quot;nC&quot;</span>, <span class="string">&quot;X4v&quot;</span>)])) </span><br><span class="line">spatial_sign_before &lt;- xyplot(nC ~ X4v,</span><br><span class="line">       data = plotSubset,</span><br><span class="line">       groups = mdrrClass, </span><br><span class="line">       auto.key = <span class="built_in">list</span>(columns = <span class="number">2</span>)) </span><br><span class="line"></span><br><span class="line">transformed &lt;- spatialSign(plotSubset)</span><br><span class="line">transformed &lt;- as.data.frame(transformed)</span><br><span class="line">spatial_sign_after &lt;- xyplot(nC ~ X4v, </span><br><span class="line">       data = transformed, </span><br><span class="line">       groups = mdrrClass, </span><br><span class="line">       auto.key = <span class="built_in">list</span>(columns = <span class="number">2</span>)) </span><br><span class="line"></span><br><span class="line">cowplot::plot_grid(spatial_sign_before, spatial_sign_after, ncol = <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Course_ML_02process/unnamed-chunk-9-1.png" alt=""></p>
+<ul>
+<li>Box-Cox transformation</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">preProcValues2 &lt;- preProcess(training, method = <span class="string">&quot;BoxCox&quot;</span>)</span><br><span class="line">trainBC &lt;- predict(preProcValues2, training)</span><br><span class="line">testBC &lt;- predict(preProcValues2, test)</span><br><span class="line">preProcValues2</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">## Created from 264 samples and 31 variables</span><br><span class="line">## </span><br><span class="line">## Pre-processing:</span><br><span class="line">##   - Box-Cox transformation (31)</span><br><span class="line">##   - ignored (0)</span><br><span class="line">## </span><br><span class="line">## Lambda estimates for Box-Cox transformation:</span><br><span class="line">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span><br><span class="line">## -2.0000 -0.2500  0.5000  0.4387  2.0000  2.0000</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">library(AppliedPredictiveModeling)</span><br><span class="line">data(schedulingData)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 标准化</span></span><br><span class="line">pp_hpc &lt;- preProcess(schedulingData[, -<span class="number">8</span>], </span><br><span class="line">                     method = <span class="built_in">c</span>(<span class="string">&quot;center&quot;</span>, <span class="string">&quot;scale&quot;</span>, <span class="string">&quot;YeoJohnson&quot;</span>))</span><br><span class="line">transformed &lt;- predict(pp_hpc, newdata = schedulingData[, -<span class="number">8</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 增加识别零方差方法</span></span><br><span class="line">pp_no_nzv &lt;- preProcess(schedulingData[, -<span class="number">8</span>], </span><br><span class="line">                        method = <span class="built_in">c</span>(<span class="string">&quot;center&quot;</span>, <span class="string">&quot;scale&quot;</span>, <span class="string">&quot;YeoJohnson&quot;</span>, <span class="string">&quot;nzv&quot;</span>))</span><br><span class="line"></span><br><span class="line">transformed &lt;- predict(pp_no_nzv, newdata = schedulingData[<span class="number">1</span>:<span class="number">6</span>, -<span class="number">8</span>])</span><br></pre></td></tr></table></figure>
+<h3 id="R-information"><a href="#R-information" class="headerlink" title="R information"></a>R information</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sessionInfo()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">## R version 4.0.2 (2020-06-22)</span><br><span class="line">## Platform: x86_64-w64-mingw32&#x2F;x64 (64-bit)</span><br><span class="line">## Running under: Windows 10 x64 (build 19042)</span><br><span class="line">## </span><br><span class="line">## Matrix products: default</span><br><span class="line">## </span><br><span class="line">## locale:</span><br><span class="line">## [1] LC_COLLATE&#x3D;English_United States.1252  LC_CTYPE&#x3D;English_United States.1252   </span><br><span class="line">## [3] LC_MONETARY&#x3D;English_United States.1252 LC_NUMERIC&#x3D;C                          </span><br><span class="line">## [5] LC_TIME&#x3D;English_United States.1252    </span><br><span class="line">## system code page: 936</span><br><span class="line">## </span><br><span class="line">## attached base packages:</span><br><span class="line">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span><br><span class="line">## </span><br><span class="line">## other attached packages:</span><br><span class="line">##  [1] AppliedPredictiveModeling_1.1-7 plotROC_2.2.1                   vegan_2.5-7                    </span><br><span class="line">##  [4] permute_0.9-5                   pROC_1.16.2                     caret_6.0-86                   </span><br><span class="line">##  [7] lattice_0.20-41                 ggplot2_3.3.3                   randomForest_4.6-14            </span><br><span class="line">## [10] data.table_1.13.6               tibble_3.0.3                    dplyr_1.0.2                    </span><br><span class="line">## </span><br><span class="line">## loaded via a namespace (and not attached):</span><br><span class="line">##  [1] nlme_3.1-150         lubridate_1.7.9      RColorBrewer_1.1-2   tools_4.0.2         </span><br><span class="line">##  [5] backports_1.1.10     R6_2.5.0             DT_0.16              rpart_4.1-15        </span><br><span class="line">##  [9] Hmisc_4.4-2          mgcv_1.8-33          colorspace_1.4-1     nnet_7.3-14         </span><br><span class="line">## [13] withr_2.3.0          tidyselect_1.1.0     gridExtra_2.3        compiler_4.0.2      </span><br><span class="line">## [17] cli_2.1.0            htmlTable_2.1.0      labeling_0.4.2       scales_1.1.1        </span><br><span class="line">## [21] checkmate_2.0.0      stringr_1.4.0        digest_0.6.25        foreign_0.8-80      </span><br><span class="line">## [25] rmarkdown_2.5        base64enc_0.1-3      jpeg_0.1-8.1         pkgconfig_2.0.3     </span><br><span class="line">## [29] htmltools_0.5.0      plotrix_3.7-8        highr_0.8            htmlwidgets_1.5.2   </span><br><span class="line">## [33] rlang_0.4.7          rstudioapi_0.11      MLmetrics_1.1.1      farver_2.0.3        </span><br><span class="line">## [37] generics_0.1.0       jsonlite_1.7.1       ModelMetrics_1.2.2.2 CORElearn_1.54.2    </span><br><span class="line">## [41] magrittr_1.5         Formula_1.2-4        Matrix_1.3-2         Rcpp_1.0.5          </span><br><span class="line">## [45] munsell_0.5.0        fansi_0.4.1          lifecycle_0.2.0      stringi_1.5.3       </span><br><span class="line">## [49] yaml_2.2.1           MASS_7.3-53          plyr_1.8.6           recipes_0.1.15      </span><br><span class="line">## [53] grid_4.0.2           parallel_4.0.2       crayon_1.3.4         cowplot_1.1.1       </span><br><span class="line">## [57] splines_4.0.2        knitr_1.30           pillar_1.4.6         reshape2_1.4.4      </span><br><span class="line">## [61] codetools_0.2-18     stats4_4.0.2         glue_1.4.2           evaluate_0.14       </span><br><span class="line">## [65] latticeExtra_0.6-29  rpart.plot_3.0.9     png_0.1-7            vctrs_0.3.4         </span><br><span class="line">## [69] foreach_1.5.1        gtable_0.3.0         purrr_0.3.4          tidyr_1.1.2         </span><br><span class="line">## [73] kernlab_0.9-29       assertthat_0.2.1     xfun_0.19            gower_0.2.2         </span><br><span class="line">## [77] prodlim_2019.11.13   e1071_1.7-4          class_7.3-17         survival_3.2-7      </span><br><span class="line">## [81] timeDate_3043.102    iterators_1.0.13     ellipse_0.4.2        cluster_2.1.0       </span><br><span class="line">## [85] lava_1.6.8           ellipsis_0.3.1       ROCR_1.0-11          ipred_0.9-9</span><br></pre></td></tr></table></figure>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
+<li><p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://topepo.github.io/caret/pre-processing.html">pre-processing</a> </p>
+</li>
+<li><p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.cnblogs.com/Hyacinth-Yuan/p/8284612.html">R语言caret包的学习（一）—数据预处理</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://blog.csdn.net/marsjhao/article/details/70213749">数据预处理</a></p>
+</li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="mailto:zouhua1@outlook.com" rel="external nofollow noreferrer">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>------------- The End </span>
+      <i class="fa fa-paw"></i>
+      <span> Thanks for reading --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/5f7d60d7.html" rel="bookmark">机器学习（五）：建模</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/e60214f7.html" rel="bookmark">机器学习（四）：数据分割</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/c6d9290f.html" rel="bookmark">机器学习（三）：特征选择</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/8930e5df.html" rel="bookmark">机器学习（一）：初步认识机器学习</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/78f56d69.html" rel="bookmark">Lesson 3: Shiny App or Web Add control widgets</a></div>
+    </li>
+  </ul>
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou Alipay">
+        <p>Alipay</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://zouhua.top/archives/77cc47f3.html" title="机器学习（二）：数据预处理">https://zouhua.top/archives/77cc47f3.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/lesson/" rel="tag"><i class="fa fa-tags"></i> lesson</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/8930e5df.html" rel="prev" title="机器学习（一）：初步认识机器学习">
+      <i class="fa fa-chevron-left"></i> 机器学习（一）：初步认识机器学习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/c6d9290f.html" rel="next" title="机器学习（三）：特征选择">
+      机器学习（三）：特征选择 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%B6%E6%96%B9%E5%B7%AE%E5%92%8C%E8%BF%91%E4%BC%BC%E9%9B%B6%E6%96%B9%E5%B7%AE%E7%89%B9%E5%BE%81%E5%8F%98%E9%87%8F%EF%BC%88Zero-and-Near-Zero-Variance-Predictors%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">零方差和近似零方差特征变量（Zero- and Near Zero-Variance Predictors）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%86%E5%88%AB%E7%9B%B8%E5%85%B3%E7%9A%84%E7%89%B9%E5%BE%81%E5%8F%98%E9%87%8F%EF%BC%88Identifying-Correlated-Predictors%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">识别相关的特征变量（Identifying Correlated Predictors）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E7%9B%B8%E5%85%B3%EF%BC%88Linear-Dependencies%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">线性相关（Linear Dependencies）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E9%BD%90%E7%BC%BA%E5%A4%B1%E5%80%BC%EF%BC%88filling-missing-values%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">补齐缺失值（filling missing values）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%88normalization%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">数据标准化和正则化（normalization）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E5%8F%98%E9%87%8F%E8%BD%AC%E5%8C%96%EF%BC%88Transforming-Predictors%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">特征变量转化（Transforming Predictors）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R-information"><span class="nav-number">8.</span> <span class="nav-text">R information</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">9.</span> <span class="nav-text">引用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">90</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zouhua1@outlook.com" title="E-Mail → mailto:zouhua1@outlook.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/d57f91084cf2" title="Jianshu → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;d57f91084cf2" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-heartbeat fa-fw"></i>Jianshu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  Recent Articles
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/5f7d60d7.html" title="机器学习（五）：建模" target="_blank">机器学习（五）：建模</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/e60214f7.html" title="机器学习（四）：数据分割" target="_blank">机器学习（四）：数据分割</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/c6d9290f.html" title="机器学习（三）：特征选择" target="_blank">机器学习（三）：特征选择</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/77cc47f3.html" title="机器学习（二）：数据预处理" target="_blank">机器学习（二）：数据预处理</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/8930e5df.html" title="机器学习（一）：初步认识机器学习" target="_blank">机器学习（一）：初步认识机器学习</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">933k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">14:08</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'en',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+    </svg>
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
+    </div>
+  </div>
+</div><script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>
