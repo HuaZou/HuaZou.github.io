@@ -1,0 +1,1213 @@
+﻿<!DOCTYPE html>
+<html lang="en,zh-CN,default">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="通过集成不同的算法，最后根据模型效能选择适合数据集的算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习（七）：集成学习算法">
+<meta property="og:url" content="https://zouhua.top/archives/fceddfed.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="通过集成不同的算法，最后根据模型效能选择适合数据集的算法">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://zouhua.top/images/Course_ML_07ensemble/bagging.jpg">
+<meta property="og:image" content="https://zouhua.top/images/Course_ML_07ensemble/boosting.jpg">
+<meta property="og:image" content="https://zouhua.top/images/Course_ML_07ensemble/stacking.jpg">
+<meta property="og:image" content="https://zouhua.top/images/Course_ML_07ensemble/unnamed-chunk-3-1.png">
+<meta property="og:image" content="https://zouhua.top/images/Course_ML_07ensemble/unnamed-chunk-4-1.png">
+<meta property="og:image" content="https://zouhua.top/images/Course_ML_07ensemble/unnamed-chunk-5-1.png">
+<meta property="og:image" content="https://zouhua.top/images/Course_ML_07ensemble/unnamed-chunk-6-1.png">
+<meta property="article:published_time" content="2021-01-16T08:26:00.000Z">
+<meta property="article:modified_time" content="2021-01-16T15:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="lesson">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zouhua.top/images/Course_ML_07ensemble/bagging.jpg">
+
+<link rel="canonical" href="https://zouhua.top/archives/fceddfed.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="/css/injector.css" />
+  <title>机器学习（七）：集成学习算法 | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">90</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">46</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">128</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>Message</a>
+
+  </li>
+        <li class="menu-item menu-item-bookdown">
+
+    <a href="/bookdown/" rel="section"><i class="fa fa-book fa-fw"></i>bookdown</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/fceddfed.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习（七）：集成学习算法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-16 16:26:00 / Modified: 23:00:00" itemprop="dateCreated datePublished" datetime="2021-01-16T16:26:00+08:00">2021-01-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Course/" itemprop="url" rel="index"><span itemprop="name">Course</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Course/Machine-learning/" itemprop="url" rel="index"><span itemprop="name">Machine learning</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/archives/fceddfed.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/fceddfed.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>9.3k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>8 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>通常我们会花费较多时间寻找适合数据集的模型算法，不同算法的模型会得到不同的模型效能，三种常用的算法类型：</p>
+<ul>
+<li><strong>Bagging</strong>: 从训练集进行子抽样组成每个基模型所需的子训练集，对所有基模型预测的结果进行综合产生最终的预测结果（Random Forest 随机森林）</li>
+</ul>
+<p><img src="/images/Course_ML_07ensemble/bagging.jpg" alt=""></p>
+<ul>
+<li><strong>Boosting</strong>: 训练过程为阶梯状，基模型按次序—进行训练（可并行实现），基模型的训练集按照某种策略每次都进行一定的转化，对所有的基模型预测结果进行线性综合产生最终的预测结果。 （随机梯度算法 Stochastic Gradient Boosting）</li>
+</ul>
+<p><img src="/images/Course_ML_07ensemble/boosting.jpg" alt=""></p>
+<ul>
+<li><strong>Stacking</strong>: 将训练好的所有基模型对训练基进行预测，第j个基模型对第i个训练样本的预测值将作为新的训练集中第i个样本的第j个特征值，最后基于新的训练集进行训练。同理，预测的过程也要先经过所有基模型的预测形成新的测试集，最后再对测试集进行预测</li>
+</ul>
+<p><img src="/images/Course_ML_07ensemble/stacking.jpg" alt=""></p>
+<h3 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Load libraries</span></span><br><span class="line">library(mlbench)</span><br><span class="line">library(caret)</span><br><span class="line">library(caretEnsemble)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the dataset</span></span><br><span class="line">data(Ionosphere)</span><br><span class="line">dataset &lt;- Ionosphere</span><br><span class="line">dataset &lt;- dataset[, -<span class="number">2</span>]</span><br><span class="line">dataset$V1 &lt;- <span class="built_in">as.numeric</span>(<span class="built_in">as.character</span>(dataset$V1))</span><br></pre></td></tr></table></figure>
+<h3 id="Bagging-Algorithms"><a href="#Bagging-Algorithms" class="headerlink" title="Bagging Algorithms"></a>Bagging Algorithms</h3><p>Bagging Algorithms又称装袋算法，从数据集中随机抽取m个样本，重复n次生成n个训练集，然后训练模型得到n个分类器，最后根据分类器投屏决定输出结果。常有的算法有Bagged CART和Random Forest。</p>
+<blockquote>
+<p>Bootstrap aggregating通常又简称为Bagging(装袋法)，它是让各个模型都平等投票来决定最终结果。为了提高模型的方差(variance, 差异性)，bagging在训练待组合的各个模型的时候是从训练集合中随机的抽取数据</p>
+</blockquote>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Example of Bagging algorithms</span></span><br><span class="line">control &lt;- trainControl(method=<span class="string">&quot;repeatedcv&quot;</span>, </span><br><span class="line">                        number=<span class="number">10</span>, </span><br><span class="line">                        repeats=<span class="number">3</span>)</span><br><span class="line">seed &lt;- 123</span><br><span class="line">metric &lt;- <span class="string">&quot;Accuracy&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Bagged CART</span></span><br><span class="line">set.seed(seed)</span><br><span class="line">fit.treebag &lt;- train(Class~., data=dataset, </span><br><span class="line">                     method=<span class="string">&quot;treebag&quot;</span>, </span><br><span class="line">                     metric=metric, </span><br><span class="line">                     trControl=control)</span><br><span class="line"><span class="comment"># Random Forest</span></span><br><span class="line">set.seed(seed)</span><br><span class="line">fit.rf &lt;- train(Class~., data=dataset, </span><br><span class="line">                method=<span class="string">&quot;rf&quot;</span>, </span><br><span class="line">                metric=metric, </span><br><span class="line">                trControl=control)</span><br><span class="line"></span><br><span class="line"><span class="comment"># summarize results</span></span><br><span class="line">bagging_results &lt;- resamples(<span class="built_in">list</span>(treebag=fit.treebag, rf=fit.rf))</span><br><span class="line">summary(bagging_results)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line">## Call:</span><br><span class="line">## summary.resamples(object &#x3D; bagging_results)</span><br><span class="line">## </span><br><span class="line">## Models: treebag, rf </span><br><span class="line">## Number of resamples: 30 </span><br><span class="line">## </span><br><span class="line">## Accuracy </span><br><span class="line">##              Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA&#39;s</span><br><span class="line">## treebag 0.8235294 0.8857143 0.9166667 0.9171646 0.9444444 0.9722222    0</span><br><span class="line">## rf      0.8857143 0.9117647 0.9289216 0.9306645 0.9444444 1.0000000    0</span><br><span class="line">## </span><br><span class="line">## Kappa </span><br><span class="line">##              Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA&#39;s</span><br><span class="line">## treebag 0.6037736 0.7472924 0.8226149 0.8164274 0.8795987 0.9407895    0</span><br><span class="line">## rf      0.7244094 0.8037953 0.8449864 0.8459419 0.8809166 1.0000000    0</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotplot(bagging_results)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Course_ML_07ensemble/unnamed-chunk-3-1.png" alt=""></p>
+<h3 id="Boosting-Algorithms"><a href="#Boosting-Algorithms" class="headerlink" title="Boosting Algorithms"></a>Boosting Algorithms</h3><p>Boosting Algorithms的Boosting是一种框架算法,主要是通过对样本集的操作获得样本子集,然后用弱分类算法在样本子集上训练生成一系列的基分类器。常用算法有C5.0和Stochastic Gradient Boosting（随机梯度提升算法）。</p>
+<blockquote>
+<p>Boosting(提升法)是通过不断的建立新模型而新模型更强调上一个模型中被错误分类的样本，再将这些模型组合起来的方法。在一些例子中，boosting要比bagging有更好的准确率，但是也更容易过拟合。 </p>
+</blockquote>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Example of Boosting Algorithms</span></span><br><span class="line">control &lt;- trainControl(method=<span class="string">&quot;repeatedcv&quot;</span>, </span><br><span class="line">                        number=<span class="number">10</span>, </span><br><span class="line">                        repeats=<span class="number">3</span>)</span><br><span class="line">seed &lt;- 123</span><br><span class="line">metric &lt;- <span class="string">&quot;Accuracy&quot;</span></span><br><span class="line"><span class="comment"># C5.0</span></span><br><span class="line">set.seed(seed)</span><br><span class="line">fit.c50 &lt;- train(Class~., data=dataset, </span><br><span class="line">                 method=<span class="string">&quot;C5.0&quot;</span>, </span><br><span class="line">                 metric=metric, </span><br><span class="line">                 trControl=control)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Stochastic Gradient Boosting</span></span><br><span class="line">set.seed(seed)</span><br><span class="line">fit.gbm &lt;- train(Class~., data=dataset, </span><br><span class="line">                 method=<span class="string">&quot;gbm&quot;</span>, </span><br><span class="line">                 metric=metric, </span><br><span class="line">                 trControl=control, </span><br><span class="line">                 verbose=<span class="literal">FALSE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># summarize results</span></span><br><span class="line">boosting_results &lt;- resamples(<span class="built_in">list</span>(c5.0=fit.c50, gbm=fit.gbm))</span><br><span class="line">summary(boosting_results)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line">## Call:</span><br><span class="line">## summary.resamples(object &#x3D; boosting_results)</span><br><span class="line">## </span><br><span class="line">## Models: c5.0, gbm </span><br><span class="line">## Number of resamples: 30 </span><br><span class="line">## </span><br><span class="line">## Accuracy </span><br><span class="line">##           Min.   1st Qu.    Median      Mean   3rd Qu. Max. NA&#39;s</span><br><span class="line">## c5.0 0.8611111 0.9142857 0.9436508 0.9439216 0.9714286    1    0</span><br><span class="line">## gbm  0.8285714 0.9129902 0.9428571 0.9307174 0.9646825    1    0</span><br><span class="line">## </span><br><span class="line">## Kappa </span><br><span class="line">##           Min.   1st Qu.    Median      Mean   3rd Qu. Max. NA&#39;s</span><br><span class="line">## c5.0 0.6938776 0.8134991 0.8754325 0.8745915 0.9375755    1    0</span><br><span class="line">## gbm  0.5866142 0.8047814 0.8734173 0.8441692 0.9218177    1    0</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotplot(boosting_results)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Course_ML_07ensemble/unnamed-chunk-4-1.png" alt=""></p>
+<h3 id="Stacking-Algorithms"><a href="#Stacking-Algorithms" class="headerlink" title="Stacking Algorithms"></a>Stacking Algorithms</h3><blockquote>
+<p>Stacking(有时候也称之为stacked generalization)是指训练一个模型用于组合(combine)其他各个模型。即首先我们先训练多个不同的模型，然后再以之前训练的各个模型的输出为输入来训练一个模型，以得到一个最终的输出。如果可以选用任意一个组合算法，那么理论上，Stacking可以表示上面提到的各种Ensemble方法。然而，实际中，我们通常使用单层logistic回归作为组合模型。</p>
+</blockquote>
+<p>使用五类算法做stacking算法：</p>
+<ul>
+<li><p>Linear Discriminate Analysis (LDA)</p>
+</li>
+<li><p>Classification and Regression Trees (CART)</p>
+</li>
+<li><p>Logistic Regression (via Generalized Linear Model or GLM)</p>
+</li>
+<li><p>k-Nearest Neighbors (kNN)</p>
+</li>
+<li><p>Support Vector Machine with a Radial Basis Kernel Function (SVM)</p>
+</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create submodels</span></span><br><span class="line">control &lt;- trainControl(method=<span class="string">&quot;repeatedcv&quot;</span>, </span><br><span class="line">                        number=<span class="number">10</span>, </span><br><span class="line">                        repeats=<span class="number">3</span>, </span><br><span class="line">                        savePredictions=<span class="literal">TRUE</span>, </span><br><span class="line">                        classProbs=<span class="literal">TRUE</span>)</span><br><span class="line">algorithmList &lt;- <span class="built_in">c</span>(<span class="string">&#x27;lda&#x27;</span>, <span class="string">&#x27;rpart&#x27;</span>, <span class="string">&#x27;glm&#x27;</span>, <span class="string">&#x27;knn&#x27;</span>, <span class="string">&#x27;svmRadial&#x27;</span>)</span><br><span class="line">set.seed(seed)</span><br><span class="line">models &lt;- caretList(Class~., data=dataset, </span><br><span class="line">                    trControl=control, </span><br><span class="line">                    methodList=algorithmList)</span><br><span class="line"></span><br><span class="line">results &lt;- resamples(models)</span><br><span class="line">summary(results)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line">## Call:</span><br><span class="line">## summary.resamples(object &#x3D; results)</span><br><span class="line">## </span><br><span class="line">## Models: lda, rpart, glm, knn, svmRadial </span><br><span class="line">## Number of resamples: 30 </span><br><span class="line">## </span><br><span class="line">## Accuracy </span><br><span class="line">##                Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA&#39;s</span><br><span class="line">## lda       0.7647059 0.8333333 0.8611111 0.8632524 0.8857143 0.9714286    0</span><br><span class="line">## rpart     0.7647059 0.8333333 0.8840336 0.8689418 0.9117647 0.9444444    0</span><br><span class="line">## glm       0.6764706 0.8382353 0.8987395 0.8793931 0.9166667 1.0000000    0</span><br><span class="line">## knn       0.6944444 0.7969771 0.8452381 0.8414970 0.8857143 0.9722222    0</span><br><span class="line">## svmRadial 0.8571429 0.9166667 0.9428571 0.9467507 0.9722222 1.0000000    0</span><br><span class="line">## </span><br><span class="line">## Kappa </span><br><span class="line">##                Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA&#39;s</span><br><span class="line">## lda       0.4594595 0.6129032 0.6715328 0.6790697 0.7371753 0.9378330    0</span><br><span class="line">## rpart     0.4594595 0.6294222 0.7448583 0.7077766 0.7970611 0.8795987    0</span><br><span class="line">## glm       0.3048327 0.6243361 0.7843134 0.7295437 0.8163265 1.0000000    0</span><br><span class="line">## knn       0.1885246 0.5116055 0.6280481 0.6202616 0.7380667 0.9387755    0</span><br><span class="line">## svmRadial 0.6679317 0.8200499 0.8747793 0.8836278 0.9387755 1.0000000    0</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotplot(results)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Course_ML_07ensemble/unnamed-chunk-5-1.png" alt=""></p>
+<p><strong>Notes: 针对同一个数据集，不同算法的模型效能</strong> </p>
+<p>评估不同算法模型的效能相关性</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># correlation between results</span></span><br><span class="line">modelCor(results)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">##                 lda     rpart       glm       knn svmRadial</span><br><span class="line">## lda       1.0000000 0.2215188 0.7007169 0.5183880 0.3754986</span><br><span class="line">## rpart     0.2215188 1.0000000 0.3579318 0.3494833 0.5761146</span><br><span class="line">## glm       0.7007169 0.3579318 1.0000000 0.4545974 0.3964706</span><br><span class="line">## knn       0.5183880 0.3494833 0.4545974 1.0000000 0.4873849</span><br><span class="line">## svmRadial 0.3754986 0.5761146 0.3964706 0.4873849 1.0000000</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">splom(results)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Course_ML_07ensemble/unnamed-chunk-6-1.png" alt="/images/Course_ML_07ensemble/"></p>
+<p>综合五类算法模型后再用线性模型训练数据：相比单独使用某一类算法，集成学习模型能提高效能</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># stack using glm</span></span><br><span class="line">stackControl &lt;- trainControl(method=<span class="string">&quot;repeatedcv&quot;</span>, </span><br><span class="line">                             number=<span class="number">10</span>, </span><br><span class="line">                             repeats=<span class="number">3</span>, </span><br><span class="line">                             savePredictions=<span class="literal">TRUE</span>, </span><br><span class="line">                             classProbs=<span class="literal">TRUE</span>)</span><br><span class="line">set.seed(seed)</span><br><span class="line">stack.glm &lt;- caretStack(models, </span><br><span class="line">                        method=<span class="string">&quot;glm&quot;</span>, </span><br><span class="line">                        metric=<span class="string">&quot;Accuracy&quot;</span>, </span><br><span class="line">                        trControl=stackControl)</span><br><span class="line">print(stack.glm)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">## A glm ensemble of 5 base models: lda, rpart, glm, knn, svmRadial</span><br><span class="line">## </span><br><span class="line">## Ensemble results:</span><br><span class="line">## Generalized Linear Model </span><br><span class="line">## </span><br><span class="line">## 1053 samples</span><br><span class="line">##    5 predictor</span><br><span class="line">##    2 classes: &#39;bad&#39;, &#39;good&#39; </span><br><span class="line">## </span><br><span class="line">## No pre-processing</span><br><span class="line">## Resampling: Cross-Validated (10 fold, repeated 3 times) </span><br><span class="line">## Summary of sample sizes: 947, 947, 948, 948, 947, 949, ... </span><br><span class="line">## Resampling results:</span><br><span class="line">## </span><br><span class="line">##   Accuracy   Kappa    </span><br><span class="line">##   0.9509422  0.8930092</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># stack using random forest</span></span><br><span class="line">set.seed(seed)</span><br><span class="line">stack.rf &lt;- caretStack(models, </span><br><span class="line">                       method=<span class="string">&quot;rf&quot;</span>, </span><br><span class="line">                       metric=<span class="string">&quot;Accuracy&quot;</span>, </span><br><span class="line">                       trControl=stackControl)</span><br><span class="line">print(stack.rf)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">## A rf ensemble of 5 base models: lda, rpart, glm, knn, svmRadial</span><br><span class="line">## </span><br><span class="line">## Ensemble results:</span><br><span class="line">## Random Forest </span><br><span class="line">## </span><br><span class="line">## 1053 samples</span><br><span class="line">##    5 predictor</span><br><span class="line">##    2 classes: &#39;bad&#39;, &#39;good&#39; </span><br><span class="line">## </span><br><span class="line">## No pre-processing</span><br><span class="line">## Resampling: Cross-Validated (10 fold, repeated 3 times) </span><br><span class="line">## Summary of sample sizes: 947, 947, 948, 948, 947, 949, ... </span><br><span class="line">## Resampling results across tuning parameters:</span><br><span class="line">## </span><br><span class="line">##   mtry  Accuracy   Kappa    </span><br><span class="line">##   2     0.9588672  0.9099034</span><br><span class="line">##   3     0.9569654  0.9058170</span><br><span class="line">##   5     0.9556985  0.9031185</span><br><span class="line">## </span><br><span class="line">## Accuracy was used to select the optimal model using the largest value.</span><br><span class="line">## The final value used for the model was mtry &#x3D; 2.</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>集成机器学习算法的方法根据其训练模型方式不同，有三类：<strong>Bagging</strong>，<strong>Boosting</strong>和<strong>Stacking</strong>。</p>
+<h3 id="R-information"><a href="#R-information" class="headerlink" title="R information"></a>R information</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sessionInfo()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">## R version 4.0.2 (2020-06-22)</span><br><span class="line">## Platform: x86_64-w64-mingw32&#x2F;x64 (64-bit)</span><br><span class="line">## Running under: Windows 10 x64 (build 19042)</span><br><span class="line">## </span><br><span class="line">## Matrix products: default</span><br><span class="line">## </span><br><span class="line">## locale:</span><br><span class="line">## [1] LC_COLLATE&#x3D;English_United States.1252  LC_CTYPE&#x3D;English_United States.1252   </span><br><span class="line">## [3] LC_MONETARY&#x3D;English_United States.1252 LC_NUMERIC&#x3D;C                          </span><br><span class="line">## [5] LC_TIME&#x3D;English_United States.1252    </span><br><span class="line">## system code page: 936</span><br><span class="line">## </span><br><span class="line">## attached base packages:</span><br><span class="line">## [1] parallel  stats     graphics  grDevices utils     datasets  methods   base     </span><br><span class="line">## </span><br><span class="line">## other attached packages:</span><br><span class="line">##  [1] doParallel_1.0.16   iterators_1.0.13    foreach_1.5.1       dada2_1.16.0        Rcpp_1.0.5         </span><br><span class="line">##  [6] readr_1.4.0         Rbec_0.1.0          caretEnsemble_2.0.1 randomForest_4.6-14 klaR_0.6-15        </span><br><span class="line">## [11] MASS_7.3-53         mlbench_2.1-1       caret_6.0-86        ggplot2_3.3.3       lattice_0.20-41    </span><br><span class="line">## </span><br><span class="line">## loaded via a namespace (and not attached):</span><br><span class="line">##   [1] Cubist_0.2.3                colorspace_1.4-1            hwriter_1.3.2              </span><br><span class="line">##   [4] ellipsis_0.3.1              class_7.3-17                XVector_0.28.0             </span><br><span class="line">##   [7] GenomicRanges_1.40.0        rstudioapi_0.11             prodlim_2019.11.13         </span><br><span class="line">##  [10] fansi_0.4.1                 mvtnorm_1.1-1               lubridate_1.7.9            </span><br><span class="line">##  [13] codetools_0.2-18            splines_4.0.2               libcoin_1.0-6              </span><br><span class="line">##  [16] knitr_1.30                  Formula_1.2-4               jsonlite_1.7.1             </span><br><span class="line">##  [19] Rsamtools_2.4.0             pROC_1.16.2                 kernlab_0.9-29             </span><br><span class="line">##  [22] png_0.1-7                   shiny_1.5.0                 BiocManager_1.30.10        </span><br><span class="line">##  [25] compiler_4.0.2              assertthat_0.2.1            Matrix_1.3-2               </span><br><span class="line">##  [28] fastmap_1.0.1               cli_2.1.0                   later_1.1.0.1              </span><br><span class="line">##  [31] htmltools_0.5.0             tools_4.0.2                 partykit_1.2-11            </span><br><span class="line">##  [34] gtable_0.3.0                glue_1.4.2                  GenomeInfoDbData_1.2.3     </span><br><span class="line">##  [37] reshape2_1.4.4              dplyr_1.0.2                 ShortRead_1.46.0           </span><br><span class="line">##  [40] Biobase_2.48.0              vctrs_0.3.4                 Biostrings_2.56.0          </span><br><span class="line">##  [43] nlme_3.1-150                timeDate_3043.102           inum_1.0-1                 </span><br><span class="line">##  [46] gower_0.2.2                 xfun_0.19                   stringr_1.4.0              </span><br><span class="line">##  [49] mime_0.9                    miniUI_0.1.1.1              lifecycle_0.2.0            </span><br><span class="line">##  [52] zlibbioc_1.34.0             scales_1.1.1                ipred_0.9-9                </span><br><span class="line">##  [55] hms_0.5.3                   promises_1.1.1              SummarizedExperiment_1.18.2</span><br><span class="line">##  [58] RColorBrewer_1.1-2          yaml_2.2.1                  C50_0.1.3.1                </span><br><span class="line">##  [61] pbapply_1.4-3               gridExtra_2.3               labelled_2.7.0             </span><br><span class="line">##  [64] rpart_4.1-15                latticeExtra_0.6-29         stringi_1.5.3              </span><br><span class="line">##  [67] highr_0.8                   S4Vectors_0.26.1            e1071_1.7-4                </span><br><span class="line">##  [70] BiocGenerics_0.34.0         BiocParallel_1.22.0         lava_1.6.8                 </span><br><span class="line">##  [73] GenomeInfoDb_1.24.2         matrixStats_0.57.0          rlang_0.4.7                </span><br><span class="line">##  [76] pkgconfig_2.0.3             bitops_1.0-6                evaluate_0.14              </span><br><span class="line">##  [79] purrr_0.3.4                 GenomicAlignments_1.24.0    recipes_0.1.15             </span><br><span class="line">##  [82] tidyselect_1.1.0            gbm_2.1.8                   plyr_1.8.6                 </span><br><span class="line">##  [85] magrittr_1.5                R6_2.5.0                    IRanges_2.22.2             </span><br><span class="line">##  [88] generics_0.1.0              combinat_0.0-8              DelayedArray_0.14.1        </span><br><span class="line">##  [91] pillar_1.4.6                haven_2.3.1                 withr_2.3.0                </span><br><span class="line">##  [94] survival_3.2-7              RCurl_1.98-1.2              nnet_7.3-14                </span><br><span class="line">##  [97] tibble_3.0.3                crayon_1.3.4                questionr_0.7.3            </span><br><span class="line">## [100] rmarkdown_2.5               jpeg_0.1-8.1                grid_4.0.2                 </span><br><span class="line">## [103] data.table_1.13.6           forcats_0.5.0               ModelMetrics_1.2.2.2       </span><br><span class="line">## [106] digest_0.6.25               xtable_1.8-4                httpuv_1.5.4               </span><br><span class="line">## [109] RcppParallel_5.0.2          stats4_4.0.2                munsell_0.5.0</span><br></pre></td></tr></table></figure>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
+<li><p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://machinelearningmastery.com/machine-learning-ensembles-with-r/">How to Build an Ensemble Of Machine Learning Algorithms</a> </p>
+</li>
+<li><p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.cnblogs.com/zhizhan/p/5051881.html">集成学习算法</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.zhihu.com/question/29036379/answer/111637662">集成学习总结</a></p>
+</li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="mailto:zouhua1@outlook.com" rel="external nofollow noreferrer">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>------------- The End </span>
+      <i class="fa fa-paw"></i>
+      <span> Thanks for reading --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/7bee951e.html" rel="bookmark">机器学习（八）：总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/a7a14410.html" rel="bookmark">机器学习（六）：调参</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/5f7d60d7.html" rel="bookmark">机器学习（五）：建模</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/e60214f7.html" rel="bookmark">机器学习（四）：数据分割</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/c6d9290f.html" rel="bookmark">机器学习（三）：特征选择</a></div>
+    </li>
+  </ul>
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou Alipay">
+        <p>Alipay</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://zouhua.top/archives/fceddfed.html" title="机器学习（七）：集成学习算法">https://zouhua.top/archives/fceddfed.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/lesson/" rel="tag"><i class="fa fa-tags"></i> lesson</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/5f7d60d7.html" rel="prev" title="机器学习（五）：建模">
+      <i class="fa fa-chevron-left"></i> 机器学习（五）：建模
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/a7a14410.html" rel="next" title="机器学习（六）：调参">
+      机器学习（六）：调参 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dataset"><span class="nav-number">2.</span> <span class="nav-text">Dataset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bagging-Algorithms"><span class="nav-number">3.</span> <span class="nav-text">Bagging Algorithms</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boosting-Algorithms"><span class="nav-number">4.</span> <span class="nav-text">Boosting Algorithms</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stacking-Algorithms"><span class="nav-number">5.</span> <span class="nav-text">Stacking Algorithms</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R-information"><span class="nav-number">7.</span> <span class="nav-text">R information</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">8.</span> <span class="nav-text">引用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">90</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zouhua1@outlook.com" title="E-Mail → mailto:zouhua1@outlook.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/d57f91084cf2" title="Jianshu → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;d57f91084cf2" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-heartbeat fa-fw"></i>Jianshu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  Recent Articles
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/7bee951e.html" title="机器学习（八）：总结" target="_blank">机器学习（八）：总结</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/a7a14410.html" title="机器学习（六）：调参" target="_blank">机器学习（六）：调参</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/fceddfed.html" title="机器学习（七）：集成学习算法" target="_blank">机器学习（七）：集成学习算法</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/5f7d60d7.html" title="机器学习（五）：建模" target="_blank">机器学习（五）：建模</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/e60214f7.html" title="机器学习（四）：数据分割" target="_blank">机器学习（四）：数据分割</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">967k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">14:39</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'en',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+    </svg>
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
+    </div>
+  </div>
+</div><script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>

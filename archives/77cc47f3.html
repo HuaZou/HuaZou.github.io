@@ -158,7 +158,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">125</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">128</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -291,14 +291,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>7.1k</span>
+              <span>7.2k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>6 mins.</span>
+              <span>7 mins.</span>
             </span>
 
         </div>
@@ -398,6 +398,7 @@
 <li>测试</li>
 </ul>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">library(AppliedPredictiveModeling)</span><br><span class="line">data(schedulingData)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 标准化</span></span><br><span class="line">pp_hpc &lt;- preProcess(schedulingData[, -<span class="number">8</span>], </span><br><span class="line">                     method = <span class="built_in">c</span>(<span class="string">&quot;center&quot;</span>, <span class="string">&quot;scale&quot;</span>, <span class="string">&quot;YeoJohnson&quot;</span>))</span><br><span class="line">transformed &lt;- predict(pp_hpc, newdata = schedulingData[, -<span class="number">8</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 增加识别零方差方法</span></span><br><span class="line">pp_no_nzv &lt;- preProcess(schedulingData[, -<span class="number">8</span>], </span><br><span class="line">                        method = <span class="built_in">c</span>(<span class="string">&quot;center&quot;</span>, <span class="string">&quot;scale&quot;</span>, <span class="string">&quot;YeoJohnson&quot;</span>, <span class="string">&quot;nzv&quot;</span>))</span><br><span class="line"></span><br><span class="line">transformed &lt;- predict(pp_no_nzv, newdata = schedulingData[<span class="number">1</span>:<span class="number">6</span>, -<span class="number">8</span>])</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>数据预处理的目的是为了降低某些噪音或缺失值以及相关变量对模型效能的影响，这些处理措施对模型效能提升有较大的影响，但如何前处理对所有数据而已没有统一的流程，需要根据数据特点选择适合数据集的方法。</p>
 <h3 id="R-information"><a href="#R-information" class="headerlink" title="R information"></a>R information</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sessionInfo()</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">## R version 4.0.2 (2020-06-22)</span><br><span class="line">## Platform: x86_64-w64-mingw32&#x2F;x64 (64-bit)</span><br><span class="line">## Running under: Windows 10 x64 (build 19042)</span><br><span class="line">## </span><br><span class="line">## Matrix products: default</span><br><span class="line">## </span><br><span class="line">## locale:</span><br><span class="line">## [1] LC_COLLATE&#x3D;English_United States.1252  LC_CTYPE&#x3D;English_United States.1252   </span><br><span class="line">## [3] LC_MONETARY&#x3D;English_United States.1252 LC_NUMERIC&#x3D;C                          </span><br><span class="line">## [5] LC_TIME&#x3D;English_United States.1252    </span><br><span class="line">## system code page: 936</span><br><span class="line">## </span><br><span class="line">## attached base packages:</span><br><span class="line">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span><br><span class="line">## </span><br><span class="line">## other attached packages:</span><br><span class="line">##  [1] AppliedPredictiveModeling_1.1-7 plotROC_2.2.1                   vegan_2.5-7                    </span><br><span class="line">##  [4] permute_0.9-5                   pROC_1.16.2                     caret_6.0-86                   </span><br><span class="line">##  [7] lattice_0.20-41                 ggplot2_3.3.3                   randomForest_4.6-14            </span><br><span class="line">## [10] data.table_1.13.6               tibble_3.0.3                    dplyr_1.0.2                    </span><br><span class="line">## </span><br><span class="line">## loaded via a namespace (and not attached):</span><br><span class="line">##  [1] nlme_3.1-150         lubridate_1.7.9      RColorBrewer_1.1-2   tools_4.0.2         </span><br><span class="line">##  [5] backports_1.1.10     R6_2.5.0             DT_0.16              rpart_4.1-15        </span><br><span class="line">##  [9] Hmisc_4.4-2          mgcv_1.8-33          colorspace_1.4-1     nnet_7.3-14         </span><br><span class="line">## [13] withr_2.3.0          tidyselect_1.1.0     gridExtra_2.3        compiler_4.0.2      </span><br><span class="line">## [17] cli_2.1.0            htmlTable_2.1.0      labeling_0.4.2       scales_1.1.1        </span><br><span class="line">## [21] checkmate_2.0.0      stringr_1.4.0        digest_0.6.25        foreign_0.8-80      </span><br><span class="line">## [25] rmarkdown_2.5        base64enc_0.1-3      jpeg_0.1-8.1         pkgconfig_2.0.3     </span><br><span class="line">## [29] htmltools_0.5.0      plotrix_3.7-8        highr_0.8            htmlwidgets_1.5.2   </span><br><span class="line">## [33] rlang_0.4.7          rstudioapi_0.11      MLmetrics_1.1.1      farver_2.0.3        </span><br><span class="line">## [37] generics_0.1.0       jsonlite_1.7.1       ModelMetrics_1.2.2.2 CORElearn_1.54.2    </span><br><span class="line">## [41] magrittr_1.5         Formula_1.2-4        Matrix_1.3-2         Rcpp_1.0.5          </span><br><span class="line">## [45] munsell_0.5.0        fansi_0.4.1          lifecycle_0.2.0      stringi_1.5.3       </span><br><span class="line">## [49] yaml_2.2.1           MASS_7.3-53          plyr_1.8.6           recipes_0.1.15      </span><br><span class="line">## [53] grid_4.0.2           parallel_4.0.2       crayon_1.3.4         cowplot_1.1.1       </span><br><span class="line">## [57] splines_4.0.2        knitr_1.30           pillar_1.4.6         reshape2_1.4.4      </span><br><span class="line">## [61] codetools_0.2-18     stats4_4.0.2         glue_1.4.2           evaluate_0.14       </span><br><span class="line">## [65] latticeExtra_0.6-29  rpart.plot_3.0.9     png_0.1-7            vctrs_0.3.4         </span><br><span class="line">## [69] foreach_1.5.1        gtable_0.3.0         purrr_0.3.4          tidyr_1.1.2         </span><br><span class="line">## [73] kernlab_0.9-29       assertthat_0.2.1     xfun_0.19            gower_0.2.2         </span><br><span class="line">## [77] prodlim_2019.11.13   e1071_1.7-4          class_7.3-17         survival_3.2-7      </span><br><span class="line">## [81] timeDate_3043.102    iterators_1.0.13     ellipse_0.4.2        cluster_2.1.0       </span><br><span class="line">## [85] lava_1.6.8           ellipsis_0.3.1       ROCR_1.0-11          ipred_0.9-9</span><br></pre></td></tr></table></figure>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
@@ -434,19 +435,19 @@
   <div class="popular-posts-header">Related Posts</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/7bee951e.html" rel="bookmark">机器学习（八）：总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/a7a14410.html" rel="bookmark">机器学习（六）：调参</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/fceddfed.html" rel="bookmark">机器学习（七）：集成学习算法</a></div>
+    </li>
+    <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/archives/5f7d60d7.html" rel="bookmark">机器学习（五）：建模</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/archives/e60214f7.html" rel="bookmark">机器学习（四）：数据分割</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/c6d9290f.html" rel="bookmark">机器学习（三）：特征选择</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/8930e5df.html" rel="bookmark">机器学习（一）：初步认识机器学习</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/78f56d69.html" rel="bookmark">Lesson 3: Shiny App or Web Add control widgets</a></div>
     </li>
   </ul>
 
@@ -565,7 +566,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%B6%E6%96%B9%E5%B7%AE%E5%92%8C%E8%BF%91%E4%BC%BC%E9%9B%B6%E6%96%B9%E5%B7%AE%E7%89%B9%E5%BE%81%E5%8F%98%E9%87%8F%EF%BC%88Zero-and-Near-Zero-Variance-Predictors%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">零方差和近似零方差特征变量（Zero- and Near Zero-Variance Predictors）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%86%E5%88%AB%E7%9B%B8%E5%85%B3%E7%9A%84%E7%89%B9%E5%BE%81%E5%8F%98%E9%87%8F%EF%BC%88Identifying-Correlated-Predictors%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">识别相关的特征变量（Identifying Correlated Predictors）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E7%9B%B8%E5%85%B3%EF%BC%88Linear-Dependencies%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">线性相关（Linear Dependencies）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E9%BD%90%E7%BC%BA%E5%A4%B1%E5%80%BC%EF%BC%88filling-missing-values%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">补齐缺失值（filling missing values）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%88normalization%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">数据标准化和正则化（normalization）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E5%8F%98%E9%87%8F%E8%BD%AC%E5%8C%96%EF%BC%88Transforming-Predictors%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">特征变量转化（Transforming Predictors）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R-information"><span class="nav-number">8.</span> <span class="nav-text">R information</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">9.</span> <span class="nav-text">引用</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%B6%E6%96%B9%E5%B7%AE%E5%92%8C%E8%BF%91%E4%BC%BC%E9%9B%B6%E6%96%B9%E5%B7%AE%E7%89%B9%E5%BE%81%E5%8F%98%E9%87%8F%EF%BC%88Zero-and-Near-Zero-Variance-Predictors%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">零方差和近似零方差特征变量（Zero- and Near Zero-Variance Predictors）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%86%E5%88%AB%E7%9B%B8%E5%85%B3%E7%9A%84%E7%89%B9%E5%BE%81%E5%8F%98%E9%87%8F%EF%BC%88Identifying-Correlated-Predictors%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">识别相关的特征变量（Identifying Correlated Predictors）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E7%9B%B8%E5%85%B3%EF%BC%88Linear-Dependencies%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">线性相关（Linear Dependencies）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E9%BD%90%E7%BC%BA%E5%A4%B1%E5%80%BC%EF%BC%88filling-missing-values%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">补齐缺失值（filling missing values）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%88normalization%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">数据标准化和正则化（normalization）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E5%8F%98%E9%87%8F%E8%BD%AC%E5%8C%96%EF%BC%88Transforming-Predictors%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">特征变量转化（Transforming Predictors）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R-information"><span class="nav-number">9.</span> <span class="nav-text">R information</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">10.</span> <span class="nav-text">引用</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -581,7 +582,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">128</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -633,23 +634,23 @@
 			  
 			  
 				<li>
+				  <a href="/archives/7bee951e.html" title="机器学习（八）：总结" target="_blank">机器学习（八）：总结</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/a7a14410.html" title="机器学习（六）：调参" target="_blank">机器学习（六）：调参</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/fceddfed.html" title="机器学习（七）：集成学习算法" target="_blank">机器学习（七）：集成学习算法</a>
+				</li>
+			  
+				<li>
 				  <a href="/archives/5f7d60d7.html" title="机器学习（五）：建模" target="_blank">机器学习（五）：建模</a>
 				</li>
 			  
 				<li>
 				  <a href="/archives/e60214f7.html" title="机器学习（四）：数据分割" target="_blank">机器学习（四）：数据分割</a>
-				</li>
-			  
-				<li>
-				  <a href="/archives/c6d9290f.html" title="机器学习（三）：特征选择" target="_blank">机器学习（三）：特征选择</a>
-				</li>
-			  
-				<li>
-				  <a href="/archives/77cc47f3.html" title="机器学习（二）：数据预处理" target="_blank">机器学习（二）：数据预处理</a>
-				</li>
-			  
-				<li>
-				  <a href="/archives/8930e5df.html" title="机器学习（一）：初步认识机器学习" target="_blank">机器学习（一）：初步认识机器学习</a>
 				</li>
 			  
 			</ul>
@@ -950,13 +951,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">933k</span>
+    <span title="Symbols count total">967k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">14:08</span>
+    <span title="Reading time total">14:39</span>
 </div>
 
 <div id="days"></div>

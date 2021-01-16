@@ -159,7 +159,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">125</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">128</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -292,7 +292,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>8.3k</span>
+              <span>8.4k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -347,6 +347,7 @@
 <p><img src="/images/Course_ML_05model/unnamed-chunk-9-1.png" alt=""></p>
 <p>最佳模型 the final model</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">whichTwoPct &lt;- tolerance(gbmFit2$results, metric = <span class="string">&quot;Accuracy&quot;</span>, </span><br><span class="line">                         tol = <span class="number">2</span>, maximize = <span class="literal">TRUE</span>)  </span><br><span class="line">print(gbmFit2$results[whichTwoPct, <span class="number">1</span>:<span class="number">6</span>])</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>建模包含数据前处理以及建模和找到最佳模型，在建模过程中，可以选择不同方法评估模型，这些方法的目的是为了让模型训练不同情况下的数据得到模型的效能值，常用的方法有自助法，交叉验证和留一法等，最后根据最大模型效能值选择出最佳模型参数，如最佳模型下的随机森林算法中的mtry（markers）。</p>
 <h3 id="R-information"><a href="#R-information" class="headerlink" title="R information"></a>R information</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sessionInfo()</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">## R version 4.0.2 (2020-06-22)</span><br><span class="line">## Platform: x86_64-w64-mingw32&#x2F;x64 (64-bit)</span><br><span class="line">## Running under: Windows 10 x64 (build 19042)</span><br><span class="line">## </span><br><span class="line">## Matrix products: default</span><br><span class="line">## </span><br><span class="line">## locale:</span><br><span class="line">## [1] LC_COLLATE&#x3D;English_United States.1252  LC_CTYPE&#x3D;English_United States.1252   </span><br><span class="line">## [3] LC_MONETARY&#x3D;English_United States.1252 LC_NUMERIC&#x3D;C                          </span><br><span class="line">## [5] LC_TIME&#x3D;English_United States.1252    </span><br><span class="line">## system code page: 936</span><br><span class="line">## </span><br><span class="line">## attached base packages:</span><br><span class="line">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span><br><span class="line">## </span><br><span class="line">## other attached packages:</span><br><span class="line">## [1] klaR_0.6-15     MASS_7.3-53     mlbench_2.1-1   caret_6.0-86    ggplot2_3.3.3   lattice_0.20-41</span><br><span class="line">## </span><br><span class="line">## loaded via a namespace (and not attached):</span><br><span class="line">##  [1] Rcpp_1.0.5           lubridate_1.7.9      class_7.3-17         assertthat_0.2.1    </span><br><span class="line">##  [5] digest_0.6.25        ipred_0.9-9          foreach_1.5.1        mime_0.9            </span><br><span class="line">##  [9] R6_2.5.0             plyr_1.8.6           labelled_2.7.0       stats4_4.0.2        </span><br><span class="line">## [13] evaluate_0.14        e1071_1.7-4          highr_0.8            pillar_1.4.6        </span><br><span class="line">## [17] rlang_0.4.7          rstudioapi_0.11      data.table_1.13.6    miniUI_0.1.1.1      </span><br><span class="line">## [21] rpart_4.1-15         Matrix_1.3-2         combinat_0.0-8       rmarkdown_2.5       </span><br><span class="line">## [25] splines_4.0.2        gower_0.2.2          stringr_1.4.0        questionr_0.7.3     </span><br><span class="line">## [29] munsell_0.5.0        shiny_1.5.0          compiler_4.0.2       httpuv_1.5.4        </span><br><span class="line">## [33] xfun_0.19            pkgconfig_2.0.3      gbm_2.1.8            htmltools_0.5.0     </span><br><span class="line">## [37] nnet_7.3-14          tidyselect_1.1.0     tibble_3.0.3         prodlim_2019.11.13  </span><br><span class="line">## [41] codetools_0.2-18     randomForest_4.6-14  fansi_0.4.1          later_1.1.0.1       </span><br><span class="line">## [45] crayon_1.3.4         dplyr_1.0.2          withr_2.3.0          recipes_0.1.15      </span><br><span class="line">## [49] ModelMetrics_1.2.2.2 grid_4.0.2           xtable_1.8-4         nlme_3.1-150        </span><br><span class="line">## [53] jsonlite_1.7.1       gtable_0.3.0         lifecycle_0.2.0      magrittr_1.5        </span><br><span class="line">## [57] pROC_1.16.2          scales_1.1.1         cli_2.1.0            stringi_1.5.3       </span><br><span class="line">## [61] reshape2_1.4.4       promises_1.1.1       timeDate_3043.102    ellipsis_0.3.1      </span><br><span class="line">## [65] generics_0.1.0       vctrs_0.3.4          lava_1.6.8           forcats_0.5.0       </span><br><span class="line">## [69] iterators_1.0.13     tools_4.0.2          glue_1.4.2           purrr_0.3.4         </span><br><span class="line">## [73] hms_0.5.3            fastmap_1.0.1        survival_3.2-7       yaml_2.2.1          </span><br><span class="line">## [77] colorspace_1.4-1     haven_2.3.1          knitr_1.30</span><br></pre></td></tr></table></figure>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
@@ -378,19 +379,19 @@
   <div class="popular-posts-header">Related Posts</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/7bee951e.html" rel="bookmark">机器学习（八）：总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/a7a14410.html" rel="bookmark">机器学习（六）：调参</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/fceddfed.html" rel="bookmark">机器学习（七）：集成学习算法</a></div>
+    </li>
+    <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/archives/e60214f7.html" rel="bookmark">机器学习（四）：数据分割</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/archives/c6d9290f.html" rel="bookmark">机器学习（三）：特征选择</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/77cc47f3.html" rel="bookmark">机器学习（二）：数据预处理</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/8930e5df.html" rel="bookmark">机器学习（一）：初步认识机器学习</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/78f56d69.html" rel="bookmark">Lesson 3: Shiny App or Web Add control widgets</a></div>
     </li>
   </ul>
 
@@ -446,7 +447,10 @@
     <a href="/archives/e60214f7.html" rel="prev" title="机器学习（四）：数据分割">
       <i class="fa fa-chevron-left"></i> 机器学习（四）：数据分割
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/archives/fceddfed.html" rel="next" title="机器学习（七）：集成学习算法">
+      机器学习（七）：集成学习算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -506,7 +510,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Split"><span class="nav-number">2.</span> <span class="nav-text">Data Split</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E6%A8%A1%E5%9E%8BAccuracy"><span class="nav-number">3.</span> <span class="nav-text">评估模型Accuracy</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bootstrap"><span class="nav-number">3.1.</span> <span class="nav-text">Bootstrap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#k-fold-Cross-Validation"><span class="nav-number">3.2.</span> <span class="nav-text">k-fold Cross Validation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Repeated-k-fold-Cross-Validation"><span class="nav-number">3.3.</span> <span class="nav-text">Repeated k-fold Cross Validation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Leave-One-Out-Cross-Validation"><span class="nav-number">3.4.</span> <span class="nav-text">Leave One Out Cross Validation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E5%92%8C%E8%B0%83%E5%8F%82"><span class="nav-number">4.</span> <span class="nav-text">训练模型和调参</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R-information"><span class="nav-number">5.</span> <span class="nav-text">R information</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">6.</span> <span class="nav-text">引用</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Split"><span class="nav-number">2.</span> <span class="nav-text">Data Split</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E6%A8%A1%E5%9E%8BAccuracy"><span class="nav-number">3.</span> <span class="nav-text">评估模型Accuracy</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bootstrap"><span class="nav-number">3.1.</span> <span class="nav-text">Bootstrap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#k-fold-Cross-Validation"><span class="nav-number">3.2.</span> <span class="nav-text">k-fold Cross Validation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Repeated-k-fold-Cross-Validation"><span class="nav-number">3.3.</span> <span class="nav-text">Repeated k-fold Cross Validation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Leave-One-Out-Cross-Validation"><span class="nav-number">3.4.</span> <span class="nav-text">Leave One Out Cross Validation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E5%92%8C%E8%B0%83%E5%8F%82"><span class="nav-number">4.</span> <span class="nav-text">训练模型和调参</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R-information"><span class="nav-number">6.</span> <span class="nav-text">R information</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">7.</span> <span class="nav-text">引用</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -522,7 +526,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">128</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -574,23 +578,23 @@
 			  
 			  
 				<li>
+				  <a href="/archives/7bee951e.html" title="机器学习（八）：总结" target="_blank">机器学习（八）：总结</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/a7a14410.html" title="机器学习（六）：调参" target="_blank">机器学习（六）：调参</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/fceddfed.html" title="机器学习（七）：集成学习算法" target="_blank">机器学习（七）：集成学习算法</a>
+				</li>
+			  
+				<li>
 				  <a href="/archives/5f7d60d7.html" title="机器学习（五）：建模" target="_blank">机器学习（五）：建模</a>
 				</li>
 			  
 				<li>
 				  <a href="/archives/e60214f7.html" title="机器学习（四）：数据分割" target="_blank">机器学习（四）：数据分割</a>
-				</li>
-			  
-				<li>
-				  <a href="/archives/c6d9290f.html" title="机器学习（三）：特征选择" target="_blank">机器学习（三）：特征选择</a>
-				</li>
-			  
-				<li>
-				  <a href="/archives/77cc47f3.html" title="机器学习（二）：数据预处理" target="_blank">机器学习（二）：数据预处理</a>
-				</li>
-			  
-				<li>
-				  <a href="/archives/8930e5df.html" title="机器学习（一）：初步认识机器学习" target="_blank">机器学习（一）：初步认识机器学习</a>
 				</li>
 			  
 			</ul>
@@ -891,13 +895,13 @@ if(canvas.getContext){
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">933k</span>
+    <span title="Symbols count total">967k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">14:08</span>
+    <span title="Reading time total">14:39</span>
 </div>
 
 <div id="days"></div>
