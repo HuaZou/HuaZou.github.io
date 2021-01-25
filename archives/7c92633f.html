@@ -1,0 +1,1251 @@
+﻿<!DOCTYPE html>
+<html lang="en,zh-CN,default">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="Boosting是机器学习常用的方法，其中随机梯度boosting更是常见的机器学习算法，可用于构建分类器和回归分析。另外XGBoost是优化后的boosting算法，主要是施加了惩罚项。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stochastic Gradient Boosting(随机梯度boosting) 和eXtreme Gradient Boosting(XGBoost)">
+<meta property="og:url" content="https://zouhua.top/archives/7c92633f.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="Boosting是机器学习常用的方法，其中随机梯度boosting更是常见的机器学习算法，可用于构建分类器和回归分析。另外XGBoost是优化后的boosting算法，主要是施加了惩罚项。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://zouhua.top/images/R_data_14_stochasticGB/importance.jpg">
+<meta property="og:image" content="https://zouhua.top/images/RR_data_14_stochasticGB/ROC.jpg">
+<meta property="article:published_time" content="2021-01-23T02:26:00.000Z">
+<meta property="article:modified_time" content="2021-01-23T07:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="boosting">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zouhua.top/images/R_data_14_stochasticGB/importance.jpg">
+
+<link rel="canonical" href="https://zouhua.top/archives/7c92633f.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="/css/injector.css" />
+  <title>Stochastic Gradient Boosting(随机梯度boosting) 和eXtreme Gradient Boosting(XGBoost) | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">92</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">46</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">130</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>Message</a>
+
+  </li>
+        <li class="menu-item menu-item-bookdown">
+
+    <a href="/bookdown/" rel="section"><i class="fa fa-book fa-fw"></i>bookdown</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/7c92633f.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Stochastic Gradient Boosting(随机梯度boosting) 和eXtreme Gradient Boosting(XGBoost)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-23 10:26:00 / Modified: 15:00:00" itemprop="dateCreated datePublished" datetime="2021-01-23T10:26:00+08:00">2021-01-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/DataAnalysis/" itemprop="url" rel="index"><span itemprop="name">DataAnalysis</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/archives/7c92633f.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/7c92633f.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>16k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>14 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><h4 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h4><p>Boosting过程是构建决策树的过程，决策树可以根据某个输入指标对群体进行划分，依靠某个指标划分群体则构成一个简单的决策树。评判决策树划分效果一般使用信息增益（ID3）、信息增益率（C4.5）、基尼系数（CART），其核心思想是分类内部的纯度越高越好。</p>
+<h4 id="回归树"><a href="#回归树" class="headerlink" title="回归树"></a>回归树</h4><p>分类树的样本输出是类的形式，回归树输出的是数值，可使用均方误差和对数误差评估。</p>
+<blockquote>
+<p>数据挖掘或机器学习中使用的决策树有两种主要类型：</p>
+<ol>
+<li><p>分类树分析是指预测结果是数据所属的类（比如某个电影去看还是不看）</p>
+</li>
+<li><p>回归树分析是指预测结果可以被认为是实数（例如房屋的价格，或患者在医院中的逗留时间）</p>
+</li>
+</ol>
+<p>而术语分类回归树（CART，Classification And Regression Tree）分析是用于指代上述两种树的总称，由Breiman等人首先提出。</p>
+</blockquote>
+<h4 id="Gradient-Boosting-Decision-Tree（GBDT决策树）"><a href="#Gradient-Boosting-Decision-Tree（GBDT决策树）" class="headerlink" title="Gradient Boosting Decision Tree（GBDT决策树）"></a>Gradient Boosting Decision Tree（GBDT决策树）</h4><blockquote>
+<p>GBDT的原理很简单，就是所有弱分类器的结果相加等于预测值，然后下一个弱分类器去拟合误差函数对预测值的梯度/残差(这个梯度/残差就是预测值与真实值之间的误差)。</p>
+</blockquote>
+<h4 id="eXtreme-Gradient-Boosting-XGBoost"><a href="#eXtreme-Gradient-Boosting-XGBoost" class="headerlink" title="eXtreme Gradient Boosting(XGBoost)"></a>eXtreme Gradient Boosting(XGBoost)</h4><p>XGBoost其本质也是GBDT的一种，但XGBoost与GBDT比较大的不同就是目标函数的定义。</p>
+<p>Boosting是机器学习常用的方法，其中随机梯度boosting和XGBoost都是常见的机器学习算法，可用于构建分类器和回归分析。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>method Value</th>
+<th>Type</th>
+<th>Libraries</th>
+<th>Tuning Parameters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eXtreme Gradient Boosting</td>
+<td>xgbDART</td>
+<td>Classification, Regression</td>
+<td>xgboost, plyr</td>
+<td>nrounds, max_depth, eta, gamma, subsample,  colsample_bytree, rate_drop, skip_drop, min_child_weight</td>
+</tr>
+<tr>
+<td>eXtreme Gradient Boosting</td>
+<td>xgbLinear</td>
+<td>Classification, Regression</td>
+<td>xgboost</td>
+<td>nrounds, lambda, alpha, eta</td>
+</tr>
+<tr>
+<td>eXtreme Gradient Boosting</td>
+<td>xgbTree</td>
+<td>Classification, Regression</td>
+<td>xgboost, plyr</td>
+<td>nrounds, max_depth, eta, gamma, colsample_bytree,  min_child_weight, subsample</td>
+</tr>
+<tr>
+<td>Gradient Boosting Machines</td>
+<td>gbm_h2o</td>
+<td>Classification, Regression</td>
+<td>h2o</td>
+<td>ntrees, max_depth, min_rows, learn_rate,  col_sample_rate</td>
+</tr>
+<tr>
+<td>Stochastic Gradient Boosting</td>
+<td>gbm</td>
+<td>Classification, Regression</td>
+<td>gbm, plyr</td>
+<td>n.trees, interaction.depth, shrinkage, n.minobsinnode</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="实列"><a href="#实列" class="headerlink" title="实列"></a>实列</h3><h3 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">library(tidyverse)</span><br><span class="line">library(ISLR)</span><br><span class="line">library(caret)</span><br><span class="line">library(pROC)</span><br><span class="line"></span><br><span class="line">ml_data &lt;- College</span><br><span class="line">ml_data %&gt;%</span><br><span class="line">  glimpse()</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Rows: 777</span><br><span class="line">Columns: 18</span><br><span class="line">$ Private     <span class="xml"><span class="tag">&lt;<span class="name">fct</span>&gt;</span></span> Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, No, Yes, …</span><br><span class="line">$ Apps        <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 1660, 2186, 1428, 417, 193, 587, 353, 1899, 1038, 582, 1732, 2652, 1179, 1267, 494, 1420, 4302, 1216, 11…</span><br><span class="line">$ Accept      <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 1232, 1924, 1097, 349, 146, 479, 340, 1720, 839, 498, 1425, 1900, 780, 1080, 313, 1093, 992, 908, 704, 2…</span><br><span class="line">$ Enroll      <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 721, 512, 336, 137, 55, 158, 103, 489, 227, 172, 472, 484, 290, 385, 157, 220, 418, 423, 322, 1016, 252,…</span><br><span class="line">$ Top10perc   <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 23, 16, 22, 60, 16, 38, 17, 37, 30, 21, 37, 44, 38, 44, 23, 9, 83, 19, 14, 24, 25, 20, 20, 24, 46, 12, 2…</span><br><span class="line">$ Top25perc   <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 52, 29, 50, 89, 44, 62, 45, 68, 63, 44, 75, 77, 64, 73, 46, 22, 96, 40, 23, 54, 44, 63, 51, 49, 74, 52, …</span><br><span class="line">$ F.Undergrad <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 2885, 2683, 1036, 510, 249, 678, 416, 1594, 973, 799, 1830, 1707, 1130, 1306, 1317, 1018, 1593, 1819, 15…</span><br><span class="line">$ P.Undergrad <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 537, 1227, 99, 63, 869, 41, 230, 32, 306, 78, 110, 44, 638, 28, 1235, 287, 5, 281, 326, 1512, 23, 1035, …</span><br><span class="line">$ Outstate    <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 7440, 12280, 11250, 12960, 7560, 13500, 13290, 13868, 15595, 10468, 16548, 17080, 9690, 12572, 8352, 870…</span><br><span class="line">$ Room.Board  <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 3300, 6450, 3750, 5450, 4120, 3335, 5720, 4826, 4400, 3380, 5406, 4440, 4785, 4552, 3640, 4780, 5300, 35…</span><br><span class="line">$ Books       <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 450, 750, 400, 450, 800, 500, 500, 450, 300, 660, 500, 400, 600, 400, 650, 450, 660, 550, 900, 500, 400,…</span><br><span class="line">$ Personal    <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 2200, 1500, 1165, 875, 1500, 675, 1500, 850, 500, 1800, 600, 600, 1000, 400, 2449, 1400, 1598, 1100, 132…</span><br><span class="line">$ PhD         <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 70, 29, 53, 92, 76, 67, 90, 89, 79, 40, 82, 73, 60, 79, 36, 78, 93, 48, 62, 60, 69, 83, 55, 88, 79, 57, …</span><br><span class="line">$ Terminal    <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 78, 30, 66, 97, 72, 73, 93, 100, 84, 41, 88, 91, 84, 87, 69, 84, 98, 61, 66, 62, 82, 96, 65, 93, 88, 60,…</span><br><span class="line">$ S.F.Ratio   <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 18.1, 12.2, 12.9, 7.7, 11.9, 9.4, 11.5, 13.7, 11.3, 11.5, 11.3, 9.9, 13.3, 15.3, 11.1, 14.7, 8.4, 12.1, …</span><br><span class="line">$ perc.alumni <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 12, 16, 30, 37, 2, 11, 26, 37, 23, 15, 31, 41, 21, 32, 26, 19, 63, 14, 18, 5, 35, 14, 25, 5, 24, 5, 30, …</span><br><span class="line">$ Expend      <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 7041, 10527, 8735, 19016, 10922, 9727, 8861, 11487, 11644, 8991, 10932, 11711, 7940, 9305, 8127, 7355, 2…</span><br><span class="line">$ Grad.Rate   <span class="xml"><span class="tag">&lt;<span class="name">dbl</span>&gt;</span></span> 60, 56, 54, 59, 15, 55, 63, 73, 80, 52, 73, 76, 74, 68, 55, 69, 100, 59, 46, 34, 48, 70, 65, 48, 54, 48,…</span><br></pre></td></tr></table></figure>
+<h3 id="训练模型-Stochastic-Gradient-Boosting"><a href="#训练模型-Stochastic-Gradient-Boosting" class="headerlink" title="训练模型(Stochastic Gradient Boosting)"></a>训练模型(Stochastic Gradient Boosting)</h3><ul>
+<li><p>构建训练集和测试集</p>
+</li>
+<li><p>训练模型：使用3次5折交叉验证方法并预处理数据</p>
+</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">set.seed(<span class="number">123</span>)</span><br><span class="line">index &lt;- createDataPartition(ml_data$Private, p = <span class="number">0.7</span>, <span class="built_in">list</span> = <span class="literal">FALSE</span>)</span><br><span class="line">train_data &lt;- ml_data[index, ]</span><br><span class="line">test_data  &lt;- ml_data[-index, ]</span><br><span class="line"></span><br><span class="line">model_gbm &lt;- train(Private ~ .,</span><br><span class="line">                          data = train_data,</span><br><span class="line">                          method = <span class="string">&quot;gbm&quot;</span>,</span><br><span class="line">                          preProcess = <span class="built_in">c</span>(<span class="string">&quot;scale&quot;</span>, <span class="string">&quot;center&quot;</span>),</span><br><span class="line">                          trControl = trainControl(method = <span class="string">&quot;repeatedcv&quot;</span>, </span><br><span class="line">                                                  number = <span class="number">5</span>, </span><br><span class="line">                                                  repeats = <span class="number">3</span>, </span><br><span class="line">                                                  verboseIter = <span class="literal">FALSE</span>),</span><br><span class="line">                          verbose = <span class="number">0</span>)</span><br><span class="line">model_gbm</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Stochastic Gradient Boosting </span><br><span class="line"></span><br><span class="line">545 samples</span><br><span class="line"> 17 predictor</span><br><span class="line">  2 classes: &#x27;No&#x27;, &#x27;Yes&#x27; </span><br><span class="line"></span><br><span class="line">Pre-processing: scaled (17), centered (17) </span><br><span class="line">Resampling: Cross-Validated (5 fold, repeated 3 times) </span><br><span class="line">Summary of sample sizes: 436, 436, 436, 436, 436, 437, ... </span><br><span class="line">Resampling results across tuning parameters:</span><br><span class="line"></span><br><span class="line">  interaction.depth  n.trees  Accuracy   Kappa    </span><br><span class="line">  1                   50      0.9369957  0.8368376</span><br><span class="line">  1                  100      0.9394369  0.8453525</span><br><span class="line">  1                  150      0.9376299  0.8417065</span><br><span class="line">  2                   50      0.9430954  0.8552244</span><br><span class="line">  2                  100      0.9437293  0.8556455</span><br><span class="line">  2                  150      0.9424612  0.8528115</span><br><span class="line">  3                   50      0.9400314  0.8476074</span><br><span class="line">  3                  100      0.9406488  0.8490041</span><br><span class="line">  3                  150      0.9412773  0.8508960</span><br><span class="line"></span><br><span class="line">Tuning parameter &#x27;shrinkage&#x27; was held constant at a value of 0.1</span><br><span class="line">Tuning parameter &#x27;n.minobsinnode&#x27; was held constant at</span><br><span class="line"> a value of 10</span><br><span class="line">Accuracy was used to select the optimal model using the largest value.</span><br><span class="line">The final values used for the model were n.trees = 100, interaction.depth = 2, shrinkage = 0.1 and n.minobsinnode = 10.</span><br></pre></td></tr></table></figure>
+<p>结果：模型在<em>n.trees = 100, interaction.depth = 2, shrinkage = 0.1 and n.minobsinnode = 10</em>时获得最佳<em>Accuracy=0.9437293</em>。另外也可以使用<strong>summary(model_gbm)</strong>查看重要变量重要性分布(按照相对重要性排序：百分比相对标准化)。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">summary(model_gbm)</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">                    var    rel.inf</span></span><br><span class="line"><span class="code">F.Undergrad F.Undergrad 41.5488790</span></span><br><span class="line"><span class="code">Outstate       Outstate 37.4947348</span></span><br><span class="line"><span class="code">P.Undergrad P.Undergrad  5.5553944</span></span><br><span class="line"><span class="code">S.F.Ratio     S.F.Ratio  3.2261838</span></span><br><span class="line"><span class="code">Room.Board   Room.Board  2.3599418</span></span><br><span class="line"><span class="code">Enroll           Enroll  1.8459618</span></span><br><span class="line"><span class="code">Accept           Accept  1.2306723</span></span><br><span class="line"><span class="code">PhD                 PhD  1.1096188</span></span><br><span class="line"><span class="code">Terminal       Terminal  1.0970409</span></span><br><span class="line"><span class="code">Expend           Expend  0.8743070</span></span><br><span class="line"><span class="code">Grad.Rate     Grad.Rate  0.8085252</span></span><br><span class="line"><span class="code">perc.alumni perc.alumni  0.7778578</span></span><br><span class="line"><span class="code">Top25perc     Top25perc  0.6229050</span></span><br><span class="line"><span class="code">Top10perc     Top10perc  0.4310016</span></span><br><span class="line"><span class="code">Apps               Apps  0.4217785</span></span><br><span class="line"><span class="code">Personal       Personal  0.3608742</span></span><br><span class="line"><span class="code">Books             Books  0.2343231</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/R_data_14_stochasticGB/importance.jpg" alt=""></p>
+<h3 id="预测结果-Stochastic-Gradient-Boosting"><a href="#预测结果-Stochastic-Gradient-Boosting" class="headerlink" title="预测结果(Stochastic Gradient Boosting)"></a>预测结果(Stochastic Gradient Boosting)</h3><p><em>predict</em>函数在预测predictors是可以选择type类型，通常分类predictors的有两类type：默认是raw值，在使用pROC包的<em>roc</em>或<em>auc</em>函数计算时候，需要使用probability值，通常选择某类的probability值计算即可。</p>
+<ul>
+<li><p>raw： 测试样本最后预测的分类label</p>
+</li>
+<li><p>prob：测试样本最后预测为各个分类label的概率</p>
+</li>
+</ul>
+<h4 id="confusionMatrix"><a href="#confusionMatrix" class="headerlink" title="confusionMatrix"></a>confusionMatrix</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">caret::confusionMatrix(</span><br><span class="line">  data = predict(model_gbm, test_data),</span><br><span class="line">  reference = test_data$Private</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Confusion Matrix and Statistics</span><br><span class="line"></span><br><span class="line"><span class="code">          Reference</span></span><br><span class="line"><span class="code">Prediction  No Yes</span></span><br><span class="line"><span class="code">       No   52   8</span></span><br><span class="line"><span class="code">       Yes  11 161</span></span><br><span class="line"><span class="code">                                        </span></span><br><span class="line"><span class="code">               Accuracy : 0.9181        </span></span><br><span class="line"><span class="code">                 95% CI : (0.8751, 0.95)</span></span><br><span class="line"><span class="code">    No Information Rate : 0.7284        </span></span><br><span class="line"><span class="code">    P-Value [Acc &gt; NIR] : 3.803e-13     </span></span><br><span class="line"><span class="code">                                        </span></span><br><span class="line"><span class="code">                  Kappa : 0.7899        </span></span><br><span class="line"><span class="code">                                        </span></span><br><span class="line"><span class="code"> Mcnemar&#x27;s Test P-Value : 0.6464        </span></span><br><span class="line"><span class="code">                                        </span></span><br><span class="line"><span class="code">            Sensitivity : 0.8254        </span></span><br><span class="line"><span class="code">            Specificity : 0.9527        </span></span><br><span class="line"><span class="code">         Pos Pred Value : 0.8667        </span></span><br><span class="line"><span class="code">         Neg Pred Value : 0.9360        </span></span><br><span class="line"><span class="code">             Prevalence : 0.2716        </span></span><br><span class="line"><span class="code">         Detection Rate : 0.2241        </span></span><br><span class="line"><span class="code">   Detection Prevalence : 0.2586        </span></span><br><span class="line"><span class="code">      Balanced Accuracy : 0.8890        </span></span><br><span class="line"><span class="code">                                        </span></span><br><span class="line"><span class="code">       &#x27;Positive&#x27; Class : No </span></span><br></pre></td></tr></table></figure>
+<p><em>confusionMatrix</em>函数给出分类变量的预测值和真实值混淆矩阵和对应的测试样本在模型预测过程的统计结果，如 Accuracy=0.9181等值。</p>
+<h4 id="type-”raw”"><a href="#type-”raw”" class="headerlink" title="type=”raw”"></a>type=”raw”</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">predict(model_gbm, test_data, type = <span class="string">&quot;raw&quot;</span>)</span><br><span class="line"><span class="comment"># predict(model_gbm, test_data) # 默认type=&quot;raw&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> [1] No  Yes Yes Yes Yes Yes Yes Yes Yes No  No  Yes Yes Yes No  Yes Yes Yes Yes No  Yes Yes No  Yes Yes Yes Yes Yes No  Yes Yes Yes</span><br><span class="line"> [33] Yes Yes Yes Yes Yes No  Yes Yes Yes No  No  Yes No  Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes No  Yes No  Yes No  No  Yes</span><br><span class="line"> [65] Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes No  Yes Yes Yes Yes Yes Yes Yes No  Yes Yes Yes Yes Yes Yes Yes Yes Yes</span><br><span class="line"> [97] Yes Yes Yes No  Yes No  Yes No  Yes Yes No  Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes No  Yes Yes Yes No  No  Yes No  Yes No  Yes</span><br><span class="line">[129] Yes Yes Yes Yes Yes No  Yes Yes Yes Yes Yes No  Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes No  No  Yes No  Yes Yes Yes Yes</span><br><span class="line">[161] Yes No  No  Yes Yes Yes Yes No  Yes Yes No  No  Yes No  Yes Yes Yes No  No  Yes No  Yes No  Yes No  No  Yes No  Yes No  No  No </span><br><span class="line">[193] No  No  Yes Yes Yes Yes No  No  No  No  No  No  Yes Yes No  No  No  Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes No </span><br><span class="line">[225] Yes Yes Yes Yes Yes Yes Yes No </span><br><span class="line">Levels: No Yes</span><br></pre></td></tr></table></figure>
+<h4 id="type-”prob”"><a href="#type-”prob”" class="headerlink" title="type=”prob”"></a>type=”prob”</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">predict(model_gbm, test_data, type = <span class="string">&quot;prob&quot;</span>)</span><br><span class="line">head(predict(model_gbm, test_data, type = <span class="string">&quot;prob&quot;</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">           No       Yes</span></span><br><span class="line"><span class="code">1 0.734880487 0.2651195</span></span><br><span class="line"><span class="code">2 0.006084374 0.9939156</span></span><br><span class="line"><span class="code">3 0.004985657 0.9950143</span></span><br><span class="line"><span class="code">4 0.062989176 0.9370108</span></span><br><span class="line"><span class="code">5 0.005712712 0.9942873</span></span><br><span class="line"><span class="code">6 0.005905355 0.9940946</span></span><br></pre></td></tr></table></figure>
+<h3 id="ROC曲线-Stochastic-Gradient-Boosting"><a href="#ROC曲线-Stochastic-Gradient-Boosting" class="headerlink" title="ROC曲线(Stochastic Gradient Boosting)"></a>ROC曲线(Stochastic Gradient Boosting)</h3><ul>
+<li>获取ROC曲线：通过pROC的roc和auc函数分别获取roc对象和auc值</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> library(pROC)</span><br><span class="line">library(ggplot2)</span><br><span class="line"></span><br><span class="line">rocobj &lt;- roc(test_data$Private, predict(model_gbm, newdata = test_data, type = <span class="string">&quot;prob&quot;</span>)[, <span class="string">&quot;No&quot;</span>])</span><br><span class="line">auc &lt;- <span class="built_in">round</span>(auc(test_data$Private, predict(model_gbm, newdata = test_data, type = <span class="string">&quot;prob&quot;</span>)[, <span class="string">&quot;Yes&quot;</span>]),<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">ggroc(rocobj, color = <span class="string">&quot;red&quot;</span>, linetype = <span class="number">1</span>, size = <span class="number">1</span>, alpha = <span class="number">1</span>, legacy.axes = <span class="built_in">T</span>)+</span><br><span class="line">                geom_abline(intercept = <span class="number">0</span>, slope = <span class="number">1</span>, color=<span class="string">&quot;grey&quot;</span>, size = <span class="number">1</span>, linetype=<span class="number">1</span>)+</span><br><span class="line">              labs(x = <span class="string">&quot;False Positive Rate (1 - Specificity)&quot;</span>,</span><br><span class="line">                   y = <span class="string">&quot;True Positive Rate (Sensivity or Recall)&quot;</span>)+</span><br><span class="line">              annotate(<span class="string">&quot;text&quot;</span>,x = <span class="number">.75</span>, y = <span class="number">.25</span>,label=paste(<span class="string">&quot;AUC =&quot;</span>, auc),</span><br><span class="line">                       size = <span class="number">5</span>, family=<span class="string">&quot;serif&quot;</span>)+</span><br><span class="line">              coord_cartesian(xlim = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">1</span>), ylim = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">1</span>))+</span><br><span class="line">              theme_bw()+</span><br><span class="line">              theme(panel.background = element_rect(fill = <span class="string">&#x27;transparent&#x27;</span>),</span><br><span class="line">                    axis.ticks.length = unit(<span class="number">0.4</span>, <span class="string">&quot;lines&quot;</span>), </span><br><span class="line">                    axis.ticks = element_line(color=<span class="string">&#x27;black&#x27;</span>),</span><br><span class="line">                    axis.line = element_line(size=<span class="number">.5</span>, colour = <span class="string">&quot;black&quot;</span>),</span><br><span class="line">                    axis.title = element_text(colour=<span class="string">&#x27;black&#x27;</span>, size=<span class="number">12</span>,face = <span class="string">&quot;bold&quot;</span>),</span><br><span class="line">                    axis.text = element_text(colour=<span class="string">&#x27;black&#x27;</span>,size=<span class="number">10</span>,face = <span class="string">&quot;bold&quot;</span>),</span><br><span class="line">                    text = element_text(size=<span class="number">8</span>, color=<span class="string">&quot;black&quot;</span>, family=<span class="string">&quot;serif&quot;</span>))</span><br></pre></td></tr></table></figure>
+<p><img src="/images/RR_data_14_stochasticGB/ROC.jpg" alt=""></p>
+<h3 id="训练模型-eXtreme-Gradient-Boosting"><a href="#训练模型-eXtreme-Gradient-Boosting" class="headerlink" title="训练模型(eXtreme Gradient Boosting)"></a>训练模型(eXtreme Gradient Boosting)</h3><ul>
+<li>简单建模</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">library(xgboost)</span><br><span class="line">xgboost_model &lt;- xgboost(data = as.matrix(train_data[, -<span class="number">1</span>]), </span><br><span class="line">                         label = <span class="built_in">as.numeric</span>(train_data$Private)-<span class="number">1</span>,</span><br><span class="line">                         max_depth = <span class="number">3</span>, </span><br><span class="line">                         objective = <span class="string">&quot;binary:logistic&quot;</span>, </span><br><span class="line">                         nrounds = <span class="number">10</span>, </span><br><span class="line">                         verbose = <span class="literal">FALSE</span>,</span><br><span class="line">                         prediction = <span class="literal">TRUE</span>,</span><br><span class="line">                         eval_metric = <span class="string">&quot;logloss&quot;</span>)</span><br><span class="line">xgboost_model</span><br></pre></td></tr></table></figure>
+<ul>
+<li>预测</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">predict(xgboost_model, </span><br><span class="line">        as.matrix(test_data[, -<span class="number">1</span>])) %&gt;%</span><br><span class="line">  as.tibble() %&gt;%</span><br><span class="line">  mutate(prediction = <span class="built_in">round</span>(value),</span><br><span class="line">         label = <span class="built_in">as.numeric</span>(test_data$Private)-<span class="number">1</span>) %&gt;%</span><br><span class="line">  count(prediction, label)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>调参建模</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">dtrain &lt;- xgb.DMatrix(as.matrix(train_data[, -<span class="number">1</span>]), </span><br><span class="line">                      label = <span class="built_in">as.numeric</span>(train_data$Private)-<span class="number">1</span>)</span><br><span class="line">dtest &lt;- xgb.DMatrix(as.matrix(test_data[, -<span class="number">1</span>]), </span><br><span class="line">                      label = <span class="built_in">as.numeric</span>(test_data$Private)-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">params &lt;- <span class="built_in">list</span>(max_depth = <span class="number">3</span>, </span><br><span class="line">               objective = <span class="string">&quot;binary:logistic&quot;</span>,</span><br><span class="line">               silent = <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">watchlist &lt;- <span class="built_in">list</span>(train = dtrain, eval = dtest)</span><br><span class="line"></span><br><span class="line">bst_model &lt;- xgb.train(params = params, </span><br><span class="line">                       data = dtrain, </span><br><span class="line">                       nrounds = <span class="number">10</span>, </span><br><span class="line">                       watchlist = watchlist,</span><br><span class="line">                       verbose = <span class="literal">FALSE</span>,</span><br><span class="line">                       prediction = <span class="literal">TRUE</span>,</span><br><span class="line">                       eval_metric = <span class="string">&quot;logloss&quot;</span>)</span><br><span class="line">bst_model</span><br><span class="line"></span><br><span class="line">predict(bst_model, </span><br><span class="line">        as.matrix(test_data[, -<span class="number">1</span>])) %&gt;%</span><br><span class="line">  as.tibble() %&gt;%</span><br><span class="line">  mutate(prediction = <span class="built_in">round</span>(value),</span><br><span class="line">         label = <span class="built_in">as.numeric</span>(test_data$Private)-<span class="number">1</span>) %&gt;%</span><br><span class="line">  count(prediction, label)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第二类调参建模</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cv_model &lt;- xgb.cv(params = params,</span><br><span class="line">                   data = dtrain, </span><br><span class="line">                   nrounds = <span class="number">100</span>, </span><br><span class="line">                   watchlist = watchlist,</span><br><span class="line">                   nfold = <span class="number">5</span>,</span><br><span class="line">                   verbose = <span class="literal">FALSE</span>,</span><br><span class="line">                   prediction = <span class="literal">TRUE</span>,</span><br><span class="line">                   eval_metric = <span class="string">&quot;logloss&quot;</span>) <span class="comment"># prediction of cv folds</span></span><br><span class="line"></span><br><span class="line">cv_model$evaluation_log %&gt;%</span><br><span class="line">  filter(test_logloss_mean == <span class="built_in">min</span>(test_logloss_mean))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ROC</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">library(pROC)</span><br><span class="line">library(ggplot2)</span><br><span class="line"></span><br><span class="line">rocobj &lt;- roc((<span class="built_in">as.numeric</span>(test_data$Private) - <span class="number">1</span>), predict(bst_model, as.matrix(test_data[, -<span class="number">1</span>]), type=<span class="string">&quot;prob&quot;</span>))</span><br><span class="line">auc &lt;- <span class="built_in">round</span>(auc((<span class="built_in">as.numeric</span>(test_data$Private) - <span class="number">1</span>), predict(bst_model, as.matrix(test_data[, -<span class="number">1</span>]), type=<span class="string">&quot;prob&quot;</span>)), <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">ggroc(rocobj, color = <span class="string">&quot;red&quot;</span>, linetype = <span class="number">1</span>, size = <span class="number">1</span>, alpha = <span class="number">1</span>, legacy.axes = <span class="built_in">T</span>)+</span><br><span class="line">                geom_abline(intercept = <span class="number">0</span>, slope = <span class="number">1</span>, color=<span class="string">&quot;grey&quot;</span>, size = <span class="number">1</span>, linetype=<span class="number">1</span>)+</span><br><span class="line">              labs(x = <span class="string">&quot;False Positive Rate (1 - Specificity)&quot;</span>,</span><br><span class="line">                   y = <span class="string">&quot;True Positive Rate (Sensivity or Recall)&quot;</span>)+</span><br><span class="line">              annotate(<span class="string">&quot;text&quot;</span>,x = <span class="number">.75</span>, y = <span class="number">.25</span>,label=paste(<span class="string">&quot;AUC =&quot;</span>, auc),</span><br><span class="line">                       size = <span class="number">5</span>, family=<span class="string">&quot;serif&quot;</span>)+</span><br><span class="line">              coord_cartesian(xlim = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">1</span>), ylim = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">1</span>))+</span><br><span class="line">              theme_bw()+</span><br><span class="line">              theme(panel.background = element_rect(fill = <span class="string">&#x27;transparent&#x27;</span>),</span><br><span class="line">                    axis.ticks.length = unit(<span class="number">0.4</span>, <span class="string">&quot;lines&quot;</span>), </span><br><span class="line">                    axis.ticks = element_line(color=<span class="string">&#x27;black&#x27;</span>),</span><br><span class="line">                    axis.line = element_line(size=<span class="number">.5</span>, colour = <span class="string">&quot;black&quot;</span>),</span><br><span class="line">                    axis.title = element_text(colour=<span class="string">&#x27;black&#x27;</span>, size=<span class="number">12</span>,face = <span class="string">&quot;bold&quot;</span>),</span><br><span class="line">                    axis.text = element_text(colour=<span class="string">&#x27;black&#x27;</span>,size=<span class="number">10</span>,face = <span class="string">&quot;bold&quot;</span>),</span><br><span class="line">                    text = element_text(size=<span class="number">8</span>, color=<span class="string">&quot;black&quot;</span>, family=<span class="string">&quot;serif&quot;</span>))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用caret包建模</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">X_train &lt;- xgb.DMatrix(as.matrix(train_data %&gt;% select(-Private)))</span><br><span class="line">y_train &lt;- train_data$Private</span><br><span class="line">X_test &lt;- xgb.DMatrix(as.matrix(test_data %&gt;% select(-Private)))</span><br><span class="line">y_test &lt;- test_data$Private</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">xgb_trcontrol &lt;- trainControl(method = <span class="string">&quot;cv&quot;</span>,</span><br><span class="line">                              number = <span class="number">5</span>,  </span><br><span class="line">                              allowParallel = <span class="literal">TRUE</span>,</span><br><span class="line">                              verboseIter = <span class="literal">FALSE</span>,</span><br><span class="line">                              returnData = <span class="literal">FALSE</span>)</span><br><span class="line"></span><br><span class="line">xgbGrid &lt;- expand.grid(nrounds = <span class="built_in">c</span>(<span class="number">100</span>,<span class="number">200</span>),</span><br><span class="line">                       max_depth = <span class="built_in">c</span>(<span class="number">10</span>, <span class="number">15</span>, <span class="number">20</span>, <span class="number">25</span>),</span><br><span class="line">                       colsample_bytree = seq(<span class="number">0.5</span>, <span class="number">0.9</span>, length.out = <span class="number">5</span>),</span><br><span class="line">                       eta = <span class="number">0.1</span>,</span><br><span class="line">                       <span class="built_in">gamma</span>=<span class="number">0</span>,</span><br><span class="line">                       min_child_weight = <span class="number">1</span>,</span><br><span class="line">                       subsample = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">set.seed(<span class="number">123</span>) </span><br><span class="line">xgb_model &lt;- train(X_train, y_train,  </span><br><span class="line">                   trControl = xgb_trcontrol,</span><br><span class="line">                   tuneGrid = xgbGrid,</span><br><span class="line">                   method = <span class="string">&quot;xgbTree&quot;</span>)</span><br><span class="line">xgb_model$bestTune</span><br><span class="line"></span><br><span class="line">pred &lt;- predict(xgb_model, newdata=X_test)</span><br><span class="line">print(confusionMatrix(pred, y_test))</span><br><span class="line"></span><br><span class="line">library(pROC)</span><br><span class="line">library(ggplot2)</span><br><span class="line"></span><br><span class="line">rocobj &lt;- roc(y_test, predict(xgb_model, newdata = X_test, type = <span class="string">&quot;prob&quot;</span>)[, <span class="string">&quot;Yes&quot;</span>])</span><br><span class="line">auc &lt;- <span class="built_in">round</span>(auc(y_test, predict(xgb_model, newdata = X_test, type = <span class="string">&quot;prob&quot;</span>)[, <span class="string">&quot;Yes&quot;</span>]), <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">ggroc(rocobj, color = <span class="string">&quot;red&quot;</span>, linetype = <span class="number">1</span>, size = <span class="number">1</span>, alpha = <span class="number">1</span>, legacy.axes = <span class="built_in">T</span>)+</span><br><span class="line">                geom_abline(intercept = <span class="number">0</span>, slope = <span class="number">1</span>, color=<span class="string">&quot;grey&quot;</span>, size = <span class="number">1</span>, linetype=<span class="number">1</span>)+</span><br><span class="line">              labs(x = <span class="string">&quot;False Positive Rate (1 - Specificity)&quot;</span>,</span><br><span class="line">                   y = <span class="string">&quot;True Positive Rate (Sensivity or Recall)&quot;</span>)+</span><br><span class="line">              annotate(<span class="string">&quot;text&quot;</span>,x = <span class="number">.75</span>, y = <span class="number">.25</span>,label=paste(<span class="string">&quot;AUC =&quot;</span>, auc),</span><br><span class="line">                       size = <span class="number">5</span>, family=<span class="string">&quot;serif&quot;</span>)+</span><br><span class="line">              coord_cartesian(xlim = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">1</span>), ylim = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">1</span>))+</span><br><span class="line">              theme_bw()+</span><br><span class="line">              theme(panel.background = element_rect(fill = <span class="string">&#x27;transparent&#x27;</span>),</span><br><span class="line">                    axis.ticks.length = unit(<span class="number">0.4</span>, <span class="string">&quot;lines&quot;</span>), </span><br><span class="line">                    axis.ticks = element_line(color=<span class="string">&#x27;black&#x27;</span>),</span><br><span class="line">                    axis.line = element_line(size=<span class="number">.5</span>, colour = <span class="string">&quot;black&quot;</span>),</span><br><span class="line">                    axis.title = element_text(colour=<span class="string">&#x27;black&#x27;</span>, size=<span class="number">12</span>,face = <span class="string">&quot;bold&quot;</span>),</span><br><span class="line">                    axis.text = element_text(colour=<span class="string">&#x27;black&#x27;</span>,size=<span class="number">10</span>,face = <span class="string">&quot;bold&quot;</span>),</span><br><span class="line">                    text = element_text(size=<span class="number">8</span>, color=<span class="string">&quot;black&quot;</span>, family=<span class="string">&quot;serif&quot;</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p><strong>问题：为什么模型对测试样本处理时，pROC计算出来的AUC和模型给的Accuracy值是不一样的呢？</strong></p>
+<p>答：AUC是ROC下的面积，ROC折线每个点对应的阈值确定了该点的Accuracy、Precision和Recall等等的度量，所以AUC是一系列Accuracy的综合。 AUC衡量模型好坏，Accuracy衡量模型在某个特定阈值下的预测准确度。</p>
+<blockquote>
+<p>首先，AUC对应的不是一个accuracy，而是一系列accuracy。AUC是ROC的”线下面积”，而ROC是以FPR-TPR为坐标的一条线，实际上是连接一系列散点的一条折线。这条折线上的每一个点，对应了一个threshold，以及由这个threshold确定的预测值及其accuracy、precision、recall等等的度量。所以说，AUC衡量的是一个模型的好坏，是它给所有sample排序的合理程度（是不是正确地把负例排在了正例的前面）；而accuracy衡量的是一个模型在一个特定threshold（比如，logistic regression模型在阈值1/2）下的预测准确度（是不是正确地把负例排在了阈值之前，正例排在了阈值之后）。因此，AUC高而accuracy低或者accuracy高AUC低的情况有没有可能？有。一个模型定了，它的AUC就定了。但我可以取一个threshold，使得它的accuracy尽量低或者尽量高（有上限和下限）。</p>
+</blockquote>
+<h3 id="R-Information"><a href="#R-Information" class="headerlink" title="R Information"></a>R Information</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sessionInfo()</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">R version 4.0.3 (2020-10-10)</span><br><span class="line">Platform: x86_64-apple-darwin17.0 (64-bit)</span><br><span class="line">Running under: macOS Big Sur 10.16</span><br><span class="line"></span><br><span class="line">Matrix products: default</span><br><span class="line">LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib</span><br><span class="line"></span><br><span class="line">locale:</span><br><span class="line">[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span><br><span class="line"></span><br><span class="line">attached base packages:</span><br><span class="line">[1] stats     graphics  grDevices utils     datasets  methods   base     </span><br><span class="line"></span><br><span class="line">other attached packages:</span><br><span class="line"> [1] ISLR_1.2            forcats_0.5.0       stringr_1.4.0       purrr_0.3.4         readr_1.4.0         tidyr_1.1.2        </span><br><span class="line"> [7] tidyverse_1.3.0     xgboost_1.3.1.1     mlbench_2.1-1       survminer_0.4.8     ggpubr_0.4.0        survcomp_1.40.0    </span><br><span class="line">[13] prodlim_2019.11.13  survival_3.2-7      caretEnsemble_2.0.1 pROC_1.16.2         caret_6.0-86        ggplot2_3.3.3      </span><br><span class="line">[19] lattice_0.20-41     data.table_1.13.6   tibble_3.0.4        dplyr_1.0.2        </span><br><span class="line"></span><br><span class="line">loaded via a namespace (and not attached):</span><br><span class="line">  [1] readxl_1.3.1         backports_1.2.0      plyr_1.8.6           splines_4.0.3        digest_0.6.27       </span><br><span class="line">  [6] SuppDists_1.1-9.5    foreach_1.5.1        htmltools_0.5.0      fansi_0.4.1          magrittr_1.5        </span><br><span class="line"> [11] openxlsx_4.2.3       recipes_0.1.15       modelr_0.1.8         gower_0.2.2          colorspace_2.0-0    </span><br><span class="line"> [16] rvest_0.3.6          haven_2.3.1          xfun_0.19            crayon_1.3.4         jsonlite_1.7.1      </span><br><span class="line"> [21] libcoin_1.0-7        zoo_1.8-8            iterators_1.0.13     glue_1.4.2           gtable_0.3.0        </span><br><span class="line"> [26] ipred_0.9-9          questionr_0.7.3      car_3.0-10           kernlab_0.9-29       abind_1.4-5         </span><br><span class="line"> [31] scales_1.1.1         mvtnorm_1.1-1        DBI_1.1.0            rstatix_0.6.0        miniUI_0.1.1.1      </span><br><span class="line"> [36] Rcpp_1.0.5           xtable_1.8-4         Cubist_0.2.3         foreign_0.8-80       km.ci_0.5-2         </span><br><span class="line"> [41] Formula_1.2-4        stats4_4.0.3         lava_1.6.8.1         httr_1.4.2           ellipsis_0.3.1      </span><br><span class="line"> [46] pkgconfig_2.0.3      farver_2.0.3         nnet_7.3-14          dbplyr_2.0.0         utf8_1.1.4          </span><br><span class="line"> [51] tidyselect_1.1.0     labeling_0.4.2       rlang_0.4.8          reshape2_1.4.4       later_1.1.0.1       </span><br><span class="line"> [56] munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_2.1.0            generics_0.1.0      </span><br><span class="line"> [61] broom_0.7.3          evaluate_0.14        fastmap_1.0.1        yaml_2.2.1           bootstrap_2019.6    </span><br><span class="line"> [66] ModelMetrics_1.2.2.2 knitr_1.30           fs_1.5.0             zip_2.1.1            survMisc_0.5.5      </span><br><span class="line"> [71] caTools_1.18.0       randomForest_4.6-14  pbapply_1.4-3        nlme_3.1-150         mime_0.9            </span><br><span class="line"> [76] xml2_1.3.2           compiler_4.0.3       rstudioapi_0.12      curl_4.3             e1071_1.7-4         </span><br><span class="line"> [81] ggsignif_0.6.0       reprex_0.3.0         klaR_0.6-15          stringi_1.5.3        highr_0.8           </span><br><span class="line"> [86] Matrix_1.2-18        gbm_2.1.8            ggsci_2.9            survivalROC_1.0.3    KMsurv_0.1-5        </span><br><span class="line"> [91] vctrs_0.3.4          pillar_1.4.6         lifecycle_0.2.0      combinat_0.0-8       cowplot_1.1.1       </span><br><span class="line"> [96] bitops_1.0-6         httpuv_1.5.4         R6_2.5.0             promises_1.1.1       KernSmooth_2.23-18  </span><br><span class="line">[101] gridExtra_2.3        C50_0.1.3.1          rio_0.5.16           codetools_0.2-18     MASS_7.3-53         </span><br><span class="line">[106] assertthat_0.2.1     withr_2.3.0          parallel_4.0.3       hms_0.5.3            grid_4.0.3          </span><br><span class="line">[111] rpart_4.1-15         labelled_2.7.0       timeDate_3043.102    class_7.3-17         rmarkdown_2.5       </span><br><span class="line">[116] inum_1.0-1           carData_3.0-4        partykit_1.2-11      shiny_1.5.0          lubridate_1.7.9     </span><br><span class="line">[121] rmeta_3.0 </span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.zhihu.com/question/313042288">在机器学习中AUC和accuracy有什么内在关系？</a> </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.cnblogs.com/mantch/p/11164221.html">什么是XGBoost</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://blog.csdn.net/v_JULY_v/article/details/81410574">通俗理解kaggle比赛大杀器xgboost</a></li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="mailto:zouhua1@outlook.com" rel="external nofollow noreferrer">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>------------- The End </span>
+      <i class="fa fa-paw"></i>
+      <span> Thanks for reading --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou Alipay">
+        <p>Alipay</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://zouhua.top/archives/7c92633f.html" title="Stochastic Gradient Boosting(随机梯度boosting) 和eXtreme Gradient Boosting(XGBoost)">https://zouhua.top/archives/7c92633f.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/boosting/" rel="tag"><i class="fa fa-tags"></i> boosting</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/f7f128b8.html" rel="prev" title="二分类变量的logistic regression计算及ROC可视化">
+      <i class="fa fa-chevron-left"></i> 二分类变量的logistic regression计算及ROC可视化
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91"><span class="nav-number">1.1.</span> <span class="nav-text">决策树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9E%E5%BD%92%E6%A0%91"><span class="nav-number">1.2.</span> <span class="nav-text">回归树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gradient-Boosting-Decision-Tree%EF%BC%88GBDT%E5%86%B3%E7%AD%96%E6%A0%91%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">Gradient Boosting Decision Tree（GBDT决策树）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#eXtreme-Gradient-Boosting-XGBoost"><span class="nav-number">1.4.</span> <span class="nav-text">eXtreme Gradient Boosting(XGBoost)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E5%88%97"><span class="nav-number">2.</span> <span class="nav-text">实列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE"><span class="nav-number">3.</span> <span class="nav-text">加载数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B-Stochastic-Gradient-Boosting"><span class="nav-number">4.</span> <span class="nav-text">训练模型(Stochastic Gradient Boosting)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B%E7%BB%93%E6%9E%9C-Stochastic-Gradient-Boosting"><span class="nav-number">5.</span> <span class="nav-text">预测结果(Stochastic Gradient Boosting)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#confusionMatrix"><span class="nav-number">5.1.</span> <span class="nav-text">confusionMatrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#type-%E2%80%9Draw%E2%80%9D"><span class="nav-number">5.2.</span> <span class="nav-text">type&#x3D;”raw”</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#type-%E2%80%9Dprob%E2%80%9D"><span class="nav-number">5.3.</span> <span class="nav-text">type&#x3D;”prob”</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ROC%E6%9B%B2%E7%BA%BF-Stochastic-Gradient-Boosting"><span class="nav-number">6.</span> <span class="nav-text">ROC曲线(Stochastic Gradient Boosting)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B-eXtreme-Gradient-Boosting"><span class="nav-number">7.</span> <span class="nav-text">训练模型(eXtreme Gradient Boosting)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">8.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R-Information"><span class="nav-number">9.</span> <span class="nav-text">R Information</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">10.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zouhua1@outlook.com" title="E-Mail → mailto:zouhua1@outlook.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/d57f91084cf2" title="Jianshu → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;d57f91084cf2" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-heartbeat fa-fw"></i>Jianshu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  Recent Articles
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/7c92633f.html" title="Stochastic Gradient Boosting(随机梯度boosting) 和eXtreme Gradient Boosting(XGBoost)" target="_blank">Stochastic Gradient Boosting(随机梯度boosting) 和eXtreme Gradient Boosting(XGBoost)</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/f7f128b8.html" title="二分类变量的logistic regression计算及ROC可视化" target="_blank">二分类变量的logistic regression计算及ROC可视化</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/7bee951e.html" title="机器学习（八）：总结" target="_blank">机器学习（八）：总结</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/a7a14410.html" title="机器学习（六）：调参" target="_blank">机器学习（六）：调参</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/fceddfed.html" title="机器学习（七）：集成学习算法" target="_blank">机器学习（七）：集成学习算法</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">988k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">14:58</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'en',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+    </svg>
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
+    </div>
+  </div>
+</div><script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>
