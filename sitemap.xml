@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://zouhua.top/archives/3db8e2e5.html</loc>
+    
+    <lastmod>2021-04-11</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://zouhua.top/archives/bbd25c6c.html</loc>
     
     <lastmod>2021-02-20</lastmod>
@@ -1643,6 +1650,13 @@
   
   <url>
     <loc>https://zouhua.top/tags/Cox/</loc>
+    <lastmod>2021-04-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/qPCR/</loc>
     <lastmod>2021-04-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
