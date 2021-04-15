@@ -291,7 +291,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>5.7k</span>
+              <span>5.8k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -317,17 +317,17 @@
 <p><strong>独立公式</strong>使公式单独占一行，不与文中其他文字等混编。</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$E = mc^2$$</span><br></pre></td></tr></table></figure>
 <script type="math/tex; mode=display">E = mc^2</script><h3 id="普通公式"><a href="#普通公式" class="headerlink" title="普通公式"></a>普通公式</h3><p>普通的加减乘除数学公式的输入方法与平常的书写一样。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$x = 100 * y + z - 10 / 33 + 10 % 3$$</span><br></pre></td></tr></table></figure>
-<script type="math/tex; mode=display">x = 100 * y + z - 10 / 33 + 10 % 3</script><h3 id="上下标"><a href="#上下标" class="headerlink" title="上下标"></a>上下标</h3><p>使用<code>^</code>来表示上标，<code>_</code>来表示下标，同时如果上下标的内容多于一个字符，可以使用<code>{}</code>来将这些内容括起来当做一个整体。与此同时，上下标是可以嵌套的。左右两边均有上下标使用 \sideset{左边}{右边}A 。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$$x<span class="emphasis">_&#123;1&#125;^&#123;n_</span>&#123;1&#125;+n<span class="emphasis">_&#123;2&#125;&#125; + x_</span>&#123;2&#125;^&#123;n<span class="emphasis">_&#123;1&#125;+n_</span>&#123;2&#125;&#125;$$ </span><br><span class="line">$$\sideset&#123;^1<span class="emphasis">_2&#125;&#123;^3_</span>4&#125;A$$</span><br></pre></td></tr></table></figure>
-<script type="math/tex; mode=display">x_{1}^{n_{1}+n_{2}} + x_{2}^{n_{1}+n_{2}}</script><script type="math/tex; mode=display">\sideset{^1_2}{^3_4}A</script><h3 id="括号"><a href="#括号" class="headerlink" title="括号"></a>括号</h3><p><code>()</code>，<code>[]</code>和<code>|</code>都表示它们自己，但是<code>{}</code>因为有特殊作用因此当需要显示大括号时一般使用<code>\lbrace \rbrace</code>来表示。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$x = 100 <span class="emphasis">* y + z - 10 / 33 + 10 % 3$$</span></span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">x = 100 * y + z - 10 / 33 + 10 % 3</script><h3 id="上下标"><a href="#上下标" class="headerlink" title="上下标"></a>上下标</h3><p>使用<code>^</code>来表示上标，<code>_</code>来表示下标，同时如果上下标的内容多于一个字符，可以使用<code>&#123;&#125;</code>来将这些内容括起来当做一个整体。与此同时，上下标是可以嵌套的。左右两边均有上下标使用 \sideset{左边}{右边}A 。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$$x<span class="emphasis">_&#123;1&#125;^&#123;n_</span>&#123;1&#125;+n<span class="emphasis">_&#123;2&#125;&#125; + x_</span>&#123;2&#125;^&#123;n<span class="emphasis">_&#123;1&#125;+n_</span>&#123;2&#125;&#125;$$ </span><br><span class="line">$$\sideset&#123;^1<span class="emphasis">_2&#125;&#123;^3_</span>4&#125;A$$ </span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">x_{1}^{n_{1}+n_{2}} + x_{2}^{n_{1}+n_{2}}</script><script type="math/tex; mode=display">\sideset{^1_2}{^3_4}A</script><h3 id="括号"><a href="#括号" class="headerlink" title="括号"></a>括号</h3><p><code>()</code>，<code>[]</code>和<code>|</code>都表示它们自己，但是<code>&#123;&#125;</code>因为有特殊作用因此当需要显示大括号时一般使用<code>\lbrace \rbrace</code>来表示。</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$f(x, y) = 100 <span class="emphasis">* \lbrace[(x + y) *</span> 3] - 5\rbrace$$</span><br></pre></td></tr></table></figure>
-<script type="math/tex; mode=display">f(x, y) = 100 * \lbrace[(x + y) * 3] - 5\rbrace</script><h3 id="分数"><a href="#分数" class="headerlink" title="分数"></a>分数</h3><p>分数使用<code>\frac{分母}{分子}</code>这样的语法，不过推荐使用<code>\cfrac</code>来代替<code>\frac</code>，显示公式不会太挤。</p>
+<script type="math/tex; mode=display">f(x, y) = 100 * \lbrace[(x + y) * 3] - 5\rbrace</script><h3 id="分数"><a href="#分数" class="headerlink" title="分数"></a>分数</h3><p>分数使用<code>\frac&#123;分母&#125;&#123;分子&#125;</code>这样的语法，不过推荐使用<code>\cfrac</code>来代替<code>\frac</code>，显示公式不会太挤。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#96;$$\frac&#123;1&#125;&#123;3&#125; 与 \cfrac&#123;1&#125;&#123;3&#125;$$&#96;</span><br><span class="line">$$\frac&#123;1&#125;&#123;3&#125; 与 \cfrac&#123;1&#125;&#123;3&#125;$$</span><br></pre></td></tr></table></figure>
-<h3 id="开方"><a href="#开方" class="headerlink" title="开方"></a>开方</h3><p>开方使用<code>\sqrt[次数]{被开方数}</code>这样的语法。</p>
+<h3 id="开方"><a href="#开方" class="headerlink" title="开方"></a>开方</h3><p>开方使用<code>\sqrt[次数]&#123;被开方数&#125;</code>这样的语法。</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$$\sqrt[3]&#123;X&#125;$$</span><br><span class="line">$$\sqrt&#123;5 - x&#125;$$</span><br></pre></td></tr></table></figure>
 <script type="math/tex; mode=display">\sqrt[3]{X}</script><script type="math/tex; mode=display">\sqrt{5 - x}</script><h3 id="空格"><a href="#空格" class="headerlink" title="空格"></a>空格</h3><p>字母之间有时候需要设置空格。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>紧贴 $a\!b$</span><br><span class="line"><span class="bullet">2. </span>没有空格 $ab$</span><br><span class="line"><span class="bullet">3. </span>小空格 a\,b</span><br><span class="line"><span class="bullet">4. </span>中等空格 a\;b</span><br><span class="line"><span class="bullet">5. </span>大空格 a\ b</span><br><span class="line"><span class="bullet">6. </span>quad空格 $a\quad b$</span><br><span class="line"><span class="bullet">7. </span>两个quad空格 $a\qquad b$</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1.</span> 紧贴 $a\!b$</span><br><span class="line"><span class="bullet">2.</span> 没有空格 $ab$</span><br><span class="line"><span class="bullet">3.</span> 小空格 a\,b</span><br><span class="line"><span class="bullet">4.</span> 中等空格 a\;b</span><br><span class="line"><span class="bullet">5.</span> 大空格 a\ b</span><br><span class="line"><span class="bullet">6.</span> quad空格 $a\quad b$</span><br><span class="line"><span class="bullet">7.</span> 两个quad空格 $a\qquad b$</span><br></pre></td></tr></table></figure>
 <ol>
 <li>$a!b$</li>
 <li>$ab$</li>
@@ -337,19 +337,19 @@
 <li>$a\quad b$</li>
 <li>$a\qquad b$</li>
 </ol>
-<h3 id="求和和积分"><a href="#求和和积分" class="headerlink" title="求和和积分"></a>求和和积分</h3><p>求和函数表达式 <code>sum_{起点}^{终点}表达式</code>，积分函数表达式 <code>int_下限^上限 被积函数d被积量</code>。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">### 求和</span></span><br><span class="line">$$\sum_&#123;k=1&#125;^&#123;n&#125;\frac&#123;1&#125;&#123;k&#125;$$</span><br><span class="line">$\sum_&#123;k=1&#125;^n\frac&#123;1&#125;&#123;k&#125;$</span><br><span class="line"><span class="section">### 积分</span></span><br><span class="line">$$\int_a^b f(x)dx$$</span><br><span class="line">$\int_a^b f(x)dx$</span><br></pre></td></tr></table></figure>
+<h3 id="求和和积分"><a href="#求和和积分" class="headerlink" title="求和和积分"></a>求和和积分</h3><p>求和函数表达式 <code>sum_&#123;起点&#125;^&#123;终点&#125;表达式</code>，积分函数表达式 <code>int_下限^上限 被积函数d被积量</code>。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">### 求和</span></span><br><span class="line">$$\sum<span class="emphasis">_&#123;k=1&#125;^&#123;n&#125;\frac&#123;1&#125;&#123;k&#125;$$</span></span><br><span class="line"><span class="emphasis">$\sum_</span>&#123;k=1&#125;^n\frac&#123;1&#125;&#123;k&#125;$</span><br><span class="line"><span class="section">### 积分</span></span><br><span class="line">$$\int<span class="emphasis">_a^b f(x)dx$$</span></span><br><span class="line"><span class="emphasis">$\int_</span>a^b f(x)dx$</span><br></pre></td></tr></table></figure>
 <script type="math/tex; mode=display">\sum_{k=1}^{n}\frac{1}{k}</script><p>$\sum_{k=1}^n\frac{1}{k}$</p>
 <script type="math/tex; mode=display">\int_a^b f(x)dx</script><p>$\int_a^b f(x)dx$</p>
 <h3 id="公式界定符"><a href="#公式界定符" class="headerlink" title="公式界定符"></a>公式界定符</h3><p> 通过 <code>\left</code> 和 <code>\right</code> 后面跟界定符来对同时进行界定。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ ( $</span><br><span class="line">$ ) $</span><br><span class="line">$ [ $</span><br><span class="line">$ ] $</span><br><span class="line">$ \&#123; $</span><br><span class="line">$ \&#125; $</span><br><span class="line">$ | $</span><br><span class="line">$ \| $</span><br><span class="line"></span><br><span class="line">$$\left(\sum_&#123;k=\frac&#123;1&#125;&#123;2&#125;&#125;^&#123;N^2&#125;\frac&#123;1&#125;&#123;k&#125;\right)$$</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ ( $</span><br><span class="line">$ ) $</span><br><span class="line">$ [ $</span><br><span class="line">$ ] $</span><br><span class="line">$ \&#123; $</span><br><span class="line">$ \&#125; $</span><br><span class="line">$ | $</span><br><span class="line">$ \| $</span><br><span class="line"></span><br><span class="line">$$\left(\sum<span class="emphasis">_&#123;k=\frac&#123;1&#125;&#123;2&#125;&#125;^&#123;N^2&#125;\frac&#123;1&#125;&#123;k&#125;\right)$$</span></span><br></pre></td></tr></table></figure>
 <script type="math/tex; mode=display">
 \left(\sum_{k=\frac{1}{2}}^{N^2}\frac{1}{k}\right)</script><h3 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h3><p><code>&amp;</code> 区分行间元素，<code>\\\\</code> 代表换行。<code>begin</code>和<code>end</code>是矩阵两边，类似界定符<code>left</code>和<code>right</code>。</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$\begin&#123;bmatrix&#125;1 &amp; 2\\\\3 &amp;4\end&#123;bmatrix&#125;$$</span><br></pre></td></tr></table></figure>
 <script type="math/tex; mode=display">
 \begin{bmatrix}1 & 2\\\\
 3 &4
-\end{bmatrix}</script><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>·\mathb·表示数组，<code>{array}</code>表示数组，<code>{ccc}</code>表示列数，<code>&amp;</code> 区分行间元素，<code>\\\\</code> 代表换行。<code>\vdots</code>表示点。</p>
+\end{bmatrix}</script><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>·\mathb·表示数组，<code>&#123;array&#125;</code>表示数组，<code>&#123;ccc&#125;</code>表示列数，<code>&amp;</code> 区分行间元素，<code>\\\\</code> 代表换行。<code>\vdots</code>表示点。</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\mathbf&#123;X&#125; =</span><br><span class="line">\left( \begin&#123;array&#125;&#123;ccc&#125;</span><br><span class="line">x\<span class="emphasis">_&#123;11&#125; &amp; x\_</span>&#123;12&#125; &amp; \ldots \\\\</span><br><span class="line">x\<span class="emphasis">_&#123;21&#125; &amp; x\_</span>&#123;22&#125; &amp; \ldots \\\\</span><br><span class="line">\vdots &amp; \vdots &amp; \ddots</span><br><span class="line">\end&#123;array&#125; \right)</span><br></pre></td></tr></table></figure>
 <script type="math/tex; mode=display">
 \mathbf{X} =
@@ -432,10 +432,10 @@ x,\quad x>0
 \hline
 {\nabla} & {\backslash nabla} & {\mathrm{d}} & {\backslash mathrm{d}} & {\without} & {\backslash without} & {\without} & {\backslash without} \\\\
 \hline
-\end{array}</script><h3 id="在线latex数学公式编辑网站"><a href="#在线latex数学公式编辑网站" class="headerlink" title="在线latex数学公式编辑网站"></a>在线latex数学公式编辑网站</h3><p><a href="http://latex.codecogs.com/eqneditor/editor.php" target="_blank" rel="noopener external nofollow noreferrer">latex数学公式编辑网站</a>最上部分是公式实例；中间是输入公式的latex代码；结果显示在下部；最后可以设置输出公式图片的参数。</p>
+\end{array}</script><h3 id="在线latex数学公式编辑网站"><a href="#在线latex数学公式编辑网站" class="headerlink" title="在线latex数学公式编辑网站"></a>在线latex数学公式编辑网站</h3><p><a target="_blank" rel="noopener external nofollow noreferrer" href="http://latex.codecogs.com/eqneditor/editor.php">latex数学公式编辑网站</a>最上部分是公式实例；中间是输入公式的latex代码；结果显示在下部；最后可以设置输出公式图片的参数。</p>
 <p><img src="/images/markdown_02_01.png" alt=""></p>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
-<li><a href="https://jzqt.github.io/2015/06/30/Markdown%E4%B8%AD%E5%86%99%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" target="_blank" rel="noopener external nofollow noreferrer">markdown中写数学公式</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://jzqt.github.io/2015/06/30/Markdown%E4%B8%AD%E5%86%99%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">markdown中写数学公式</a></li>
 </ol>
 <p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
@@ -976,7 +976,7 @@ if(canvas.getContext){
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">16:04</span>
+    <span title="Reading time total">16:55</span>
 </div>
 
 <div id="days"></div>

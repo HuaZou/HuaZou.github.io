@@ -344,17 +344,15 @@
 </ol>
 <ol>
 <li><p>使用如下命令提交源码文件；</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"upload hexo source code"</span></span><br><span class="line">git push origin <span class="built_in">source</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>master</code>主支和<code>source</code>分支各自保存着一个版本。<code>master</code>主支用于保存博客静态资源，提供博客页面供人访问；<code>source</code>分支用于备份博客部署文件，供自己维护更新，两者在一个GitHub仓库内也不会有任何冲突。</p>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;upload hexo source code&quot;</span></span><br><span class="line">git push origin <span class="built_in">source</span></span><br></pre></td></tr></table></figure></li>
+<li><code>master</code>主支和<code>source</code>分支各自保存着一个版本。<code>master</code>主支用于保存博客静态资源，提供博客页面供人访问；<code>source</code>分支用于备份博客部署文件，供自己维护更新，两者在一个GitHub仓库内也不会有任何冲突。</li>
 </ol>
 <p><img src="/images/Tools_Hexo_01/Tools_Hexo_01_03.png" alt=""></p>
 <h4 id="同步至其他终端"><a href="#同步至其他终端" class="headerlink" title="同步至其他终端"></a>同步至其他终端</h4><p>添加ssh key至GitHub账户，克隆仓库，安装hexo等。在任何终端对博客做任何修改前先git pull更新最新的文件。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:HuaZou/HuaZou.github.io.git my_blog</span><br><span class="line"><span class="built_in">cd</span> my_blog</span><br><span class="line"><span class="comment"># 安装node.js</span></span><br><span class="line">npm install hexo</span><br><span class="line">npm install hexo-deployer-git -save</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编写博客</span></span><br><span class="line">hexo new post_name</span><br><span class="line"><span class="built_in">cd</span> <span class="built_in">source</span>/_post</span><br><span class="line">hexo generate (or g)</span><br><span class="line">hexo server (or s)</span><br></pre></td></tr></table></figure>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
-<li><a href="http://www.yangbing.club/2019/06/29/save-hexo-source-post-with-git-branch/" target="_blank" rel="noopener external nofollow noreferrer">使用git分支保存hexo博客源码到github</a></li>
-<li><a href="https://juejin.im/post/5c6e57c151882562c955e909" target="_blank" rel="noopener external nofollow noreferrer">GitHub + Hexo搭建自己博客(三) 多设备管理</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="http://www.yangbing.club/2019/06/29/save-hexo-source-post-with-git-branch/">使用git分支保存hexo博客源码到github</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://juejin.im/post/5c6e57c151882562c955e909">GitHub + Hexo搭建自己博客(三) 多设备管理</a></li>
 </ol>
 <p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
@@ -895,7 +893,7 @@ if(canvas.getContext){
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">16:04</span>
+    <span title="Reading time total">16:55</span>
 </div>
 
 <div id="days"></div>

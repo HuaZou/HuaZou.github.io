@@ -311,7 +311,7 @@
 
       
         <h3 id="购买域名"><a href="#购买域名" class="headerlink" title="购买域名"></a>购买域名</h3><ol>
-<li><p>登录<a href="https://cloud.tencent.com/" target="_blank" rel="noopener external nofollow noreferrer">腾讯云</a>或者<a href="https://www.aliyun.com/" target="_blank" rel="noopener external nofollow noreferrer">阿里云</a>；</p>
+<li><p>登录<a target="_blank" rel="noopener external nofollow noreferrer" href="https://cloud.tencent.com/">腾讯云</a>或者<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.aliyun.com/">阿里云</a>；</p>
 </li>
 <li><p>搜索符合自己预期的域名；</p>
 </li>
@@ -329,22 +329,22 @@
 </li>
 </ol>
 <h3 id="Hexo-百度主动推送"><a href="#Hexo-百度主动推送" class="headerlink" title="Hexo 百度主动推送"></a>Hexo 百度主动推送</h3><ul>
-<li><p>登录<a href="http://zhanzhang.baidu.com/" target="_blank" rel="noopener external nofollow noreferrer">百度站长平台</a>，在用户中心 =&gt; 站点管理添加你的站点网址：建议输入的网站为<code>www</code>开头的，不要输入<code>github.io</code>的，因为<code>github</code>是不允许百度的<code>spider</code>爬取<code>github</code>上的内容的，所以如果想让你的站点被百度收录，只能使用自己购买的域名；</p>
+<li><p>登录<a target="_blank" rel="noopener external nofollow noreferrer" href="http://zhanzhang.baidu.com/">百度站长平台</a>，在用户中心 =&gt; 站点管理添加你的站点网址：建议输入的网站为<code>www</code>开头的，不要输入<code>github.io</code>的，因为<code>github</code>是不允许百度的<code>spider</code>爬取<code>github</code>上的内容的，所以如果想让你的站点被百度收录，只能使用自己购买的域名；</p>
 </li>
 <li><p>站点管理 -&gt; 添加网站 -&gt; https:www.zouhua.top;</p>
 </li>
-<li><p>CNAME验证，在腾讯云<a href="https://console.cloud.tencent.com/cns/detail" target="_blank" rel="noopener external nofollow noreferrer">解析管理</a>内输入解析域名;<strong>记录类型</strong>是<code>*CNAME*</code>，<strong>主机记录</strong>是你的<code>token</code>，，<strong>记录值</strong>是<code>ziyuan.baidu.com</code>，其他默认:</p>
+<li><p>CNAME验证，在腾讯云<a target="_blank" rel="noopener external nofollow noreferrer" href="https://console.cloud.tencent.com/cns/detail">解析管理</a>内输入解析域名;<strong>记录类型</strong>是<code>*CNAME*</code>，<strong>主机记录</strong>是你的<code>token</code>，，<strong>记录值</strong>是<code>ziyuan.baidu.com</code>，其他默认:</p>
 <p>​    <img src="/images/Tools_Hexo_03/Tools_Hexo_03_01.png" alt=""></p>
 </li>
 </ul>
 <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="部署完博客后域名丢失"><a href="#部署完博客后域名丢失" class="headerlink" title="部署完博客后域名丢失"></a>部署完博客后域名丢失</h4><p>注意！！！之后发现了一个<code>bug</code>，每次本地<code>Hexo</code>生成提交后，<code>tingguoguo.cn</code>无法继续正常访问，发现是<code>GitHub</code>的<code>Custom Domain</code>会被清空！</p>
 <p><strong>解决方案： 在本地<code>Hexo</code>项目<code>source</code>文件夹下放个<code>CNAME</code>文件（没有后缀名 文件类型：文件啥后缀都没有）</strong></p>
-<h4 id="Valine出现Code-403"><a href="#Valine出现Code-403" class="headerlink" title="Valine出现Code 403"></a>Valine出现Code 403</h4><p>前期把hexo的静态页面部署在GH,Valine所有功能正常，但是在部署到<a href="https://www.netlify.com/" target="_blank" rel="noopener external nofollow noreferrer">Netlif</a>，在自定义的域名开启https之后，Valine出现报错 <code>Code 403: 访问被api域名白名单拒绝，请检查你的安全域名设置；</code></p>
+<h4 id="Valine出现Code-403"><a href="#Valine出现Code-403" class="headerlink" title="Valine出现Code 403"></a>Valine出现Code 403</h4><p>前期把hexo的静态页面部署在GH,Valine所有功能正常，但是在部署到<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.netlify.com/">Netlif</a>，在自定义的域名开启https之后，Valine出现报错 <code>Code 403: 访问被api域名白名单拒绝，请检查你的安全域名设置；</code></p>
 <p>在leancloud的<code>应用&gt;设置&gt;安全中心&gt;Web安全域名</code>中只添加了新的自定义的域名即可解决该问题。</p>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
-<li><a href="https://www.jianshu.com/p/efbeddc5eb19" target="_blank" rel="noopener external nofollow noreferrer">Hexo-Next个人博客主题优化</a></li>
-<li><a href="https://tding.top/archives/567debe0.html" target="_blank" rel="noopener external nofollow noreferrer">插件总结</a></li>
-<li><a href="https://www.dazhuanlan.com/2019/09/26/5d8c9e8ce3af7/" target="_blank" rel="noopener external nofollow noreferrer">code 403</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.jianshu.com/p/efbeddc5eb19">Hexo-Next个人博客主题优化</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://tding.top/archives/567debe0.html">插件总结</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.dazhuanlan.com/2019/09/26/5d8c9e8ce3af7/">code 403</a></li>
 </ol>
 <p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
@@ -885,7 +885,7 @@ if(canvas.getContext){
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">16:04</span>
+    <span title="Reading time total">16:55</span>
 </div>
 
 <div id="days"></div>

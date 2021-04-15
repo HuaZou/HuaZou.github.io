@@ -86,14 +86,14 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/archives/a7a14410.html</loc>
+    <loc>https://zouhua.top/archives/fceddfed.html</loc>
     
     <lastmod>2021-01-16</lastmod>
     
   </url>
   
   <url>
-    <loc>https://zouhua.top/archives/fceddfed.html</loc>
+    <loc>https://zouhua.top/archives/a7a14410.html</loc>
     
     <lastmod>2021-01-16</lastmod>
     
@@ -163,13 +163,6 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/bookdown/index.html</loc>
-    
-    <lastmod>2020-12-16</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://zouhua.top/archives/95cf1317.html</loc>
     
     <lastmod>2020-12-13</lastmod>
@@ -208,13 +201,6 @@
     <loc>https://zouhua.top/archives/f856f281.html</loc>
     
     <lastmod>2020-11-30</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/message/index.html</loc>
-    
-    <lastmod>2020-11-27</lastmod>
     
   </url>
   
@@ -271,13 +257,6 @@
     <loc>https://zouhua.top/archives/46b3c065.html</loc>
     
     <lastmod>2020-11-08</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/about/index.html</loc>
-    
-    <lastmod>2020-11-07</lastmod>
     
   </url>
   
@@ -486,20 +465,6 @@
   
   <url>
     <loc>https://zouhua.top/archives/d133440d.html</loc>
-    
-    <lastmod>2020-04-26</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/categories/index.html</loc>
-    
-    <lastmod>2020-04-26</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/tags/index.html</loc>
     
     <lastmod>2020-04-26</lastmod>
     
@@ -730,6 +695,27 @@
   </url>
   
   <url>
+    <loc>https://zouhua.top/about/index.html</loc>
+    
+    <lastmod>2020-04-02</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/message/index.html</loc>
+    
+    <lastmod>2020-04-02</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/bookdown/index.html</loc>
+    
+    <lastmod>2020-04-02</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://zouhua.top/archives/a01ecd4b.html</loc>
     
     <lastmod>2020-04-01</lastmod>
@@ -738,6 +724,20 @@
   
   <url>
     <loc>https://zouhua.top/archives/d451ba8f.html</loc>
+    
+    <lastmod>2020-04-01</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/categories/index.html</loc>
+    
+    <lastmod>2020-04-01</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/index.html</loc>
     
     <lastmod>2020-04-01</lastmod>
     
@@ -1019,7 +1019,7 @@
 
   
   <url>
-    <loc>https://zouhua.top/tags/bowtie2/</loc>
+    <loc>https://zouhua.top/tags/RNA/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1027,6 +1027,34 @@
   
   <url>
     <loc>https://zouhua.top/tags/enterotype/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/bowtie2/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/blast/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/Trimmomatic/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/DIAMOND/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1047,14 +1075,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/Humann2/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/tags/RNA/</loc>
+    <loc>https://zouhua.top/tags/MetaPhlAn/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1075,6 +1096,20 @@
   </url>
   
   <url>
+    <loc>https://zouhua.top/tags/Teacher/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/COVID-19/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zouhua.top/tags/Installation/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1082,21 +1117,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/SEG/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zouhua.top/tags/AWK/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/tags/Teacher/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1131,28 +1152,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/Random-Forest/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zouhua.top/tags/%E6%8F%8F%E8%BF%B0%E6%80%A7%E7%BB%9F%E8%AE%A1/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/tags/%E6%8E%A8%E6%96%AD%E6%80%A7%E7%BB%9F%E8%AE%A1/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/tags/COVID-19/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1201,28 +1201,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83%E5%85%B3%E7%B3%BB/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zouhua.top/tags/mRNA/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/tags/%E6%89%B9%E6%AC%A1%E6%A0%A1%E6%AD%A3/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/tags/qiime2/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1236,13 +1215,6 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zouhua.top/tags/%E6%89%A9%E5%A2%9E%E5%AD%90%E5%88%86%E6%9E%90/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1250,7 +1222,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/miRNA/</loc>
+    <loc>https://zouhua.top/tags/Metagenomics/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1264,7 +1236,14 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/clusterProfiler/</loc>
+    <loc>https://zouhua.top/tags/Mindmap/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1278,7 +1257,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/DESeq2/</loc>
+    <loc>https://zouhua.top/tags/clusterProfiler/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1292,7 +1271,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/%E5%BE%AE%E7%94%9F%E7%89%A9%E5%A4%9A%E6%A0%B7%E6%80%A7/</loc>
+    <loc>https://zouhua.top/tags/DESeq2/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1306,7 +1285,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/%E7%BD%91%E7%BB%9C%E5%9B%BE/</loc>
+    <loc>https://zouhua.top/tags/ssGSEA/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1320,13 +1299,6 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/ssGSEA/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zouhua.top/tags/%E7%9B%B8%E5%85%B3/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1334,14 +1306,21 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/dplyr/</loc>
+    <loc>https://zouhua.top/tags/logistic/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/phyloseq/</loc>
+    <loc>https://zouhua.top/tags/Cox/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/qPCR/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1362,6 +1341,13 @@
   </url>
   
   <url>
+    <loc>https://zouhua.top/tags/%E5%A4%9A%E5%9B%BE%E5%90%88%E5%B9%B6/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zouhua.top/tags/reticulate/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1376,13 +1362,6 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/ggplot2%E5%8E%9F%E7%90%86/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zouhua.top/tags/patchwork/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1390,7 +1369,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/%E5%A4%9A%E5%9B%BE%E5%90%88%E5%B9%B6/</loc>
+    <loc>https://zouhua.top/tags/ggplot2%E5%8E%9F%E7%90%86/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1411,14 +1390,14 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/%E7%81%AB%E5%B1%B1%E5%9B%BE/</loc>
+    <loc>https://zouhua.top/tags/STAMP/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/%E6%A1%91%E5%9F%BA%E5%9B%BE/</loc>
+    <loc>https://zouhua.top/tags/%E7%81%AB%E5%B1%B1%E5%9B%BE/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1432,21 +1411,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/heatmap/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/tags/STAMP/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/tags/PCoA/</loc>
+    <loc>https://zouhua.top/tags/%E6%A1%91%E5%9F%BA%E5%9B%BE/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1454,6 +1419,13 @@
   
   <url>
     <loc>https://zouhua.top/tags/%E5%A0%86%E7%A7%AF%E5%9B%BE/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/PCoA/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1481,14 +1453,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/proposal/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/tags/microbiome/</loc>
+    <loc>https://zouhua.top/tags/Network/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1502,7 +1467,14 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/Hexo/</loc>
+    <loc>https://zouhua.top/tags/proposal/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/microbiome/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1523,6 +1495,13 @@
   </url>
   
   <url>
+    <loc>https://zouhua.top/tags/Hexo/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zouhua.top/tags/SRA/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1530,14 +1509,14 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/WSL/</loc>
+    <loc>https://zouhua.top/tags/anaconda/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/anaconda/</loc>
+    <loc>https://zouhua.top/tags/WSL/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1565,6 +1544,13 @@
   </url>
   
   <url>
+    <loc>https://zouhua.top/tags/markdown/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zouhua.top/tags/login/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1579,13 +1565,6 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/markdown/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zouhua.top/tags/snakemake/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1593,35 +1572,49 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/blast/</loc>
+    <loc>https://zouhua.top/tags/Humann2/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/DIAMOND/</loc>
+    <loc>https://zouhua.top/tags/SEG/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/Trimmomatic/</loc>
+    <loc>https://zouhua.top/tags/Random-Forest/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/Network/</loc>
+    <loc>https://zouhua.top/tags/%E6%8E%A8%E6%96%AD%E6%80%A7%E7%BB%9F%E8%AE%A1/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/Metagenomics/</loc>
+    <loc>https://zouhua.top/tags/%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83%E5%85%B3%E7%B3%BB/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/%E6%89%B9%E6%AC%A1%E6%A0%A1%E6%AD%A3/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/qiime2/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1635,21 +1628,14 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/MetaPhlAn/</loc>
+    <loc>https://zouhua.top/tags/%E7%BD%91%E7%BB%9C%E5%9B%BE/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/Mindmap/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/tags/logistic/</loc>
+    <loc>https://zouhua.top/tags/%E5%BE%AE%E7%94%9F%E7%89%A9%E5%A4%9A%E6%A0%B7%E6%80%A7/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1663,20 +1649,41 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/Cox/</loc>
+    <loc>https://zouhua.top/tags/dplyr/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zouhua.top/tags/qPCR/</loc>
+    <loc>https://zouhua.top/tags/phyloseq/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/heatmap/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/tags/miRNA/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
 
+  
+  <url>
+    <loc>https://zouhua.top/categories/Biology/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
   
   <url>
     <loc>https://zouhua.top/categories/Biosoftware/</loc>
@@ -1686,14 +1693,14 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/categories/Biosoftware/Alignment/</loc>
+    <loc>https://zouhua.top/categories/Biology/RNA/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zouhua.top/categories/Biology/</loc>
+    <loc>https://zouhua.top/categories/Biology/Microbiome/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1714,14 +1721,21 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/categories/Biology/Microbiome/</loc>
+    <loc>https://zouhua.top/categories/Biosoftware/Alignment/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zouhua.top/categories/Biology/RNA/</loc>
+    <loc>https://zouhua.top/categories/Biosoftware/QualityControl/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/categories/Course/Machine-learning/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1749,20 +1763,6 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/categories/Linux/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/categories/Math/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zouhua.top/categories/Life/Diary/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1777,7 +1777,21 @@
   </url>
   
   <url>
+    <loc>https://zouhua.top/categories/Linux/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zouhua.top/categories/Life/Small-talk/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/categories/Math/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1798,7 +1812,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/categories/Python/</loc>
+    <loc>https://zouhua.top/categories/R/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1812,7 +1826,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/categories/R/</loc>
+    <loc>https://zouhua.top/categories/Python/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1847,13 +1861,6 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/categories/OmicsData/Amplicon-seq/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zouhua.top/categories/OmicsData/Ribo-seq/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1861,14 +1868,14 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/categories/Python/Spider/</loc>
+    <loc>https://zouhua.top/categories/OmicsData/Amplicon-seq/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zouhua.top/categories/OmicsData/miRNA-seq/</loc>
+    <loc>https://zouhua.top/categories/OmicsData/Metagenomics/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1876,27 +1883,6 @@
   
   <url>
     <loc>https://zouhua.top/categories/OmicsData/single-cell/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/categories/R/Basics/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/categories/R/DataAnalysis/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/categories/R/Packages/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1917,6 +1903,13 @@
   </url>
   
   <url>
+    <loc>https://zouhua.top/categories/R/Basics/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zouhua.top/categories/Tools/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1924,7 +1917,21 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/categories/Research/%E6%AF%95%E4%B8%9A%E7%AD%94%E8%BE%A9/</loc>
+    <loc>https://zouhua.top/categories/Python/Spider/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/categories/R/DataAnalysis/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/categories/R/Packages/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1938,7 +1945,28 @@
   </url>
   
   <url>
+    <loc>https://zouhua.top/categories/Research/%E6%AF%95%E4%B8%9A%E7%AD%94%E8%BE%A9/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/categories/Tools/LaTex/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zouhua.top/categories/Tools/Blog/</loc>
+    <lastmod>2021-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zouhua.top/categories/Tools/Download/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1966,35 +1994,7 @@
   </url>
   
   <url>
-    <loc>https://zouhua.top/categories/Tools/Download/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/categories/Tools/LaTex/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/categories/Biosoftware/QualityControl/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/categories/OmicsData/Metagenomics/</loc>
-    <lastmod>2021-04-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zouhua.top/categories/Course/Machine-learning/</loc>
+    <loc>https://zouhua.top/categories/OmicsData/miRNA-seq/</loc>
     <lastmod>2021-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

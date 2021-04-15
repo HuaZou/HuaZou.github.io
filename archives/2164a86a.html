@@ -297,7 +297,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2.6k</span>
+              <span>2.7k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -323,14 +323,14 @@
 <li>给向量赋值。x&lt;-c(0,1,2,3);<br>  3). 向量的元素下标取值是以1开始。<pre><code>4). 如果一个向量中有一个字符，则该向量的类型会变成字符
 </code></pre></li>
 </ul>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; tmp &lt;- c(<span class="number">1</span>, <span class="number">2</span>, <span class="string">"a"</span>)</span><br><span class="line">&gt; mode(tmp)</span><br><span class="line"><span class="comment"># "character"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; tmp &lt;- <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="string">&quot;a&quot;</span>)</span><br><span class="line">&gt; mode(tmp)</span><br><span class="line"><span class="comment"># &quot;character&quot;</span></span><br></pre></td></tr></table></figure>
 <p>5). 如果逻辑变量与数值在一起，则为转换成数值。TRUE 转变成1 而FALSE 转变成 0</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; tmp2 &lt;- c(<span class="number">1</span>,<span class="number">2</span>,<span class="literal">TRUE</span>)</span><br><span class="line">&gt; mode(tmp2)</span><br><span class="line"><span class="comment"># "numeric"</span></span><br><span class="line">&gt; tmp2</span><br><span class="line"><span class="comment">## 1 2 1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; tmp2 &lt;- <span class="built_in">c</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="literal">TRUE</span>)</span><br><span class="line">&gt; mode(tmp2)</span><br><span class="line"><span class="comment"># &quot;numeric&quot;</span></span><br><span class="line">&gt; tmp2</span><br><span class="line"><span class="comment">## 1 2 1</span></span><br></pre></td></tr></table></figure>
 <p>6). 在 R 语言中没有单一的整数、单一字符的概念。只有向量的概念，可能向量只包含单一值，因此产生误解。</p>
 <p>7). 给向量元素命名：names(x)</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; names(tmp) &lt;- c(<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>)</span><br><span class="line">&gt; tmp</span><br><span class="line"><span class="comment"># a b c</span></span><br><span class="line"><span class="comment"># 1 2 a</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">names</span>(tmp) &lt;- <span class="built_in">c</span>(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>)</span><br><span class="line">&gt; tmp</span><br><span class="line"><span class="comment"># a b c</span></span><br><span class="line"><span class="comment"># 1 2 a</span></span><br></pre></td></tr></table></figure>
 <p>8). 生成系列； </p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> seq(length=, from=, to=)</span><br><span class="line"><span class="number">2.</span> seq(n1, n2, by=) </span><br><span class="line"><span class="number">3.</span> rep(m, n)</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. seq(<span class="built_in">length</span>=, from=, to=)</span><br><span class="line">2. seq(n1, n2, by=) </span><br><span class="line">3. <span class="built_in">rep</span>(m, n) </span><br></pre></td></tr></table></figure>
 <ul>
 <li>Length：指定生成个数</li>
 <li>From：是指开始生成的点</li>
@@ -348,7 +348,7 @@
 <li>sort()：输出排序后的结果</li>
 <li>order()：输出排序后的各个向量位置</li>
 </ul>
-<h4 id="矩阵-matrix"><a href="#矩阵-matrix" class="headerlink" title="矩阵 [matrix]"></a><strong>矩阵</strong> [matrix]</h4><h5 id="矩阵创建"><a href="#矩阵创建" class="headerlink" title="矩阵创建"></a>矩阵创建</h5><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">matrix(data = <span class="literal">NA</span>, nrow = <span class="number">1</span>, ncol = <span class="number">1</span>, byrow = <span class="literal">F</span>, dimnames = list(Row_name, Col_name))</span><br><span class="line">matrix(c[<span class="number">1</span>:<span class="number">12</span>], nrow = <span class="number">3</span>, ncol = <span class="number">4</span>, byrow = <span class="literal">T</span>, dimnames = list(paste0(<span class="string">"a"</span>, c(<span class="number">1</span>:<span class="number">2</span>)), paste0(<span class="string">"b"</span>, c(<span class="number">1</span>:<span class="number">4</span>))))</span><br></pre></td></tr></table></figure>
+<h4 id="矩阵-matrix"><a href="#矩阵-matrix" class="headerlink" title="矩阵 [matrix]"></a><strong>矩阵</strong> [matrix]</h4><h5 id="矩阵创建"><a href="#矩阵创建" class="headerlink" title="矩阵创建"></a>矩阵创建</h5><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">matrix(data = <span class="literal">NA</span>, nrow = <span class="number">1</span>, ncol = <span class="number">1</span>, byrow = <span class="built_in">F</span>, <span class="built_in">dimnames</span> = <span class="built_in">list</span>(Row_name, Col_name))</span><br><span class="line">matrix(<span class="built_in">c</span>[<span class="number">1</span>:<span class="number">12</span>], nrow = <span class="number">3</span>, ncol = <span class="number">4</span>, byrow = <span class="built_in">T</span>, <span class="built_in">dimnames</span> = <span class="built_in">list</span>(paste0(<span class="string">&quot;a&quot;</span>, <span class="built_in">c</span>(<span class="number">1</span>:<span class="number">2</span>)), paste0(<span class="string">&quot;b&quot;</span>, <span class="built_in">c</span>(<span class="number">1</span>:<span class="number">4</span>))))</span><br></pre></td></tr></table></figure>
 <ul>
 <li>data ：向量元素列表</li>
 <li>nrow：列数</li>
@@ -376,7 +376,7 @@
 <li>矩阵加减 </li>
 <li>矩阵相乘</li>
 </ul>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; m1 &lt;- matrix(<span class="number">1</span>:<span class="number">20</span>,nrow=<span class="number">5</span>,ncol=<span class="number">4</span>)</span><br><span class="line">&gt; m2 &lt;- matrix(<span class="number">1</span>:<span class="number">20</span>,nrow=<span class="number">5</span>,ncol=<span class="number">4</span>)</span><br><span class="line">m1 - m2 </span><br><span class="line"></span><br><span class="line">&gt; m1 %*% m2</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; m1 &lt;- matrix(<span class="number">1</span>:<span class="number">20</span>,nrow=<span class="number">5</span>,ncol=<span class="number">4</span>)</span><br><span class="line">&gt; m2 &lt;- matrix(<span class="number">1</span>:<span class="number">20</span>,nrow=<span class="number">5</span>,ncol=<span class="number">4</span>)</span><br><span class="line">m1 - m2 </span><br><span class="line"></span><br><span class="line">&gt; m1 %*% m2 </span><br></pre></td></tr></table></figure>
 <p>4). 矩阵转置： t(matrix1)</p>
 <p>5). 其他运算</p>
 <ul>
@@ -385,7 +385,7 @@
 <li>rowMeans() : 行均值  [colMeans]</li>
 </ul>
 <h5 id="数据框-data-frame"><a href="#数据框-data-frame" class="headerlink" title="数据框 [data.frame]"></a>数据框 [data.frame]</h5><p>data.frame函数可以创建数据框</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data.frame(vector..., row.names, check.rows, stringsAsFactors=default.stringsAsFactors())</span><br><span class="line">&gt; dat1 &lt;- data.frame(x=paste0(<span class="string">"a"</span>, c(<span class="number">1</span>:<span class="number">3</span>), y=paste0(<span class="string">"b"</span>, c(<span class="number">4</span>:<span class="number">6</span>)), </span><br><span class="line">+ num=c(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data.frame(vector..., row.names, check.rows, stringsAsFactors=default.stringsAsFactors())</span><br><span class="line">&gt; dat1 &lt;- data.frame(x=paste0(<span class="string">&quot;a&quot;</span>, <span class="built_in">c</span>(<span class="number">1</span>:<span class="number">3</span>), y=paste0(<span class="string">&quot;b&quot;</span>, <span class="built_in">c</span>(<span class="number">4</span>:<span class="number">6</span>)), </span><br><span class="line">+ num=<span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br></pre></td></tr></table></figure>
 <p><strong>特点</strong></p>
 <ul>
 <li>每个data.frame可以是不同类型向量的组合，而matrix只能是同一种类型向量</li>
@@ -412,7 +412,7 @@
 <li>. dat1 &lt;- rbind(dat1, data.frame(x=2, y=3, z=5)) : 增加新行</li>
 </ul>
 <h5 id="列表-list"><a href="#列表-list" class="headerlink" title="列表[list]"></a>列表[list]</h5><p>列表可以包含data.frame， matrix， vector等等元素，列表各列的长度可以不一致。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; list1 &lt;- list(dat = data.frame(x=c(<span class="number">1</span>:<span class="number">3</span>), y=c(<span class="number">4</span>:<span class="number">6</span>)), mat=matrix(c(<span class="number">1</span>:<span class="number">12</span>), nrow=<span class="number">3</span>, ncol=<span class="number">4</span>), vec=c(<span class="number">1</span>:<span class="number">20</span>))</span><br><span class="line">&gt; list1$dat  list1[[<span class="number">1</span>]]</span><br><span class="line">&gt; list1$mat  list1[[<span class="number">2</span>]]</span><br><span class="line">&gt; list$vec   list1[[<span class="number">3</span>]]</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; list1 &lt;- <span class="built_in">list</span>(dat = data.frame(x=<span class="built_in">c</span>(<span class="number">1</span>:<span class="number">3</span>), y=<span class="built_in">c</span>(<span class="number">4</span>:<span class="number">6</span>)), mat=matrix(<span class="built_in">c</span>(<span class="number">1</span>:<span class="number">12</span>), nrow=<span class="number">3</span>, ncol=<span class="number">4</span>), vec=<span class="built_in">c</span>(<span class="number">1</span>:<span class="number">20</span>))</span><br><span class="line">&gt; list1$dat  list1[[<span class="number">1</span>]]</span><br><span class="line">&gt; list1$mat  list1[[<span class="number">2</span>]]</span><br><span class="line">&gt; <span class="built_in">list</span>$vec   list1[[<span class="number">3</span>]]</span><br></pre></td></tr></table></figure>
 <ul>
 <li>list1[1]和list1[[1]]的区别，前者是输出列表，后者是输出向量 </li>
 <li>list1[[N]][M] : 取N 列中的第M 个元素</li>
@@ -431,7 +431,7 @@
 <li>缺省型（missing value）：NA。</li>
 </ul>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
-<li><a href="https://cran.r-project.org/doc/contrib/Liu-FAQ.pdf" target="_blank" rel="noopener external nofollow noreferrer">153分钟学会R</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://cran.r-project.org/doc/contrib/Liu-FAQ.pdf">153分钟学会R</a></li>
 </ol>
 <p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
@@ -981,7 +981,7 @@ if(canvas.getContext){
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">16:04</span>
+    <span title="Reading time total">16:55</span>
 </div>
 
 <div id="days"></div>

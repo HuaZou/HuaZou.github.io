@@ -314,7 +314,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="安装Cygwin"><a href="#安装Cygwin" class="headerlink" title="安装Cygwin"></a>安装Cygwin</h3><p><strong>1)</strong>. 登陆<a href="https://cygwin.com/" target="_blank" rel="noopener external nofollow noreferrer">Cygwin官网</a>，选择与windows系统相同位数的版本</p>
+        <h3 id="安装Cygwin"><a href="#安装Cygwin" class="headerlink" title="安装Cygwin"></a>安装Cygwin</h3><p><strong>1)</strong>. 登陆<a target="_blank" rel="noopener external nofollow noreferrer" href="https://cygwin.com/">Cygwin官网</a>，选择与windows系统相同位数的版本</p>
 <p><strong>2)</strong>. 打开下载好软件安装：一般选择默认设置</p>
 <ul>
 <li><p>Install from Internet</p>
@@ -325,14 +325,14 @@
 </li>
 <li><p>Direct Connection</p>
 </li>
-<li><p>Select a download site：可以选择添加<a href="https://link.jianshu.com/?t=http://mirrors.tuna.tsinghua.edu.cn/cygwin/" target="_blank" rel="noopener external nofollow noreferrer">清华镜像</a></p>
+<li><p>Select a download site：可以选择添加<a target="_blank" rel="noopener external nofollow noreferrer" href="https://link.jianshu.com/?t=http://mirrors.tuna.tsinghua.edu.cn/cygwin/">清华镜像</a></p>
 </li>
 <li><p>Select Package：一般的Vim，openssh，cur, wget, gcc等等包一起选择安装</p>
 </li>
 <li><p>finish the installation</p>
 </li>
 </ul>
-<h3 id="安装apt-cyg包"><a href="#安装apt-cyg包" class="headerlink" title="安装apt-cyg包"></a>安装apt-cyg包</h3><p>因为Cygwin坑爹的设计，每次安装新的包总需要重新安装该软件一次，因此有开发者设计了apt-cyg包，该包功能上类似Linux的<a href="https://baike.baidu.com/item/apt-get/2360755?fr=aladdin" target="_blank" rel="noopener external nofollow noreferrer">apt-get</a>：</p>
+<h3 id="安装apt-cyg包"><a href="#安装apt-cyg包" class="headerlink" title="安装apt-cyg包"></a>安装apt-cyg包</h3><p>因为Cygwin坑爹的设计，每次安装新的包总需要重新安装该软件一次，因此有开发者设计了apt-cyg包，该包功能上类似Linux的<a target="_blank" rel="noopener external nofollow noreferrer" href="https://baike.baidu.com/item/apt-get/2360755?fr=aladdin">apt-get</a>：</p>
 <ul>
 <li>功能： 搜索、安装、升级、卸载软件</li>
 </ul>
@@ -342,7 +342,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lynx -<span class="built_in">source</span> rawgit.com/transcode-open/apt-cyg/master/apt-cyg &gt; apt-cyg</span><br><span class="line">install apt-cyg /bin</span><br></pre></td></tr></table></figure>
 <p><strong>3)</strong> apt-cyg用法：安装，删除，更新</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-cyg install packagename</span><br><span class="line">apt-cyg remove packagename</span><br><span class="line">apt-cyg update packagename</span><br></pre></td></tr></table></figure>
-<p><strong>4)</strong> <a href="https://github.com/juho-p/fatty" target="_blank" rel="noopener external nofollow noreferrer">fatty</a>包使用：Cygwin只能有一个窗口，这个设计真是有点坑。因此有人开发了fatty，功能是可以create many tabs</p>
+<p><strong>4)</strong> <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/juho-p/fatty">fatty</a>包使用：Cygwin只能有一个窗口，这个设计真是有点坑。因此有人开发了fatty，功能是可以create many tabs</p>
 <blockquote>
 <p>To create new tab, press ctrl+shift+T；</p>
 <p>ctrl+shift+W closes the tab；</p>
@@ -350,13 +350,13 @@
 <p>To move tab, press ctrl+shift+(arrow direction)</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/juho-p/fatty.git</span><br><span class="line"><span class="built_in">cd</span> fatty</span><br><span class="line">make</span><br><span class="line">cp src/fatty.exe /bin</span><br></pre></td></tr></table></figure>
-<h3 id="免密码登陆"><a href="#免密码登陆" class="headerlink" title="免密码登陆"></a>免密码登陆</h3><p>通过Cygwin登陆大型机，需要用户名和密码，但可以通过<a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem" target="_blank" rel="noopener external nofollow noreferrer">RSA</a>)生成公钥形式解决</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">"username@genomics.cn"</span></span><br><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+<h3 id="免密码登陆"><a href="#免密码登陆" class="headerlink" title="免密码登陆"></a>免密码登陆</h3><p>通过Cygwin登陆大型机，需要用户名和密码，但可以通过<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/RSA_(cryptosystem">RSA</a>)生成公钥形式解决</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;username@genomics.cn&quot;</span></span><br><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
 <ul>
 <li>将公钥复制粘贴到大型机的.ssh目录下authorized_keys（若没有，则创建）</li>
 </ul>
-<h3 id="本地与大型机传输文件"><a href="#本地与大型机传输文件" class="headerlink" title="本地与大型机传输文件"></a>本地与大型机传输文件</h3><p>使用<a href="https://www.cnblogs.com/likui360/p/6011769.html" target="_blank" rel="noopener external nofollow noreferrer">scp</a>命令，在使用前先设置大型机的别名信息，方便使用scp命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">"Host  alias1 \n HostName 192.114.23.43 \n User username"</span> &gt; ~/.ssh/config </span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">"Host  alias2 \n HostName 172.23.22.323 \n User username"</span> &gt;&gt; ~/.ssh/config </span><br><span class="line"></span><br><span class="line">scp -r alias1:/hwfssz1/filedir/  ./  <span class="comment"># 大型机传输到本地</span></span><br><span class="line">scp file.txt  alias2:/hwfssz1/filedir/  <span class="comment"># 本地传输到大型机</span></span><br></pre></td></tr></table></figure>
+<h3 id="本地与大型机传输文件"><a href="#本地与大型机传输文件" class="headerlink" title="本地与大型机传输文件"></a>本地与大型机传输文件</h3><p>使用<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.cnblogs.com/likui360/p/6011769.html">scp</a>命令，在使用前先设置大型机的别名信息，方便使用scp命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;Host  alias1 \n HostName 192.114.23.43 \n User username&quot;</span> &gt; ~/.ssh/config </span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;Host  alias2 \n HostName 172.23.22.323 \n User username&quot;</span> &gt;&gt; ~/.ssh/config </span><br><span class="line"></span><br><span class="line">scp -r alias1:/hwfssz1/filedir/  ./  <span class="comment"># 大型机传输到本地</span></span><br><span class="line">scp file.txt  alias2:/hwfssz1/filedir/  <span class="comment"># 本地传输到大型机</span></span><br></pre></td></tr></table></figure>
 <h3 id="小技巧"><a href="#小技巧" class="headerlink" title="小技巧"></a>小技巧</h3><ul>
 <li>命令行打开文件或者文件夹：cygstart: start a program or open a file or url</li>
 </ul>
@@ -378,9 +378,9 @@
 <ul>
 <li>修改find：Cygwin默认使用windows的find</li>
 </ul>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mv usr/bin/find.exe  find.cyg.exe</span><br><span class="line">echo alias find=find.cyg &gt;&gt; ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mv usr/bin/find.exe  find.cyg.exe</span><br><span class="line">echo alias find=find.cyg &gt;&gt; ~/.bash<span class="emphasis">_profile</span></span><br></pre></td></tr></table></figure>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
-<li><a href="http://allthingsmarked.com/2006/08/17/how-to-set-up-a-windows-ssh-server-for-vnc-tunneling/" target="_blank" rel="noopener external nofollow noreferrer">安装过程</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="http://allthingsmarked.com/2006/08/17/how-to-set-up-a-windows-ssh-server-for-vnc-tunneling/">安装过程</a></li>
 </ol>
 <p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
@@ -912,7 +912,7 @@ if(canvas.getContext){
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">16:04</span>
+    <span title="Reading time total">16:55</span>
 </div>
 
 <div id="days"></div>

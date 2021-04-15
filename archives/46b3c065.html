@@ -389,8 +389,7 @@
 </ol>
 <h4 id="samtools处理sam文件"><a href="#samtools处理sam文件" class="headerlink" title="samtools处理sam文件"></a>samtools处理sam文件</h4><ul>
 <li><p>sam to bam </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">samtools view -bS sample.sam &gt; sample.bam</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">samtools view -bS sample.sam &gt; sample.bam</span><br></pre></td></tr></table></figure></li>
 <li><p>剔除比对上的reads后的比对结果</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">samtools view -b -f 12 -F 256 sample.bam &gt; sample.unaligned.bam</span><br></pre></td></tr></table></figure>
 <ul>
@@ -407,8 +406,8 @@
 <h3 id="简单快捷单行命令"><a href="#简单快捷单行命令" class="headerlink" title="简单快捷单行命令"></a>简单快捷单行命令</h3><p>bowtie2通过 <strong>—un-conc</strong>系列参数可以一行获取过滤后的结果</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取过滤后sam文件，再通过samtools和bedtools获取clean fastq</span></span><br><span class="line">bowtie2 -x contamination \</span><br><span class="line">	-1 sample_r1.fq.gz \</span><br><span class="line">	-2 sample_r2.fq.gz \</span><br><span class="line">	-S sample.sam \</span><br><span class="line">	-p 20 \</span><br><span class="line">	--un-conc sample.unaligned.sam</span><br><span class="line"></span><br><span class="line"><span class="comment"># 直接获取clean fastq</span></span><br><span class="line">bowtie2 -x contamination \</span><br><span class="line">	-1 sample_r1.fq.gz \</span><br><span class="line">	-2 sample_r2.fq.gz \</span><br><span class="line">    -p 20 \</span><br><span class="line">	--un-gz sample.clean \</span><br><span class="line">	--un-conc-gz sample.clean</span><br></pre></td></tr></table></figure>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ol>
-<li><a href="https://blog.csdn.net/herokoking/article/details/77847384" target="_blank" rel="noopener external nofollow noreferrer">bowtie2使用方法与参数详细介绍</a></li>
-<li><a href="http://www.360doc.com/content/18/0329/12/28491187_741231514.shtml" target="_blank" rel="noopener external nofollow noreferrer">SAM/BAM文件信息、格式</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://blog.csdn.net/herokoking/article/details/77847384">bowtie2使用方法与参数详细介绍</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="http://www.360doc.com/content/18/0329/12/28491187_741231514.shtml">SAM/BAM文件信息、格式</a></li>
 </ol>
 <p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
 
@@ -940,7 +939,7 @@ if(canvas.getContext){
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">16:04</span>
+    <span title="Reading time total">16:55</span>
 </div>
 
 <div id="days"></div>
