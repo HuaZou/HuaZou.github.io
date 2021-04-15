@@ -28,18 +28,18 @@
 <meta property="og:site_name" content="Hua&#39;s Cabin">
 <meta property="og:description" content="数据分析的图形可视化是了解数据分布、波动和相关性等属性必不可少的手段。数据相关可视化图形主要有：散点图、热图、相关图、气泡图、连线散点图和二维密度图等。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/10780526-98ebaa5f91723299.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/10780526-1ab809bfd4ecb320.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/10780526-4adeaf1cca5ddb8a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/10780526-4944831eede42bd7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/10780526-e194aa30c7de42a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/10780526-d41ace413abe55b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://zouhua.top/images/R_visual_19/scatterplot.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_visual_19/heatmap.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_visual_19/correlogram.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_visual_19/bubble.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_visual_19/connect.jpg">
+<meta property="og:image" content="https://zouhua.top/images/R_visual_19/density.jpg">
 <meta property="article:published_time" content="2021-02-05T05:26:00.000Z">
 <meta property="article:modified_time" content="2021-02-05T15:00:00.000Z">
 <meta property="article:author" content="Hua Zou">
 <meta property="article:tag" content="可视化">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/10780526-98ebaa5f91723299.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:image" content="https://zouhua.top/images/R_visual_19/scatterplot.jpg">
 
 <link rel="canonical" href="https://zouhua.top/archives/266854c6.html">
 
@@ -163,7 +163,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">137</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">139</span></a>
 
   </li>
         <li class="menu-item menu-item-message">
@@ -316,21 +316,21 @@
 
       
         <h3 id="散点图-Scatterplot"><a href="#散点图-Scatterplot" class="headerlink" title="散点图 Scatterplot"></a>散点图 Scatterplot</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">library(ggplot2)</span><br><span class="line">library(dplyr)</span><br><span class="line"></span><br><span class="line">ggplot(data&#x3D;mtcars %&gt;% mutate(cyl&#x3D;factor(cyl)), aes(x&#x3D;mpg, disp))+</span><br><span class="line">  geom_point(aes(color&#x3D;cyl), size&#x3D;3)+</span><br><span class="line">  geom_rug(col&#x3D;&quot;black&quot;, alpha&#x3D;0.5, size&#x3D;1)+</span><br><span class="line">  geom_smooth(method&#x3D;lm , color&#x3D;&quot;red&quot;, fill&#x3D;&quot;#69b3a2&quot;, se&#x3D;TRUE)+  </span><br><span class="line">  geom_text(</span><br><span class="line">    label&#x3D;rownames(mtcars), </span><br><span class="line">    nudge_x &#x3D; 0.25, </span><br><span class="line">    nudge_y &#x3D; 0.25, </span><br><span class="line">    check_overlap &#x3D; T,</span><br><span class="line">    label.size &#x3D; 0.35,</span><br><span class="line">    color &#x3D; &quot;black&quot;,</span><br><span class="line">    family&#x3D;&quot;serif&quot;)+</span><br><span class="line">  theme_classic()+</span><br><span class="line">  theme(axis.title &#x3D; element_text(face &#x3D; &#39;bold&#39;,color &#x3D; &#39;black&#39;,size &#x3D; 14),</span><br><span class="line">                  axis.text &#x3D; element_text(color &#x3D; &#39;black&#39;,size &#x3D; 10),</span><br><span class="line">                  text &#x3D; element_text(size &#x3D; 8, color &#x3D; &quot;black&quot;, family&#x3D;&quot;serif&quot;),</span><br><span class="line">                  legend.position &#x3D; &#39;right&#39;,</span><br><span class="line">                  legend.key.height &#x3D; unit(0.6,&#39;cm&#39;),</span><br><span class="line">                  legend.text &#x3D; element_text(face &#x3D; &quot;bold&quot;, color &#x3D; &#39;black&#39;,size &#x3D; 10),</span><br><span class="line">                  strip.text &#x3D; element_text(face &#x3D; &quot;bold&quot;, size &#x3D; 14))  </span><br></pre></td></tr></table></figure>
-<p><img src="https://upload-images.jianshu.io/upload_images/10780526-98ebaa5f91723299.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="/images/R_visual_19/scatterplot.jpg" alt=""></p>
 <h3 id="热图-heatmap"><a href="#热图-heatmap" class="headerlink" title="热图 heatmap"></a>热图 heatmap</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">library(ComplexHeatmap)</span><br><span class="line">library(circlize)</span><br><span class="line"></span><br><span class="line">set.seed(123)</span><br><span class="line">mat &lt;- matrix(rnorm(100), 10)</span><br><span class="line">rownames(mat) &lt;- paste0(&quot;R&quot;, 1:10)</span><br><span class="line">colnames(mat) &lt;- paste0(&quot;C&quot;, 1:10)</span><br><span class="line">column_ha &lt;- HeatmapAnnotation(foo1 &#x3D; runif(10), bar1 &#x3D; anno_barplot(runif(10)))</span><br><span class="line">row_ha &lt;- rowAnnotation(foo2 &#x3D; runif(10), bar2 &#x3D; anno_barplot(runif(10)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">col_fun &lt;- colorRamp2(c(-2, 0, 2), c(&quot;green&quot;, &quot;white&quot;, &quot;red&quot;))</span><br><span class="line"></span><br><span class="line">Heatmap(mat, </span><br><span class="line">        name &#x3D; &quot;mat&quot;,</span><br><span class="line">        column_title &#x3D; &quot;pre-defined distance method (1 - pearson)&quot;,</span><br><span class="line">        column_title_side &#x3D; &quot;bottom&quot;,</span><br><span class="line">        column_title_gp &#x3D; gpar(fontsize &#x3D; 10, fontface &#x3D; &quot;bold&quot;),</span><br><span class="line">        col &#x3D; col_fun, </span><br><span class="line">        clustering_distance_rows &#x3D; &quot;pearson&quot;,</span><br><span class="line">        cluster_rows &#x3D; TRUE, </span><br><span class="line">        show_column_dend &#x3D; FALSE,</span><br><span class="line">        row_km &#x3D; 2,</span><br><span class="line">        column_km &#x3D; 3,</span><br><span class="line">        width &#x3D; unit(6, &quot;cm&quot;), </span><br><span class="line">        height &#x3D; unit(6, &quot;cm&quot;), </span><br><span class="line">        top_annotation &#x3D; column_ha, </span><br><span class="line">        right_annotation &#x3D; row_ha)</span><br></pre></td></tr></table></figure>
-<p><img src="https://upload-images.jianshu.io/upload_images/10780526-1ab809bfd4ecb320.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="/images/R_visual_19/heatmap.jpg" alt=""></p>
 <h3 id="相关图-correlogram"><a href="#相关图-correlogram" class="headerlink" title="相关图 correlogram"></a>相关图 correlogram</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">library(GGally)</span><br><span class="line">library(ggplot2)</span><br><span class="line"> </span><br><span class="line">data(flea)</span><br><span class="line">ggpairs(flea, columns &#x3D; 2:4, aes(colour&#x3D;species))+</span><br><span class="line">  theme_bw()+</span><br><span class="line">  theme(axis.title &#x3D; element_text(face &#x3D; &#39;bold&#39;,color &#x3D; &#39;black&#39;,size &#x3D; 14),</span><br><span class="line">                  axis.text &#x3D; element_text(color &#x3D; &#39;black&#39;,size &#x3D; 10),</span><br><span class="line">                  text &#x3D; element_text(size &#x3D; 8, color &#x3D; &quot;black&quot;, family&#x3D;&quot;serif&quot;),</span><br><span class="line">                  legend.position &#x3D; &#39;right&#39;,</span><br><span class="line">                  legend.key.height &#x3D; unit(0.6,&#39;cm&#39;),</span><br><span class="line">                  legend.text &#x3D; element_text(face &#x3D; &quot;bold&quot;, color &#x3D; &#39;black&#39;,size &#x3D; 10),</span><br><span class="line">                  strip.text &#x3D; element_text(face &#x3D; &quot;bold&quot;, size &#x3D; 14)) </span><br></pre></td></tr></table></figure>
-<p><img src="https://upload-images.jianshu.io/upload_images/10780526-4adeaf1cca5ddb8a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="/images/R_visual_19/correlogram.jpg" alt=""></p>
 <h3 id="气泡图-Bubble"><a href="#气泡图-Bubble" class="headerlink" title="气泡图 Bubble"></a>气泡图 Bubble</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">library(ggplot2)</span><br><span class="line">library(dplyr)</span><br><span class="line">library(gapminder)</span><br><span class="line"></span><br><span class="line">data &lt;- gapminder %&gt;% filter(year&#x3D;&#x3D;&quot;2007&quot;) %&gt;%</span><br><span class="line">  dplyr::select(-year)</span><br><span class="line">data %&gt;%</span><br><span class="line">  arrange(desc(pop)) %&gt;%</span><br><span class="line">  mutate(country &#x3D; factor(country, country)) %&gt;%</span><br><span class="line">  ggplot(aes(x&#x3D;gdpPercap, y&#x3D;lifeExp, size&#x3D;pop, color&#x3D;continent)) +</span><br><span class="line">    geom_point(alpha&#x3D;0.5) +</span><br><span class="line">    scale_size(range &#x3D; c(.1, 24), name&#x3D;&quot;Population (M)&quot;)+</span><br><span class="line">    theme_bw()+</span><br><span class="line">    theme(axis.title &#x3D; element_text(face &#x3D; &#39;bold&#39;,color &#x3D; &#39;black&#39;,size &#x3D; 14),</span><br><span class="line">                  axis.text &#x3D; element_text(color &#x3D; &#39;black&#39;,size &#x3D; 10),</span><br><span class="line">                  text &#x3D; element_text(size &#x3D; 8, color &#x3D; &quot;black&quot;, family&#x3D;&quot;serif&quot;),</span><br><span class="line">                  legend.position &#x3D; &#39;right&#39;,</span><br><span class="line">                  legend.key.height &#x3D; unit(0.6,&#39;cm&#39;),</span><br><span class="line">                  legend.text &#x3D; element_text(face &#x3D; &quot;bold&quot;, color &#x3D; &#39;black&#39;,size &#x3D; 10),</span><br><span class="line">                  strip.text &#x3D; element_text(face &#x3D; &quot;bold&quot;, size &#x3D; 14))  </span><br></pre></td></tr></table></figure>
-<p><img src="https://upload-images.jianshu.io/upload_images/10780526-4944831eede42bd7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="/images/R_visual_19/bubble.jpg" alt=""></p>
 <h3 id="连线点图-Connected-Scatterplot"><a href="#连线点图-Connected-Scatterplot" class="headerlink" title="连线点图 Connected Scatterplot"></a>连线点图 Connected Scatterplot</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">library(ggplot2)</span><br><span class="line">library(dplyr)</span><br><span class="line">library(babynames)</span><br><span class="line">library(ggrepel)</span><br><span class="line">library(tidyr)</span><br><span class="line"></span><br><span class="line">data &lt;- babynames %&gt;% </span><br><span class="line">  filter(name %in% c(&quot;Ashley&quot;, &quot;Amanda&quot;)) %&gt;%</span><br><span class="line">  filter(sex &#x3D;&#x3D; &quot;F&quot;) %&gt;%</span><br><span class="line">  filter(year &gt; 1970) %&gt;%</span><br><span class="line">  select(year, name, n) %&gt;%</span><br><span class="line">  spread(key &#x3D; name, value&#x3D;n, -1)</span><br><span class="line"></span><br><span class="line">tmp_date &lt;- data %&gt;% sample_frac(0.3)</span><br><span class="line"></span><br><span class="line">data %&gt;% </span><br><span class="line">  ggplot(aes(x&#x3D;Amanda, y&#x3D;Ashley, label&#x3D;year)) +</span><br><span class="line">     geom_point(color&#x3D;&quot;#69b3a2&quot;) +</span><br><span class="line">     geom_text_repel(data&#x3D;tmp_date) +</span><br><span class="line">     geom_segment(color&#x3D;&quot;#69b3a2&quot;, </span><br><span class="line">                  aes(</span><br><span class="line">                    xend&#x3D;c(tail(Amanda, n&#x3D;-1), NA), </span><br><span class="line">                    yend&#x3D;c(tail(Ashley, n&#x3D;-1), NA)</span><br><span class="line">                  ),</span><br><span class="line">                  arrow&#x3D;arrow(length&#x3D;unit(0.3,&quot;cm&quot;))</span><br><span class="line">      )+</span><br><span class="line">     theme_bw()+</span><br><span class="line">     theme(axis.title &#x3D; element_text(face &#x3D; &#39;bold&#39;,color &#x3D; &#39;black&#39;,size &#x3D; 14),</span><br><span class="line">                  axis.text &#x3D; element_text(color &#x3D; &#39;black&#39;,size &#x3D; 10),</span><br><span class="line">                  text &#x3D; element_text(size &#x3D; 8, color &#x3D; &quot;black&quot;, family&#x3D;&quot;serif&quot;),</span><br><span class="line">                  legend.position &#x3D; &#39;right&#39;,</span><br><span class="line">                  legend.key.height &#x3D; unit(0.6,&#39;cm&#39;),</span><br><span class="line">                  legend.text &#x3D; element_text(face &#x3D; &quot;bold&quot;, color &#x3D; &#39;black&#39;,size &#x3D; 10),</span><br><span class="line">                  strip.text &#x3D; element_text(face &#x3D; &quot;bold&quot;, size &#x3D; 14))    </span><br></pre></td></tr></table></figure>
-<p><img src="https://upload-images.jianshu.io/upload_images/10780526-e194aa30c7de42a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="/images/R_visual_19/connect.jpg" alt=""></p>
 <h3 id="二维密度图-Density-2d"><a href="#二维密度图-Density-2d" class="headerlink" title="二维密度图 Density 2d"></a>二维密度图 Density 2d</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">library(tidyverse)</span><br><span class="line"></span><br><span class="line">a &lt;- data.frame( x&#x3D;rnorm(20000, 10, 1.9), y&#x3D;rnorm(20000, 10, 1.2) )</span><br><span class="line">b &lt;- data.frame( x&#x3D;rnorm(20000, 14.5, 1.9), y&#x3D;rnorm(20000, 14.5, 1.9) )</span><br><span class="line">c &lt;- data.frame( x&#x3D;rnorm(20000, 9.5, 1.9), y&#x3D;rnorm(20000, 15.5, 1.9) )</span><br><span class="line">data &lt;- rbind(a, b, c)</span><br><span class="line"></span><br><span class="line">pl1 &lt;- ggplot(data, aes(x&#x3D;x, y&#x3D;y))+</span><br><span class="line">  stat_density_2d(aes(fill &#x3D; ..density..), geom &#x3D; &quot;raster&quot;, contour &#x3D; FALSE)+</span><br><span class="line">  scale_x_continuous(expand &#x3D; c(0, 0))+</span><br><span class="line">  scale_y_continuous(expand &#x3D; c(0, 0))+</span><br><span class="line">  scale_fill_distiller(palette&#x3D;4, direction&#x3D;-1)+</span><br><span class="line">  theme(legend.position&#x3D;&#39;none&#39;)</span><br><span class="line"></span><br><span class="line">pl2 &lt;- ggplot(data, aes(x&#x3D;x, y&#x3D;y))+</span><br><span class="line">  geom_hex(bins &#x3D; 70) +</span><br><span class="line">  scale_fill_continuous(type &#x3D; &quot;viridis&quot;) +</span><br><span class="line">  theme_bw()+</span><br><span class="line">  theme(axis.title &#x3D; element_text(face &#x3D; &#39;bold&#39;,color &#x3D; &#39;black&#39;,size &#x3D; 14),</span><br><span class="line">                  axis.text &#x3D; element_text(color &#x3D; &#39;black&#39;,size &#x3D; 10),</span><br><span class="line">                  text &#x3D; element_text(size &#x3D; 8, color &#x3D; &quot;black&quot;, family&#x3D;&quot;serif&quot;),</span><br><span class="line">                  legend.position &#x3D; &#39;right&#39;,</span><br><span class="line">                  legend.key.height &#x3D; unit(0.6,&#39;cm&#39;),</span><br><span class="line">                  legend.text &#x3D; element_text(face &#x3D; &quot;bold&quot;, color &#x3D; &#39;black&#39;,size &#x3D; 10),</span><br><span class="line">                  strip.text &#x3D; element_text(face &#x3D; &quot;bold&quot;, size &#x3D; 14)) </span><br><span class="line"></span><br><span class="line">cowplot::plot_grid(pl1, pl2, ncol &#x3D; 2, align &#x3D; &quot;h&quot;, labels &#x3D; LETTERS[1:2])</span><br></pre></td></tr></table></figure>
-<p><img src="https://upload-images.jianshu.io/upload_images/10780526-d41ace413abe55b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="/images/R_visual_19/density.jpg" alt=""></p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
 <li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.r-graph-gallery.com/">The R Graph Gallery</a></li>
 </ol>
-<p>参考文章如引起任何侵权问题，可以与我<a href="zouhua1@outlook.com">联系</a>，谢谢。</p>
+<p>参考文章如引起任何侵权问题，可以与我<a href="mailto:zouhua1@outlook.com" rel="external nofollow noreferrer">联系</a>，谢谢。</p>
 
     </div>
 
@@ -356,6 +356,12 @@
   <div class="popular-posts-header">Related Posts</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/aa36ab1b.html" rel="bookmark">不同分页界面分组添加显著性标记符号</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/archives/e9573227.html" rel="bookmark">基础图形可视化之Evolution</a></div>
+    </li>
+    <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/archives/bbd25c6c.html" rel="bookmark">基础图形可视化之whole or part</a></div>
     </li>
     <li class="popular-posts-item">
@@ -363,9 +369,6 @@
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/archives/2a8b1341.html" rel="bookmark">基础图形可视化之Distribution</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/archives/b1a4c831.html" rel="bookmark">circlize绘制样本物种丰度关联弦状图</a></div>
     </li>
   </ul>
 
@@ -500,7 +503,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">137</span>
+          <span class="site-state-item-count">139</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -556,19 +559,19 @@
 				</li>
 			  
 				<li>
+				  <a href="/archives/aa36ab1b.html" title="不同分页界面分组添加显著性标记符号" target="_blank">不同分页界面分组添加显著性标记符号</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/e9573227.html" title="基础图形可视化之Evolution" target="_blank">基础图形可视化之Evolution</a>
+				</li>
+			  
+				<li>
 				  <a href="/archives/bbd25c6c.html" title="基础图形可视化之whole or part" target="_blank">基础图形可视化之whole or part</a>
 				</li>
 			  
 				<li>
 				  <a href="/archives/c29cfacb.html" title="基础图形可视化之Ranking" target="_blank">基础图形可视化之Ranking</a>
-				</li>
-			  
-				<li>
-				  <a href="/archives/266854c6.html" title="基础图形可视化之Correlation" target="_blank">基础图形可视化之Correlation</a>
-				</li>
-			  
-				<li>
-				  <a href="/archives/2a8b1341.html" title="基础图形可视化之Distribution" target="_blank">基础图形可视化之Distribution</a>
 				</li>
 			  
 			</ul>
@@ -875,7 +878,7 @@ if(canvas.getContext){
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">15:58</span>
+    <span title="Reading time total">16:04</span>
 </div>
 
 <div id="days"></div>
