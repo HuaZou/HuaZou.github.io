@@ -1,0 +1,1135 @@
+﻿<!DOCTYPE html>
+<html lang="en,zh-CN,default">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zouhua.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="随着大数据时代的到来，我们常常需要对高纬度数据进行降维处理后再对数据整体结构进行可视化，进而发现数据内在的区别，为后续数据分析提供初步的参考。本文提供PCA、tSNE和UMAP三类降维方法的R实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高纬度数据降维方法的R实现">
+<meta property="og:url" content="https://zouhua.top/archives/f4cccace.html">
+<meta property="og:site_name" content="Hua&#39;s Cabin">
+<meta property="og:description" content="随着大数据时代的到来，我们常常需要对高纬度数据进行降维处理后再对数据整体结构进行可视化，进而发现数据内在的区别，为后续数据分析提供初步的参考。本文提供PCA、tSNE和UMAP三类降维方法的R实现。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/20210629091237.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/20210629091301.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/20210629091327.png">
+<meta property="article:published_time" content="2021-06-27T02:26:00.000Z">
+<meta property="article:modified_time" content="2021-06-27T07:00:00.000Z">
+<meta property="article:author" content="Hua Zou">
+<meta property="article:tag" content="Ordination">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/20210629091237.png">
+
+<link rel="canonical" href="https://zouhua.top/archives/f4cccace.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="/css/injector.css" />
+  <title>高纬度数据降维方法的R实现 | Hua's Cabin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-162525500-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hua's Cabin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">做好当下，不犹未来</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">96</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">47</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">142</span></a>
+
+  </li>
+        <li class="menu-item menu-item-message">
+
+    <a href="/message/" rel="section"><i class="fa fa-comment fa-fw"></i>Message</a>
+
+  </li>
+        <li class="menu-item menu-item-bookdown">
+
+    <a href="/bookdown/" rel="section"><i class="fa fa-book fa-fw"></i>bookdown</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zouhua.top/archives/f4cccace.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Hua Zou">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hua's Cabin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          高纬度数据降维方法的R实现
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+			
+			
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-06-27 10:26:00 / Modified: 15:00:00" itemprop="dateCreated datePublished" datetime="2021-06-27T10:26:00+08:00">2021-06-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/DataAnalysis/" itemprop="url" rel="index"><span itemprop="name">DataAnalysis</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye || fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/archives/f4cccace.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/f4cccace.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>12 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="　前言"></a>　前言</h3><p>上一节，我们对质谱数据预处理后，获取得到可用于后续统计分析的数据。在常见的case-control的实验中，我们一般会研究组学数据与分组是否在整体上存在显著的差异。</p>
+<p>一般通过降维算法得到低纬度如二维或三维的新坐标数据，再结合可视化技术去展示样本的在新坐标的空间分布，接着加上统计检验结果证实整体组学水平上组间的差异性。降维算法有基于线性模型的PCA，也有基于非线性的tSNE和UMAP等方法。</p>
+<p>PCA是对原高纬度数据进行线性组合实现线性变换的算法，每个新的主成分均是原维度数据的线性组合。tSNE和UMAP是计算样本在空间上的概率密度分布，可有效地保留组内样本间距离也可以保留组间最大距离，是一类较好且适合非线性数据的方法。</p>
+<h3 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">options(warn = <span class="number">0</span>)</span><br><span class="line">library(dplyr)</span><br><span class="line">library(tibble)</span><br><span class="line">library(ggplot2)</span><br><span class="line">options(warn = <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">ExprSet_LOG2Impute &lt;- readRDS(<span class="string">&quot;Mass_Proteins_filtered_Normal_LOG2Impute.RDS&quot;</span>)</span><br><span class="line">subgrp &lt;- <span class="built_in">c</span>(<span class="string">&quot;NC&quot;</span>, <span class="string">&quot;PC&quot;</span>, <span class="string">&quot;PT&quot;</span>)</span><br><span class="line">grp.col &lt;- <span class="built_in">c</span>(<span class="string">&quot;#568875&quot;</span>, <span class="string">&quot;#73FAFC&quot;</span>, <span class="string">&quot;#EE853D&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="Principal-Component-Analysis"><a href="#Principal-Component-Analysis" class="headerlink" title="Principal Component Analysis"></a>Principal Component Analysis</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">PCAFun &lt;- <span class="keyword">function</span>(dataset = ExprSet_LOG2Impute )&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># dataset = ExprSet_LOG2Impute </span></span><br><span class="line">  </span><br><span class="line">  require(convert)</span><br><span class="line">  metadata &lt;- pData(dataset)</span><br><span class="line">  profile &lt;- exprs(dataset)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># pca </span></span><br><span class="line">  pca &lt;- prcomp(scale(t(profile), center = <span class="built_in">T</span>, scale = <span class="built_in">T</span>))</span><br><span class="line">  require(factoextra)</span><br><span class="line">  eig &lt;- get_eig(pca)</span><br><span class="line">  <span class="comment"># explains variable </span></span><br><span class="line">  explains &lt;- paste0(paste0(<span class="string">&quot;PC&quot;</span>, seq(<span class="number">2</span>)), <span class="string">&quot;(&quot;</span>, paste0(<span class="built_in">round</span>(eig[<span class="number">1</span>:<span class="number">2</span>, <span class="number">2</span>], <span class="number">2</span>), <span class="string">&quot;%&quot;</span>), <span class="string">&quot;)&quot;</span>)</span><br><span class="line">  <span class="comment"># principal component score of each sample</span></span><br><span class="line">  score &lt;- inner_join(pca$x %&gt;% data.frame() %&gt;% </span><br><span class="line">                        dplyr::select(<span class="built_in">c</span>(<span class="number">1</span>:<span class="number">2</span>)) %&gt;% </span><br><span class="line">                        rownames_to_column(<span class="string">&quot;SampleID&quot;</span>), </span><br><span class="line">                      metadata %&gt;% rownames_to_column(<span class="string">&quot;SampleID&quot;</span>),</span><br><span class="line">                      by = <span class="string">&quot;SampleID&quot;</span>) %&gt;%</span><br><span class="line">    mutate(Group=factor(Group, levels = grp))</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  <span class="comment"># PERMANOVA</span></span><br><span class="line">  require(vegan)</span><br><span class="line">  set.seed(<span class="number">123</span>)</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">any</span>(profile &lt; <span class="number">0</span>))&#123;</span><br><span class="line">    res_adonis &lt;- adonis(vegdist(t(profile), method = <span class="string">&quot;manhattan&quot;</span>) ~ metadata$SubGroup, permutations = <span class="number">999</span>) </span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    res_adonis &lt;- adonis(vegdist(t(profile), method = <span class="string">&quot;bray&quot;</span>) ~ metadata$SubGroup, permutations = <span class="number">999</span>)    </span><br><span class="line">  &#125;</span><br><span class="line">  adn_pvalue &lt;- res_adonis[[<span class="number">1</span>]][[<span class="string">&quot;Pr(&gt;F)&quot;</span>]][<span class="number">1</span>]</span><br><span class="line">  adn_rsquared &lt;- <span class="built_in">round</span>(res_adonis[[<span class="number">1</span>]][[<span class="string">&quot;R2&quot;</span>]][<span class="number">1</span>],<span class="number">3</span>)</span><br><span class="line">  <span class="comment">#use the bquote function to format adonis results to be annotated on the ordination plot.</span></span><br><span class="line">  signi_label &lt;- paste(cut(adn_pvalue,breaks=<span class="built_in">c</span>(-<span class="literal">Inf</span>, <span class="number">0.001</span>, <span class="number">0.01</span>, <span class="number">0.05</span>, <span class="literal">Inf</span>), label=<span class="built_in">c</span>(<span class="string">&quot;***&quot;</span>, <span class="string">&quot;**&quot;</span>, <span class="string">&quot;*&quot;</span>, <span class="string">&quot;.&quot;</span>)))</span><br><span class="line">  adn_res_format &lt;- bquote(atop(atop(<span class="string">&quot;PERMANOVA&quot;</span>,R^<span class="number">2</span>==~.(adn_rsquared)),</span><br><span class="line">                                  atop(<span class="string">&quot;p-value=&quot;</span>~.(adn_pvalue)~.(signi_label), phantom()))) </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  pl &lt;- ggplot(score, aes(x=PC1, y=PC2))+</span><br><span class="line">              geom_point(aes(fill=SubGroup), size=<span class="number">3.5</span>, shape=<span class="number">21</span>, stroke = <span class="number">.8</span>, color = <span class="string">&quot;black&quot;</span>)+</span><br><span class="line">              stat_ellipse(aes(color=SubGroup), level = <span class="number">0.95</span>, linetype = <span class="number">1</span>, size = <span class="number">1.5</span>)+</span><br><span class="line">              labs(x=explains[<span class="number">1</span>], y=explains[<span class="number">2</span>])+</span><br><span class="line">              scale_color_manual(values = grp.col)+</span><br><span class="line">              scale_fill_manual(name = <span class="string">&quot;Condition&quot;</span>, </span><br><span class="line">                                values = grp.col)+</span><br><span class="line">              annotate(<span class="string">&quot;text&quot;</span>, x = <span class="built_in">max</span>(score$PC1) - <span class="number">8</span>,</span><br><span class="line">                       y = <span class="built_in">min</span>(score$PC1),</span><br><span class="line">                       label = adn_res_format,</span><br><span class="line">                       size = <span class="number">6</span>)+ </span><br><span class="line">              guides(color=<span class="built_in">F</span>)+</span><br><span class="line">              theme_classic()+</span><br><span class="line">              theme(axis.title = element_text(size = <span class="number">10</span>, color = <span class="string">&quot;black&quot;</span>, face = <span class="string">&quot;bold&quot;</span>),</span><br><span class="line">                    axis.text = element_text(size = <span class="number">9</span>, color = <span class="string">&quot;black&quot;</span>),</span><br><span class="line">                    text = element_text(size = <span class="number">8</span>, color = <span class="string">&quot;black&quot;</span>, family = <span class="string">&quot;serif&quot;</span>),</span><br><span class="line">                    strip.text = element_text(size = <span class="number">9</span>, color = <span class="string">&quot;black&quot;</span>, face = <span class="string">&quot;bold&quot;</span>), </span><br><span class="line">                    panel.grid = element_blank(),</span><br><span class="line">                    legend.title = element_text(size = <span class="number">11</span>, color = <span class="string">&quot;black&quot;</span>, family = <span class="string">&quot;serif&quot;</span>),</span><br><span class="line">                    legend.text = element_text(size = <span class="number">10</span>, color = <span class="string">&quot;black&quot;</span>, family = <span class="string">&quot;serif&quot;</span>),</span><br><span class="line">                    legend.position = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">                    legend.justification = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">                    legend.background = element_rect(color = <span class="string">&quot;black&quot;</span>, fill = <span class="string">&quot;white&quot;</span>, linetype = <span class="number">2</span>, size = <span class="number">0.5</span>))</span><br><span class="line">  <span class="built_in">return</span>(pl)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PCA_LOG2Impute &lt;- PCAFun(dataset = ExprSet_LOG2Impute)</span><br><span class="line">PCA_LOG2Impute </span><br><span class="line">ggsave(<span class="string">&quot;Mass_ProteinsLOG2Impute_PCA.pdf&quot;</span>, PCA_LOG2Impute, width = <span class="number">5</span>, height = <span class="number">5</span>, dpi = <span class="number">300</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/20210629091237.png" alt=""></p>
+<h3 id="Rtsne"><a href="#Rtsne" class="headerlink" title="Rtsne"></a>Rtsne</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">RtsneFun &lt;- <span class="keyword">function</span>(dataset = ExprSet_LOG2Impute,</span><br><span class="line">                     perpl = <span class="number">10</span>)&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># dataset = ExprSet_LOG2Impute</span></span><br><span class="line">  <span class="comment"># perpl = 10</span></span><br><span class="line">  </span><br><span class="line">  require(convert)</span><br><span class="line">  metadata &lt;- pData(dataset)</span><br><span class="line">  profile &lt;- t(exprs(dataset))</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Rtsne</span></span><br><span class="line">  require(Rtsne)</span><br><span class="line">  <span class="comment">#set.seed(123)</span></span><br><span class="line">  Rtsne &lt;- Rtsne(profile, </span><br><span class="line">                 dims=<span class="number">2</span>, </span><br><span class="line">                 perplexity=perpl,</span><br><span class="line">                 verbose=<span class="literal">TRUE</span>, </span><br><span class="line">                 max_iter=<span class="number">500</span>, </span><br><span class="line">                 eta=<span class="number">200</span>)</span><br><span class="line">  point &lt;- Rtsne$Y %&gt;% data.frame() %&gt;% </span><br><span class="line">    dplyr::select(<span class="built_in">c</span>(<span class="number">1</span>:<span class="number">2</span>)) %&gt;%</span><br><span class="line">    setNames(<span class="built_in">c</span>(<span class="string">&quot;tSNE1&quot;</span>, <span class="string">&quot;tSNE2&quot;</span>))</span><br><span class="line">  rownames(point) &lt;- rownames(profile)</span><br><span class="line">  score &lt;- inner_join(point %&gt;% rownames_to_column(<span class="string">&quot;SampleID&quot;</span>), </span><br><span class="line">                      metadata %&gt;% rownames_to_column(<span class="string">&quot;SampleID&quot;</span>),</span><br><span class="line">                      by = <span class="string">&quot;SampleID&quot;</span>) %&gt;%</span><br><span class="line">    mutate(Group=factor(Group, levels = grp))</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># PERMANOVA</span></span><br><span class="line">  require(vegan)</span><br><span class="line">  set.seed(<span class="number">123</span>)</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">any</span>(profile &lt; <span class="number">0</span>))&#123;</span><br><span class="line">    res_adonis &lt;- adonis(vegdist(profile, method = <span class="string">&quot;manhattan&quot;</span>) ~ metadata$SubGroup, permutations = <span class="number">999</span>) </span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    res_adonis &lt;- adonis(vegdist(profile, method = <span class="string">&quot;bray&quot;</span>) ~ metadata$SubGroup, permutations = <span class="number">999</span>)    </span><br><span class="line">  &#125;</span><br><span class="line">  adn_pvalue &lt;- res_adonis[[<span class="number">1</span>]][[<span class="string">&quot;Pr(&gt;F)&quot;</span>]][<span class="number">1</span>]</span><br><span class="line">  adn_rsquared &lt;- <span class="built_in">round</span>(res_adonis[[<span class="number">1</span>]][[<span class="string">&quot;R2&quot;</span>]][<span class="number">1</span>],<span class="number">3</span>)</span><br><span class="line">  <span class="comment">#use the bquote function to format adonis results to be annotated on the ordination plot.</span></span><br><span class="line">  signi_label &lt;- paste(cut(adn_pvalue,breaks=<span class="built_in">c</span>(-<span class="literal">Inf</span>, <span class="number">0.001</span>, <span class="number">0.01</span>, <span class="number">0.05</span>, <span class="literal">Inf</span>), label=<span class="built_in">c</span>(<span class="string">&quot;***&quot;</span>, <span class="string">&quot;**&quot;</span>, <span class="string">&quot;*&quot;</span>, <span class="string">&quot;.&quot;</span>)))</span><br><span class="line">  adn_res_format &lt;- bquote(atop(atop(<span class="string">&quot;PERMANOVA&quot;</span>,R^<span class="number">2</span>==~.(adn_rsquared)),</span><br><span class="line">                                  atop(<span class="string">&quot;p-value=&quot;</span>~.(adn_pvalue)~.(signi_label), phantom()))) </span><br><span class="line">  </span><br><span class="line">  pl &lt;- ggplot(score, aes(x=tSNE1, y=tSNE2))+</span><br><span class="line">              geom_point(aes(fill=SubGroup), size=<span class="number">3.5</span>, shape=<span class="number">21</span>, stroke = <span class="number">.8</span>, color = <span class="string">&quot;black&quot;</span>)+</span><br><span class="line">              stat_ellipse(aes(color=SubGroup), level = <span class="number">0.95</span>, linetype = <span class="number">1</span>, size = <span class="number">1.5</span>)+</span><br><span class="line">              scale_color_manual(values = grp.col)+</span><br><span class="line">              scale_fill_manual(name = <span class="string">&quot;Condition&quot;</span>, </span><br><span class="line">                                values = grp.col)+</span><br><span class="line">              annotate(<span class="string">&quot;text&quot;</span>, x = <span class="built_in">max</span>(score$tSNE1) - <span class="number">8</span>,</span><br><span class="line">                       y = <span class="built_in">max</span>(score$tSNE2)-<span class="number">5</span>,</span><br><span class="line">                       label = adn_res_format,</span><br><span class="line">                       size = <span class="number">6</span>)+ </span><br><span class="line">              guides(color=<span class="built_in">F</span>)+</span><br><span class="line">              theme_classic()+</span><br><span class="line">              theme(axis.title = element_text(size = <span class="number">10</span>, color = <span class="string">&quot;black&quot;</span>, face = <span class="string">&quot;bold&quot;</span>),</span><br><span class="line">                    axis.text = element_text(size = <span class="number">9</span>, color = <span class="string">&quot;black&quot;</span>),</span><br><span class="line">                    text = element_text(size = <span class="number">8</span>, color = <span class="string">&quot;black&quot;</span>, family = <span class="string">&quot;serif&quot;</span>),</span><br><span class="line">                    strip.text = element_text(size = <span class="number">9</span>, color = <span class="string">&quot;black&quot;</span>, face = <span class="string">&quot;bold&quot;</span>), </span><br><span class="line">                    panel.grid = element_blank(),</span><br><span class="line">                    legend.title = element_text(size = <span class="number">11</span>, color = <span class="string">&quot;black&quot;</span>, family = <span class="string">&quot;serif&quot;</span>),</span><br><span class="line">                    legend.text = element_text(size = <span class="number">10</span>, color = <span class="string">&quot;black&quot;</span>, family = <span class="string">&quot;serif&quot;</span>),</span><br><span class="line">                    legend.position = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">                    legend.justification = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">                    legend.background = element_rect(color = <span class="string">&quot;black&quot;</span>, fill = <span class="string">&quot;white&quot;</span>, linetype = <span class="number">2</span>, size = <span class="number">0.5</span>))</span><br><span class="line">  <span class="built_in">return</span>(pl)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Rtsne_LOG2Impute &lt;- RtsneFun(dataset = ExprSet_LOG2Impute, perpl = <span class="number">10</span>)</span><br><span class="line">Rtsne_LOG2Impute</span><br><span class="line">ggsave(<span class="string">&quot;Mass_ProteinsLOG2Impute_Rtsne.pdf&quot;</span>, Rtsne_LOG2Impute, width = <span class="number">5</span>, height = <span class="number">5</span>, dpi = <span class="number">300</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/20210629091301.png" alt=""></p>
+<h3 id="UMAP-a-non-linear-dimensionality-reduction-algorithm"><a href="#UMAP-a-non-linear-dimensionality-reduction-algorithm" class="headerlink" title="UMAP: a non-linear dimensionality reduction algorithm"></a>UMAP: a non-linear dimensionality reduction algorithm</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">UMAPFun &lt;- <span class="keyword">function</span>(dataset = ExprSet_LOG2Impute)&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># dataset = ExprSet_LOG2Impute</span></span><br><span class="line">  </span><br><span class="line">  require(convert)</span><br><span class="line">  metadata &lt;- pData(dataset)</span><br><span class="line">  profile &lt;- t(exprs(dataset))</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># umap </span></span><br><span class="line">  require(umap)</span><br><span class="line">  umap &lt;- umap::umap(profile)</span><br><span class="line">  </span><br><span class="line">  point &lt;- umap$layout %&gt;% data.frame() %&gt;%</span><br><span class="line">    setNames(<span class="built_in">c</span>(<span class="string">&quot;UMAP1&quot;</span>, <span class="string">&quot;UMAP2&quot;</span>))</span><br><span class="line">  rownames(point) &lt;- rownames(profile)</span><br><span class="line">  score &lt;- inner_join(point %&gt;% rownames_to_column(<span class="string">&quot;SampleID&quot;</span>), </span><br><span class="line">                      metadata %&gt;% rownames_to_column(<span class="string">&quot;SampleID&quot;</span>),</span><br><span class="line">                      by = <span class="string">&quot;SampleID&quot;</span>) %&gt;%</span><br><span class="line">    mutate(Group=factor(Group, levels = grp))</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># PERMANOVA</span></span><br><span class="line">  require(vegan)</span><br><span class="line">  set.seed(<span class="number">123</span>)</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">any</span>(profile &lt; <span class="number">0</span>))&#123;</span><br><span class="line">    res_adonis &lt;- adonis(vegdist(profile, method = <span class="string">&quot;manhattan&quot;</span>) ~ metadata$SubGroup, permutations = <span class="number">999</span>) </span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    res_adonis &lt;- adonis(vegdist(profile, method = <span class="string">&quot;bray&quot;</span>) ~ metadata$SubGroup, permutations = <span class="number">999</span>)    </span><br><span class="line">  &#125;</span><br><span class="line">  adn_pvalue &lt;- res_adonis[[<span class="number">1</span>]][[<span class="string">&quot;Pr(&gt;F)&quot;</span>]][<span class="number">1</span>]</span><br><span class="line">  adn_rsquared &lt;- <span class="built_in">round</span>(res_adonis[[<span class="number">1</span>]][[<span class="string">&quot;R2&quot;</span>]][<span class="number">1</span>],<span class="number">3</span>)</span><br><span class="line">  <span class="comment">#use the bquote function to format adonis results to be annotated on the ordination plot.</span></span><br><span class="line">  signi_label &lt;- paste(cut(adn_pvalue,breaks=<span class="built_in">c</span>(-<span class="literal">Inf</span>, <span class="number">0.001</span>, <span class="number">0.01</span>, <span class="number">0.05</span>, <span class="literal">Inf</span>), label=<span class="built_in">c</span>(<span class="string">&quot;***&quot;</span>, <span class="string">&quot;**&quot;</span>, <span class="string">&quot;*&quot;</span>, <span class="string">&quot;.&quot;</span>)))</span><br><span class="line">  adn_res_format &lt;- bquote(atop(atop(<span class="string">&quot;PERMANOVA&quot;</span>,R^<span class="number">2</span>==~.(adn_rsquared)),</span><br><span class="line">                                  atop(<span class="string">&quot;p-value=&quot;</span>~.(adn_pvalue)~.(signi_label), phantom())))   </span><br><span class="line">  </span><br><span class="line">  pl &lt;- ggplot(score, aes(x=UMAP1, y=UMAP2))+</span><br><span class="line">              geom_point(aes(fill=SubGroup), size=<span class="number">3.5</span>, shape=<span class="number">21</span>, stroke = <span class="number">.8</span>, color = <span class="string">&quot;black&quot;</span>)+</span><br><span class="line">              stat_ellipse(aes(color=SubGroup), level = <span class="number">0.95</span>, linetype = <span class="number">1</span>, size = <span class="number">1.5</span>)+</span><br><span class="line">              scale_color_manual(values = grp.col)+</span><br><span class="line">              scale_fill_manual(name = <span class="string">&quot;Condition&quot;</span>, </span><br><span class="line">                                values = grp.col)+</span><br><span class="line">              annotate(<span class="string">&quot;text&quot;</span>, x = <span class="built_in">max</span>(score$UMAP1),</span><br><span class="line">                       y = <span class="built_in">min</span>(score$UMAP2),</span><br><span class="line">                       label = adn_res_format,</span><br><span class="line">                       size = <span class="number">6</span>)+ </span><br><span class="line">              guides(color=<span class="built_in">F</span>)+</span><br><span class="line">              theme_classic()+</span><br><span class="line">              theme(axis.title = element_text(size = <span class="number">10</span>, color = <span class="string">&quot;black&quot;</span>, face = <span class="string">&quot;bold&quot;</span>),</span><br><span class="line">                    axis.text = element_text(size = <span class="number">9</span>, color = <span class="string">&quot;black&quot;</span>),</span><br><span class="line">                    text = element_text(size = <span class="number">8</span>, color = <span class="string">&quot;black&quot;</span>, family = <span class="string">&quot;serif&quot;</span>),</span><br><span class="line">                    strip.text = element_text(size = <span class="number">9</span>, color = <span class="string">&quot;black&quot;</span>, face = <span class="string">&quot;bold&quot;</span>), </span><br><span class="line">                    panel.grid = element_blank(),</span><br><span class="line">                    legend.title = element_text(size = <span class="number">11</span>, color = <span class="string">&quot;black&quot;</span>, family = <span class="string">&quot;serif&quot;</span>),</span><br><span class="line">                    legend.text = element_text(size = <span class="number">10</span>, color = <span class="string">&quot;black&quot;</span>, family = <span class="string">&quot;serif&quot;</span>),</span><br><span class="line">                    legend.position = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">                    legend.justification = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">                    legend.background = element_rect(color = <span class="string">&quot;black&quot;</span>, fill = <span class="string">&quot;white&quot;</span>, linetype = <span class="number">2</span>, size = <span class="number">0.5</span>))</span><br><span class="line">  <span class="built_in">return</span>(pl)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">UMAP_LOG2Impute &lt;- UMAPFun(dataset = ExprSet_LOG2Impute)</span><br><span class="line">UMAP_LOG2Impute </span><br><span class="line">ggsave(<span class="string">&quot;Mass_ProteinsLOG2Impute_UMAP.pdf&quot;</span>, UMAP_LOG2Impute, width = <span class="number">5</span>, height = <span class="number">5</span>, dpi = <span class="number">300</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/20210629091327.png" alt=""></p>
+<p><strong>Notes: 三组数据的整体性差异如果较为明显，一般可以在不同的降维方法上都有所体现。从分组看，NC组和PC、PT组均存在明显的差异，后续数据分析应该着重关注 NC vs PC, NC vs PT，但也可以对PC vs PT做比较分析。</strong></p>
+<h3 id="Systemic-information"><a href="#Systemic-information" class="headerlink" title="Systemic information"></a>Systemic information</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sessionInfo()</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">R version 4.0.2 (2020-06-22)</span><br><span class="line">Platform: x86<span class="emphasis">_64-conda_</span>cos6-linux-gnu (64-bit)</span><br><span class="line">Running under: CentOS Linux 8 (Core)</span><br><span class="line"></span><br><span class="line">Matrix products: default</span><br><span class="line">BLAS/LAPACK: /disk/share/anaconda3/lib/libopenblasp-r0.3.10.so</span><br><span class="line"></span><br><span class="line">locale:</span><br><span class="line"> [1] LC<span class="emphasis">_CTYPE=en_</span>US.UTF-8       LC<span class="emphasis">_NUMERIC=C               LC_</span>TIME=en<span class="emphasis">_US.UTF-8        LC_</span>COLLATE=en<span class="emphasis">_US.UTF-8    </span></span><br><span class="line"><span class="emphasis"> [5] LC_</span>MONETARY=en<span class="emphasis">_US.UTF-8    LC_</span>MESSAGES=en<span class="emphasis">_US.UTF-8    LC_</span>PAPER=en<span class="emphasis">_US.UTF-8       LC_</span>NAME=C                 </span><br><span class="line"> [9] LC<span class="emphasis">_ADDRESS=C               LC_</span>TELEPHONE=C             LC<span class="emphasis">_MEASUREMENT=en_</span>US.UTF-8 LC<span class="emphasis">_IDENTIFICATION=C       </span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">attached base packages:</span></span><br><span class="line"><span class="emphasis">[1] stats4    parallel  stats     graphics  grDevices utils     datasets  methods   base     </span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">other attached packages:</span></span><br><span class="line"><span class="emphasis"> [1] umap_</span>0.2.7.0                                        Rtsne<span class="emphasis">_0.15                                         </span></span><br><span class="line"><span class="emphasis"> [3] vegan_</span>2.5-6                                         lattice<span class="emphasis">_0.20-41                                    </span></span><br><span class="line"><span class="emphasis"> [5] permute_</span>0.9-5                                       factoextra<span class="emphasis">_1.0.7                                   </span></span><br><span class="line"><span class="emphasis"> [7] IlluminaHumanMethylationEPICanno.ilm10b4.hg19_</span>0.6.0 IlluminaHumanMethylationEPICmanifest<span class="emphasis">_0.3.0         </span></span><br><span class="line"><span class="emphasis"> [9] minfi_</span>1.36.0                                        bumphunter<span class="emphasis">_1.32.0                                  </span></span><br><span class="line"><span class="emphasis">[11] locfit_</span>1.5-9.4                                      iterators<span class="emphasis">_1.0.13                                   </span></span><br><span class="line"><span class="emphasis">[13] foreach_</span>1.5.1                                       Biostrings<span class="emphasis">_2.58.0                                  </span></span><br><span class="line"><span class="emphasis">[15] XVector_</span>0.30.0                                      SummarizedExperiment<span class="emphasis">_1.20.0                        </span></span><br><span class="line"><span class="emphasis">[17] MatrixGenerics_</span>1.2.1                                matrixStats<span class="emphasis">_0.58.0                                 </span></span><br><span class="line"><span class="emphasis">[19] GenomicRanges_</span>1.42.0                                GenomeInfoDb<span class="emphasis">_1.26.4                                </span></span><br><span class="line"><span class="emphasis">[21] IRanges_</span>2.24.1                                      S4Vectors<span class="emphasis">_0.28.1                                   </span></span><br><span class="line"><span class="emphasis">[23] eulerr_</span>6.1.0                                        UpSetR<span class="emphasis">_1.4.0                                       </span></span><br><span class="line"><span class="emphasis">[25] ggplot2_</span>3.3.3                                       DEP<span class="emphasis">_1.12.0                                         </span></span><br><span class="line"><span class="emphasis">[27] convert_</span>1.64.0                                      marray<span class="emphasis">_1.68.0                                      </span></span><br><span class="line"><span class="emphasis">[29] limma_</span>3.46.0                                        Biobase<span class="emphasis">_2.50.0                                     </span></span><br><span class="line"><span class="emphasis">[31] BiocGenerics_</span>0.36.0                                 data.table<span class="emphasis">_1.14.0                                  </span></span><br><span class="line"><span class="emphasis">[33] tibble_</span>3.1.0                                        dplyr<span class="emphasis">_1.0.5                                        </span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">loaded via a namespace (and not attached):</span></span><br><span class="line"><span class="emphasis">  [1] utf8_</span>1.2.1                shinydashboard<span class="emphasis">_0.7.1      reticulate_</span>1.18           gmm<span class="emphasis">_1.6-5                </span></span><br><span class="line"><span class="emphasis">  [5] tidyselect_</span>1.1.0          RSQLite<span class="emphasis">_2.2.5             AnnotationDbi_</span>1.52.0      htmlwidgets<span class="emphasis">_1.5.3        </span></span><br><span class="line"><span class="emphasis">  [9] grid_</span>4.0.2                BiocParallel<span class="emphasis">_1.24.1       norm_</span>1.0-9.5              munsell<span class="emphasis">_0.5.0            </span></span><br><span class="line"><span class="emphasis"> [13] codetools_</span>0.2-18          preprocessCore<span class="emphasis">_1.52.1     DT_</span>0.18                   withr<span class="emphasis">_2.4.1              </span></span><br><span class="line"><span class="emphasis"> [17] colorspace_</span>2.0-0          knitr<span class="emphasis">_1.31                rstudioapi_</span>0.13           mzID<span class="emphasis">_1.28.0              </span></span><br><span class="line"><span class="emphasis"> [21] labeling_</span>0.4.2            GenomeInfoDbData<span class="emphasis">_1.2.4    farver_</span>2.1.0              bit64<span class="emphasis">_4.0.5              </span></span><br><span class="line"><span class="emphasis"> [25] rhdf5_</span>2.34.0              vctrs<span class="emphasis">_0.3.7               generics_</span>0.1.0            xfun<span class="emphasis">_0.20                </span></span><br><span class="line"><span class="emphasis"> [29] BiocFileCache_</span>1.14.0      R6<span class="emphasis">_2.5.0                  doParallel_</span>1.0.16         illuminaio<span class="emphasis">_0.32.0        </span></span><br><span class="line"><span class="emphasis"> [33] clue_</span>0.3-58               bitops<span class="emphasis">_1.0-6              rhdf5filters_</span>1.2.0        cachem<span class="emphasis">_1.0.4             </span></span><br><span class="line"><span class="emphasis"> [37] reshape_</span>0.8.8             DelayedArray<span class="emphasis">_0.16.3       assertthat_</span>0.2.1          promises<span class="emphasis">_1.2.0.1         </span></span><br><span class="line"><span class="emphasis"> [41] scales_</span>1.1.1              gtable<span class="emphasis">_0.3.0              Cairo_</span>1.5-12.2            affy<span class="emphasis">_1.68.0              </span></span><br><span class="line"><span class="emphasis"> [45] sandwich_</span>3.0-0            rlang<span class="emphasis">_0.4.10              genefilter_</span>1.72.0         mzR<span class="emphasis">_2.24.1               </span></span><br><span class="line"><span class="emphasis"> [49] GlobalOptions_</span>0.1.2       splines<span class="emphasis">_4.0.2             rtracklayer_</span>1.50.0        GEOquery<span class="emphasis">_2.58.0          </span></span><br><span class="line"><span class="emphasis"> [53] impute_</span>1.64.0             yaml<span class="emphasis">_2.2.1                reshape2_</span>1.4.4            BiocManager<span class="emphasis">_1.30.12      </span></span><br><span class="line"><span class="emphasis"> [57] GenomicFeatures_</span>1.42.2    httpuv<span class="emphasis">_1.5.5              tools_</span>4.0.2               nor1mix<span class="emphasis">_1.3-0            </span></span><br><span class="line"><span class="emphasis"> [61] affyio_</span>1.60.0             ellipsis<span class="emphasis">_0.3.1            jquerylib_</span>0.1.3           RColorBrewer<span class="emphasis">_1.1-2       </span></span><br><span class="line"><span class="emphasis"> [65] siggenes_</span>1.64.0           MSnbase<span class="emphasis">_2.16.1            Rcpp_</span>1.0.6                plyr<span class="emphasis">_1.8.6               </span></span><br><span class="line"><span class="emphasis"> [69] sparseMatrixStats_</span>1.2.1   progress<span class="emphasis">_1.2.2            zlibbioc_</span>1.36.0           purrr<span class="emphasis">_0.3.4              </span></span><br><span class="line"><span class="emphasis"> [73] RCurl_</span>1.98-1.3            prettyunits<span class="emphasis">_1.1.1         openssl_</span>1.4.3             GetoptLong<span class="emphasis">_1.0.5         </span></span><br><span class="line"><span class="emphasis"> [77] cowplot_</span>1.1.0             zoo<span class="emphasis">_1.8-8                 ggrepel_</span>0.9.1.9999        cluster<span class="emphasis">_2.1.0            </span></span><br><span class="line"><span class="emphasis"> [81] tinytex_</span>0.31              magrittr<span class="emphasis">_2.0.1            RSpectra_</span>0.16-0           circlize<span class="emphasis">_0.4.10          </span></span><br><span class="line"><span class="emphasis"> [85] pcaMethods_</span>1.80.0         mvtnorm<span class="emphasis">_1.1-1             ProtGenerics_</span>1.22.0       evaluate<span class="emphasis">_0.14            </span></span><br><span class="line"><span class="emphasis"> [89] hms_</span>1.0.0                 mime<span class="emphasis">_0.10                 xtable_</span>1.8-4              XML<span class="emphasis">_3.99-0.6             </span></span><br><span class="line"><span class="emphasis"> [93] mclust_</span>5.4.7              gridExtra<span class="emphasis">_2.3             shape_</span>1.4.5               compiler<span class="emphasis">_4.0.2           </span></span><br><span class="line"><span class="emphasis"> [97] biomaRt_</span>2.46.3            ncdf4<span class="emphasis">_1.17                crayon_</span>1.4.1              htmltools<span class="emphasis">_0.5.1.1        </span></span><br><span class="line"><span class="emphasis">[101] mgcv_</span>1.8-34               later<span class="emphasis">_1.1.0.1             tidyr_</span>1.1.3               DBI<span class="emphasis">_1.1.1                </span></span><br><span class="line"><span class="emphasis">[105] dbplyr_</span>2.1.1              ComplexHeatmap<span class="emphasis">_2.6.2      MASS_</span>7.3-53.1             tmvtnorm<span class="emphasis">_1.4-10          </span></span><br><span class="line"><span class="emphasis">[109] rappdirs_</span>0.3.3            Matrix<span class="emphasis">_1.3-2              readr_</span>1.4.0               cli<span class="emphasis">_2.4.0                </span></span><br><span class="line"><span class="emphasis">[113] vsn_</span>3.58.0                imputeLCMD<span class="emphasis">_2.0            quadprog_</span>1.5-8            pkgconfig<span class="emphasis">_2.0.3          </span></span><br><span class="line"><span class="emphasis">[117] GenomicAlignments_</span>1.26.0  MALDIquant<span class="emphasis">_1.19.3         xml2_</span>1.3.2                annotate<span class="emphasis">_1.68.0          </span></span><br><span class="line"><span class="emphasis">[121] bslib_</span>0.2.4               rngtools<span class="emphasis">_1.5              multtest_</span>2.46.0           beanplot<span class="emphasis">_1.2             </span></span><br><span class="line"><span class="emphasis">[125] doRNG_</span>1.8.2               scrime<span class="emphasis">_1.3.5              stringr_</span>1.4.0             digest<span class="emphasis">_0.6.27            </span></span><br><span class="line"><span class="emphasis">[129] rmarkdown_</span>2.7             base64<span class="emphasis">_2.0                DelayedMatrixStats_</span>1.12.3 curl<span class="emphasis">_4.3                 </span></span><br><span class="line"><span class="emphasis">[133] shiny_</span>1.6.0               Rsamtools<span class="emphasis">_2.6.0           rjson_</span>0.2.20              jsonlite<span class="emphasis">_1.7.2           </span></span><br><span class="line"><span class="emphasis">[137] nlme_</span>3.1-150              lifecycle<span class="emphasis">_1.0.0           Rhdf5lib_</span>1.12.1           askpass<span class="emphasis">_1.1              </span></span><br><span class="line"><span class="emphasis">[141] fansi_</span>0.4.2               pillar<span class="emphasis">_1.6.0              fastmap_</span>1.1.0             httr<span class="emphasis">_1.4.2               </span></span><br><span class="line"><span class="emphasis">[145] survival_</span>3.2-10           glue<span class="emphasis">_1.4.2                png_</span>0.1-7                 bit<span class="emphasis">_4.0.4                </span></span><br><span class="line"><span class="emphasis">[149] sass_</span>0.3.1                stringi<span class="emphasis">_1.4.6             HDF5Array_</span>1.18.1          blob<span class="emphasis">_1.2.1               </span></span><br><span class="line"><span class="emphasis">[153] memoise_</span>2.0.0   </span><br></pre></td></tr></table></figure>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ol>
+<li><p><a target="_blank" rel="noopener external nofollow noreferrer" href="http://www.sthda.com/english/wiki/ggplot2-legend-easy-steps-to-change-the-position-and-the-appearance-of-a-graph-legend-in-r-software">How to change Legend of ggplot2</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.datanovia.com/en/blog/how-to-change-ggplot-facet-labels/">How to change ggplot facet labels</a></p>
+</li>
+</ol>
+<p>参考文章如引起任何侵权问题，可以与我<a href="mailto:zouhua1@outlook.com" rel="external nofollow noreferrer">联系</a>，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+	
+	  <div>
+	    ﻿<div>
+  
+    <div style="text-align:center;color:#bfbfbf;font-size:16px;">
+      <span>------------- The End </span>
+      <i class="fa fa-paw"></i>
+      <span> Thanks for reading --------</span>
+    </div>
+  
+</div>
+
+
+	  </div>
+	
+      
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hua Zou WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hua Zou Alipay">
+        <p>Alipay</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Hua Zou
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://zouhua.top/archives/f4cccace.html" title="高纬度数据降维方法的R实现">https://zouhua.top/archives/f4cccace.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Ordination/" rel="tag"><i class="fa fa-tags"></i> Ordination</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/863e9cbc.html" rel="prev" title="MaxQuant结果数据预处理">
+      <i class="fa fa-chevron-left"></i> MaxQuant结果数据预处理
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">　前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="nav-number">2.</span> <span class="nav-text">导入数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Principal-Component-Analysis"><span class="nav-number">3.</span> <span class="nav-text">Principal Component Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rtsne"><span class="nav-number">4.</span> <span class="nav-text">Rtsne</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UMAP-a-non-linear-dimensionality-reduction-algorithm"><span class="nav-number">5.</span> <span class="nav-text">UMAP: a non-linear dimensionality reduction algorithm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Systemic-information"><span class="nav-number">6.</span> <span class="nav-text">Systemic information</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">7.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hua Zou"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Hua Zou</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">142</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HuaZou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HuaZou" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zouhua1@outlook.com" title="E-Mail → mailto:zouhua1@outlook.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/d57f91084cf2" title="Jianshu → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;d57f91084cf2" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-heartbeat fa-fw"></i>Jianshu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/HuaZou01" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;HuaZou01" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	
+	  
+	  
+	  
+	  
+		  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+			<div class="links-of-blogroll-title">
+			  <!-- modify icon to fire by szw -->
+			  <i class="fa fa-history fa-" aria-hidden="true"></i>
+			  Recent Articles
+			</div>
+			<ul class="links-of-blogroll-list">
+			  
+			  
+				<li>
+				  <a href="/archives/f4cccace.html" title="高纬度数据降维方法的R实现" target="_blank">高纬度数据降维方法的R实现</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/863e9cbc.html" title="MaxQuant结果数据预处理" target="_blank">MaxQuant结果数据预处理</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/26119dbd.html" title="LC-MS/MS Proteomic Data Analysis" target="_blank">LC-MS/MS Proteomic Data Analysis</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/3db8e2e5.html" title="RT-PCR的R语言脚本定量计算及其可视化" target="_blank">RT-PCR的R语言脚本定量计算及其可视化</a>
+				</li>
+			  
+				<li>
+				  <a href="/archives/aa36ab1b.html" title="不同分页界面分组添加显著性标记符号" target="_blank">不同分页界面分组添加显著性标记符号</a>
+				</li>
+			  
+			</ul>
+		  </div>
+	  
+	
+	
+	  <div style="">
+  <canvas id="canvas" style="width:60%;">��ǰ�������֧��canvas������������������</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //����canvas�Ŀ���
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //�洢ʱ������
+    var data = [];
+    //�洢�˶���С��
+    var balls = [];
+    //�������Ӱ뾶
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //�洢ʱ�����֣���ʮλСʱ����λСʱ��ð�š�ʮλ���ӡ���λ���ӡ�ð�š�ʮλ���ӡ���λ������7���������
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*���ɵ�������*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*����ʱ��*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //ʱ�䷢���仯
+            if(NewData[i] !== data[i]){
+                //���仯������ֵ����data�����е������洢��changeNumArray������
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //����С��
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*����С��״̬*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*����Ҫ�˶���С��*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*��Ⱦ*/
+    function render(){
+        //���û������ȣ��ﵽ��ջ�����Ч��
+        canvas.height = 100;
+        //��Ⱦʱ��
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //��ȾС��
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //����ʱ��
+        updateDigitTime();
+        //����С��״̬
+        updateBalls();
+        //��Ⱦ
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hua Zou</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">1.1m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">17:24</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("04/01/2018 15:13:14"); //修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user || fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye || fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Mexh8hAz1DUSxVbfOYHpIGv8-gzGzoHsz',
+      appKey     : 'iUutkce5SnBf4mU4MUGVVmXu',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'en',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+    </svg>
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
+    </div>
+  </div>
+</div><script src="/js/injector.js"></script>
+  
+  ﻿
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"react":{"opacityDefault":0.7}});</script>
+</body>
+</html>
