@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://zouhua.top/categories/</loc>
-    <lastmod>2022-11-01T20:13:14-05:00</lastmod>
+    <lastmod>2022-11-02T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <xhtml:link
                 rel="alternate"
@@ -17,7 +17,7 @@
                 />
   </url><url>
     <loc>https://zouhua.top/</loc>
-    <lastmod>2022-11-01T20:13:14-05:00</lastmod>
+    <lastmod>2022-11-02T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <xhtml:link
                 rel="alternate"
@@ -31,31 +31,31 @@
                 />
   </url><url>
     <loc>https://zouhua.top/tag/machine-learning/</loc>
-    <lastmod>2022-11-01T20:13:14-05:00</lastmod>
+    <lastmod>2022-11-02T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://zouhua.top/category/machine-learning/</loc>
-    <lastmod>2022-11-01T20:13:14-05:00</lastmod>
+    <lastmod>2022-11-02T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
-    <loc>https://zouhua.top/post/machine_learning/ml006-svm/</loc>
-    <lastmod>2022-11-01T20:13:14-05:00</lastmod>
+    <loc>https://zouhua.top/post/machine_learning/ml007-optialclassifier/</loc>
+    <lastmod>2022-11-02T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://zouhua.top/tag/microbiota/</loc>
-    <lastmod>2022-11-01T20:13:14-05:00</lastmod>
+    <lastmod>2022-11-02T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://zouhua.top/post/</loc>
-    <lastmod>2022-11-01T20:13:14-05:00</lastmod>
+    <lastmod>2022-11-02T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://zouhua.top/tag/svm/</loc>
-    <lastmod>2022-11-01T20:13:14-05:00</lastmod>
+    <lastmod>2022-11-02T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://zouhua.top/tags/</loc>
-    <lastmod>2022-11-01T20:13:14-05:00</lastmod>
+    <lastmod>2022-11-02T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <xhtml:link
                 rel="alternate"
@@ -67,6 +67,10 @@
                 hreflang="en"
                 href="https://zouhua.top/tags/"
                 />
+  </url><url>
+    <loc>https://zouhua.top/post/machine_learning/ml006-svm/</loc>
+    <lastmod>2022-11-01T20:13:14-05:00</lastmod>
+    <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://zouhua.top/post/machine_learning/ml005-differential/</loc>
     <lastmod>2022-10-31T20:13:14-05:00</lastmod>
