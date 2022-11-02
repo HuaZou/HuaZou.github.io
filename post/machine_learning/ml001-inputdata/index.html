@@ -325,8 +325,8 @@
 
 
 
-<link rel="alternate" hreflang="en-us" href="https://zouhua.top/post/machine_learning/2022-10-27-ml001-inputdata/" />
-<link rel="canonical" href="https://zouhua.top/post/machine_learning/2022-10-27-ml001-inputdata/" />
+<link rel="alternate" hreflang="en-us" href="https://zouhua.top/post/machine_learning/ml001-inputdata/" />
+<link rel="canonical" href="https://zouhua.top/post/machine_learning/ml001-inputdata/" />
 
 
 
@@ -362,7 +362,7 @@
   <meta property="twitter:creator" content="@wowchemy" />
 <meta property="twitter:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" />
 <meta property="og:site_name" content="Hua Zou" />
-<meta property="og:url" content="https://zouhua.top/post/machine_learning/2022-10-27-ml001-inputdata/" />
+<meta property="og:url" content="https://zouhua.top/post/machine_learning/ml001-inputdata/" />
 <meta property="og:title" content="Machine Learning on gut microbiota of patients with Colorectal cancer (1): Obtaining inpudata | Hua Zou" />
 <meta property="og:description" content="preparing input data for machine learning" /><meta property="og:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
 
@@ -399,7 +399,7 @@
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://zouhua.top/post/machine_learning/2022-10-27-ml001-inputdata/"
+    "@id": "https://zouhua.top/post/machine_learning/ml001-inputdata/"
   },
   "headline": "Machine Learning on gut microbiota of patients with Colorectal cancer (1): Obtaining inpudata",
   
@@ -461,7 +461,7 @@
 </head>
 
 
-<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="a33a6765db9a370517a87fe523ba2da8" >
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="5a881fc531763c1e7c78d97a61e10d43" >
 
   
   
@@ -830,7 +830,7 @@
   <h1>Machine Learning on gut microbiota of patients with Colorectal cancer (1): Obtaining inpudata</h1>
 
   
-  <p class="page-subtitle">Create datasets for machine learning</p>
+  <p class="page-subtitle">Creating datasets for machine learning</p>
   
 
   
@@ -890,6 +890,7 @@
 
     <div class="article-style">
       <h1 id="obtaining-inpudata">Obtaining inpudata</h1>
+<p><a href="https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/00.Obtain_inputs_for_ML.Rmd" target="_blank" rel="noopener">Rmarkdown 1</a>: Downloading data.</p>
 <p>Downloading datasets using <strong>curatedMetagenomicData</strong>, which contains the HUMANN or Metaphlan results.</p>
 <h2 id="loading-packages">Loading packages</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="line"><span class="cl"><span class="n">knitr</span><span class="o">::</span><span class="n">opts_chunk</span><span class="o">$</span><span class="nf">set</span><span class="p">(</span><span class="n">warning</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
@@ -901,7 +902,7 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># rm(list = ls())</span>
 </span></span><span class="line"><span class="cl"><span class="nf">options</span><span class="p">(</span><span class="n">stringsAsFactors</span> <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nf">options</span><span class="p">(</span><span class="n">future.globals.maxSize</span> <span class="o">=</span> <span class="m">1000</span> <span class="o">*</span> <span class="m">1024</span><span class="n">^2</span><span class="p">)</span>
-</span></span></code></pre></div><h2 id="investigate-potential-response-variables">Investigate potential response variables</h2>
+</span></span></code></pre></div><h2 id="investigating-potential-response-variables">Investigating potential response variables</h2>
 <ul>
 <li>These are the 10 study conditions most commonly found in curatedMetagenomicData:</li>
 </ul>
@@ -1064,9 +1065,9 @@
 </span></span></code></pre></div><h2 id="session-info">Session info</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="line"><span class="cl"><span class="n">devtools</span><span class="o">::</span><span class="nf">session_info</span><span class="p">()</span>
 </span></span></code></pre></div><h2 id="reference">Reference</h2>
-<ol>
+<ul>
 <li><a href="https://waldronlab.io/curatedMetagenomicDataAnalyses/articles/MLdatasets.html" target="_blank" rel="noopener">Create datasets for machine learning</a></li>
-</ol>
+</ul>
 
     </div>
 
@@ -1080,7 +1081,7 @@
   
   <a class="badge badge-light" href="/tag/machine-learning/">machine learning</a>
   
-  <a class="badge badge-light" href="/tag/svn/">SVN</a>
+  <a class="badge badge-light" href="/tag/svm/">SVM</a>
   
   <a class="badge badge-light" href="/tag/microbiota/">microbiota</a>
   
@@ -1103,7 +1104,7 @@
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-27-ml001-inputdata%2F&amp;text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%281%29%3A&#43;Obtaining&#43;inpudata" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml001-inputdata%2F&amp;text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%281%29%3A&#43;Obtaining&#43;inpudata" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -1120,7 +1121,7 @@
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-27-ml001-inputdata%2F&amp;t=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%281%29%3A&#43;Obtaining&#43;inpudata" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml001-inputdata%2F&amp;t=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%281%29%3A&#43;Obtaining&#43;inpudata" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -1139,7 +1140,7 @@
         
       
       <li>
-        <a href="mailto:?subject=Machine%20Learning%20on%20gut%20microbiota%20of%20patients%20with%20Colorectal%20cancer%20%281%29%3A%20Obtaining%20inpudata&amp;body=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-27-ml001-inputdata%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+        <a href="mailto:?subject=Machine%20Learning%20on%20gut%20microbiota%20of%20patients%20with%20Colorectal%20cancer%20%281%29%3A%20Obtaining%20inpudata&amp;body=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml001-inputdata%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -1156,7 +1157,7 @@
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-27-ml001-inputdata%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%281%29%3A&#43;Obtaining&#43;inpudata" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml001-inputdata%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%281%29%3A&#43;Obtaining&#43;inpudata" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -1173,7 +1174,7 @@
       
       
       <li>
-        <a href="whatsapp://send?text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%281%29%3A&#43;Obtaining&#43;inpudata%20https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-27-ml001-inputdata%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+        <a href="whatsapp://send?text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%281%29%3A&#43;Obtaining&#43;inpudata%20https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml001-inputdata%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -1190,7 +1191,7 @@
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-27-ml001-inputdata%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%281%29%3A&#43;Obtaining&#43;inpudata" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml001-inputdata%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%281%29%3A&#43;Obtaining&#43;inpudata" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>

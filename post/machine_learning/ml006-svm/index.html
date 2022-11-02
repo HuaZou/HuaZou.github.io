@@ -325,8 +325,8 @@
 
 
 
-<link rel="alternate" hreflang="en-us" href="https://zouhua.top/post/machine_learning/2022-10-31-ml005-svm/" />
-<link rel="canonical" href="https://zouhua.top/post/machine_learning/2022-10-31-ml005-svm/" />
+<link rel="alternate" hreflang="en-us" href="https://zouhua.top/post/machine_learning/ml006-svm/" />
+<link rel="canonical" href="https://zouhua.top/post/machine_learning/ml006-svm/" />
 
 
 
@@ -362,18 +362,18 @@
   <meta property="twitter:creator" content="@wowchemy" />
 <meta property="twitter:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" />
 <meta property="og:site_name" content="Hua Zou" />
-<meta property="og:url" content="https://zouhua.top/post/machine_learning/2022-10-31-ml005-svm/" />
-<meta property="og:title" content="Machine Learning on gut microbiota of patients with Colorectal cancer (5): Predictive model using Support Vector Machine | Hua Zou" />
+<meta property="og:url" content="https://zouhua.top/post/machine_learning/ml006-svm/" />
+<meta property="og:title" content="Machine Learning on gut microbiota of patients with Colorectal cancer (6): Predictive model using Support Vector Machine | Hua Zou" />
 <meta property="og:description" content="Predictive model using Support Vector Machine on gut microbiota" /><meta property="og:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
 
   
     <meta
       property="article:published_time"
-      content="2022-10-31T20:13:14-05:00"
+      content="2022-11-01T20:13:14-05:00"
     />
   
   
-    <meta property="article:modified_time" content="2022-10-31T20:13:14-05:00">
+    <meta property="article:modified_time" content="2022-11-01T20:13:14-05:00">
   
 
 
@@ -399,12 +399,12 @@
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://zouhua.top/post/machine_learning/2022-10-31-ml005-svm/"
+    "@id": "https://zouhua.top/post/machine_learning/ml006-svm/"
   },
-  "headline": "Machine Learning on gut microbiota of patients with Colorectal cancer (5): Predictive model using Support Vector Machine",
+  "headline": "Machine Learning on gut microbiota of patients with Colorectal cancer (6): Predictive model using Support Vector Machine",
   
-  "datePublished": "2022-10-31T20:13:14-05:00",
-  "dateModified": "2022-10-31T20:13:14-05:00",
+  "datePublished": "2022-11-01T20:13:14-05:00",
+  "dateModified": "2022-11-01T20:13:14-05:00",
   
   "author": {
     "@type": "Person",
@@ -441,7 +441,7 @@
 
 
   
-  <title>Machine Learning on gut microbiota of patients with Colorectal cancer (5): Predictive model using Support Vector Machine | Hua Zou</title>
+  <title>Machine Learning on gut microbiota of patients with Colorectal cancer (6): Predictive model using Support Vector Machine | Hua Zou</title>
 
   
   
@@ -461,7 +461,7 @@
 </head>
 
 
-<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="1d8863356d7918ef234f13eca8e98b57" >
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="f7a4bb179a185c848ddf980839047c86" >
 
   
   
@@ -827,7 +827,7 @@
   
   
 <div class="article-container pt-3">
-  <h1>Machine Learning on gut microbiota of patients with Colorectal cancer (5): Predictive model using Support Vector Machine</h1>
+  <h1>Machine Learning on gut microbiota of patients with Colorectal cancer (6): Predictive model using Support Vector Machine</h1>
 
   
   <p class="page-subtitle">Predictive model using Support Vector Machine</p>
@@ -848,7 +848,7 @@
     
       
     
-    Oct 31, 2022
+    Nov 1, 2022
   </span>
   
 
@@ -890,6 +890,7 @@
 
     <div class="article-style">
       <h1 id="predictive-model-using-support-vector-machine-svm">Predictive model using Support Vector Machine (SVM)</h1>
+<p><a href="https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/05.PredictiveModelUsingSVM.ipynb" target="_blank" rel="noopener">Notebook 6</a> Predictive model using Support Vector Machine (svm).</p>
 <p>Support vector machines (SVMs) learning algorithm will be used to build the predictive model. SVMs are one of the most popular classification algorithms, and have an elegant way of transforming nonlinear data so that one can use a linear algorithm to fit a linear model to the data (Cortes and Vapnik 1995).</p>
 <p>Kernelized support vector machines are powerful models and perform well on a variety of datasets.</p>
 <ol>
@@ -968,7 +969,28 @@
 </span></span><span class="line"><span class="cl"><span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;./dataset/MergeData_clr_signif.tsv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\t</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</span></span></code></pre></div><h2 id="transformation">Transformation</h2>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102103109235.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<h2 id="transformation">Transformation</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Assign predictors to a variable of ndarray (matrix) type</span>
 </span></span><span class="line"><span class="cl"><span class="n">array</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span>
 </span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">array</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="c1"># features</span>
@@ -1023,10 +1045,10 @@
 </span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">The </span><span class="si">{}</span><span class="s1">-fold cross-validation accuracy score for this classifier is </span><span class="si">{:.2f}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_folds</span><span class="p">,</span> <span class="n">cv_error</span><span class="p">))</span>
 </span></span></code></pre></div><pre><code>The 5-fold cross-validation accuracy score for this classifier is 0.70
 </code></pre>
-<p>The above evaluations were based on using the entire set of features. You will now employ the correlation-based feature selection strategy to assess the effect of using <code>20</code> features which have the best correlation with the class labels.</p>
+<p>The above evaluations were based on using the entire set of features. You will now employ the correlation-based feature selection strategy to assess the effect of using <code>40</code> features which have the best correlation with the class labels.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">SelectKBest</span><span class="p">,</span> <span class="n">f_regression</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">clf2</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">SelectKBest</span><span class="p">(</span><span class="n">f_regression</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span> <span class="n">SVC</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">clf2</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">SelectKBest</span><span class="p">(</span><span class="n">f_regression</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">40</span><span class="p">),</span> <span class="n">SVC</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">clf2</span><span class="p">,</span> <span class="n">Xs</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
@@ -1243,9 +1265,10 @@ weighted avg       0.67      0.66      0.66       152
 </li>
 </ul>
 <h2 id="reference">Reference</h2>
-<ol>
+<ul>
 <li>Cortes, Corinna, and Vladimir Vapnik. 1995. “Support-Vector Networks.” Machine Learning 20: 273. Accessed September 3, 2016. doi: 10.1023/A:1022627411411.</li>
-</ol>
+<li><a href="https://github.com/Jean-njoroge/Breast-cancer-risk-prediction" target="_blank" rel="noopener">Breast-cancer-risk-prediction</a></li>
+</ul>
 
     </div>
 
@@ -1259,7 +1282,7 @@ weighted avg       0.67      0.66      0.66       152
   
   <a class="badge badge-light" href="/tag/machine-learning/">machine learning</a>
   
-  <a class="badge badge-light" href="/tag/svn/">SVN</a>
+  <a class="badge badge-light" href="/tag/svm/">SVM</a>
   
   <a class="badge badge-light" href="/tag/microbiota/">microbiota</a>
   
@@ -1282,7 +1305,7 @@ weighted avg       0.67      0.66      0.66       152
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-31-ml005-svm%2F&amp;text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%285%29%3A&#43;Predictive&#43;model&#43;using&#43;Support&#43;Vector&#43;Machine" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml006-svm%2F&amp;text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%286%29%3A&#43;Predictive&#43;model&#43;using&#43;Support&#43;Vector&#43;Machine" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -1299,7 +1322,7 @@ weighted avg       0.67      0.66      0.66       152
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-31-ml005-svm%2F&amp;t=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%285%29%3A&#43;Predictive&#43;model&#43;using&#43;Support&#43;Vector&#43;Machine" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml006-svm%2F&amp;t=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%286%29%3A&#43;Predictive&#43;model&#43;using&#43;Support&#43;Vector&#43;Machine" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -1318,7 +1341,7 @@ weighted avg       0.67      0.66      0.66       152
         
       
       <li>
-        <a href="mailto:?subject=Machine%20Learning%20on%20gut%20microbiota%20of%20patients%20with%20Colorectal%20cancer%20%285%29%3A%20Predictive%20model%20using%20Support%20Vector%20Machine&amp;body=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-31-ml005-svm%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+        <a href="mailto:?subject=Machine%20Learning%20on%20gut%20microbiota%20of%20patients%20with%20Colorectal%20cancer%20%286%29%3A%20Predictive%20model%20using%20Support%20Vector%20Machine&amp;body=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml006-svm%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -1335,7 +1358,7 @@ weighted avg       0.67      0.66      0.66       152
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-31-ml005-svm%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%285%29%3A&#43;Predictive&#43;model&#43;using&#43;Support&#43;Vector&#43;Machine" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml006-svm%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%286%29%3A&#43;Predictive&#43;model&#43;using&#43;Support&#43;Vector&#43;Machine" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -1352,7 +1375,7 @@ weighted avg       0.67      0.66      0.66       152
       
       
       <li>
-        <a href="whatsapp://send?text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%285%29%3A&#43;Predictive&#43;model&#43;using&#43;Support&#43;Vector&#43;Machine%20https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-31-ml005-svm%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+        <a href="whatsapp://send?text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%286%29%3A&#43;Predictive&#43;model&#43;using&#43;Support&#43;Vector&#43;Machine%20https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml006-svm%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -1369,7 +1392,7 @@ weighted avg       0.67      0.66      0.66       152
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-31-ml005-svm%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%285%29%3A&#43;Predictive&#43;model&#43;using&#43;Support&#43;Vector&#43;Machine" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml006-svm%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%286%29%3A&#43;Predictive&#43;model&#43;using&#43;Support&#43;Vector&#43;Machine" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>

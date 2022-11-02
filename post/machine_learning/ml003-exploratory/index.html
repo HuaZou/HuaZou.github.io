@@ -325,8 +325,8 @@
 
 
 
-<link rel="alternate" hreflang="en-us" href="https://zouhua.top/post/machine_learning/2022-10-29-ml003-exploratory/" />
-<link rel="canonical" href="https://zouhua.top/post/machine_learning/2022-10-29-ml003-exploratory/" />
+<link rel="alternate" hreflang="en-us" href="https://zouhua.top/post/machine_learning/ml003-exploratory/" />
+<link rel="canonical" href="https://zouhua.top/post/machine_learning/ml003-exploratory/" />
 
 
 
@@ -362,7 +362,7 @@
   <meta property="twitter:creator" content="@wowchemy" />
 <meta property="twitter:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" />
 <meta property="og:site_name" content="Hua Zou" />
-<meta property="og:url" content="https://zouhua.top/post/machine_learning/2022-10-29-ml003-exploratory/" />
+<meta property="og:url" content="https://zouhua.top/post/machine_learning/ml003-exploratory/" />
 <meta property="og:title" content="Machine Learning on gut microbiota of patients with Colorectal cancer (3): Exploratory Data Analysis | Hua Zou" />
 <meta property="og:description" content="Exploratory Data Analysis before performing machine learning" /><meta property="og:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
 
@@ -399,7 +399,7 @@
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://zouhua.top/post/machine_learning/2022-10-29-ml003-exploratory/"
+    "@id": "https://zouhua.top/post/machine_learning/ml003-exploratory/"
   },
   "headline": "Machine Learning on gut microbiota of patients with Colorectal cancer (3): Exploratory Data Analysis",
   
@@ -461,7 +461,7 @@
 </head>
 
 
-<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="035ad8f1c28ef86f35c097f8264e19b8" >
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="7144546fa651a48d04d68b50f9cc370b" >
 
   
   
@@ -857,7 +857,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    9 min read
+    7 min read
   </span>
   
 
@@ -890,6 +890,7 @@
 
     <div class="article-style">
       <h1 id="exploratory-data-analysis">Exploratory Data Analysis</h1>
+<p><a href="https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/02.ExploratoryDataAnalysis.ipynb" target="_blank" rel="noopener">Notebook 3</a> Exploratory Data Analysis.</p>
 <p>Now that we have a good intuitive sense of the data, Next step involves taking a closer look at attributes and data values. In this section, I am getting familiar with the data, which will provide useful knowledge for data pre-processing.</p>
 <h2 id="objectives-of-data-exploration">Objectives of Data Exploration</h2>
 <p>Exploratory data analysis (EDA) is a very important step which takes place after feature engineering and acquiring data and it should be done before any modeling. This is because it is very important for a data scientist to be able to understand the nature of the data without making assumptions. The results of data exploration can be extremely useful in grasping the structure of the data, the distribution of the values, and the presence of extreme values and interrelationships within the data set.</p>
@@ -925,417 +926,52 @@ Basic statistical descriptions can be used to identify properties of the data an
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;./dataset/MergeData.tsv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\t</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</span></span></code></pre></div><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>disease</th>
-      <th>s__Bacteroides_plebeius</th>
-      <th>s__Bacteroides_dorei</th>
-      <th>s__Faecalibacterium_prausnitzii</th>
-      <th>s__Eubacterium_eligens</th>
-      <th>s__Bacteroides_ovatus</th>
-      <th>s__Parabacteroides_distasonis</th>
-      <th>s__Ruminococcus_gnavus</th>
-      <th>s__Phascolarctobacterium_faecium</th>
-      <th>s__Bacteroides_uniformis</th>
-      <th>...</th>
-      <th>s__Bacteroides_finegoldii</th>
-      <th>s__Haemophilus_sp_HMSC71H05</th>
-      <th>s__Clostridium_saccharolyticum</th>
-      <th>s__Streptococcus_anginosus_group</th>
-      <th>s__Streptococcus_sp_A12</th>
-      <th>s__Klebsiella_pneumoniae</th>
-      <th>s__Bacteroides_coprocola</th>
-      <th>s__Ruminococcus_lactaris</th>
-      <th>s__Turicimonas_muris</th>
-      <th>s__Proteobacteria_bacterium_CAG_139</th>
-    </tr>
-    <tr>
-      <th>SampleID</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>SAMD00114718</th>
-      <td>healthy</td>
-      <td>46509517</td>
-      <td>8249892</td>
-      <td>3696318</td>
-      <td>3265545</td>
-      <td>2871853</td>
-      <td>2327330</td>
-      <td>1920299</td>
-      <td>1506928</td>
-      <td>1371476</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>SAMD00114719</th>
-      <td>healthy</td>
-      <td>5334509</td>
-      <td>230275</td>
-      <td>2053756</td>
-      <td>182914</td>
-      <td>289955</td>
-      <td>89183</td>
-      <td>35688</td>
-      <td>0</td>
-      <td>729206</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>SAMD00114720</th>
-      <td>healthy</td>
-      <td>6868169</td>
-      <td>4054008</td>
-      <td>3267707</td>
-      <td>0</td>
-      <td>1097263</td>
-      <td>990122</td>
-      <td>1490407</td>
-      <td>0</td>
-      <td>1272701</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>SAMD00114721</th>
-      <td>healthy</td>
-      <td>1029678</td>
-      <td>2029259</td>
-      <td>661965</td>
-      <td>114447</td>
-      <td>110111</td>
-      <td>2705778</td>
-      <td>59274</td>
-      <td>0</td>
-      <td>940124</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>SAMD00114722</th>
-      <td>CRC</td>
-      <td>7520</td>
-      <td>2318235</td>
-      <td>350665</td>
-      <td>546829</td>
-      <td>564558</td>
-      <td>2529966</td>
-      <td>4608830</td>
-      <td>0</td>
-      <td>1888066</td>
-      <td>...</td>
-      <td>512018</td>
-      <td>137432</td>
-      <td>71548</td>
-      <td>15826</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 152 columns</p>
-</div>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102102438804.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
 <ul>
 <li>basic descriptive statistics</li>
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-</span></span></code></pre></div><p></style></p>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>s__Bacteroides_plebeius</th>
-      <th>s__Bacteroides_dorei</th>
-      <th>s__Faecalibacterium_prausnitzii</th>
-      <th>s__Eubacterium_eligens</th>
-      <th>s__Bacteroides_ovatus</th>
-      <th>s__Parabacteroides_distasonis</th>
-      <th>s__Ruminococcus_gnavus</th>
-      <th>s__Phascolarctobacterium_faecium</th>
-      <th>s__Bacteroides_uniformis</th>
-      <th>s__Bifidobacterium_longum</th>
-      <th>...</th>
-      <th>s__Bacteroides_finegoldii</th>
-      <th>s__Haemophilus_sp_HMSC71H05</th>
-      <th>s__Clostridium_saccharolyticum</th>
-      <th>s__Streptococcus_anginosus_group</th>
-      <th>s__Streptococcus_sp_A12</th>
-      <th>s__Klebsiella_pneumoniae</th>
-      <th>s__Bacteroides_coprocola</th>
-      <th>s__Ruminococcus_lactaris</th>
-      <th>s__Turicimonas_muris</th>
-      <th>s__Proteobacteria_bacterium_CAG_139</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>count</th>
-      <td>5.040000e+02</td>
-      <td>5.040000e+02</td>
-      <td>5.040000e+02</td>
-      <td>5.040000e+02</td>
-      <td>5.040000e+02</td>
-      <td>5.040000e+02</td>
-      <td>5.040000e+02</td>
-      <td>5.040000e+02</td>
-      <td>5.040000e+02</td>
-      <td>5.040000e+02</td>
-      <td>...</td>
-      <td>5.040000e+02</td>
-      <td>5.040000e+02</td>
-      <td>504.000000</td>
-      <td>504.000000</td>
-      <td>504.000000</td>
-      <td>5.040000e+02</td>
-      <td>5.040000e+02</td>
-      <td>5.040000e+02</td>
-      <td>504.000000</td>
-      <td>5.040000e+02</td>
-    </tr>
-    <tr>
-      <th>mean</th>
-      <td>2.139221e+06</td>
-      <td>1.853404e+06</td>
-      <td>1.639697e+06</td>
-      <td>7.471533e+05</td>
-      <td>5.702796e+05</td>
-      <td>1.189482e+06</td>
-      <td>8.616634e+05</td>
-      <td>8.704456e+04</td>
-      <td>2.655816e+06</td>
-      <td>4.948624e+05</td>
-      <td>...</td>
-      <td>1.896052e+05</td>
-      <td>1.434993e+04</td>
-      <td>16513.160714</td>
-      <td>9621.785714</td>
-      <td>1705.916667</td>
-      <td>2.354459e+05</td>
-      <td>4.195657e+05</td>
-      <td>1.364957e+05</td>
-      <td>3334.486111</td>
-      <td>4.703426e+04</td>
-    </tr>
-    <tr>
-      <th>std</th>
-      <td>4.689115e+06</td>
-      <td>3.560063e+06</td>
-      <td>1.698016e+06</td>
-      <td>1.656732e+06</td>
-      <td>1.403095e+06</td>
-      <td>2.045147e+06</td>
-      <td>2.860133e+06</td>
-      <td>2.014462e+05</td>
-      <td>3.023979e+06</td>
-      <td>1.583632e+06</td>
-      <td>...</td>
-      <td>6.347103e+05</td>
-      <td>1.339195e+05</td>
-      <td>63994.560492</td>
-      <td>37684.680559</td>
-      <td>9572.428444</td>
-      <td>1.500337e+06</td>
-      <td>1.146908e+06</td>
-      <td>4.313418e+05</td>
-      <td>18921.337212</td>
-      <td>2.234608e+05</td>
-    </tr>
-    <tr>
-      <th>min</th>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>...</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000</td>
-      <td>0.000000e+00</td>
-    </tr>
-    <tr>
-      <th>25%</th>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>3.653348e+05</td>
-      <td>0.000000e+00</td>
-      <td>9.511500e+03</td>
-      <td>1.316185e+05</td>
-      <td>6.770250e+03</td>
-      <td>0.000000e+00</td>
-      <td>5.021035e+05</td>
-      <td>2.227000e+03</td>
-      <td>...</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000</td>
-      <td>0.000000e+00</td>
-    </tr>
-    <tr>
-      <th>50%</th>
-      <td>0.000000e+00</td>
-      <td>1.541615e+05</td>
-      <td>1.108265e+06</td>
-      <td>1.269250e+04</td>
-      <td>1.376850e+05</td>
-      <td>5.198215e+05</td>
-      <td>1.254780e+05</td>
-      <td>0.000000e+00</td>
-      <td>1.617164e+06</td>
-      <td>9.181750e+04</td>
-      <td>...</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000e+00</td>
-      <td>0.000000</td>
-      <td>0.000000e+00</td>
-    </tr>
-    <tr>
-      <th>75%</th>
-      <td>2.154796e+06</td>
-      <td>2.206212e+06</td>
-      <td>2.411498e+06</td>
-      <td>8.205942e+05</td>
-      <td>4.613352e+05</td>
-      <td>1.451609e+06</td>
-      <td>6.393728e+05</td>
-      <td>6.190750e+04</td>
-      <td>3.725370e+06</td>
-      <td>3.613370e+05</td>
-      <td>...</td>
-      <td>4.488500e+03</td>
-      <td>0.000000e+00</td>
-      <td>0.000000</td>
-      <td>1210.250000</td>
-      <td>0.000000</td>
-      <td>1.237500e+03</td>
-      <td>1.618850e+04</td>
-      <td>0.000000e+00</td>
-      <td>0.000000</td>
-      <td>5.255000e+02</td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td>4.650952e+07</td>
-      <td>2.704303e+07</td>
-      <td>1.033825e+07</td>
-      <td>2.099930e+07</td>
-      <td>2.080088e+07</td>
-      <td>2.867909e+07</td>
-      <td>4.852190e+07</td>
-      <td>1.819512e+06</td>
-      <td>1.865031e+07</td>
-      <td>2.360833e+07</td>
-      <td>...</td>
-      <td>5.143085e+06</td>
-      <td>2.870102e+06</td>
-      <td>546273.000000</td>
-      <td>494519.000000</td>
-      <td>152204.000000</td>
-      <td>2.599798e+07</td>
-      <td>7.396682e+06</td>
-      <td>5.114972e+06</td>
-      <td>290556.000000</td>
-      <td>2.872330e+06</td>
-    </tr>
-  </tbody>
-</table>
-<p>8 rows × 151 columns</p>
-</div>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102102610835.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
 <ul>
 <li>distribution</li>
 </ul>
@@ -1372,35 +1008,27 @@ From the results, we can see that the relative abundance of most taxa are right 
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">diag_gr</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;disease&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">diag_gr</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;# of observations&#39;</span><span class="p">])</span>
-</span></span></code></pre></div><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th># of observations</th>
-    </tr>
-    <tr>
-      <th>disease</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>CRC</th>
-      <td>258</td>
-    </tr>
-    <tr>
-      <th>healthy</th>
-      <td>246</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102102727036.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
 <p>Check binary encoding from <strong>01.DataClean</strong> to confirm the coversion of the disease categorical data into numeric, where</p>
 <ul>
 <li>CRC = 1 (indicates prescence of disease)</li>
@@ -1757,6 +1385,10 @@ Index(['s__Bacteroides_plebeius', 's__Bacteroides_dorei',
 <p>gut microbiota data is compositional, sparsity and overdispersion. Performing transformation to convert it into Gaussion distribution</p>
 </li>
 </ul>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://github.com/Jean-njoroge/Breast-cancer-risk-prediction" target="_blank" rel="noopener">Breast-cancer-risk-prediction</a></li>
+</ul>
 
     </div>
 
@@ -1770,7 +1402,7 @@ Index(['s__Bacteroides_plebeius', 's__Bacteroides_dorei',
   
   <a class="badge badge-light" href="/tag/machine-learning/">machine learning</a>
   
-  <a class="badge badge-light" href="/tag/svn/">SVN</a>
+  <a class="badge badge-light" href="/tag/svm/">SVM</a>
   
   <a class="badge badge-light" href="/tag/microbiota/">microbiota</a>
   
@@ -1793,7 +1425,7 @@ Index(['s__Bacteroides_plebeius', 's__Bacteroides_dorei',
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-29-ml003-exploratory%2F&amp;text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%283%29%3A&#43;Exploratory&#43;Data&#43;Analysis" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml003-exploratory%2F&amp;text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%283%29%3A&#43;Exploratory&#43;Data&#43;Analysis" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -1810,7 +1442,7 @@ Index(['s__Bacteroides_plebeius', 's__Bacteroides_dorei',
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-29-ml003-exploratory%2F&amp;t=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%283%29%3A&#43;Exploratory&#43;Data&#43;Analysis" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml003-exploratory%2F&amp;t=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%283%29%3A&#43;Exploratory&#43;Data&#43;Analysis" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -1829,7 +1461,7 @@ Index(['s__Bacteroides_plebeius', 's__Bacteroides_dorei',
         
       
       <li>
-        <a href="mailto:?subject=Machine%20Learning%20on%20gut%20microbiota%20of%20patients%20with%20Colorectal%20cancer%20%283%29%3A%20Exploratory%20Data%20Analysis&amp;body=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-29-ml003-exploratory%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+        <a href="mailto:?subject=Machine%20Learning%20on%20gut%20microbiota%20of%20patients%20with%20Colorectal%20cancer%20%283%29%3A%20Exploratory%20Data%20Analysis&amp;body=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml003-exploratory%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -1846,7 +1478,7 @@ Index(['s__Bacteroides_plebeius', 's__Bacteroides_dorei',
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-29-ml003-exploratory%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%283%29%3A&#43;Exploratory&#43;Data&#43;Analysis" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml003-exploratory%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%283%29%3A&#43;Exploratory&#43;Data&#43;Analysis" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -1863,7 +1495,7 @@ Index(['s__Bacteroides_plebeius', 's__Bacteroides_dorei',
       
       
       <li>
-        <a href="whatsapp://send?text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%283%29%3A&#43;Exploratory&#43;Data&#43;Analysis%20https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-29-ml003-exploratory%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+        <a href="whatsapp://send?text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%283%29%3A&#43;Exploratory&#43;Data&#43;Analysis%20https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml003-exploratory%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -1880,7 +1512,7 @@ Index(['s__Bacteroides_plebeius', 's__Bacteroides_dorei',
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-29-ml003-exploratory%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%283%29%3A&#43;Exploratory&#43;Data&#43;Analysis" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml003-exploratory%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%283%29%3A&#43;Exploratory&#43;Data&#43;Analysis" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>

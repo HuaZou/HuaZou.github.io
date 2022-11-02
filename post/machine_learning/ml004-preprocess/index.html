@@ -325,8 +325,8 @@
 
 
 
-<link rel="alternate" hreflang="en-us" href="https://zouhua.top/post/machine_learning/2022-10-30-ml004-preprocess/" />
-<link rel="canonical" href="https://zouhua.top/post/machine_learning/2022-10-30-ml004-preprocess/" />
+<link rel="alternate" hreflang="en-us" href="https://zouhua.top/post/machine_learning/ml004-preprocess/" />
+<link rel="canonical" href="https://zouhua.top/post/machine_learning/ml004-preprocess/" />
 
 
 
@@ -362,7 +362,7 @@
   <meta property="twitter:creator" content="@wowchemy" />
 <meta property="twitter:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" />
 <meta property="og:site_name" content="Hua Zou" />
-<meta property="og:url" content="https://zouhua.top/post/machine_learning/2022-10-30-ml004-preprocess/" />
+<meta property="og:url" content="https://zouhua.top/post/machine_learning/ml004-preprocess/" />
 <meta property="og:title" content="Machine Learning on gut microbiota of patients with Colorectal cancer (4): Data Processing | Hua Zou" />
 <meta property="og:description" content="Data PreProcessing before building machine learning model" /><meta property="og:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
 
@@ -399,7 +399,7 @@
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://zouhua.top/post/machine_learning/2022-10-30-ml004-preprocess/"
+    "@id": "https://zouhua.top/post/machine_learning/ml004-preprocess/"
   },
   "headline": "Machine Learning on gut microbiota of patients with Colorectal cancer (4): Data Processing",
   
@@ -461,7 +461,7 @@
 </head>
 
 
-<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="9724e3c5b8ed3533eb07d12467f2a99c" >
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="0cbad5f306e3bc9b4e582609c1a1ed03" >
 
   
   
@@ -857,7 +857,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    12 min read
+    11 min read
   </span>
   
 
@@ -890,6 +890,7 @@
 
     <div class="article-style">
       <h1 id="data-preprocessing">Data PreProcessing</h1>
+<p><a href="https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/03.DataPreprocesing.ipynb" target="_blank" rel="noopener">Notebook 4</a> Pre-Processing the data.</p>
 <p><a href="http://www.cs.ccsu.edu/~markov/ccsu_courses/datamining-3.html" target="_blank" rel="noopener">Data preprocessing</a> is a crucial step for any data analysis problem. It is often a very good idea to prepare your data in such way to best expose the structure of the problem to the machine learning algorithms that you intend to use. This involves a number of activities such as:</p>
 <ul>
 <li>Assigning numerical values to categorical data;</li>
@@ -918,158 +919,27 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;./dataset/MergeData.tsv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\t</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</span></span></code></pre></div><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>disease</th>
-      <th>s__Bacteroides_plebeius</th>
-      <th>s__Bacteroides_dorei</th>
-      <th>s__Faecalibacterium_prausnitzii</th>
-      <th>s__Eubacterium_eligens</th>
-      <th>s__Bacteroides_ovatus</th>
-      <th>s__Parabacteroides_distasonis</th>
-      <th>s__Ruminococcus_gnavus</th>
-      <th>s__Phascolarctobacterium_faecium</th>
-      <th>s__Bacteroides_uniformis</th>
-      <th>...</th>
-      <th>s__Bacteroides_finegoldii</th>
-      <th>s__Haemophilus_sp_HMSC71H05</th>
-      <th>s__Clostridium_saccharolyticum</th>
-      <th>s__Streptococcus_anginosus_group</th>
-      <th>s__Streptococcus_sp_A12</th>
-      <th>s__Klebsiella_pneumoniae</th>
-      <th>s__Bacteroides_coprocola</th>
-      <th>s__Ruminococcus_lactaris</th>
-      <th>s__Turicimonas_muris</th>
-      <th>s__Proteobacteria_bacterium_CAG_139</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>healthy</td>
-      <td>46509517</td>
-      <td>8249892</td>
-      <td>3696318</td>
-      <td>3265545</td>
-      <td>2871853</td>
-      <td>2327330</td>
-      <td>1920299</td>
-      <td>1506928</td>
-      <td>1371476</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>healthy</td>
-      <td>5334509</td>
-      <td>230275</td>
-      <td>2053756</td>
-      <td>182914</td>
-      <td>289955</td>
-      <td>89183</td>
-      <td>35688</td>
-      <td>0</td>
-      <td>729206</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>healthy</td>
-      <td>6868169</td>
-      <td>4054008</td>
-      <td>3267707</td>
-      <td>0</td>
-      <td>1097263</td>
-      <td>990122</td>
-      <td>1490407</td>
-      <td>0</td>
-      <td>1272701</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>healthy</td>
-      <td>1029678</td>
-      <td>2029259</td>
-      <td>661965</td>
-      <td>114447</td>
-      <td>110111</td>
-      <td>2705778</td>
-      <td>59274</td>
-      <td>0</td>
-      <td>940124</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>CRC</td>
-      <td>7520</td>
-      <td>2318235</td>
-      <td>350665</td>
-      <td>546829</td>
-      <td>564558</td>
-      <td>2529966</td>
-      <td>4608830</td>
-      <td>0</td>
-      <td>1888066</td>
-      <td>...</td>
-      <td>512018</td>
-      <td>137432</td>
-      <td>71548</td>
-      <td>15826</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 152 columns</p>
-</div>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102102829091.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
 <h2 id="label-encoding">Label encoding</h2>
 <p>Here, I assign the features to a NumPy array X, and transform the class labels from their original string representation (CRC and healthy) into integers</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">array</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span>
@@ -1448,183 +1318,27 @@
 </span></span><span class="line"><span class="cl">            <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">mdat</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</span></span></code></pre></div><p></style></p>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>disease</th>
-      <th>s__Bacteroides_plebeius</th>
-      <th>s__Bacteroides_dorei</th>
-      <th>s__Faecalibacterium_prausnitzii</th>
-      <th>s__Eubacterium_eligens</th>
-      <th>s__Bacteroides_ovatus</th>
-      <th>s__Parabacteroides_distasonis</th>
-      <th>s__Ruminococcus_gnavus</th>
-      <th>s__Phascolarctobacterium_faecium</th>
-      <th>s__Bacteroides_uniformis</th>
-      <th>...</th>
-      <th>s__Bacteroides_finegoldii</th>
-      <th>s__Haemophilus_sp_HMSC71H05</th>
-      <th>s__Clostridium_saccharolyticum</th>
-      <th>s__Streptococcus_anginosus_group</th>
-      <th>s__Streptococcus_sp_A12</th>
-      <th>s__Klebsiella_pneumoniae</th>
-      <th>s__Bacteroides_coprocola</th>
-      <th>s__Ruminococcus_lactaris</th>
-      <th>s__Turicimonas_muris</th>
-      <th>s__Proteobacteria_bacterium_CAG_139</th>
-    </tr>
-    <tr>
-      <th>SampleID</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>SAMD00114718</th>
-      <td>healthy</td>
-      <td>10.262146</td>
-      <td>8.532694</td>
-      <td>7.729839</td>
-      <td>7.605931</td>
-      <td>7.477464</td>
-      <td>7.267232</td>
-      <td>7.074996</td>
-      <td>6.832596</td>
-      <td>6.738413</td>
-      <td>...</td>
-      <td>-3.441779</td>
-      <td>-3.441779</td>
-      <td>-3.441779</td>
-      <td>-3.441779</td>
-      <td>-3.441779</td>
-      <td>-3.441779</td>
-      <td>-3.441779</td>
-      <td>-3.441779</td>
-      <td>-3.441779</td>
-      <td>-3.441779</td>
-    </tr>
-    <tr>
-      <th>SAMD00114719</th>
-      <td>healthy</td>
-      <td>7.609333</td>
-      <td>4.466872</td>
-      <td>6.654823</td>
-      <td>4.236672</td>
-      <td>4.697277</td>
-      <td>3.518645</td>
-      <td>2.603642</td>
-      <td>-3.929140</td>
-      <td>5.619399</td>
-      <td>...</td>
-      <td>-3.929140</td>
-      <td>-3.929140</td>
-      <td>-3.929140</td>
-      <td>-3.929140</td>
-      <td>-3.929140</td>
-      <td>-3.929140</td>
-      <td>-3.929140</td>
-      <td>-3.929140</td>
-      <td>-3.929140</td>
-      <td>-3.929140</td>
-    </tr>
-    <tr>
-      <th>SAMD00114720</th>
-      <td>healthy</td>
-      <td>8.411267</td>
-      <td>7.884081</td>
-      <td>7.668467</td>
-      <td>-3.379905</td>
-      <td>6.577229</td>
-      <td>6.474488</td>
-      <td>6.883446</td>
-      <td>-3.379905</td>
-      <td>6.725545</td>
-      <td>...</td>
-      <td>-3.379905</td>
-      <td>-3.379905</td>
-      <td>-3.379905</td>
-      <td>-3.379905</td>
-      <td>-3.379905</td>
-      <td>-3.379905</td>
-      <td>-3.379905</td>
-      <td>-3.379905</td>
-      <td>-3.379905</td>
-      <td>-3.379905</td>
-    </tr>
-    <tr>
-      <th>SAMD00114721</th>
-      <td>healthy</td>
-      <td>6.261269</td>
-      <td>6.939669</td>
-      <td>5.819509</td>
-      <td>4.064784</td>
-      <td>4.026179</td>
-      <td>7.227381</td>
-      <td>3.407265</td>
-      <td>-3.632294</td>
-      <td>6.170285</td>
-      <td>...</td>
-      <td>-3.632294</td>
-      <td>-3.632294</td>
-      <td>-3.632294</td>
-      <td>-3.632294</td>
-      <td>-3.632294</td>
-      <td>-3.632294</td>
-      <td>-3.632294</td>
-      <td>-3.632294</td>
-      <td>-3.632294</td>
-      <td>-3.632294</td>
-    </tr>
-    <tr>
-      <th>SAMD00114722</th>
-      <td>CRC</td>
-      <td>-0.026692</td>
-      <td>5.697435</td>
-      <td>3.808831</td>
-      <td>4.253082</td>
-      <td>4.284986</td>
-      <td>5.784833</td>
-      <td>6.384592</td>
-      <td>-5.007660</td>
-      <td>5.492187</td>
-      <td>...</td>
-      <td>4.187313</td>
-      <td>2.872359</td>
-      <td>2.219946</td>
-      <td>0.713786</td>
-      <td>-5.007660</td>
-      <td>-5.007660</td>
-      <td>-5.007660</td>
-      <td>-5.007660</td>
-      <td>-5.007660</td>
-      <td>-5.007660</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 152 columns</p>
-</div>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102102916069.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
 <h2 id="a-summary-of-the-data-preprocing-approach-used-here">A Summary of the Data Preprocing Approach used here:</h2>
 <ol>
 <li>
@@ -1656,6 +1370,10 @@
 </li>
 </ol>
 <p>It is common to select a subset of features that have the largest correlation with the class labels. The effect of feature selection must be assessed within a complete modeling pipeline in order to give you an unbiased estimated of your model&rsquo;s true performance. Hence, in the next section you will first be introduced to cross-validation, before applying the PCA-based feature selection strategy in the model building pipeline.</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://github.com/Jean-njoroge/Breast-cancer-risk-prediction" target="_blank" rel="noopener">Breast-cancer-risk-prediction</a></li>
+</ul>
 
     </div>
 
@@ -1669,7 +1387,7 @@
   
   <a class="badge badge-light" href="/tag/machine-learning/">machine learning</a>
   
-  <a class="badge badge-light" href="/tag/svn/">SVN</a>
+  <a class="badge badge-light" href="/tag/svm/">SVM</a>
   
   <a class="badge badge-light" href="/tag/microbiota/">microbiota</a>
   
@@ -1692,7 +1410,7 @@
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-30-ml004-preprocess%2F&amp;text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Data&#43;Processing" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml004-preprocess%2F&amp;text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Data&#43;Processing" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -1709,7 +1427,7 @@
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-30-ml004-preprocess%2F&amp;t=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Data&#43;Processing" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml004-preprocess%2F&amp;t=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Data&#43;Processing" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -1728,7 +1446,7 @@
         
       
       <li>
-        <a href="mailto:?subject=Machine%20Learning%20on%20gut%20microbiota%20of%20patients%20with%20Colorectal%20cancer%20%284%29%3A%20Data%20Processing&amp;body=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-30-ml004-preprocess%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+        <a href="mailto:?subject=Machine%20Learning%20on%20gut%20microbiota%20of%20patients%20with%20Colorectal%20cancer%20%284%29%3A%20Data%20Processing&amp;body=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml004-preprocess%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -1745,7 +1463,7 @@
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-30-ml004-preprocess%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Data&#43;Processing" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml004-preprocess%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Data&#43;Processing" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -1762,7 +1480,7 @@
       
       
       <li>
-        <a href="whatsapp://send?text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Data&#43;Processing%20https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-30-ml004-preprocess%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+        <a href="whatsapp://send?text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Data&#43;Processing%20https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml004-preprocess%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -1779,7 +1497,7 @@
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-30-ml004-preprocess%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Data&#43;Processing" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml004-preprocess%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Data&#43;Processing" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>

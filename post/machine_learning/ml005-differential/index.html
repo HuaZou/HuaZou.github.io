@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
+<!-- Last Published: November 2, 2022 --><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.16f785cdb553c8c4431db6775122af35.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.e5d7adca760216d3b7e28ea434e81f6f.css" />
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
+    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
+  
+
+  
+  
+
+
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'UA-162525500-1', {});
+  gtag('set', {'cookie_flags': 'SameSite=None;Secure'});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+  <meta name="author" content="Hua Zou" />
+
+
+
+
+
+  
+
+<meta name="description" content="Differential Analysis before building machine learning model" />
+
+
+
+<link rel="alternate" hreflang="en-us" href="https://zouhua.top/post/machine_learning/ml005-differential/" />
+<link rel="canonical" href="https://zouhua.top/post/machine_learning/ml005-differential/" />
+
+
+
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+
+
+<link rel="icon" type="image/png" href="/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_32x32_fill_lanczos_center_3.png" />
+<link rel="apple-touch-icon" type="image/png" href="/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_180x180_fill_lanczos_center_3.png" />
+
+<meta name="theme-color" content="#1565c0" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<meta property="twitter:card" content="summary" />
+
+  <meta property="twitter:site" content="@wowchemy" />
+  <meta property="twitter:creator" content="@wowchemy" />
+<meta property="twitter:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" />
+<meta property="og:site_name" content="Hua Zou" />
+<meta property="og:url" content="https://zouhua.top/post/machine_learning/ml005-differential/" />
+<meta property="og:title" content="Machine Learning on gut microbiota of patients with Colorectal cancer (4): Differential Analysis | Hua Zou" />
+<meta property="og:description" content="Differential Analysis before building machine learning model" /><meta property="og:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+
+  
+    <meta
+      property="article:published_time"
+      content="2022-10-31T20:13:14-05:00"
+    />
+  
+  
+    <meta property="article:modified_time" content="2022-10-31T20:13:14-05:00">
+  
+
+
+
+
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://zouhua.top/post/machine_learning/ml005-differential/"
+  },
+  "headline": "Machine Learning on gut microbiota of patients with Colorectal cancer (4): Differential Analysis",
+  
+  "datePublished": "2022-10-31T20:13:14-05:00",
+  "dateModified": "2022-10-31T20:13:14-05:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Hua Zou"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Hua Zou",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "Differential Analysis before building machine learning model"
+}
+</script>
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+
+  
+  <title>Machine Learning on gut microbiota of patients with Colorectal cancer (4): Differential Analysis | Hua Zou</title>
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="2e667db37a878d414361f9db86a1d449" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
+
+  
+
+
+
+
+  <div class="page-header header--fixed">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container-xl">
+
+      
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/">Hua Zou</a>
+      </div>
+      
+
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+      
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/">Hua Zou</a>
+      </div>
+      
+
+      
+      
+      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+        
+        <ul class="navbar-nav d-md-inline-flex">
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#about"><span>Home</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#experience"><span>Experience</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#publications"><span>Publications</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#contact"><span>Contact</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#bookdown"><span>Bookdown</span></a>
+          </li>
+
+          
+          
+
+        
+
+          
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+        
+        
+          
+        
+
+        
+        
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+        
+        
+        <li class="nav-item dropdown theme-dropdown">
+          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item js-set-theme-light">
+              <span>Light</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-dark">
+              <span>Dark</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-auto">
+              <span>Automatic</span>
+            </a>
+          </div>
+        </li>
+        
+
+        
+        
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+  </div>
+
+  <div class="page-body">
+    
+    
+    
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Machine Learning on gut microbiota of patients with Colorectal cancer (4): Differential Analysis</h1>
+
+  
+  <p class="page-subtitle">Differential Analysis</p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Oct 31, 2022
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    3 min read
+  </span>
+  
+
+  
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/machine-learning/">Machine Learning</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <h1 id="differential-analysis">Differential Analysis</h1>
+<p><a href="https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/04.DifferentialAnalysis.ipynb" target="_blank" rel="noopener">Notebook 5</a> Differential Analysis.</p>
+<p>There are 152 species in our dataset. In order to clinically interpret the potential biomarkers identified by the next step in machine learning, we perform the differential analysis to figure out the significant species as the inputs for building models. The method and criterion are as follows:</p>
+<ul>
+<li>T-test based on CLR tranformed data;</li>
+<li>Pvalue or Adjusted-Pvalue is less than 0.05;</li>
+<li><del>the absolute values of Log2Foldchange on Mean values is more than 1</del>.</li>
+</ul>
+<h2 id="goal">Goal</h2>
+<p>Find the significant features of the data and choose them for machine learning.</p>
+<h2 id="loading-data-and-essential-libraries">Loading data and essential libraries</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;./dataset/MergeData_clr.tsv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\t</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102103953396.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<h2 id="t-test">T test</h2>
+<p>Since profile are CLR transformed data, we choose t test to identify the significant species</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span> <span class="k">as</span> <span class="n">st</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">all_pairwise</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">compare_col</span> <span class="o">=</span> <span class="s1">&#39;disease&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">decade_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">compare_col</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># or add a list of colnames to function signature</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cols</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">compare_col</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">list_of_dfs</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">decade_pairs</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">c1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">compare_col</span><span class="p">]</span> <span class="o">==</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">col</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="n">c2</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">compare_col</span><span class="p">]</span> <span class="o">==</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="n">col</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="n">results</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">nan_policy</span><span class="o">=</span><span class="s1">&#39;omit&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">tmp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;dec1&#39;</span><span class="p">:</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">                                <span class="s1">&#39;dec2&#39;</span><span class="p">:</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">                                <span class="s1">&#39;tstat&#39;</span><span class="p">:</span> <span class="n">results</span><span class="o">.</span><span class="n">statistic</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="s1">&#39;pvalue&#39;</span><span class="p">:</span> <span class="n">results</span><span class="o">.</span><span class="n">pvalue</span><span class="p">},</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">            <span class="n">list_of_dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">df_stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">list_of_dfs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">df_stats</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ttest_res</span> <span class="o">=</span> <span class="n">all_pairwise</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ttest_res</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102104024543.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<ul>
+<li>FDR correction</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">correct_pvalues_for_multiple_testing</span><span class="p">(</span><span class="n">pvalues</span><span class="p">,</span> <span class="n">correction_type</span> <span class="o">=</span> <span class="s2">&#34;Benjamini-Hochberg&#34;</span><span class="p">):</span>                
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;                                                                                                   
+</span></span></span><span class="line"><span class="cl"><span class="s2">    consistent with R - print correct_pvalues_for_multiple_testing([0.0, 0.01, 0.029, 0.03, 0.031, 0.05, 0.069, 0.07, 0.071, 0.09, 0.1]) 
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">empty</span>                                                                        
+</span></span><span class="line"><span class="cl">    <span class="n">pvalues</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">pvalues</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="c1">#n = float(pvalues.shape[0])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n</span> <span class="o">=</span> <span class="n">pvalues</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                                                                        
+</span></span><span class="line"><span class="cl">    <span class="n">new_pvalues</span> <span class="o">=</span> <span class="n">empty</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">correction_type</span> <span class="o">==</span> <span class="s2">&#34;Bonferroni&#34;</span><span class="p">:</span>                                                                   
+</span></span><span class="line"><span class="cl">        <span class="n">new_pvalues</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">pvalues</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">correction_type</span> <span class="o">==</span> <span class="s2">&#34;Bonferroni-Holm&#34;</span><span class="p">:</span>                                                            
+</span></span><span class="line"><span class="cl">        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="n">pvalue</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">pvalue</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pvalues</span><span class="p">)</span> <span class="p">]</span>                                      
+</span></span><span class="line"><span class="cl">        <span class="n">values</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">rank</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>                                                              
+</span></span><span class="line"><span class="cl">            <span class="n">pvalue</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="n">vals</span>
+</span></span><span class="line"><span class="cl">            <span class="n">new_pvalues</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">rank</span><span class="p">)</span> <span class="o">*</span> <span class="n">pvalue</span>                                                            
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">correction_type</span> <span class="o">==</span> <span class="s2">&#34;Benjamini-Hochberg&#34;</span><span class="p">:</span>                                                         
+</span></span><span class="line"><span class="cl">        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="n">pvalue</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">pvalue</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pvalues</span><span class="p">)</span> <span class="p">]</span>                                      
+</span></span><span class="line"><span class="cl">        <span class="n">values</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">values</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>                                                                                  
+</span></span><span class="line"><span class="cl">        <span class="n">new_values</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>                                                                 
+</span></span><span class="line"><span class="cl">            <span class="n">rank</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pvalue</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">vals</span>                                                                          
+</span></span><span class="line"><span class="cl">            <span class="n">new_values</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">n</span><span class="o">/</span><span class="n">rank</span><span class="p">)</span> <span class="o">*</span> <span class="n">pvalue</span><span class="p">)</span>                                                          
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>  
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">new_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">new_values</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]:</span>                                                           
+</span></span><span class="line"><span class="cl">                <span class="n">new_values</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>                                                           
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pvalue</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">vals</span>
+</span></span><span class="line"><span class="cl">            <span class="n">new_pvalues</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                                                                                                               
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">new_pvalues</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ttest_res</span><span class="p">[</span><span class="s1">&#39;Adjusted-pvalue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">correct_pvalues_for_multiple_testing</span><span class="p">(</span><span class="n">ttest_res</span><span class="p">[</span><span class="s1">&#39;pvalue&#39;</span><span class="p">],</span> <span class="n">correction_type</span> <span class="o">=</span> <span class="s2">&#34;Benjamini-Hochberg&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ttest_res_sort</span> <span class="o">=</span> <span class="n">ttest_res</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;Adjusted-pvalue&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ttest_res_sort</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102104055776.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<ul>
+<li>Significant species with pvalue less than 0.05</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="c1"># pvalue or Adjusted-pvalue</span>
+</span></span><span class="line"><span class="cl"><span class="n">signif_species</span> <span class="o">=</span> <span class="n">ttest_res_sort</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ttest_res_sort</span><span class="p">[</span><span class="s1">&#39;pvalue&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">signif_species</span><span class="o">.</span><span class="n">shape</span>
+</span></span></code></pre></div><pre><code>(40, 5)
+</code></pre>
+<p>There are 40 significant species identified by pvalue between CRC and healthy group</p>
+<h2 id="output">Output</h2>
+<p>Selecting the 40 species profile to downstream analysis</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data_signif</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;disease&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">signif_species</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">data_signif</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./dataset/MergeData_clr_signif.tsv&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">data_signif</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102104136125.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<h2 id="correlation-matrix">correlation matrix</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># plot correlation matrix</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;fivethirtyeight&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&#34;white&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Compute the correlation matrix</span>
+</span></span><span class="line"><span class="cl"><span class="n">data_species</span> <span class="o">=</span> <span class="n">data_signif</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="n">data_signif</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="n">corr</span> <span class="o">=</span> <span class="n">data_species</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&#34;spearman&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Generate a mask for the upper triangle</span>
+</span></span><span class="line"><span class="cl"><span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;bool&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">mask</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">triu_indices_from</span><span class="p">(</span><span class="n">mask</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set up the matplotlib figure</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;CRC Species Correlation&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Generate a custom diverging colormap</span>
+</span></span><span class="line"><span class="cl"><span class="n">cmap</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">diverging_palette</span><span class="p">(</span><span class="mi">260</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Draw the heatmap with the mask and correct aspect ratio</span>
+</span></span><span class="line"><span class="cl"><span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">vmax</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">square</span><span class="o">=</span><span class="s1">&#39;square&#39;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.1g&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">linewidths</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span></code></pre></div><p>​    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/04.DifferentialAnalysis_13_1.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<h2 id="a-summary-of-the-significant-species-here">A Summary of the significant species here:</h2>
+<ol>
+<li>t-test on microbiota data</li>
+<li>FDR correction on pvalue of t-test</li>
+<li>obtain significant species</li>
+</ol>
+<h2 id="referenece">Referenece</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/7450957/how-to-implement-rs-p-adjust-in-python/33532498#33532498" target="_blank" rel="noopener">How to implement R&rsquo;s p.adjust in Python</a></li>
+<li><a href="https://stackoverflow.com/questions/71281535/t-test-on-multiple-columns-in-dataframe" target="_blank" rel="noopener">T Test on Multiple Columns in Dataframe</a></li>
+</ul>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/machine-learning/">machine learning</a>
+  
+  <a class="badge badge-light" href="/tag/svm/">SVM</a>
+  
+  <a class="badge badge-light" href="/tag/microbiota/">microbiota</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml005-differential%2F&amp;text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Differential&#43;Analysis" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml005-differential%2F&amp;t=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Differential&#43;Analysis" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a href="mailto:?subject=Machine%20Learning%20on%20gut%20microbiota%20of%20patients%20with%20Colorectal%20cancer%20%284%29%3A%20Differential%20Analysis&amp;body=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml005-differential%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml005-differential%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Differential&#43;Analysis" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Differential&#43;Analysis%20https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml005-differential%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml005-differential%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%284%29%3A&#43;Differential&#43;Analysis" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://zouhua.top/"><img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu2ca0f82a4ba69bdab5bcba8a2e118070_85979_270x270_fill_q75_lanczos_center.jpg" alt="Hua Zou"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://zouhua.top/">Hua Zou</a></h5>
+      <h6 class="card-subtitle">Senior Bioinformatic Analyst</h6>
+      <p class="card-text">My research interests include host-microbiota intersection, machine learning and multi-omics data integration.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/HuaZou01" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/HuaZou" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    © 2022 Hua Zou &middot; 
+
+    Rendered by <a href="https://cran.r-project.org/" target="_blank" rel="noopener"><i class="fab fa-r-project"></i> </a><a href="https://github.com/rstudio/blogdown" target="_blank" rel="noopener">blogdown</a> ,
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> and
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" id="back_to_top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+    </div>
+    
+  </div>
+
+  
+
+
+<script src="/js/vendor-bundle.min.d26509351aa0ff874abbee824e982e9b.js"></script>
+
+
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script id="page-data" type="application/json">{"use_headroom":true}</script>
+
+
+
+  <script src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/en/js/wowchemy.min.e973d49cb2d568aa6f8eaf3638337473.js"></script>
+
+
+
+
+
+
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <pre><code></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

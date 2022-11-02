@@ -325,8 +325,8 @@
 
 
 
-<link rel="alternate" hreflang="en-us" href="https://zouhua.top/post/machine_learning/2022-10-28-ml002-dataclean/" />
-<link rel="canonical" href="https://zouhua.top/post/machine_learning/2022-10-28-ml002-dataclean/" />
+<link rel="alternate" hreflang="en-us" href="https://zouhua.top/post/machine_learning/ml002-dataclean/" />
+<link rel="canonical" href="https://zouhua.top/post/machine_learning/ml002-dataclean/" />
 
 
 
@@ -362,7 +362,7 @@
   <meta property="twitter:creator" content="@wowchemy" />
 <meta property="twitter:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" />
 <meta property="og:site_name" content="Hua Zou" />
-<meta property="og:url" content="https://zouhua.top/post/machine_learning/2022-10-28-ml002-dataclean/" />
+<meta property="og:url" content="https://zouhua.top/post/machine_learning/ml002-dataclean/" />
 <meta property="og:title" content="Machine Learning on gut microbiota of patients with Colorectal cancer (2): Data clean | Hua Zou" />
 <meta property="og:description" content="Subsetting dataset for machine learning" /><meta property="og:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
 
@@ -399,7 +399,7 @@
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://zouhua.top/post/machine_learning/2022-10-28-ml002-dataclean/"
+    "@id": "https://zouhua.top/post/machine_learning/ml002-dataclean/"
   },
   "headline": "Machine Learning on gut microbiota of patients with Colorectal cancer (2): Data clean",
   
@@ -461,7 +461,7 @@
 </head>
 
 
-<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="7e2bdf0f4bfe124d3d828aea27c2e4d8" >
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="7bccd486c4f7d4b3238b7248bfc37c65" >
 
   
   
@@ -857,7 +857,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    7 min read
+    3 min read
   </span>
   
 
@@ -890,6 +890,7 @@
 
     <div class="article-style">
       <h1 id="data-clean">Data clean</h1>
+<p><a href="https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/01.DataClean.ipynb" target="_blank" rel="noopener">Notebook 2</a>: Identifying the problem and Getting data.</p>
 <p>Removing the unmathed samples or participants.</p>
 <h2 id="identify-the-problem">Identify the problem</h2>
 <p>Colorectal cancer (CRC), also known as bowel cancer, colon cancer, or rectal cancer, is the development of cancer from the colon or rectum (parts of the large intestine). Signs and symptoms may include blood in the stool, a change in bowel movements, weight loss, and fatigue. Gut microbiota play crucial role in CRC progression. Here, to investigate whether the gut microbiota could predict healthy control or CRC patients.</p>
@@ -920,206 +921,49 @@
 </span></span></code></pre></div><h2 id="inspecting-the-data">Inspecting the data</h2>
 <p>The first step is to visually inspect datasets.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">metadata</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</span></span></code></pre></div><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>disease</th>
-    </tr>
-    <tr>
-      <th>SampleID</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>SAMD00114718</th>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>SAMD00114719</th>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>SAMD00114720</th>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>SAMD00114721</th>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>SAMD00114722</th>
-      <td>CRC</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102102133621.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">profile</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</span></span></code></pre></div><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>TaxaID</th>
-      <th>SAMD00114718</th>
-      <th>SAMD00114719</th>
-      <th>SAMD00114720</th>
-      <th>SAMD00114721</th>
-      <th>SAMD00114722</th>
-      <th>SAMD00114723</th>
-      <th>SAMD00114724</th>
-      <th>SAMD00114726</th>
-      <th>SAMD00114727</th>
-      <th>...</th>
-      <th>SAMD00165024</th>
-      <th>SAMD00165025</th>
-      <th>SAMD00165026</th>
-      <th>SAMD00165027</th>
-      <th>SAMD00165028</th>
-      <th>SAMD00165029</th>
-      <th>SAMD00165030</th>
-      <th>SAMD00165031</th>
-      <th>SAMD00165032</th>
-      <th>SAMD00165033</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>s__Bacteroides_plebeius</td>
-      <td>46509517</td>
-      <td>5334509</td>
-      <td>6868169</td>
-      <td>1029678</td>
-      <td>7520</td>
-      <td>105</td>
-      <td>3515</td>
-      <td>3047974</td>
-      <td>90986</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3902772</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>6311760</td>
-      <td>0</td>
-      <td>2286204</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>s__Bacteroides_dorei</td>
-      <td>8249892</td>
-      <td>230275</td>
-      <td>4054008</td>
-      <td>2029259</td>
-      <td>2318235</td>
-      <td>0</td>
-      <td>10920493</td>
-      <td>1777</td>
-      <td>4043706</td>
-      <td>...</td>
-      <td>0</td>
-      <td>138343</td>
-      <td>3005330</td>
-      <td>0</td>
-      <td>0</td>
-      <td>5136959</td>
-      <td>18113</td>
-      <td>0</td>
-      <td>242316</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>s__Faecalibacterium_prausnitzii</td>
-      <td>3696318</td>
-      <td>2053756</td>
-      <td>3267707</td>
-      <td>661965</td>
-      <td>350665</td>
-      <td>393585</td>
-      <td>536323</td>
-      <td>648125</td>
-      <td>1246731</td>
-      <td>...</td>
-      <td>0</td>
-      <td>2868791</td>
-      <td>1755420</td>
-      <td>5699714</td>
-      <td>0</td>
-      <td>1948287</td>
-      <td>0</td>
-      <td>152752</td>
-      <td>2584817</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>s__Eubacterium_eligens</td>
-      <td>3265545</td>
-      <td>182914</td>
-      <td>0</td>
-      <td>114447</td>
-      <td>546829</td>
-      <td>0</td>
-      <td>0</td>
-      <td>10419</td>
-      <td>895911</td>
-      <td>...</td>
-      <td>0</td>
-      <td>1370340</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>400810</td>
-      <td>578608</td>
-      <td>0</td>
-      <td>2600731</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>s__Bacteroides_ovatus</td>
-      <td>2871853</td>
-      <td>289955</td>
-      <td>1097263</td>
-      <td>110111</td>
-      <td>564558</td>
-      <td>580</td>
-      <td>51366</td>
-      <td>26697</td>
-      <td>0</td>
-      <td>...</td>
-      <td>1491036</td>
-      <td>443860</td>
-      <td>56055</td>
-      <td>2543082</td>
-      <td>0</td>
-      <td>279863</td>
-      <td>19714</td>
-      <td>361361</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 505 columns</p>
-</div>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102102205174.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
 <h2 id="choosing-only-healthy-or-crc-samples">Choosing only healthy or CRC samples</h2>
 <p>Selecting healthy or CRC samples to further data analysis</p>
 <ul>
@@ -1128,72 +972,27 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">phen</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;disease&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;healthy&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;disease&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;CRC&#39;</span><span class="p">)]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">phen</span>
-</span></span></code></pre></div><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>disease</th>
-    </tr>
-    <tr>
-      <th>SampleID</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>SAMD00114718</th>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>SAMD00114719</th>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>SAMD00114720</th>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>SAMD00114721</th>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>SAMD00114722</th>
-      <td>CRC</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>SAMD00165029</th>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>SAMD00165030</th>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>SAMD00165031</th>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>SAMD00165032</th>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>SAMD00165033</th>
-      <td>healthy</td>
-    </tr>
-  </tbody>
-</table>
-<p>504 rows × 1 columns</p>
-</div>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102102232869.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
 <ul>
 <li>filtering the species with low occurrrence</li>
 </ul>
@@ -1202,327 +1001,27 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">prof</span> <span class="o">=</span> <span class="n">profile_trim</span><span class="p">[</span><span class="n">profile_trim</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.2</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="n">prof</span>
-</span></span></code></pre></div><p></style></p>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>SAMD00114718</th>
-      <th>SAMD00114719</th>
-      <th>SAMD00114720</th>
-      <th>SAMD00114721</th>
-      <th>SAMD00114722</th>
-      <th>SAMD00114723</th>
-      <th>SAMD00114724</th>
-      <th>SAMD00114726</th>
-      <th>SAMD00114727</th>
-      <th>SAMD00114728</th>
-      <th>...</th>
-      <th>SAMD00165024</th>
-      <th>SAMD00165025</th>
-      <th>SAMD00165026</th>
-      <th>SAMD00165027</th>
-      <th>SAMD00165028</th>
-      <th>SAMD00165029</th>
-      <th>SAMD00165030</th>
-      <th>SAMD00165031</th>
-      <th>SAMD00165032</th>
-      <th>SAMD00165033</th>
-    </tr>
-    <tr>
-      <th>TaxaID</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>s__Bacteroides_plebeius</th>
-      <td>46509517</td>
-      <td>5334509</td>
-      <td>6868169</td>
-      <td>1029678</td>
-      <td>7520</td>
-      <td>105</td>
-      <td>3515</td>
-      <td>3047974</td>
-      <td>90986</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3902772</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>6311760</td>
-      <td>0</td>
-      <td>2286204</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>s__Bacteroides_dorei</th>
-      <td>8249892</td>
-      <td>230275</td>
-      <td>4054008</td>
-      <td>2029259</td>
-      <td>2318235</td>
-      <td>0</td>
-      <td>10920493</td>
-      <td>1777</td>
-      <td>4043706</td>
-      <td>1072863</td>
-      <td>...</td>
-      <td>0</td>
-      <td>138343</td>
-      <td>3005330</td>
-      <td>0</td>
-      <td>0</td>
-      <td>5136959</td>
-      <td>18113</td>
-      <td>0</td>
-      <td>242316</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>s__Faecalibacterium_prausnitzii</th>
-      <td>3696318</td>
-      <td>2053756</td>
-      <td>3267707</td>
-      <td>661965</td>
-      <td>350665</td>
-      <td>393585</td>
-      <td>536323</td>
-      <td>648125</td>
-      <td>1246731</td>
-      <td>2339359</td>
-      <td>...</td>
-      <td>0</td>
-      <td>2868791</td>
-      <td>1755420</td>
-      <td>5699714</td>
-      <td>0</td>
-      <td>1948287</td>
-      <td>0</td>
-      <td>152752</td>
-      <td>2584817</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>s__Eubacterium_eligens</th>
-      <td>3265545</td>
-      <td>182914</td>
-      <td>0</td>
-      <td>114447</td>
-      <td>546829</td>
-      <td>0</td>
-      <td>0</td>
-      <td>10419</td>
-      <td>895911</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>1370340</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>400810</td>
-      <td>578608</td>
-      <td>0</td>
-      <td>2600731</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>s__Bacteroides_ovatus</th>
-      <td>2871853</td>
-      <td>289955</td>
-      <td>1097263</td>
-      <td>110111</td>
-      <td>564558</td>
-      <td>580</td>
-      <td>51366</td>
-      <td>26697</td>
-      <td>0</td>
-      <td>249687</td>
-      <td>...</td>
-      <td>1491036</td>
-      <td>443860</td>
-      <td>56055</td>
-      <td>2543082</td>
-      <td>0</td>
-      <td>279863</td>
-      <td>19714</td>
-      <td>361361</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>s__Klebsiella_pneumoniae</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1544397</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>19537</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>s__Bacteroides_coprocola</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1029096</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>5218937</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>s__Ruminococcus_lactaris</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2800532</td>
-      <td>...</td>
-      <td>113761</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>761927</td>
-      <td>0</td>
-      <td>0</td>
-      <td>630160</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>s__Turicimonas_muris</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1530</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>357</td>
-      <td>9347</td>
-      <td>0</td>
-      <td>1368</td>
-      <td>0</td>
-      <td>0</td>
-      <td>653</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>s__Proteobacteria_bacterium_CAG_139</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1383</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>16130</td>
-      <td>15854</td>
-      <td>0</td>
-      <td>15683</td>
-      <td>0</td>
-      <td>0</td>
-      <td>191409</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>151 rows × 504 columns</p>
-</div>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102102305866.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
 <p>The <strong>“info()”</strong> method provides a concise summary of the data; from the output, it provides the type of data in each column, the number of non-null values in each column, and how much memory the data frame is using.</p>
 <p>The method <strong>get_dtype_counts()</strong> will return the number of columns of each type in a DataFrame:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Review data types with &#34;info()&#34;.</span>
@@ -1554,364 +1053,73 @@ dtype: bool
 <p>Here, we select <strong>disease</strong> from phen and then integrate it with prof into new dataset for the downstream analysis</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">phen_cln</span> <span class="o">=</span> <span class="n">phen</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="s2">&#34;SampleID&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">phen_cln</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</span></span></code></pre></div><p></style></p>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>SampleID</th>
-      <th>disease</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>SAMD00114718</td>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>SAMD00114719</td>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>SAMD00114720</td>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>SAMD00114721</td>
-      <td>healthy</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>SAMD00114722</td>
-      <td>CRC</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102102344798.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">prof_cln</span> <span class="o">=</span> <span class="n">prof</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="s2">&#34;SampleID&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">prof_cln</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</span></span></code></pre></div><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>TaxaID</th>
-      <th>SampleID</th>
-      <th>s__Bacteroides_plebeius</th>
-      <th>s__Bacteroides_dorei</th>
-      <th>s__Faecalibacterium_prausnitzii</th>
-      <th>s__Eubacterium_eligens</th>
-      <th>s__Bacteroides_ovatus</th>
-      <th>s__Parabacteroides_distasonis</th>
-      <th>s__Ruminococcus_gnavus</th>
-      <th>s__Phascolarctobacterium_faecium</th>
-      <th>s__Bacteroides_uniformis</th>
-      <th>...</th>
-      <th>s__Bacteroides_finegoldii</th>
-      <th>s__Haemophilus_sp_HMSC71H05</th>
-      <th>s__Clostridium_saccharolyticum</th>
-      <th>s__Streptococcus_anginosus_group</th>
-      <th>s__Streptococcus_sp_A12</th>
-      <th>s__Klebsiella_pneumoniae</th>
-      <th>s__Bacteroides_coprocola</th>
-      <th>s__Ruminococcus_lactaris</th>
-      <th>s__Turicimonas_muris</th>
-      <th>s__Proteobacteria_bacterium_CAG_139</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>SAMD00114718</td>
-      <td>46509517</td>
-      <td>8249892</td>
-      <td>3696318</td>
-      <td>3265545</td>
-      <td>2871853</td>
-      <td>2327330</td>
-      <td>1920299</td>
-      <td>1506928</td>
-      <td>1371476</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>SAMD00114719</td>
-      <td>5334509</td>
-      <td>230275</td>
-      <td>2053756</td>
-      <td>182914</td>
-      <td>289955</td>
-      <td>89183</td>
-      <td>35688</td>
-      <td>0</td>
-      <td>729206</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>SAMD00114720</td>
-      <td>6868169</td>
-      <td>4054008</td>
-      <td>3267707</td>
-      <td>0</td>
-      <td>1097263</td>
-      <td>990122</td>
-      <td>1490407</td>
-      <td>0</td>
-      <td>1272701</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>SAMD00114721</td>
-      <td>1029678</td>
-      <td>2029259</td>
-      <td>661965</td>
-      <td>114447</td>
-      <td>110111</td>
-      <td>2705778</td>
-      <td>59274</td>
-      <td>0</td>
-      <td>940124</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>SAMD00114722</td>
-      <td>7520</td>
-      <td>2318235</td>
-      <td>350665</td>
-      <td>546829</td>
-      <td>564558</td>
-      <td>2529966</td>
-      <td>4608830</td>
-      <td>0</td>
-      <td>1888066</td>
-      <td>...</td>
-      <td>512018</td>
-      <td>137432</td>
-      <td>71548</td>
-      <td>15826</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 152 columns</p>
-</div>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102102409476.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">mdat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">phen_cln</span><span class="p">,</span> <span class="n">prof_cln</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&#34;SampleID&#34;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&#34;inner&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">mdat</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</span></span></code></pre></div><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>SampleID</th>
-      <th>disease</th>
-      <th>s__Bacteroides_plebeius</th>
-      <th>s__Bacteroides_dorei</th>
-      <th>s__Faecalibacterium_prausnitzii</th>
-      <th>s__Eubacterium_eligens</th>
-      <th>s__Bacteroides_ovatus</th>
-      <th>s__Parabacteroides_distasonis</th>
-      <th>s__Ruminococcus_gnavus</th>
-      <th>s__Phascolarctobacterium_faecium</th>
-      <th>...</th>
-      <th>s__Bacteroides_finegoldii</th>
-      <th>s__Haemophilus_sp_HMSC71H05</th>
-      <th>s__Clostridium_saccharolyticum</th>
-      <th>s__Streptococcus_anginosus_group</th>
-      <th>s__Streptococcus_sp_A12</th>
-      <th>s__Klebsiella_pneumoniae</th>
-      <th>s__Bacteroides_coprocola</th>
-      <th>s__Ruminococcus_lactaris</th>
-      <th>s__Turicimonas_muris</th>
-      <th>s__Proteobacteria_bacterium_CAG_139</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>SAMD00114718</td>
-      <td>healthy</td>
-      <td>46509517</td>
-      <td>8249892</td>
-      <td>3696318</td>
-      <td>3265545</td>
-      <td>2871853</td>
-      <td>2327330</td>
-      <td>1920299</td>
-      <td>1506928</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>SAMD00114719</td>
-      <td>healthy</td>
-      <td>5334509</td>
-      <td>230275</td>
-      <td>2053756</td>
-      <td>182914</td>
-      <td>289955</td>
-      <td>89183</td>
-      <td>35688</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>SAMD00114720</td>
-      <td>healthy</td>
-      <td>6868169</td>
-      <td>4054008</td>
-      <td>3267707</td>
-      <td>0</td>
-      <td>1097263</td>
-      <td>990122</td>
-      <td>1490407</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>SAMD00114721</td>
-      <td>healthy</td>
-      <td>1029678</td>
-      <td>2029259</td>
-      <td>661965</td>
-      <td>114447</td>
-      <td>110111</td>
-      <td>2705778</td>
-      <td>59274</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>SAMD00114722</td>
-      <td>CRC</td>
-      <td>7520</td>
-      <td>2318235</td>
-      <td>350665</td>
-      <td>546829</td>
-      <td>564558</td>
-      <td>2529966</td>
-      <td>4608830</td>
-      <td>0</td>
-      <td>...</td>
-      <td>512018</td>
-      <td>137432</td>
-      <td>71548</td>
-      <td>15826</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 153 columns</p>
-</div>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102102438804.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">#save the cleaner version of dataframe for future analyis</span>
 </span></span><span class="line"><span class="cl"><span class="n">mdat</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./dataset/MergeData.tsv&#39;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">            <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1919,6 +1127,10 @@ dtype: bool
 <ul>
 <li>151 species were selected more then 0.2 occurrence in Gastric Cancer</li>
 <li>504 patients with Gastric Cancer were chosen</li>
+</ul>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://github.com/Jean-njoroge/Breast-cancer-risk-prediction" target="_blank" rel="noopener">Breast-cancer-risk-prediction</a></li>
 </ul>
 
     </div>
@@ -1933,7 +1145,7 @@ dtype: bool
   
   <a class="badge badge-light" href="/tag/machine-learning/">machine learning</a>
   
-  <a class="badge badge-light" href="/tag/svn/">SVN</a>
+  <a class="badge badge-light" href="/tag/svm/">SVM</a>
   
   <a class="badge badge-light" href="/tag/microbiota/">microbiota</a>
   
@@ -1956,7 +1168,7 @@ dtype: bool
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-28-ml002-dataclean%2F&amp;text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%282%29%3A&#43;Data&#43;clean" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml002-dataclean%2F&amp;text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%282%29%3A&#43;Data&#43;clean" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -1973,7 +1185,7 @@ dtype: bool
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-28-ml002-dataclean%2F&amp;t=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%282%29%3A&#43;Data&#43;clean" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml002-dataclean%2F&amp;t=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%282%29%3A&#43;Data&#43;clean" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -1992,7 +1204,7 @@ dtype: bool
         
       
       <li>
-        <a href="mailto:?subject=Machine%20Learning%20on%20gut%20microbiota%20of%20patients%20with%20Colorectal%20cancer%20%282%29%3A%20Data%20clean&amp;body=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-28-ml002-dataclean%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+        <a href="mailto:?subject=Machine%20Learning%20on%20gut%20microbiota%20of%20patients%20with%20Colorectal%20cancer%20%282%29%3A%20Data%20clean&amp;body=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml002-dataclean%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -2009,7 +1221,7 @@ dtype: bool
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-28-ml002-dataclean%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%282%29%3A&#43;Data&#43;clean" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml002-dataclean%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%282%29%3A&#43;Data&#43;clean" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -2026,7 +1238,7 @@ dtype: bool
       
       
       <li>
-        <a href="whatsapp://send?text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%282%29%3A&#43;Data&#43;clean%20https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-28-ml002-dataclean%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+        <a href="whatsapp://send?text=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%282%29%3A&#43;Data&#43;clean%20https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml002-dataclean%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -2043,7 +1255,7 @@ dtype: bool
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2F2022-10-28-ml002-dataclean%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%282%29%3A&#43;Data&#43;clean" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fzouhua.top%2Fpost%2Fmachine_learning%2Fml002-dataclean%2F&amp;title=Machine&#43;Learning&#43;on&#43;gut&#43;microbiota&#43;of&#43;patients&#43;with&#43;Colorectal&#43;cancer&#43;%282%29%3A&#43;Data&#43;clean" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
