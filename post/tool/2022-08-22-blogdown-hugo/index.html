@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- This site was created with Wowchemy. https://www.wowchemy.com -->
-<!-- Last Published: November 2, 2022 --><html lang="en-us" >
+<!-- Last Published: November 3, 2022 --><html lang="en-us" >
 
 
 <head>
@@ -358,8 +358,8 @@
 
 <meta property="twitter:card" content="summary" />
 
-  <meta property="twitter:site" content="@wowchemy" />
-  <meta property="twitter:creator" content="@wowchemy" />
+  <meta property="twitter:site" content="@Hua Zou" />
+  <meta property="twitter:creator" content="@Hua Zou" />
 <meta property="twitter:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" />
 <meta property="og:site_name" content="Hua Zou" />
 <meta property="og:url" content="https://zouhua.top/post/tool/2022-08-22-blogdown-hugo/" />
@@ -902,10 +902,10 @@
 <h2 id="registering-github-account">Registering github account</h2>
 <p>Please go to <a href="https://github.com/" target="_blank" rel="noopener">github</a> to obtain your own account. Then create a new repository named <strong>[your_github_names].github.io</strong> which is applied to render your github pages.</p>
 <h2 id="creating-repository-for-blog">Creating repository for blog</h2>
-<p>Creating another private repository (named <strong>MyBlog</strong>) to save your files which are used to setup blog. Here, suggesting users create two repositories to deploy personal website according to the protection of personal privacy.</p>
+<p>Creating another private repository (named <strong>MyOwnWebsite</strong>) to save your files which are used to setup blog. Here, suggesting users create two repositories to deploy personal website according to the protection of personal privacy.</p>
 <ul>
 <li><strong>[your_github_names].github.io</strong> for saving blog html files</li>
-<li><strong>MyBlog</strong> for saving blog source files</li>
+<li><strong>MyOwnWebsite</strong> for saving blog source files</li>
 </ul>
 <p>
 
@@ -1129,10 +1129,10 @@
     <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221101221510642.png" alt="" loading="lazy" data-zoomable /></div>
   </div></figure>
 </p>
-<h2 id="uploading-blogdown-project-to-myblog-repository">Uploading blogdown project to MyBlog Repository</h2>
+<h2 id="uploading-blogdown-project-to-myownwebsite-repository">Uploading blogdown project to MyOwnWebsite Repository</h2>
 <p>Moving the files of blogdown into <strong>MyOwnWebsite</strong> directory and then using git to push all the files to the remote repository.</p>
 <h2 id="creating-github-actions">Creating Github Actions</h2>
-<p>Opening <strong>MyBlog</strong> Repository (<code>Actions -&gt; New workflow</code>) to create deploy.yml.</p>
+<p>Opening <strong>MyOwnWebsite</strong> Repository (<code>Actions -&gt; New workflow</code>) to create deploy.yml.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">deploy_blog</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">on</span><span class="p">:</span><span class="w">
@@ -1172,7 +1172,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">publish_dir</span><span class="p">:</span><span class="w"> </span><span class="l">./public</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">allow_empty_commit</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span></code></pre></div><h2 id="deployment">Deployment</h2>
-<p>We need to connect the Github Pages repository (<strong>[your_github_names].github.io</strong>) and blog repository (<strong>MyBlog</strong>) through ssh key. Go to <code>~/.ssh/</code>.</p>
+<p>We need to connect the Github Pages repository (<strong>[your_github_names].github.io</strong>) and blog repository (<strong>MyOwnWebsite</strong>) through ssh key. Go to <code>~/.ssh/</code>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh-keygen -t rsa -C <span class="s2">&#34;zouhua1@outlook.com&#34;</span>
 </span></span></code></pre></div><ul>
 <li>
