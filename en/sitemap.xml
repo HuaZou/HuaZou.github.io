@@ -3,44 +3,70 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://zouhua.top/categories/</loc>
-    <lastmod>2022-11-03T10:13:14-05:00</lastmod>
+    <lastmod>2022-11-01T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://zouhua.top/zh/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://zouhua.top/categories/"
+                />
   </url><url>
     <loc>https://zouhua.top/</loc>
-    <lastmod>2022-11-03T10:13:14-05:00</lastmod>
+    <lastmod>2022-11-01T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://zouhua.top/zh/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://zouhua.top/"
+                />
   </url><url>
     <loc>https://zouhua.top/tag/machine-learning/</loc>
-    <lastmod>2022-11-03T10:13:14-05:00</lastmod>
+    <lastmod>2022-11-01T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://zouhua.top/category/machine-learning/</loc>
-    <lastmod>2022-11-03T10:13:14-05:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://zouhua.top/post/machine_learning/2022-11-03-ml009-rf/</loc>
-    <lastmod>2022-11-03T10:13:14-05:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://zouhua.top/tag/microbiota/</loc>
-    <lastmod>2022-11-03T10:13:14-05:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://zouhua.top/post/</loc>
-    <lastmod>2022-11-03T10:13:14-05:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://zouhua.top/tags/</loc>
-    <lastmod>2022-11-03T10:13:14-05:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://zouhua.top/post/machine_learning/2022-11-02-ml008-compclassifier/</loc>
-    <lastmod>2022-11-02T10:13:14-05:00</lastmod>
+    <lastmod>2022-11-01T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://zouhua.top/post/machine_learning/2022-11-01-ml007-optialclassifier/</loc>
     <lastmod>2022-11-01T06:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://zouhua.top/tag/microbiota/</loc>
+    <lastmod>2022-11-01T06:13:14-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://zouhua.top/post/</loc>
+    <lastmod>2022-11-01T06:13:14-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://zouhua.top/tag/svm/</loc>
+    <lastmod>2022-11-01T06:13:14-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://zouhua.top/tags/</loc>
+    <lastmod>2022-11-01T06:13:14-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://zouhua.top/zh/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://zouhua.top/tags/"
+                />
   </url><url>
     <loc>https://zouhua.top/post/machine_learning/2022-10-31-ml006-svm/</loc>
     <lastmod>2022-10-31T20:13:14-05:00</lastmod>
@@ -54,15 +80,15 @@
     <lastmod>2022-10-29T20:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
+    <loc>https://zouhua.top/post/machine_learning/2022-10-27-ml002-dataclean/</loc>
+    <lastmod>2022-10-28T20:13:14-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
     <loc>https://zouhua.top/post/machine_learning/2022-10-28-ml003-exploratory/</loc>
     <lastmod>2022-10-28T20:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://zouhua.top/tag/differentialanalysis/</loc>
-    <lastmod>2022-10-27T20:13:14-05:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://zouhua.top/post/machine_learning/2022-10-27-ml002-dataclean/</loc>
     <lastmod>2022-10-27T20:13:14-05:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
@@ -113,6 +139,16 @@
     <loc>https://zouhua.top/publication_types/</loc>
     <lastmod>2022-08-19T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://zouhua.top/zh/publication_types/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://zouhua.top/publication_types/"
+                />
   </url><url>
     <loc>https://zouhua.top/bookdown/2022-xmas2/</loc>
     <lastmod>2022-08-19T00:00:00+00:00</lastmod>
