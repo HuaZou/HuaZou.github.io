@@ -1,0 +1,55 @@
+---
+title: 
+subtitle: 
+
+# Summary for listings and search engines
+summary: .
+
+# Link this post with a project
+# Projects (optional).
+#   Associate this post with one or more of your projects.
+#   Simply enter your project's folder or file name without extension.
+#   E.g. `projects = ["internal-project"]` references `content/project/deep-learning/index.md`.
+#   Otherwise, set `projects = []`.
+projects: []
+
+# Date published
+date: '2022-11-05T20:13:14'
+
+# Date updated
+lastmod: '2022-11-05T22:13:14'
+
+# Is this an unpublished draft?
+draft: true
+
+# Show this page in the Featured widget?
+featured: false
+
+# Featured image
+# Place an image named `featured.jpg/png` in this page's folder and customize its options here.
+image:
+  caption: ''
+  focal_point: ''
+  placement: 2
+  preview_only: false
+
+authors:
+  - Hua Zou
+
+tags:
+  - machine learning
+  - microbiota
+
+categories:
+  - Machine Learning
+
+type: book
+---
+
+
+# Obtaining inpudata
+
+
+## Reference
+
+* [Create datasets for machine learning](https://waldronlab.io/curatedMetagenomicDataAnalyses/articles/MLdatasets.html)

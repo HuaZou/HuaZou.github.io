@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>RNA-seq | Hua Zou</title>
+    <title>RNA-seq | Hua&#39; Cabin</title>
     <link>https://zouhua.top/tag/rna-seq/</link>
       <atom:link href="https://zouhua.top/tag/rna-seq/index.xml" rel="self" type="application/rss+xml" />
     <description>RNA-seq</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2022 Hua Zou</copyright><lastBuildDate>Thu, 27 Oct 2022 20:13:14 -0500</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2022 Hua Zou</copyright><lastBuildDate>Thu, 20 Oct 2022 20:13:14 +0000</lastBuildDate>
     <image>
       <url>https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png</url>
       <title>RNA-seq</title>
@@ -15,9 +15,71 @@
     <item>
       <title>转录组差异分析（DESeq2&#43;limma&#43;edgeR&#43;t-test/wilcox-test）总结</title>
       <link>https://zouhua.top/post/math_statistics/2022-10-27-da-methods-comparsion/</link>
-      <pubDate>Thu, 27 Oct 2022 20:13:14 -0500</pubDate>
+      <pubDate>Thu, 20 Oct 2022 20:13:14 +0000</pubDate>
       <guid>https://zouhua.top/post/math_statistics/2022-10-27-da-methods-comparsion/</guid>
-      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+      <description>&lt;div&gt;
+    &lt;h2&gt;Table Of Contents&lt;/h2&gt;
+    &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;#前言&#34;&gt;前言&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#大纲&#34;&gt;大纲&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#导入r包&#34;&gt;导入R包&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#转录组数据&#34;&gt;转录组数据&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#标准化&#34;&gt;标准化&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#整体水平比较&#34;&gt;整体水平比较&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#降维分析&#34;&gt;降维分析&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#热图&#34;&gt;热图&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#deseq2&#34;&gt;DESeq2&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#提取结果&#34;&gt;提取结果&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#差异分组&#34;&gt;差异分组&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#volcano-plot&#34;&gt;Volcano plot&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#boxplot&#34;&gt;boxplot&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#limma&#34;&gt;limma&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;#voom功能&#34;&gt;Voom功能&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#计算过程&#34;&gt;计算过程&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#差异分组-1&#34;&gt;差异分组&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#edger&#34;&gt;edgeR&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;#计算过程-1&#34;&gt;计算过程&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#差异分组-2&#34;&gt;差异分组&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#wilcox-rank-sum-test-or-t-test&#34;&gt;Wilcox-rank-sum test or t-test&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;#计算差异结果-1&#34;&gt;计算差异结果&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#差异分组-3&#34;&gt;差异分组&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#不同方法的结果比较&#34;&gt;不同方法的结果比较&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;#保存结果&#34;&gt;保存结果&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#差异基因数目分布&#34;&gt;差异基因数目分布&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#差异基因交集venn&#34;&gt;差异基因交集Venn&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#差异基因heatmapvolcano&#34;&gt;差异基因heatmap+volcano&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#共有差异基因venn&#34;&gt;共有差异基因venn&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#差异基因log2foldchange相关性分析&#34;&gt;差异基因Log2Foldchange相关性分析&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#共有差异基因总结&#34;&gt;共有差异基因总结&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#总结&#34;&gt;总结&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#systemic-information&#34;&gt;systemic information&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#reference&#34;&gt;Reference&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
 &lt;p&gt;差异分析是转录组数据分析的必需技能之一，但众多的转录组分析R包如&lt;em&gt;DESeq2&lt;/em&gt;，&lt;em&gt;limma&lt;/em&gt;和&lt;em&gt;edgeR&lt;/em&gt;等让分析人员不知如何选择，还有它们之间的优劣如何？我将在本文详细探讨常用差异分析R包以及结合t-test/wilcox-rank-sum test的差异分析结果的异同点。&lt;/p&gt;
 &lt;h2 id=&#34;大纲&#34;&gt;大纲&lt;/h2&gt;
 &lt;p&gt;本文要点由以下几点构成：&lt;/p&gt;

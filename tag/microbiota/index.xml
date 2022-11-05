@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>microbiota | Hua Zou</title>
+    <title>microbiota | Hua&#39; Cabin</title>
     <link>https://zouhua.top/tag/microbiota/</link>
       <atom:link href="https://zouhua.top/tag/microbiota/index.xml" rel="self" type="application/rss+xml" />
     <description>microbiota</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2022 Hua Zou</copyright><lastBuildDate>Thu, 03 Nov 2022 10:13:14 -0500</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2022 Hua Zou</copyright><lastBuildDate>Thu, 03 Nov 2022 20:13:14 +0000</lastBuildDate>
     <image>
       <url>https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png</url>
       <title>microbiota</title>
@@ -15,7 +15,7 @@
     <item>
       <title>Machine Learning on gut microbiota of patients with Colorectal cancer (9)</title>
       <link>https://zouhua.top/post/machine_learning/2022-11-03-ml009-rf/</link>
-      <pubDate>Thu, 03 Nov 2022 10:13:14 -0500</pubDate>
+      <pubDate>Thu, 03 Nov 2022 20:13:14 +0000</pubDate>
       <guid>https://zouhua.top/post/machine_learning/2022-11-03-ml009-rf/</guid>
       <description>&lt;h1 id=&#34;predictive-model-using-random-forest&#34;&gt;Predictive Model using Random Forest&lt;/h1&gt;
 &lt;p&gt;Random Forest, a ensemble machine learning algorithm with multiple decision trees could be used for classification or regression algorithm, and it has an elegant way of dealing with nonlinear or linear data.&lt;/p&gt;
@@ -2091,7 +2091,7 @@ Name: Importance, Length: 100, dtype: float64
     <item>
       <title>Machine Learning on gut microbiota of patients with Colorectal cancer (8)</title>
       <link>https://zouhua.top/post/machine_learning/2022-11-02-ml008-compclassifier/</link>
-      <pubDate>Wed, 02 Nov 2022 10:13:14 -0500</pubDate>
+      <pubDate>Wed, 02 Nov 2022 20:13:14 +0000</pubDate>
       <guid>https://zouhua.top/post/machine_learning/2022-11-02-ml008-compclassifier/</guid>
       <description>&lt;h1 id=&#34;comparison-between-different-classifiers&#34;&gt;Comparison between different classifiers&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/07.Comparison_between_different_classifiers.ipynb&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Notebook 8&lt;/a&gt;: Comparison between different classifiers.&lt;/p&gt;
@@ -2494,7 +2494,7 @@ weighted avg       0.56      0.54      0.54       152
     <item>
       <title>Machine Learning on gut microbiota of patients with Colorectal cancer (7)</title>
       <link>https://zouhua.top/post/machine_learning/2022-11-01-ml007-optialclassifier/</link>
-      <pubDate>Tue, 01 Nov 2022 06:13:14 -0500</pubDate>
+      <pubDate>Tue, 01 Nov 2022 20:13:14 +0000</pubDate>
       <guid>https://zouhua.top/post/machine_learning/2022-11-01-ml007-optialclassifier/</guid>
       <description>&lt;h1 id=&#34;optimizing-the-svm-classifier&#34;&gt;Optimizing the SVM Classifier&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/06.OptimizingSVMClassifier.ipynb&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Notebook 7&lt;/a&gt;: Optimizing the  Support Vector Classifier.&lt;/p&gt;
@@ -2842,7 +2842,7 @@ weighted avg       0.63      0.62      0.62       152
     <item>
       <title>Machine Learning on gut microbiota of patients with Colorectal cancer (6)</title>
       <link>https://zouhua.top/post/machine_learning/2022-10-31-ml006-svm/</link>
-      <pubDate>Mon, 31 Oct 2022 20:13:14 -0500</pubDate>
+      <pubDate>Mon, 31 Oct 2022 20:13:14 +0000</pubDate>
       <guid>https://zouhua.top/post/machine_learning/2022-10-31-ml006-svm/</guid>
       <description>&lt;h1 id=&#34;predictive-model-using-support-vector-machine-svm&#34;&gt;Predictive model using Support Vector Machine (SVM)&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/05.PredictiveModelUsingSVM.ipynb&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Notebook 6&lt;/a&gt; Predictive model using Support Vector Machine (svm).&lt;/p&gt;
@@ -3230,7 +3230,7 @@ weighted avg       0.67      0.66      0.66       152
     <item>
       <title>Machine Learning on gut microbiota of patients with Colorectal cancer (5)</title>
       <link>https://zouhua.top/post/machine_learning/2022-10-30-ml005-differential/</link>
-      <pubDate>Sun, 30 Oct 2022 20:13:14 -0500</pubDate>
+      <pubDate>Sun, 30 Oct 2022 20:13:14 +0000</pubDate>
       <guid>https://zouhua.top/post/machine_learning/2022-10-30-ml005-differential/</guid>
       <description>&lt;h1 id=&#34;differential-analysis&#34;&gt;Differential Analysis&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/04.DifferentialAnalysis.ipynb&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Notebook 5&lt;/a&gt; Differential Analysis.&lt;/p&gt;
@@ -3494,7 +3494,7 @@ weighted avg       0.67      0.66      0.66       152
     <item>
       <title>Machine Learning on gut microbiota of patients with Colorectal cancer (4)</title>
       <link>https://zouhua.top/post/machine_learning/2022-10-29-ml004-preprocess/</link>
-      <pubDate>Sat, 29 Oct 2022 20:13:14 -0500</pubDate>
+      <pubDate>Sat, 29 Oct 2022 20:13:14 +0000</pubDate>
       <guid>https://zouhua.top/post/machine_learning/2022-10-29-ml004-preprocess/</guid>
       <description>&lt;h1 id=&#34;data-preprocessing&#34;&gt;Data PreProcessing&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/03.DataPreprocesing.ipynb&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Notebook 4&lt;/a&gt; Pre-Processing the data.&lt;/p&gt;
@@ -3987,7 +3987,7 @@ weighted avg       0.67      0.66      0.66       152
     <item>
       <title>Machine Learning on gut microbiota of patients with Colorectal cancer (3)</title>
       <link>https://zouhua.top/post/machine_learning/2022-10-28-ml003-exploratory/</link>
-      <pubDate>Fri, 28 Oct 2022 20:13:14 -0500</pubDate>
+      <pubDate>Fri, 28 Oct 2022 20:13:14 +0000</pubDate>
       <guid>https://zouhua.top/post/machine_learning/2022-10-28-ml003-exploratory/</guid>
       <description>&lt;h1 id=&#34;exploratory-data-analysis&#34;&gt;Exploratory Data Analysis&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/02.ExploratoryDataAnalysis.ipynb&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Notebook 3&lt;/a&gt; Exploratory Data Analysis.&lt;/p&gt;
@@ -4495,7 +4495,7 @@ Index([&#39;s__Bacteroides_plebeius&#39;, &#39;s__Bacteroides_dorei&#39;,
     <item>
       <title>Machine Learning on gut microbiota of patients with Colorectal cancer (2)</title>
       <link>https://zouhua.top/post/machine_learning/2022-10-27-ml002-dataclean/</link>
-      <pubDate>Thu, 27 Oct 2022 20:13:14 -0500</pubDate>
+      <pubDate>Thu, 27 Oct 2022 20:13:14 +0000</pubDate>
       <guid>https://zouhua.top/post/machine_learning/2022-10-27-ml002-dataclean/</guid>
       <description>&lt;h1 id=&#34;data-clean&#34;&gt;Data clean&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/01.DataClean.ipynb&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Notebook 2&lt;/a&gt;: Identifying the problem and Getting data.&lt;/p&gt;
@@ -4746,7 +4746,7 @@ dtype: bool
     <item>
       <title>Machine Learning on gut microbiota of patients with Colorectal cancer (1)</title>
       <link>https://zouhua.top/post/machine_learning/2022-10-26-ml001-inputdata/</link>
-      <pubDate>Wed, 26 Oct 2022 20:13:14 -0500</pubDate>
+      <pubDate>Wed, 26 Oct 2022 20:13:14 +0000</pubDate>
       <guid>https://zouhua.top/post/machine_learning/2022-10-26-ml001-inputdata/</guid>
       <description>&lt;h1 id=&#34;obtaining-inpudata&#34;&gt;Obtaining inpudata&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/00.Obtain_inputs_for_ML.Rmd&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Rmarkdown 1&lt;/a&gt;: Downloading data.&lt;/p&gt;

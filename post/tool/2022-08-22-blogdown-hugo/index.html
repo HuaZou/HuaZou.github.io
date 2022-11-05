@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- This site was created with Wowchemy. https://www.wowchemy.com -->
-<!-- Last Published: November 4, 2022 --><html lang="en-us" >
+<!-- Last Published: November 5, 2022 --><html lang="en-us" >
 
 
 <head>
@@ -321,7 +321,7 @@
 
   
 
-<meta name="description" content="Introduction Have you ever thought about making your own website using R and Rstudio? This tutorial would teach you how to create your personal blog via blogdown and github. What&rsquo;s more, automatically eploying your website is also necessary by using github actions." />
+<meta name="description" content="Building Your Own Website by blogdown and hugo" />
 
 
 
@@ -361,19 +361,19 @@
   <meta property="twitter:site" content="@Hua Zou" />
   <meta property="twitter:creator" content="@Hua Zou" />
 <meta property="twitter:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" />
-<meta property="og:site_name" content="Hua Zou" />
+<meta property="og:site_name" content="Hua&#39; Cabin" />
 <meta property="og:url" content="https://zouhua.top/post/tool/2022-08-22-blogdown-hugo/" />
-<meta property="og:title" content="How to setup personal blog by blogdown and githup pages | Hua Zou" />
-<meta property="og:description" content="Introduction Have you ever thought about making your own website using R and Rstudio? This tutorial would teach you how to create your personal blog via blogdown and github. What&rsquo;s more, automatically eploying your website is also necessary by using github actions." /><meta property="og:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+<meta property="og:title" content="How to setup personal blog by blogdown and githup pages | Hua&#39; Cabin" />
+<meta property="og:description" content="Building Your Own Website by blogdown and hugo" /><meta property="og:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
 
   
     <meta
       property="article:published_time"
-      content="2022-08-22T20:13:14-05:00"
+      content="2022-08-22T20:13:14&#43;00:00"
     />
   
   
-    <meta property="article:modified_time" content="2022-08-22T20:13:14-05:00">
+    <meta property="article:modified_time" content="2022-08-22T22:13:14&#43;00:00">
   
 
 
@@ -403,8 +403,8 @@
   },
   "headline": "How to setup personal blog by blogdown and githup pages",
   
-  "datePublished": "2022-08-22T20:13:14-05:00",
-  "dateModified": "2022-08-22T20:13:14-05:00",
+  "datePublished": "2022-08-22T20:13:14Z",
+  "dateModified": "2022-08-22T22:13:14Z",
   
   "author": {
     "@type": "Person",
@@ -413,13 +413,13 @@
   
   "publisher": {
     "@type": "Organization",
-    "name": "Hua Zou",
+    "name": "Hua' Cabin",
     "logo": {
       "@type": "ImageObject",
       "url": "https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_192x192_fill_lanczos_center_3.png"
     }
   },
-  "description": "Introduction Have you ever thought about making your own website using R and Rstudio? This tutorial would teach you how to create your personal blog via blogdown and github. What\u0026rsquo;s more, automatically eploying your website is also necessary by using github actions."
+  "description": "Building Your Own Website by blogdown and hugo"
 }
 </script>
 
@@ -441,7 +441,7 @@
 
 
   
-  <title>How to setup personal blog by blogdown and githup pages | Hua Zou</title>
+  <title>How to setup personal blog by blogdown and githup pages | Hua&#39; Cabin</title>
 
   
   
@@ -499,7 +499,7 @@
 
       
       <div class="d-none d-lg-inline-flex">
-        <a class="navbar-brand" href="/">Hua Zou</a>
+        <a class="navbar-brand" href="/">Hua&#39; Cabin</a>
       </div>
       
 
@@ -512,7 +512,7 @@
 
       
       <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
-        <a class="navbar-brand" href="/">Hua Zou</a>
+        <a class="navbar-brand" href="/">Hua&#39; Cabin</a>
       </div>
       
 
@@ -830,6 +830,8 @@
   <h1>How to setup personal blog by blogdown and githup pages</h1>
 
   
+  <p class="page-subtitle">Building Your Own Website</p>
+  
 
   
     
@@ -839,11 +841,23 @@
 
   
   
+  
+  
+  <div>
+    
+
+  <span >
+      Hua Zou</span>
+  </div>
+  
+  
 
   
   <span class="article-date">
     
     
+      
+          Last updated on
       
     
     Aug 22, 2022
@@ -855,7 +869,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    3 min read
+    4 min read
   </span>
   
 
@@ -887,7 +901,28 @@
   <div class="article-container">
 
     <div class="article-style">
-      <h2 id="introduction">Introduction</h2>
+      <div>
+    <h2>Table Of Contents</h2>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#registering-github-account">Registering github account</a></li>
+    <li><a href="#creating-repository-for-blog">Creating repository for blog</a></li>
+    <li><a href="#setting-your-ssh-key">Setting your ssh key</a></li>
+    <li><a href="#install-blogdown-and-hugo">Install Blogdown and Hugo</a></li>
+    <li><a href="#creating-blogdown-project">Creating blogdown project</a></li>
+    <li><a href="#building-website">Building website</a></li>
+    <li><a href="#basic-customization">Basic Customization</a></li>
+    <li><a href="#uploading-files-to-github-repository">Uploading files to github repository</a></li>
+    <li><a href="#creating-github-actions">Creating Github Actions</a></li>
+    <li><a href="#deployment">Deployment</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+</div>
+
+<h2 id="introduction">Introduction</h2>
 <p>Have you ever thought about making your own website using R and Rstudio? This tutorial would teach you how to create your personal blog via blogdown and github. What&rsquo;s more, automatically eploying your website is also necessary by using github actions.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <p>Before running the tutorial, you need have this software in your PC</p>
@@ -928,7 +963,40 @@
     <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221101215037682.png" alt="" loading="lazy" data-zoomable /></div>
   </div></figure>
 </p>
-<h2 id="install-blogdown-and-hugo">Install Blogdown and Hugo</h2>
+<h2 id="setting-your-ssh-key">Setting your ssh key</h2>
+<p>Once you created github repository for your blog, and then you need download <code>git bash</code> software (as for mac os, using terminal) to generate your ssh key in your personal computer. Firstly, configuring your git with name and email. Secondly, generating the ssh key by rsa algorithm. Finally, uploading your public ssh key to github <code>Personal photo</code> -&gt; <code>Settings</code> -&gt; <code>SSH and GPG keys</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># configure</span>
+</span></span><span class="line"><span class="cl">git config --global user.name <span class="s2">&#34;Hua Zou&#34;</span>
+</span></span><span class="line"><span class="cl">git config --global user.email <span class="s2">&#34;zouhua1@outlook.com&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># generate ssh key</span>
+</span></span><span class="line"><span class="cl">ssh-keygen -t rsa -C <span class="s2">&#34;zouhua1@outlook.com&#34;</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221105073254897.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>Checking whether the setting is okay</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh -T git@github.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Hi HuaZou! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</span>
+</span></span></code></pre></div><h2 id="install-blogdown-and-hugo">Install Blogdown and Hugo</h2>
 <p>Blogdown which Creating Blogs and Websites with R Markdown is necessary for building website</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="line"><span class="cl"><span class="c1"># Install blogdown</span>
 </span></span><span class="line"><span class="cl"><span class="c1">#install.packages(&#34;blogdown&#34;)</span>
@@ -1129,9 +1197,12 @@
     <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221101221510642.png" alt="" loading="lazy" data-zoomable /></div>
   </div></figure>
 </p>
-<h2 id="uploading-blogdown-project-to-myownwebsite-repository">Uploading blogdown project to MyOwnWebsite Repository</h2>
-<p>Moving the files of blogdown into <strong>MyOwnWebsite</strong> directory and then using git to push all the files to the remote repository.</p>
-<h2 id="creating-github-actions">Creating Github Actions</h2>
+<h2 id="uploading-files-to-github-repository">Uploading files to github repository</h2>
+<p>Moving the files of <code>public/</code> in <strong>MyOwnWebsite</strong> directory into <strong>[your_github_names].github.io</strong> directory and then using git to push all the files to the remote repository in both <strong>[your_github_names].github.io</strong> and <strong>MyOwnWebsite</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git add -A
+</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;update blog&#34;</span>
+</span></span><span class="line"><span class="cl">git push origin master <span class="c1"># main</span>
+</span></span></code></pre></div><h2 id="creating-github-actions">Creating Github Actions</h2>
 <p>Opening <strong>MyOwnWebsite</strong> Repository (<code>Actions -&gt; New workflow</code>) to create deploy.yml.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">deploy_blog</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
@@ -1173,7 +1244,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">allow_empty_commit</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span></code></pre></div><h2 id="deployment">Deployment</h2>
 <p>We need to connect the Github Pages repository (<strong>[your_github_names].github.io</strong>) and blog repository (<strong>MyOwnWebsite</strong>) through ssh key. Go to <code>~/.ssh/</code>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh-keygen -t rsa -C <span class="s2">&#34;zouhua1@outlook.com&#34;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh-keygen -t rsa -C <span class="s2">&#34;zouhua1@outlook.com&#34;</span> -f <span class="s2">&#34;MyOwnWebsite&#34;</span>
 </span></span></code></pre></div><ul>
 <li>
 <p>private key is for <strong>MyOwnWebsite</strong> (<code>settings -&gt; Secrets</code>)</p>
@@ -1330,85 +1401,12 @@
 
   
   
+    
+
 
 
 
   
-  
-  
-    
-  
-  
-  
-  <div class="media author-card content-widget-hr">
-    
-      
-      <a href="https://zouhua.top/"><img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu2ca0f82a4ba69bdab5bcba8a2e118070_85979_270x270_fill_q75_lanczos_center.jpg" alt="Hua Zou"></a>
-    
-
-    <div class="media-body">
-      <h5 class="card-title"><a href="https://zouhua.top/">Hua Zou</a></h5>
-      <h6 class="card-subtitle">Senior Bioinformatic Analyst</h6>
-      <p class="card-text">My research interests include host-microbiota intersection, machine learning and multi-omics data integration.</p>
-      <ul class="network-icon" aria-hidden="true">
-  
-    
-    
-    
-      
-    
-    
-    
-    
-    
-      
-    
-    <li>
-      <a href="/#contact" >
-        <i class="fas fa-envelope"></i>
-      </a>
-    </li>
-  
-    
-    
-    
-      
-    
-    
-    
-    
-    
-      
-    
-    <li>
-      <a href="https://twitter.com/HuaZou01" target="_blank" rel="noopener">
-        <i class="fab fa-twitter"></i>
-      </a>
-    </li>
-  
-    
-    
-    
-      
-    
-    
-    
-    
-    
-      
-    
-    <li>
-      <a href="https://github.com/HuaZou" target="_blank" rel="noopener">
-        <i class="fab fa-github"></i>
-      </a>
-    </li>
-  
-</ul>
-
-    </div>
-  </div>
-
-
 
 
 
