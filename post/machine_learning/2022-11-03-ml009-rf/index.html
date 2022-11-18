@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- This site was created with Wowchemy. https://www.wowchemy.com -->
-<!-- Last Published: November 5, 2022 --><html lang="en-us" >
+<!-- Last Published: November 18, 2022 --><html lang="en-us" >
 
 
 <head>
@@ -1997,7 +1997,22 @@ healthy accounts for 48.81% of the disease column
 </table>
 <p>5 rows × 100 columns</p>
 </div>
-<p>To see how different these features are in &lsquo;CRC&rsquo; and in &lsquo;healthy&rsquo; by pairplot.</p>
+<p>Removing variables with high colinearity</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">correlation</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">col_corr</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span> <span class="c1"># Set of all the names of deleted columns</span>
+</span></span><span class="line"><span class="cl">    <span class="n">corr_matrix</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corr_matrix</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">corr_matrix</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">corr_matrix</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">col_corr</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="n">colname</span> <span class="o">=</span> <span class="n">corr_matrix</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="c1"># getting the name of column</span>
+</span></span><span class="line"><span class="cl">                <span class="n">col_corr</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">colname</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">colname</span> <span class="ow">in</span> <span class="n">dataset</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">del</span> <span class="n">dataset</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span> <span class="c1"># deleting the column from the dataset</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">correlation</span><span class="p">(</span><span class="n">data_selected</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">data_selected</span><span class="o">.</span><span class="n">shape</span>
+</span></span></code></pre></div><p>To see how different these features are in &lsquo;CRC&rsquo; and in &lsquo;healthy&rsquo; by pairplot.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data_selected</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;disease&#39;</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;disease&#39;</span><span class="p">)</span>
 </span></span></code></pre></div><p>
 
@@ -2375,6 +2390,7 @@ Time taken in grid search:  273.51
     <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/08.PredictiveModelRandomForest_42_1.png" alt="" loading="lazy" data-zoomable /></div>
   </div></figure>
 </p>
+<p>​</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;OOB Error rate for 200 trees is: </span><span class="si">{0:.5f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">oob_series</span><span class="p">[</span><span class="mi">200</span><span class="p">]))</span>
 </span></span></code></pre></div><pre><code>OOB Error rate for 200 trees is: 0.38352
 </code></pre>
