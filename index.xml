@@ -2090,7 +2090,7 @@ Name: Importance, Length: 100, dtype: float64
 &lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;Random Forest classification predictive modeling from end-to-end using Python.&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Exporatory Data analysis.&lt;/li&gt;
+&lt;li&gt;Exploratory Data analysis.&lt;/li&gt;
 &lt;li&gt;Feature selection.&lt;/li&gt;
 &lt;li&gt;Tune Parameters.&lt;/li&gt;
 &lt;li&gt;Performance Evaluation.&lt;/li&gt;
