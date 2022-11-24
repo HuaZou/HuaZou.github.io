@@ -3,11 +3,35 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://zouhua.top/categories/</loc>
-    <lastmod>2022-11-03T22:13:14+00:00</lastmod>
+    <lastmod>2022-11-11T22:13:14+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://zouhua.top/post/tool/2022-11-10-metagenomics/</loc>
+    <lastmod>2022-11-11T22:13:14+00:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://zouhua.top/</loc>
-    <lastmod>2022-11-03T22:13:14+00:00</lastmod>
+    <lastmod>2022-11-11T22:13:14+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://zouhua.top/tag/metaphlan/</loc>
+    <lastmod>2022-11-11T22:13:14+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://zouhua.top/tag/microbiota/</loc>
+    <lastmod>2022-11-11T22:13:14+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://zouhua.top/post/</loc>
+    <lastmod>2022-11-11T22:13:14+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://zouhua.top/tags/</loc>
+    <lastmod>2022-11-11T22:13:14+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://zouhua.top/category/tool/</loc>
+    <lastmod>2022-11-11T22:13:14+00:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://zouhua.top/tag/machine-learning/</loc>
@@ -19,18 +43,6 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://zouhua.top/post/machine_learning/2022-11-03-ml009-rf/</loc>
-    <lastmod>2022-11-03T22:13:14+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://zouhua.top/tag/microbiota/</loc>
-    <lastmod>2022-11-03T22:13:14+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://zouhua.top/post/</loc>
-    <lastmod>2022-11-03T22:13:14+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://zouhua.top/tags/</loc>
     <lastmod>2022-11-03T22:13:14+00:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
@@ -95,10 +107,6 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://zouhua.top/tag/hugo/</loc>
-    <lastmod>2022-08-22T22:13:14+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://zouhua.top/category/tool/</loc>
     <lastmod>2022-08-22T22:13:14+00:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
