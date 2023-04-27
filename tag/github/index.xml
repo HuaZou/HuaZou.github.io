@@ -193,7 +193,7 @@
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ssh-keygen -t rsa -C &lt;span class="s2">&amp;#34;zouhua1@outlook.com&amp;#34;&lt;/span> -f &lt;span class="s2">&amp;#34;MyOwnWebsite&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>
-&lt;p>private key is for &lt;strong>MyOwnWebsite&lt;/strong> (&lt;code>settings -&amp;gt; Secrets&lt;/code>)&lt;/p>
+&lt;p>private key is for &lt;strong>MyOwnWebsite&lt;/strong> (&lt;code>settings -&amp;gt; Secrets&lt;/code>) and add it as &lt;code>ACTIONS_DEPLOY_KEY&lt;/code> (Must use this name because the &lt;em>deploy_key&lt;/em> uses &lt;em>secrets.ACTIONS_DEPLOY_KEY&lt;/em> and is from ssh-keygen).&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>public key is for &lt;strong>[your_github_names].github.io&lt;/strong> (&lt;code>Deploy keys&lt;/code>)&lt;/p>
