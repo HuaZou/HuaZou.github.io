@@ -1,1046 +1,111 @@
-<!DOCTYPE html>
-<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
-<!-- Last Published: November 24, 2022 --><html lang="en-us" >
-
-
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  
-  
-  
-    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
-  
-
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  
-
-  
-  
-  
-    
-      
-      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media="print" onload="this.media='all'">
-    
-  
-
-  
-  
-
-  
-  
-
-  
-
-  <link rel="stylesheet" href="/css/vendor-bundle.min.16f785cdb553c8c4431db6775122af35.css" media="print" onload="this.media='all'">
-
-  
-  
-  
-    
-    
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
-    
-
-    
-    
-    
-    
-      
-      
-    
-    
-    
-
-    
-    
-    
-
-    
-
-    
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-        
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-  
-
-  
-  
-  
-  
-  
-  
-  <link rel="stylesheet" href="/css/wowchemy.e5d7adca760216d3b7e28ea434e81f6f.css" />
-
-  
-  
-  
-  
-  
-  
-  
-    
-    
-    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
-    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
-  
-
-  
-  
-
-
-
-
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-
-  function gtag() {
-      dataLayer.push(arguments);
-  }
-
-  function trackOutboundLink(url, target) {
-    gtag('event', 'click', {
-         'event_category': 'outbound',
-         'event_label': url,
-         'transport_type': 'beacon',
-         'event_callback': function () {
-           if (target !== '_blank') {
-             document.location = url;
-           }
-         }
-    });
-    console.debug("Outbound link clicked: " + url);
-  }
-
-  function onClickCallback(event) {
-    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
-      return;
-    }
-    trackOutboundLink(event.target, event.target.getAttribute('target'));  
-  }
-
-  gtag('js', new Date());
-  gtag('config', 'UA-162525500-1', {});
-  gtag('set', {'cookie_flags': 'SameSite=None;Secure'});
-
-  
-  document.addEventListener('click', onClickCallback, false);
-</script>
-
-
-
-
-
-
-
-
-
-
-
-  <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-
-
-
-
-
-
-  <meta name="author" content="Hua Zou" />
-
-
-
-
-
-  
-
-<meta name="description" content="Comparison between different classifiers." />
-
-
-
-<link rel="alternate" hreflang="en-us" href="https://zouhua.top/post/machine_learning/2022-11-02-ml008-compclassifier/" />
-<link rel="canonical" href="https://zouhua.top/post/machine_learning/2022-11-02-ml008-compclassifier/" />
-
-
-
-  <link rel="manifest" href="/manifest.webmanifest" />
-
-
-
-<link rel="icon" type="image/png" href="/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_32x32_fill_lanczos_center_3.png" />
-<link rel="apple-touch-icon" type="image/png" href="/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_180x180_fill_lanczos_center_3.png" />
-
-<meta name="theme-color" content="#1565c0" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-
-
-
-
-
-
-<meta property="twitter:card" content="summary" />
-
-  <meta property="twitter:site" content="@Hua Zou" />
-  <meta property="twitter:creator" content="@Hua Zou" />
-<meta property="twitter:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" />
-<meta property="og:site_name" content="Hua&#39; Cabin" />
-<meta property="og:url" content="https://zouhua.top/post/machine_learning/2022-11-02-ml008-compclassifier/" />
-<meta property="og:title" content="Machine Learning on gut microbiota of patients with Colorectal cancer (8) | Hua&#39; Cabin" />
-<meta property="og:description" content="Comparison between different classifiers." /><meta property="og:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
-
-  
-    <meta
-      property="article:published_time"
-      content="2022-11-02T20:13:14&#43;00:00"
-    />
-  
-  
-    <meta property="article:modified_time" content="2022-11-02T22:13:14&#43;00:00">
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-  
-  
-  
-
-  
-  
-
-  
-
-
-  
-  <title>Machine Learning on gut microbiota of patients with Colorectal cancer (8) | Hua&#39; Cabin</title>
-
-  
-  
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-</head>
-
-
-<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="1c1269aad5bd7b2f92cdcd807a432214" >
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
-
-  
-
-
-
-
-  <div class="page-header header--fixed">
-    
-
-
-
-
-
-
-
-
-
-
-
-
-<header>
-  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
-    <div class="container-xl">
-
-      
-      <div class="d-none d-lg-inline-flex">
-        <a class="navbar-brand" href="/">Hua&#39; Cabin</a>
-      </div>
-      
-
-      
-      <button type="button" class="navbar-toggler" data-toggle="collapse"
-              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
-      <span><i class="fas fa-bars"></i></span>
-      </button>
-      
-
-      
-      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
-        <a class="navbar-brand" href="/">Hua&#39; Cabin</a>
-      </div>
-      
-
-      
-      
-      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
-
-        
-        <ul class="navbar-nav d-md-inline-flex">
-          
-
-          
-
-          
-          
-          
-            
-          
-
-          
-
-          
-          
-          
-          
-
-          
-            
-              
-              
-            
-            
-              
-              
-              
-                
-              
-              
-            
-          
-
-          <li class="nav-item">
-            <a class="nav-link " href="/#about"><span>Home</span></a>
-          </li>
-
-          
-          
-
-          
-
-          
-          
-          
-            
-          
-
-          
-
-          
-          
-          
-          
-
-          
-            
-              
-              
-            
-            
-              
-              
-              
-                
-              
-              
-            
-          
-
-          <li class="nav-item">
-            <a class="nav-link " href="/#posts"><span>Posts</span></a>
-          </li>
-
-          
-          
-
-          
-
-          
-          
-          
-            
-          
-
-          
-
-          
-          
-          
-          
-
-          
-            
-              
-              
-            
-            
-              
-              
-              
-                
-              
-              
-            
-          
-
-          <li class="nav-item">
-            <a class="nav-link " href="/#experience"><span>Experience</span></a>
-          </li>
-
-          
-          
-
-          
-
-          
-          
-          
-            
-          
-
-          
-
-          
-          
-          
-          
-
-          
-            
-              
-              
-            
-            
-              
-              
-              
-                
-              
-              
-            
-          
-
-          <li class="nav-item">
-            <a class="nav-link " href="/#publications"><span>Publications</span></a>
-          </li>
-
-          
-          
-
-          
-
-          
-          
-          
-            
-          
-
-          
-
-          
-          
-          
-          
-
-          
-            
-              
-              
-            
-            
-              
-              
-              
-                
-              
-              
-            
-          
-
-          <li class="nav-item">
-            <a class="nav-link " href="/#contact"><span>Contact</span></a>
-          </li>
-
-          
-          
-
-          
-
-          
-          
-          
-            
-          
-
-          
-
-          
-          
-          
-          
-
-          
-            
-              
-              
-            
-            
-              
-              
-              
-                
-              
-              
-            
-          
-
-          <li class="nav-item">
-            <a class="nav-link " href="/#bookdown"><span>Bookdown</span></a>
-          </li>
-
-          
-          
-
-        
-
-          
-        </ul>
-      </div>
-
-      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
-
-        
-        
-          
-        
-
-        
-        
-        
-        <li class="nav-item">
-          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
-        </li>
-        
-
-        
-        
-        
-        <li class="nav-item dropdown theme-dropdown">
-          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
-            <i class="fas fa-moon" aria-hidden="true"></i>
-          </a>
-          <div class="dropdown-menu">
-            <a href="#" class="dropdown-item js-set-theme-light">
-              <span>Light</span>
-            </a>
-            <a href="#" class="dropdown-item js-set-theme-dark">
-              <span>Dark</span>
-            </a>
-            <a href="#" class="dropdown-item js-set-theme-auto">
-              <span>Automatic</span>
-            </a>
-          </div>
-        </li>
-        
-
-        
-        
-
-      </ul>
-
-    </div>
-  </nav>
-</header>
-
-
-  </div>
-
-  <div class="page-body">
-    
-    
-    
-
-    
-
-
-
-
-<div class="container-fluid docs">
-  <div class="row flex-xl-nowrap">
-    <div class="col-12 col-md-3 col-xl-2 docs-sidebar">
-      <form class="docs-search d-flex align-items-center">
-  <button class="btn docs-toggle d-md-none p-0 mr-md-3 w-100" type="button" data-toggle="collapse" data-target="#docs-nav" aria-controls="docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
-    <div class="d-flex">
-      <span class="d-md-none pl-1 flex-grow-1 text-left overflow-hidden">
-        
-        
-          Posts
-        
-      </span>
-      <span><i class="fas fa-chevron-down"></i></span>
-    </div>
-  </button>
-
-  
-</form>
-
-<nav class="collapse docs-links" id="docs-nav">
-  
-  
-  
-  
-  
-  
-
-  
-  
-    
-
-    
-      
-
-      <ul class="nav docs-sidenav">
-        <li><a href="/post/"><i class="fas fa-arrow-left pr-1"></i>Posts</a></li>
-      </ul>
-
-      
-      
-
-
-  <li class="active"><a href="/post/machine_learning/2022-11-02-ml008-compclassifier/">Machine Learning on gut microbiota of patients with Colorectal cancer (8)</a></li>
-
-    
-  
-</nav>
-
-    </div>
-
-    
-    
-    <div class="d-none d-xl-block col-xl-2 docs-toc">
-      
-
-
-
-
-
-
-
-
-
-
-
-
-      <ul class="nav toc-top">
-        <li><a href="#" id="back_to_top" class="docs-toc-title">Contents</a></li>
-      </ul>
-
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#loading-libraries">Loading libraries</a></li>
-    <li><a href="#importing-data">Importing data</a></li>
-    <li><a href="#evaluate-some-algorithms">Evaluate Some Algorithms</a></li>
-    <li><a href="#validation-dataset">Validation Dataset</a></li>
-    <li><a href="#evaluate-algorithms-baseline">Evaluate Algorithms: Baseline</a>
-      <ul>
-        <li><a href="#observation">Observation</a></li>
-        <li><a href="#observation-1">Observation</a></li>
-        <li><a href="#evaluate-algorithms-standardize-data">Evaluate Algorithms: Standardize Data</a></li>
-        <li><a href="#observations">Observations</a></li>
-      </ul>
-    </li>
-    <li><a href="#algorithm-tuning">Algorithm Tuning</a>
-      <ul>
-        <li><a href="#tuning-hyper-parameters---svc-estimator">Tuning hyper-parameters - SVC estimator</a></li>
-        <li><a href="#tuning-the-hyper-parameters---k-nn-hyperparameters">Tuning the hyper-parameters - k-NN hyperparameters</a></li>
-      </ul>
-    </li>
-    <li><a href="#finalize-model">Finalize Model</a></li>
-    <li><a href="#summary">Summary</a></li>
-    <li><a href="#reference">Reference</a></li>
-  </ul>
-</nav>
-
-      
-
-
-
-
-
-
-
-
-
-
-
-    </div>
-    
-
-    <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 docs-content" role="main">
-
-      <div class="docs-article-container">
-        
-      </div>
-
-      
-      
-      
-
-      <div class="docs-article-container">
-        
-        <h1>Machine Learning on gut microbiota of patients with Colorectal cancer (8)</h1>
-
-        <article class="article-style">
-
-          
-          
-
-          <h1 id="comparison-between-different-classifiers">Comparison between different classifiers</h1>
-<p><a href="https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/07.Comparison_between_different_classifiers.ipynb" target="_blank" rel="noopener">Notebook 8</a>: Comparison between different classifiers.</p>
-<p>There are standard workflows in a machine learning project that can be automated. In Python scikit-learn, Pipelines help to clearly define and automate these workflows.</p>
-<ul>
-<li>Pipelines help overcome common problems like data leakage in your test harness.</li>
-<li>Python scikit-learn provides a Pipeline utility to help automate machine learning workflows.</li>
-<li>Pipelines work by allowing for a linear sequence of data transforms to be chained together culminating in a modeling process that can be evaluated.</li>
-</ul>
-<h2 id="loading-libraries">Loading libraries</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Create a pipeline that standardizes the data then creates a model</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#Load libraries for data processing</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">KFold</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#from sklearn.cross_validation import cross_val_score, KFold</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.discriminant_analysis</span> <span class="kn">import</span> <span class="n">LinearDiscriminantAnalysis</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># visualization</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span> 
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;fivethirtyeight&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&#34;white&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> 
-</span></span><span class="line"><span class="cl"><span class="c1">#plt.rcParams[&#39;axes.titlesize&#39;] = &#39;large&#39;</span>
-</span></span></code></pre></div><h2 id="importing-data">Importing data</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;
-</span></span></span><span class="line"><span class="cl"><span class="s1"># raw data
-</span></span></span><span class="line"><span class="cl"><span class="s1">data_df = pd.read_table(&#39;./dataset/MergeData.tsv&#39;, sep=&#34;</span><span class="se">\t</span><span class="s1">&#34;, index_col=0)
-</span></span></span><span class="line"><span class="cl"><span class="s1">data = data_df.reset_index(drop=True)
-</span></span></span><span class="line"><span class="cl"><span class="s1">data.head()
-</span></span></span><span class="line"><span class="cl"><span class="s1">
-</span></span></span><span class="line"><span class="cl"><span class="s1"># CLR-transformed data
-</span></span></span><span class="line"><span class="cl"><span class="s1">data_df = pd.read_table(&#39;./dataset/MergeData_clr.tsv&#39;, sep=&#34;</span><span class="se">\t</span><span class="s1">&#34;, index_col=0)
-</span></span></span><span class="line"><span class="cl"><span class="s1">data = data_df.reset_index(drop=True)
-</span></span></span><span class="line"><span class="cl"><span class="s1">data.head()
-</span></span></span><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># significant species</span>
-</span></span><span class="line"><span class="cl"><span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;./dataset/MergeData_clr_signif.tsv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\t</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</span></span></code></pre></div><p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<figure  >
-  <div class="d-flex justify-content-center">
-    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102105744465.png" alt="" loading="lazy" data-zoomable /></div>
-  </div></figure>
-</p>
-<h2 id="evaluate-some-algorithms">Evaluate Some Algorithms</h2>
-<p>Now it is time to create some models of the data and estimate their accuracy on unseen data. Here is what we are going to cover in this step:</p>
-<ol>
-<li>Separate out a validation dataset.</li>
-<li>Setup the test harness to use 10-fold cross validation.</li>
-<li>Build 5 different models</li>
-<li>Select the best model</li>
-</ol>
-<h2 id="validation-dataset">Validation Dataset</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Split-out validation dataset</span>
-</span></span><span class="line"><span class="cl"><span class="n">array</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span>
-</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">array</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
-</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="n">array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Divide records in training and testing sets.</span>
-</span></span><span class="line"><span class="cl"><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">#transform the class labels from their original string representation (CRC and healthy) into integers</span>
-</span></span><span class="line"><span class="cl"><span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-</span></span></code></pre></div><h2 id="evaluate-algorithms-baseline">Evaluate Algorithms: Baseline</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># turn off warnings</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">warnings</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">action_with_warnings</span><span class="p">():</span>
-</span></span><span class="line"><span class="cl">    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&#34;forbid warnings&#39; display&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="n">action_with_warnings</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Spot-Check Algorithms</span>
-</span></span><span class="line"><span class="cl"><span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl"><span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">((</span> <span class="s1">&#39;LR&#39;</span> <span class="p">,</span> <span class="n">LogisticRegression</span><span class="p">()))</span>
-</span></span><span class="line"><span class="cl"><span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">((</span> <span class="s1">&#39;LDA&#39;</span> <span class="p">,</span> <span class="n">LinearDiscriminantAnalysis</span><span class="p">()))</span>
-</span></span><span class="line"><span class="cl"><span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">((</span> <span class="s1">&#39;KNN&#39;</span> <span class="p">,</span> <span class="n">KNeighborsClassifier</span><span class="p">()))</span>
-</span></span><span class="line"><span class="cl"><span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">((</span> <span class="s1">&#39;CART&#39;</span> <span class="p">,</span> <span class="n">DecisionTreeClassifier</span><span class="p">()))</span>
-</span></span><span class="line"><span class="cl"><span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">((</span> <span class="s1">&#39;NB&#39;</span> <span class="p">,</span> <span class="n">GaussianNB</span><span class="p">()))</span>
-</span></span><span class="line"><span class="cl"><span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">((</span> <span class="s1">&#39;SVM&#39;</span> <span class="p">,</span> <span class="n">SVC</span><span class="p">()))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Test options and evaluation metric</span>
-</span></span><span class="line"><span class="cl"><span class="n">num_folds</span> <span class="o">=</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl"><span class="n">num_instances</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">seed</span> <span class="o">=</span> <span class="mi">7</span> 
-</span></span><span class="line"><span class="cl"><span class="n">scoring</span> <span class="o">=</span>  <span class="s1">&#39;accuracy&#39;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Test options and evaluation metric</span>
-</span></span><span class="line"><span class="cl"><span class="n">num_folds</span> <span class="o">=</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl"><span class="n">num_instances</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">seed</span> <span class="o">=</span> <span class="mi">7</span> 
-</span></span><span class="line"><span class="cl"><span class="n">scoring</span> <span class="o">=</span> <span class="s1">&#39;accuracy&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl"><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">#kfold = KFold(n=num_instances, n_folds=num_folds, random_state=seed)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">kfold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">num_folds</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cv_results</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kfold</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv_results</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%f</span><span class="s2"> (</span><span class="si">%f</span><span class="s2">)&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">cv_results</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">cv_results</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&gt; 10-Fold cross-validation accurcay score for the training data for six classifiers&#39;</span><span class="p">)</span> 
+<!doctype html><!-- This site was created with Wowchemy. https://www.wowchemy.com --><!-- Last Published: April 27, 2023 --><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=generator content="Wowchemy 5.7.0 for Hugo"><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media=print onload='this.media="all"'><link rel=stylesheet href=/css/vendor-bundle.min.16f785cdb553c8c4431db6775122af35.css media=print onload='this.media="all"'><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin=anonymous media=print onload='this.media="all"'><link rel=stylesheet href=/css/wowchemy.e5d7adca760216d3b7e28ea434e81f6f.css><link rel=stylesheet href=/css/libs/chroma/github-light.min.css title=hl-light media=print onload='this.media="all"'><link rel=stylesheet href=/css/libs/chroma/dracula.min.css title=hl-dark media=print onload='this.media="all"' disabled><script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}function trackOutboundLink(e,t){gtag("event","click",{event_category:"outbound",event_label:e,transport_type:"beacon",event_callback:function(){t!=="_blank"&&(document.location=e)}}),console.debug("Outbound link clicked: "+e)}function onClickCallback(e){if(e.target.tagName!=="A"||e.target.host===window.location.host)return;trackOutboundLink(e.target,e.target.getAttribute("target"))}gtag("js",new Date),gtag("config","UA-162525500-1",{}),gtag("set",{cookie_flags:"SameSite=None;Secure"}),document.addEventListener("click",onClickCallback,!1)</script><script>var _hmt=_hmt||[];(function(){var e,t=document.createElement("script");t.src="https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3",e=document.getElementsByTagName("script")[0],e.parentNode.insertBefore(t,e)})()</script><meta name=author content="Hua Zou"><meta name=description content="Comparison between different classifiers."><link rel=alternate hreflang=en-us href=https://zouhua.top/post/machine_learning/2022-11-02-ml008-compclassifier/><link rel=canonical href=https://zouhua.top/post/machine_learning/2022-11-02-ml008-compclassifier/><link rel=manifest href=/manifest.webmanifest><link rel=icon type=image/png href=/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_32x32_fill_lanczos_center_3.png><link rel=apple-touch-icon type=image/png href=/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_180x180_fill_lanczos_center_3.png><meta name=theme-color content="#1565c0"><meta property="twitter:card" content="summary"><meta property="twitter:site" content="@Hua Zou"><meta property="twitter:creator" content="@Hua Zou"><meta property="twitter:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png"><meta property="og:site_name" content="Hua' Cabin"><meta property="og:url" content="https://zouhua.top/post/machine_learning/2022-11-02-ml008-compclassifier/"><meta property="og:title" content="Machine Learning on gut microbiota of patients with Colorectal cancer (8) | Hua' Cabin"><meta property="og:description" content="Comparison between different classifiers."><meta property="og:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png"><meta property="og:locale" content="en-us"><meta property="article:published_time" content="2022-11-02T20:13:14+00:00"><meta property="article:modified_time" content="2022-11-02T22:13:14+00:00"><title>Machine Learning on gut microbiota of patients with Colorectal cancer (8) | Hua' Cabin</title></head><body id=top data-spy=scroll data-offset=70 data-target=#TableOfContents class=page-wrapper data-wc-page-id=1c1269aad5bd7b2f92cdcd807a432214><script src=/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js></script><div class="page-header header--fixed"><header><nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id=navbar-main><div class=container-xl><div class="d-none d-lg-inline-flex"><a class=navbar-brand href=/>Hua' Cabin</a></div><button type=button class=navbar-toggler data-toggle=collapse data-target=#navbar-content aria-controls=navbar-content aria-expanded=false aria-label="Toggle navigation">
+<span><i class="fas fa-bars"></i></span></button><div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none"><a class=navbar-brand href=/>Hua' Cabin</a></div><div class="navbar-collapse main-menu-item collapse justify-content-start" id=navbar-content><ul class="navbar-nav d-md-inline-flex"><li class=nav-item><a class=nav-link href=/#about><span>Home</span></a></li><li class=nav-item><a class=nav-link href=/#posts><span>Posts</span></a></li><li class=nav-item><a class=nav-link href=/#experience><span>Experience</span></a></li><li class=nav-item><a class=nav-link href=/#publications><span>Publications</span></a></li><li class=nav-item><a class=nav-link href=/#contact><span>Contact</span></a></li><li class=nav-item><a class=nav-link href=/#bookdown><span>Bookdown</span></a></li></ul></div><ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2"><li class=nav-item><a class="nav-link js-search" href=# aria-label=Search><i class="fas fa-search" aria-hidden=true></i></a></li><li class="nav-item dropdown theme-dropdown"><a href=# class=nav-link data-toggle=dropdown aria-haspopup=true aria-label="Display preferences"><i class="fas fa-moon" aria-hidden=true></i></a><div class=dropdown-menu><a href=# class="dropdown-item js-set-theme-light"><span>Light</span></a>
+<a href=# class="dropdown-item js-set-theme-dark"><span>Dark</span></a>
+<a href=# class="dropdown-item js-set-theme-auto"><span>Automatic</span></a></div></li></ul></div></nav></header></div><div class=page-body><div class="container-fluid docs"><div class="row flex-xl-nowrap"><div class="col-12 col-md-3 col-xl-2 docs-sidebar"><form class="docs-search d-flex align-items-center"><button class="btn docs-toggle d-md-none p-0 mr-md-3 w-100" type=button data-toggle=collapse data-target=#docs-nav aria-controls=docs-nav aria-expanded=false aria-label="Toggle section navigation"><div class=d-flex><span class="d-md-none pl-1 flex-grow-1 text-left overflow-hidden">Posts</span>
+<span><i class="fas fa-chevron-down"></i></span></div></button></form><nav class="collapse docs-links" id=docs-nav><ul class="nav docs-sidenav"><li><a href=/post/><i class="fas fa-arrow-left pr-1"></i>Posts</a></li></ul><li class=active><a href=/post/machine_learning/2022-11-02-ml008-compclassifier/>Machine Learning on gut microbiota of patients with Colorectal cancer (8)</a></li></nav></div><div class="d-none d-xl-block col-xl-2 docs-toc"><ul class="nav toc-top"><li><a href=# id=back_to_top class=docs-toc-title>Contents</a></li></ul><nav id=TableOfContents><ul><li><a href=#loading-libraries>Loading libraries</a></li><li><a href=#importing-data>Importing data</a></li><li><a href=#evaluate-some-algorithms>Evaluate Some Algorithms</a></li><li><a href=#validation-dataset>Validation Dataset</a></li><li><a href=#evaluate-algorithms-baseline>Evaluate Algorithms: Baseline</a><ul><li><a href=#observation>Observation</a></li><li><a href=#observation-1>Observation</a></li><li><a href=#evaluate-algorithms-standardize-data>Evaluate Algorithms: Standardize Data</a></li><li><a href=#observations>Observations</a></li></ul></li><li><a href=#algorithm-tuning>Algorithm Tuning</a><ul><li><a href=#tuning-hyper-parameters---svc-estimator>Tuning hyper-parameters - SVC estimator</a></li><li><a href=#tuning-the-hyper-parameters---k-nn-hyperparameters>Tuning the hyper-parameters - k-NN hyperparameters</a></li></ul></li><li><a href=#finalize-model>Finalize Model</a></li><li><a href=#summary>Summary</a></li><li><a href=#reference>Reference</a></li></ul></nav></div><main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 docs-content" role=main><div class=docs-article-container></div><div class=docs-article-container><h1>Machine Learning on gut microbiota of patients with Colorectal cancer (8)</h1><article class=article-style><h1 id=comparison-between-different-classifiers>Comparison between different classifiers</h1><p><a href=https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/07.Comparison_between_different_classifiers.ipynb target=_blank rel=noopener>Notebook 8</a>: Comparison between different classifiers.</p><p>There are standard workflows in a machine learning project that can be automated. In Python scikit-learn, Pipelines help to clearly define and automate these workflows.</p><ul><li>Pipelines help overcome common problems like data leakage in your test harness.</li><li>Python scikit-learn provides a Pipeline utility to help automate machine learning workflows.</li><li>Pipelines work by allowing for a linear sequence of data transforms to be chained together culminating in a modeling process that can be evaluated.</li></ul><h2 id=loading-libraries>Loading libraries</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=o>%</span><span class=n>matplotlib</span> <span class=n>inline</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>matplotlib.pyplot</span> <span class=k>as</span> <span class=nn>plt</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Create a pipeline that standardizes the data then creates a model</span>
+</span></span><span class=line><span class=cl><span class=c1>#Load libraries for data processing</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>pandas</span> <span class=k>as</span> <span class=nn>pd</span> 
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>scipy.stats</span> <span class=kn>import</span> <span class=n>norm</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.model_selection</span> <span class=kn>import</span> <span class=n>train_test_split</span><span class=p>,</span> <span class=n>KFold</span>
+</span></span><span class=line><span class=cl><span class=c1>#from sklearn.cross_validation import cross_val_score, KFold</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.model_selection</span> <span class=kn>import</span> <span class=n>cross_val_score</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.preprocessing</span> <span class=kn>import</span> <span class=n>LabelEncoder</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.preprocessing</span> <span class=kn>import</span> <span class=n>StandardScaler</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.decomposition</span> <span class=kn>import</span> <span class=n>PCA</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.pipeline</span> <span class=kn>import</span> <span class=n>Pipeline</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.model_selection</span> <span class=kn>import</span> <span class=n>GridSearchCV</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.linear_model</span> <span class=kn>import</span> <span class=n>LogisticRegression</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.tree</span> <span class=kn>import</span> <span class=n>DecisionTreeClassifier</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.neighbors</span> <span class=kn>import</span> <span class=n>KNeighborsClassifier</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.discriminant_analysis</span> <span class=kn>import</span> <span class=n>LinearDiscriminantAnalysis</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.naive_bayes</span> <span class=kn>import</span> <span class=n>GaussianNB</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.svm</span> <span class=kn>import</span> <span class=n>SVC</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.metrics</span> <span class=kn>import</span> <span class=n>confusion_matrix</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.metrics</span> <span class=kn>import</span> <span class=n>accuracy_score</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.metrics</span> <span class=kn>import</span> <span class=n>classification_report</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># visualization</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>seaborn</span> <span class=k>as</span> <span class=nn>sns</span> 
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>style</span><span class=o>.</span><span class=n>use</span><span class=p>(</span><span class=s1>&#39;fivethirtyeight&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>sns</span><span class=o>.</span><span class=n>set_style</span><span class=p>(</span><span class=s2>&#34;white&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>rcParams</span><span class=p>[</span><span class=s1>&#39;figure.figsize&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=p>(</span><span class=mi>8</span><span class=p>,</span><span class=mi>4</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=c1>#plt.rcParams[&#39;axes.titlesize&#39;] = &#39;large&#39;</span>
+</span></span></code></pre></div><h2 id=importing-data>Importing data</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=s1>&#39;&#39;&#39;
+</span></span></span><span class=line><span class=cl><span class=s1># raw data
+</span></span></span><span class=line><span class=cl><span class=s1>data_df = pd.read_table(&#39;./dataset/MergeData.tsv&#39;, sep=&#34;</span><span class=se>\t</span><span class=s1>&#34;, index_col=0)
+</span></span></span><span class=line><span class=cl><span class=s1>data = data_df.reset_index(drop=True)
+</span></span></span><span class=line><span class=cl><span class=s1>data.head()
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1># CLR-transformed data
+</span></span></span><span class=line><span class=cl><span class=s1>data_df = pd.read_table(&#39;./dataset/MergeData_clr.tsv&#39;, sep=&#34;</span><span class=se>\t</span><span class=s1>&#34;, index_col=0)
+</span></span></span><span class=line><span class=cl><span class=s1>data = data_df.reset_index(drop=True)
+</span></span></span><span class=line><span class=cl><span class=s1>data.head()
+</span></span></span><span class=line><span class=cl><span class=s1>&#39;&#39;&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># significant species</span>
+</span></span><span class=line><span class=cl><span class=n>data_df</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>read_table</span><span class=p>(</span><span class=s1>&#39;./dataset/MergeData_clr_signif.tsv&#39;</span><span class=p>,</span> <span class=n>sep</span><span class=o>=</span><span class=s2>&#34;</span><span class=se>\t</span><span class=s2>&#34;</span><span class=p>,</span> <span class=n>index_col</span><span class=o>=</span><span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>data</span> <span class=o>=</span> <span class=n>data_df</span><span class=o>.</span><span class=n>reset_index</span><span class=p>(</span><span class=n>drop</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>data</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></div><p><figure><div class="d-flex justify-content-center"><div class=w-100><img src=https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/image-20221102105744465.png alt loading=lazy data-zoomable></div></div></figure></p><h2 id=evaluate-some-algorithms>Evaluate Some Algorithms</h2><p>Now it is time to create some models of the data and estimate their accuracy on unseen data. Here is what we are going to cover in this step:</p><ol><li>Separate out a validation dataset.</li><li>Setup the test harness to use 10-fold cross validation.</li><li>Build 5 different models</li><li>Select the best model</li></ol><h2 id=validation-dataset>Validation Dataset</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># Split-out validation dataset</span>
+</span></span><span class=line><span class=cl><span class=n>array</span> <span class=o>=</span> <span class=n>data</span><span class=o>.</span><span class=n>values</span>
+</span></span><span class=line><span class=cl><span class=n>X</span> <span class=o>=</span> <span class=n>array</span><span class=p>[:,</span> <span class=mi>1</span><span class=p>:</span><span class=n>data</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=mi>1</span><span class=p>]]</span>
+</span></span><span class=line><span class=cl><span class=n>y</span> <span class=o>=</span> <span class=n>array</span><span class=p>[:,</span> <span class=mi>0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Divide records in training and testing sets.</span>
+</span></span><span class=line><span class=cl><span class=n>X_train</span><span class=p>,</span> <span class=n>X_test</span><span class=p>,</span> <span class=n>y_train</span><span class=p>,</span> <span class=n>y_test</span> <span class=o>=</span> <span class=n>train_test_split</span><span class=p>(</span><span class=n>X</span><span class=p>,</span> <span class=n>y</span><span class=p>,</span> <span class=n>test_size</span><span class=o>=</span><span class=mf>0.3</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>7</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#transform the class labels from their original string representation (CRC and healthy) into integers</span>
+</span></span><span class=line><span class=cl><span class=n>le</span> <span class=o>=</span> <span class=n>LabelEncoder</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>y</span> <span class=o>=</span> <span class=n>le</span><span class=o>.</span><span class=n>fit_transform</span><span class=p>(</span><span class=n>y</span><span class=p>)</span>
+</span></span></code></pre></div><h2 id=evaluate-algorithms-baseline>Evaluate Algorithms: Baseline</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># turn off warnings</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>warnings</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>action_with_warnings</span><span class=p>():</span>
+</span></span><span class=line><span class=cl>    <span class=n>warnings</span><span class=o>.</span><span class=n>warn</span><span class=p>(</span><span class=s2>&#34;forbid warnings&#39; display&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>with</span> <span class=n>warnings</span><span class=o>.</span><span class=n>catch_warnings</span><span class=p>(</span><span class=n>record</span><span class=o>=</span><span class=kc>True</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>action_with_warnings</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Spot-Check Algorithms</span>
+</span></span><span class=line><span class=cl><span class=n>models</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl><span class=n>models</span><span class=o>.</span><span class=n>append</span><span class=p>((</span> <span class=s1>&#39;LR&#39;</span> <span class=p>,</span> <span class=n>LogisticRegression</span><span class=p>()))</span>
+</span></span><span class=line><span class=cl><span class=n>models</span><span class=o>.</span><span class=n>append</span><span class=p>((</span> <span class=s1>&#39;LDA&#39;</span> <span class=p>,</span> <span class=n>LinearDiscriminantAnalysis</span><span class=p>()))</span>
+</span></span><span class=line><span class=cl><span class=n>models</span><span class=o>.</span><span class=n>append</span><span class=p>((</span> <span class=s1>&#39;KNN&#39;</span> <span class=p>,</span> <span class=n>KNeighborsClassifier</span><span class=p>()))</span>
+</span></span><span class=line><span class=cl><span class=n>models</span><span class=o>.</span><span class=n>append</span><span class=p>((</span> <span class=s1>&#39;CART&#39;</span> <span class=p>,</span> <span class=n>DecisionTreeClassifier</span><span class=p>()))</span>
+</span></span><span class=line><span class=cl><span class=n>models</span><span class=o>.</span><span class=n>append</span><span class=p>((</span> <span class=s1>&#39;NB&#39;</span> <span class=p>,</span> <span class=n>GaussianNB</span><span class=p>()))</span>
+</span></span><span class=line><span class=cl><span class=n>models</span><span class=o>.</span><span class=n>append</span><span class=p>((</span> <span class=s1>&#39;SVM&#39;</span> <span class=p>,</span> <span class=n>SVC</span><span class=p>()))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Test options and evaluation metric</span>
+</span></span><span class=line><span class=cl><span class=n>num_folds</span> <span class=o>=</span> <span class=mi>10</span>
+</span></span><span class=line><span class=cl><span class=n>num_instances</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>X_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>seed</span> <span class=o>=</span> <span class=mi>7</span> 
+</span></span><span class=line><span class=cl><span class=n>scoring</span> <span class=o>=</span>  <span class=s1>&#39;accuracy&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Test options and evaluation metric</span>
+</span></span><span class=line><span class=cl><span class=n>num_folds</span> <span class=o>=</span> <span class=mi>10</span>
+</span></span><span class=line><span class=cl><span class=n>num_instances</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>X_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>seed</span> <span class=o>=</span> <span class=mi>7</span> 
+</span></span><span class=line><span class=cl><span class=n>scoring</span> <span class=o>=</span> <span class=s1>&#39;accuracy&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>results</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl><span class=n>names</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>name</span><span class=p>,</span> <span class=n>model</span> <span class=ow>in</span> <span class=n>models</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#kfold = KFold(n=num_instances, n_folds=num_folds, random_state=seed)</span>
+</span></span><span class=line><span class=cl>    <span class=n>kfold</span> <span class=o>=</span> <span class=n>KFold</span><span class=p>(</span><span class=n>n_splits</span><span class=o>=</span><span class=n>num_folds</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=n>seed</span><span class=p>,</span> <span class=n>shuffle</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>cv_results</span> <span class=o>=</span> <span class=n>cross_val_score</span><span class=p>(</span><span class=n>model</span><span class=p>,</span> <span class=n>X</span><span class=o>=</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y</span><span class=o>=</span><span class=n>y_train</span><span class=p>,</span> <span class=n>cv</span><span class=o>=</span><span class=n>kfold</span><span class=p>,</span> <span class=n>scoring</span><span class=o>=</span><span class=n>scoring</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>results</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>cv_results</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>names</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>msg</span> <span class=o>=</span> <span class=s2>&#34;</span><span class=si>%s</span><span class=s2>: </span><span class=si>%f</span><span class=s2> (</span><span class=si>%f</span><span class=s2>)&#34;</span> <span class=o>%</span> <span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>cv_results</span><span class=o>.</span><span class=n>mean</span><span class=p>(),</span> <span class=n>cv_results</span><span class=o>.</span><span class=n>std</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=n>msg</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s1>&#39;-&gt; 10-Fold cross-validation accurcay score for the training data for six classifiers&#39;</span><span class=p>)</span> 
 </span></span></code></pre></div><pre><code>LR: 0.682063 (0.099066)
 LDA: 0.684921 (0.101168)
 KNN: 0.585079 (0.080096)
@@ -1048,221 +113,146 @@ CART: 0.616825 (0.057095)
 NB: 0.690873 (0.105033)
 SVM: 0.679286 (0.076846)
 -&gt; 10-Fold cross-validation accurcay score for the training data for six classifiers
-</code></pre>
-<h3 id="observation">Observation</h3>
-<blockquote>
-<p>The results suggest That both GaussianNB and SVM may be worth further study. These are just mean accuracy values. It is always wise to look at the distribution of accuracy values calculated across cross validation folds. We can do that graphically using box and whisker plots.</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Compare Algorithms</span>
-</span></span><span class="line"><span class="cl"><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span> <span class="s1">&#39;Algorithm Comparison&#39;</span> <span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</span></span></code></pre></div><p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<figure  >
-  <div class="d-flex justify-content-center">
-    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/07.Comparison_between_different_classifiers_9_0.png" alt="" loading="lazy" data-zoomable /></div>
-  </div></figure>
-</p>
-<h3 id="observation-1">Observation</h3>
-<blockquote>
-<p>The results show a similar tight distribution for all classifiers except KNN which is encouraging, suggesting low variance.</p>
-</blockquote>
-<blockquote>
-<p>It is possible the varied distribution of the attributes may have an effect on the accuracy of algorithms such as LR, LDA and KNN. In the next section we will repeat this spot-check with a standardized copy of the training dataset.</p>
-</blockquote>
-<h3 id="evaluate-algorithms-standardize-data">Evaluate Algorithms: Standardize Data</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Standardize the dataset</span>
-</span></span><span class="line"><span class="cl"><span class="n">pipelines</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl"><span class="n">pipelines</span><span class="o">.</span><span class="n">append</span><span class="p">((</span> <span class="s1">&#39;ScaledLR&#39;</span> <span class="p">,</span> <span class="n">Pipeline</span><span class="p">([(</span> <span class="s1">&#39;Scaler&#39;</span> <span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),(</span> <span class="s1">&#39;LR&#39;</span> <span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">LogisticRegression</span><span class="p">())])))</span>
-</span></span><span class="line"><span class="cl"><span class="n">pipelines</span><span class="o">.</span><span class="n">append</span><span class="p">((</span> <span class="s1">&#39;ScaledLDA&#39;</span> <span class="p">,</span> <span class="n">Pipeline</span><span class="p">([(</span> <span class="s1">&#39;Scaler&#39;</span> <span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),(</span> <span class="s1">&#39;LDA&#39;</span> <span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">LinearDiscriminantAnalysis</span><span class="p">())])))</span>
-</span></span><span class="line"><span class="cl"><span class="n">pipelines</span><span class="o">.</span><span class="n">append</span><span class="p">((</span> <span class="s1">&#39;ScaledKNN&#39;</span> <span class="p">,</span> <span class="n">Pipeline</span><span class="p">([(</span> <span class="s1">&#39;Scaler&#39;</span> <span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),(</span> <span class="s1">&#39;KNN&#39;</span> <span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">KNeighborsClassifier</span><span class="p">())])))</span>
-</span></span><span class="line"><span class="cl"><span class="n">pipelines</span><span class="o">.</span><span class="n">append</span><span class="p">((</span> <span class="s1">&#39;ScaledCART&#39;</span> <span class="p">,</span> <span class="n">Pipeline</span><span class="p">([(</span> <span class="s1">&#39;Scaler&#39;</span> <span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),(</span> <span class="s1">&#39;CART&#39;</span> <span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">DecisionTreeClassifier</span><span class="p">())])))</span>
-</span></span><span class="line"><span class="cl"><span class="n">pipelines</span><span class="o">.</span><span class="n">append</span><span class="p">((</span> <span class="s1">&#39;ScaledNB&#39;</span> <span class="p">,</span> <span class="n">Pipeline</span><span class="p">([(</span> <span class="s1">&#39;Scaler&#39;</span> <span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),(</span> <span class="s1">&#39;NB&#39;</span> <span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">GaussianNB</span><span class="p">())])))</span>
-</span></span><span class="line"><span class="cl"><span class="n">pipelines</span><span class="o">.</span><span class="n">append</span><span class="p">((</span> <span class="s1">&#39;ScaledSVM&#39;</span> <span class="p">,</span> <span class="n">Pipeline</span><span class="p">([(</span> <span class="s1">&#39;Scaler&#39;</span> <span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),(</span> <span class="s1">&#39;SVM&#39;</span> <span class="p">,</span> <span class="n">SVC</span><span class="p">())])))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl"><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">pipelines</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">#kfold = KFold(n=num_instances, n_folds=num_folds, random_state=seed)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">kfold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">num_folds</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cv_results</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kfold</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv_results</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%f</span><span class="s2"> (</span><span class="si">%f</span><span class="s2">)&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">cv_results</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">cv_results</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</code></pre><h3 id=observation>Observation</h3><blockquote><p>The results suggest That both GaussianNB and SVM may be worth further study. These are just mean accuracy values. It is always wise to look at the distribution of accuracy values calculated across cross validation folds. We can do that graphically using box and whisker plots.</p></blockquote><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># Compare Algorithms</span>
+</span></span><span class=line><span class=cl><span class=n>fig</span> <span class=o>=</span> <span class=n>plt</span><span class=o>.</span><span class=n>figure</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>fig</span><span class=o>.</span><span class=n>suptitle</span><span class=p>(</span> <span class=s1>&#39;Algorithm Comparison&#39;</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>ax</span> <span class=o>=</span> <span class=n>fig</span><span class=o>.</span><span class=n>add_subplot</span><span class=p>(</span><span class=mi>111</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>boxplot</span><span class=p>(</span><span class=n>results</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>ax</span><span class=o>.</span><span class=n>set_xticklabels</span><span class=p>(</span><span class=n>names</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>show</span><span class=p>()</span>
+</span></span></code></pre></div><p><figure><div class="d-flex justify-content-center"><div class=w-100><img src=https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/07.Comparison_between_different_classifiers_9_0.png alt loading=lazy data-zoomable></div></div></figure></p><h3 id=observation-1>Observation</h3><blockquote><p>The results show a similar tight distribution for all classifiers except KNN which is encouraging, suggesting low variance.</p></blockquote><blockquote><p>It is possible the varied distribution of the attributes may have an effect on the accuracy of algorithms such as LR, LDA and KNN. In the next section we will repeat this spot-check with a standardized copy of the training dataset.</p></blockquote><h3 id=evaluate-algorithms-standardize-data>Evaluate Algorithms: Standardize Data</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># Standardize the dataset</span>
+</span></span><span class=line><span class=cl><span class=n>pipelines</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl><span class=n>pipelines</span><span class=o>.</span><span class=n>append</span><span class=p>((</span> <span class=s1>&#39;ScaledLR&#39;</span> <span class=p>,</span> <span class=n>Pipeline</span><span class=p>([(</span> <span class=s1>&#39;Scaler&#39;</span> <span class=p>,</span> <span class=n>StandardScaler</span><span class=p>()),(</span> <span class=s1>&#39;LR&#39;</span> <span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>LogisticRegression</span><span class=p>())])))</span>
+</span></span><span class=line><span class=cl><span class=n>pipelines</span><span class=o>.</span><span class=n>append</span><span class=p>((</span> <span class=s1>&#39;ScaledLDA&#39;</span> <span class=p>,</span> <span class=n>Pipeline</span><span class=p>([(</span> <span class=s1>&#39;Scaler&#39;</span> <span class=p>,</span> <span class=n>StandardScaler</span><span class=p>()),(</span> <span class=s1>&#39;LDA&#39;</span> <span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>LinearDiscriminantAnalysis</span><span class=p>())])))</span>
+</span></span><span class=line><span class=cl><span class=n>pipelines</span><span class=o>.</span><span class=n>append</span><span class=p>((</span> <span class=s1>&#39;ScaledKNN&#39;</span> <span class=p>,</span> <span class=n>Pipeline</span><span class=p>([(</span> <span class=s1>&#39;Scaler&#39;</span> <span class=p>,</span> <span class=n>StandardScaler</span><span class=p>()),(</span> <span class=s1>&#39;KNN&#39;</span> <span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>KNeighborsClassifier</span><span class=p>())])))</span>
+</span></span><span class=line><span class=cl><span class=n>pipelines</span><span class=o>.</span><span class=n>append</span><span class=p>((</span> <span class=s1>&#39;ScaledCART&#39;</span> <span class=p>,</span> <span class=n>Pipeline</span><span class=p>([(</span> <span class=s1>&#39;Scaler&#39;</span> <span class=p>,</span> <span class=n>StandardScaler</span><span class=p>()),(</span> <span class=s1>&#39;CART&#39;</span> <span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>DecisionTreeClassifier</span><span class=p>())])))</span>
+</span></span><span class=line><span class=cl><span class=n>pipelines</span><span class=o>.</span><span class=n>append</span><span class=p>((</span> <span class=s1>&#39;ScaledNB&#39;</span> <span class=p>,</span> <span class=n>Pipeline</span><span class=p>([(</span> <span class=s1>&#39;Scaler&#39;</span> <span class=p>,</span> <span class=n>StandardScaler</span><span class=p>()),(</span> <span class=s1>&#39;NB&#39;</span> <span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>GaussianNB</span><span class=p>())])))</span>
+</span></span><span class=line><span class=cl><span class=n>pipelines</span><span class=o>.</span><span class=n>append</span><span class=p>((</span> <span class=s1>&#39;ScaledSVM&#39;</span> <span class=p>,</span> <span class=n>Pipeline</span><span class=p>([(</span> <span class=s1>&#39;Scaler&#39;</span> <span class=p>,</span> <span class=n>StandardScaler</span><span class=p>()),(</span> <span class=s1>&#39;SVM&#39;</span> <span class=p>,</span> <span class=n>SVC</span><span class=p>())])))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>results</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl><span class=n>names</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>name</span><span class=p>,</span> <span class=n>model</span> <span class=ow>in</span> <span class=n>pipelines</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#kfold = KFold(n=num_instances, n_folds=num_folds, random_state=seed)</span>
+</span></span><span class=line><span class=cl>    <span class=n>kfold</span> <span class=o>=</span> <span class=n>KFold</span><span class=p>(</span><span class=n>n_splits</span><span class=o>=</span><span class=n>num_folds</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=n>seed</span><span class=p>,</span> <span class=n>shuffle</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>cv_results</span> <span class=o>=</span> <span class=n>cross_val_score</span><span class=p>(</span><span class=n>model</span><span class=p>,</span> <span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>,</span> <span class=n>cv</span><span class=o>=</span><span class=n>kfold</span><span class=p>,</span> <span class=n>scoring</span><span class=o>=</span><span class=n>scoring</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>results</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>cv_results</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>names</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>msg</span> <span class=o>=</span> <span class=s2>&#34;</span><span class=si>%s</span><span class=s2>: </span><span class=si>%f</span><span class=s2> (</span><span class=si>%f</span><span class=s2>)&#34;</span> <span class=o>%</span> <span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>cv_results</span><span class=o>.</span><span class=n>mean</span><span class=p>(),</span> <span class=n>cv_results</span><span class=o>.</span><span class=n>std</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=n>msg</span><span class=p>)</span>
 </span></span></code></pre></div><pre><code>ScaledLR: 0.682063 (0.099066)
 ScaledLDA: 0.684921 (0.101168)
 ScaledKNN: 0.585476 (0.076252)
 ScaledCART: 0.622222 (0.066893)
 ScaledNB: 0.690873 (0.105033)
 ScaledSVM: 0.687619 (0.085907)
-</code></pre>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Compare Algorithms</span>
-</span></span><span class="line"><span class="cl"><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span> <span class="s1">&#39;Scaled Algorithm Comparison&#39;</span> <span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</span></span></code></pre></div><p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<figure  >
-  <div class="d-flex justify-content-center">
-    <div class="w-100" ><img src="https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/07.Comparison_between_different_classifiers_12_0.png" alt="" loading="lazy" data-zoomable /></div>
-  </div></figure>
-</p>
-<h3 id="observations">Observations</h3>
-<blockquote>
-<p>The results show that standardization of the data has lifted the skill of SVM to be the most accurate algorithm tested so far.</p>
-</blockquote>
-<p>The results suggest digging deeper into the SVM and LDA and LR algorithms. It is very likely that configuration beyond the default may yield even more accurate models.</p>
-<h2 id="algorithm-tuning">Algorithm Tuning</h2>
-<p>In this section we investigate tuning the parameters for three algorithms that show promise from the spot-checking in the previous section: LR, LDA and SVM.</p>
-<h3 id="tuning-hyper-parameters---svc-estimator">Tuning hyper-parameters - SVC estimator</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># turn off warnings</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">warnings</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">action_with_warnings</span><span class="p">():</span>
-</span></span><span class="line"><span class="cl">    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&#34;forbid warnings&#39; display&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="n">action_with_warnings</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">#Make Support Vector Classifier Pipeline</span>
-</span></span><span class="line"><span class="cl"><span class="n">pipe_svc</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;scl&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span>
-</span></span><span class="line"><span class="cl">                     <span class="p">(</span><span class="s1">&#39;pca&#39;</span><span class="p">,</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)),</span>
-</span></span><span class="line"><span class="cl">                     <span class="p">(</span><span class="s1">&#39;clf&#39;</span><span class="p">,</span> <span class="n">SVC</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">))])</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">#Fit Pipeline to training Data</span>
-</span></span><span class="line"><span class="cl"><span class="n">pipe_svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">#print(&#39;--&gt; Fitted Pipeline to training Data&#39;)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">pipe_svc</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--&gt; Model Training Accuracy: </span><span class="si">%.3f</span><span class="s1"> +/- </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">scores</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">#Tune Hyperparameters</span>
-</span></span><span class="line"><span class="cl"><span class="n">param_range</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">param_grid</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;clf__C&#39;</span><span class="p">:</span> <span class="n">param_range</span><span class="p">,</span><span class="s1">&#39;clf__kernel&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;linear&#39;</span><span class="p">]},</span>
-</span></span><span class="line"><span class="cl">              <span class="p">{</span><span class="s1">&#39;clf__C&#39;</span><span class="p">:</span> <span class="n">param_range</span><span class="p">,</span><span class="s1">&#39;clf__gamma&#39;</span><span class="p">:</span> <span class="n">param_range</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">               <span class="s1">&#39;clf__kernel&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;rbf&#39;</span><span class="p">]}]</span>
-</span></span><span class="line"><span class="cl"><span class="n">gs_svc</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">pipe_svc</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                  <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                  <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                  <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                  <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">gs_svc</span> <span class="o">=</span> <span class="n">gs_svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--&gt; Tuned Parameters Best Score: &#39;</span><span class="p">,</span> <span class="n">gs_svc</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--&gt; Best Parameters: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">gs_svc</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+</code></pre><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># Compare Algorithms</span>
+</span></span><span class=line><span class=cl><span class=n>fig</span> <span class=o>=</span> <span class=n>plt</span><span class=o>.</span><span class=n>figure</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>fig</span><span class=o>.</span><span class=n>suptitle</span><span class=p>(</span> <span class=s1>&#39;Scaled Algorithm Comparison&#39;</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>ax</span> <span class=o>=</span> <span class=n>fig</span><span class=o>.</span><span class=n>add_subplot</span><span class=p>(</span><span class=mi>111</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>boxplot</span><span class=p>(</span><span class=n>results</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>ax</span><span class=o>.</span><span class=n>set_xticklabels</span><span class=p>(</span><span class=n>names</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>show</span><span class=p>()</span>
+</span></span></code></pre></div><p><figure><div class="d-flex justify-content-center"><div class=w-100><img src=https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/07.Comparison_between_different_classifiers_12_0.png alt loading=lazy data-zoomable></div></div></figure></p><h3 id=observations>Observations</h3><blockquote><p>The results show that standardization of the data has lifted the skill of SVM to be the most accurate algorithm tested so far.</p></blockquote><p>The results suggest digging deeper into the SVM and LDA and LR algorithms. It is very likely that configuration beyond the default may yield even more accurate models.</p><h2 id=algorithm-tuning>Algorithm Tuning</h2><p>In this section we investigate tuning the parameters for three algorithms that show promise from the spot-checking in the previous section: LR, LDA and SVM.</p><h3 id=tuning-hyper-parameters---svc-estimator>Tuning hyper-parameters - SVC estimator</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># turn off warnings</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>warnings</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>action_with_warnings</span><span class=p>():</span>
+</span></span><span class=line><span class=cl>    <span class=n>warnings</span><span class=o>.</span><span class=n>warn</span><span class=p>(</span><span class=s2>&#34;forbid warnings&#39; display&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>with</span> <span class=n>warnings</span><span class=o>.</span><span class=n>catch_warnings</span><span class=p>(</span><span class=n>record</span><span class=o>=</span><span class=kc>True</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>action_with_warnings</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#Make Support Vector Classifier Pipeline</span>
+</span></span><span class=line><span class=cl><span class=n>pipe_svc</span> <span class=o>=</span> <span class=n>Pipeline</span><span class=p>([(</span><span class=s1>&#39;scl&#39;</span><span class=p>,</span> <span class=n>StandardScaler</span><span class=p>()),</span>
+</span></span><span class=line><span class=cl>                     <span class=p>(</span><span class=s1>&#39;pca&#39;</span><span class=p>,</span> <span class=n>PCA</span><span class=p>(</span><span class=n>n_components</span><span class=o>=</span><span class=mi>2</span><span class=p>)),</span>
+</span></span><span class=line><span class=cl>                     <span class=p>(</span><span class=s1>&#39;clf&#39;</span><span class=p>,</span> <span class=n>SVC</span><span class=p>(</span><span class=n>probability</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>verbose</span><span class=o>=</span><span class=kc>False</span><span class=p>))])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#Fit Pipeline to training Data</span>
+</span></span><span class=line><span class=cl><span class=n>pipe_svc</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#print(&#39;--&gt; Fitted Pipeline to training Data&#39;)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>scores</span> <span class=o>=</span> <span class=n>cross_val_score</span><span class=p>(</span><span class=n>estimator</span><span class=o>=</span><span class=n>pipe_svc</span><span class=p>,</span> <span class=n>X</span><span class=o>=</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y</span><span class=o>=</span><span class=n>y_train</span><span class=p>,</span> <span class=n>cv</span><span class=o>=</span><span class=mi>10</span><span class=p>,</span> <span class=n>n_jobs</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>verbose</span><span class=o>=</span><span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s1>&#39;--&gt; Model Training Accuracy: </span><span class=si>%.3f</span><span class=s1> +/- </span><span class=si>%.3f</span><span class=s1>&#39;</span> <span class=o>%</span><span class=p>(</span><span class=n>np</span><span class=o>.</span><span class=n>mean</span><span class=p>(</span><span class=n>scores</span><span class=p>),</span> <span class=n>np</span><span class=o>.</span><span class=n>std</span><span class=p>(</span><span class=n>scores</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#Tune Hyperparameters</span>
+</span></span><span class=line><span class=cl><span class=n>param_range</span> <span class=o>=</span> <span class=p>[</span><span class=mf>0.0001</span><span class=p>,</span> <span class=mf>0.001</span><span class=p>,</span> <span class=mf>0.01</span><span class=p>,</span> <span class=mf>0.1</span><span class=p>,</span> <span class=mf>1.0</span><span class=p>,</span> <span class=mf>10.0</span><span class=p>,</span> <span class=mf>100.0</span><span class=p>,</span> <span class=mf>1000.0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=n>param_grid</span> <span class=o>=</span> <span class=p>[{</span><span class=s1>&#39;clf__C&#39;</span><span class=p>:</span> <span class=n>param_range</span><span class=p>,</span><span class=s1>&#39;clf__kernel&#39;</span><span class=p>:</span> <span class=p>[</span><span class=s1>&#39;linear&#39;</span><span class=p>]},</span>
+</span></span><span class=line><span class=cl>              <span class=p>{</span><span class=s1>&#39;clf__C&#39;</span><span class=p>:</span> <span class=n>param_range</span><span class=p>,</span><span class=s1>&#39;clf__gamma&#39;</span><span class=p>:</span> <span class=n>param_range</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>               <span class=s1>&#39;clf__kernel&#39;</span><span class=p>:</span> <span class=p>[</span><span class=s1>&#39;rbf&#39;</span><span class=p>]}]</span>
+</span></span><span class=line><span class=cl><span class=n>gs_svc</span> <span class=o>=</span> <span class=n>GridSearchCV</span><span class=p>(</span><span class=n>estimator</span><span class=o>=</span><span class=n>pipe_svc</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                  <span class=n>param_grid</span><span class=o>=</span><span class=n>param_grid</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                  <span class=n>scoring</span><span class=o>=</span><span class=s1>&#39;accuracy&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                  <span class=n>cv</span><span class=o>=</span><span class=mi>10</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                  <span class=n>n_jobs</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>gs_svc</span> <span class=o>=</span> <span class=n>gs_svc</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s1>&#39;--&gt; Tuned Parameters Best Score: &#39;</span><span class=p>,</span> <span class=n>gs_svc</span><span class=o>.</span><span class=n>best_score_</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s1>&#39;--&gt; Best Parameters: </span><span class=se>\n</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>gs_svc</span><span class=o>.</span><span class=n>best_params_</span><span class=p>)</span>
 </span></span></code></pre></div><pre><code>--&gt; Model Training Accuracy: 0.633 +/- 0.094
 --&gt; Tuned Parameters Best Score:  0.6533333333333333
 --&gt; Best Parameters: 
  {'clf__C': 10.0, 'clf__gamma': 0.1, 'clf__kernel': 'rbf'}
-</code></pre>
-<h3 id="tuning-the-hyper-parameters---k-nn-hyperparameters">Tuning the hyper-parameters - k-NN hyperparameters</h3>
-<p>For your standard k-NN implementation, there are two primary hyperparameters that you’ll want to tune:</p>
-<ul>
-<li>The number of neighbors k.</li>
-<li>The distance metric/similarity function.</li>
-</ul>
-<p>Both of these values can dramatically affect the accuracy of your k-NN classifier. Grid object is ready to do 10-fold cross validation on a KNN model using classification accuracy as the evaluation metric
+</code></pre><h3 id=tuning-the-hyper-parameters---k-nn-hyperparameters>Tuning the hyper-parameters - k-NN hyperparameters</h3><p>For your standard k-NN implementation, there are two primary hyperparameters that you’ll want to tune:</p><ul><li>The number of neighbors k.</li><li>The distance metric/similarity function.</li></ul><p>Both of these values can dramatically affect the accuracy of your k-NN classifier. Grid object is ready to do 10-fold cross validation on a KNN model using classification accuracy as the evaluation metric
 In addition, there is a parameter grid to repeat the 10-fold cross validation process 30 times
 Each time, the n_neighbors parameter should be given a different value from the list
 We can&rsquo;t give GridSearchCV just a list
 We&rsquo;ve to specify n_neighbors should take on 1 through 30
-You can set n_jobs = -1 to run computations in parallel (if supported by your computer and OS)</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span> <span class="k">as</span> <span class="n">KNN</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">pipe_knn</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;scl&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span>
-</span></span><span class="line"><span class="cl">                     <span class="p">(</span><span class="s1">&#39;pca&#39;</span><span class="p">,</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)),</span>
-</span></span><span class="line"><span class="cl">                     <span class="p">(</span><span class="s1">&#39;clf&#39;</span><span class="p">,</span> <span class="n">KNeighborsClassifier</span><span class="p">())])</span>
-</span></span><span class="line"><span class="cl">            
-</span></span><span class="line"><span class="cl"><span class="c1">#Fit Pipeline to training Data</span>
-</span></span><span class="line"><span class="cl"><span class="n">pipe_knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span> 
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">pipe_knn</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">                         <span class="n">X</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">                         <span class="n">y</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">                         <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                         <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--&gt; Model Training Accuracy: </span><span class="si">%.3f</span><span class="s1"> +/- </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">scores</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">#Tune Hyperparameters</span>
-</span></span><span class="line"><span class="cl"><span class="n">param_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">param_grid</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;clf__n_neighbors&#39;</span><span class="p">:</span> <span class="n">param_range</span><span class="p">}]</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># instantiate the grid</span>
-</span></span><span class="line"><span class="cl"><span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">pipe_knn</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">                    <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">                    <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">                    <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">gs_knn</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--&gt; Tuned Parameters Best Score: &#39;</span><span class="p">,</span> <span class="n">gs_knn</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--&gt; Best Parameters: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">gs_knn</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+You can set n_jobs = -1 to run computations in parallel (if supported by your computer and OS)</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.neighbors</span> <span class=kn>import</span> <span class=n>KNeighborsClassifier</span> <span class=k>as</span> <span class=n>KNN</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>pipe_knn</span> <span class=o>=</span> <span class=n>Pipeline</span><span class=p>([(</span><span class=s1>&#39;scl&#39;</span><span class=p>,</span> <span class=n>StandardScaler</span><span class=p>()),</span>
+</span></span><span class=line><span class=cl>                     <span class=p>(</span><span class=s1>&#39;pca&#39;</span><span class=p>,</span> <span class=n>PCA</span><span class=p>(</span><span class=n>n_components</span><span class=o>=</span><span class=mi>2</span><span class=p>)),</span>
+</span></span><span class=line><span class=cl>                     <span class=p>(</span><span class=s1>&#39;clf&#39;</span><span class=p>,</span> <span class=n>KNeighborsClassifier</span><span class=p>())])</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl><span class=c1>#Fit Pipeline to training Data</span>
+</span></span><span class=line><span class=cl><span class=n>pipe_knn</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>scores</span> <span class=o>=</span> <span class=n>cross_val_score</span><span class=p>(</span><span class=n>estimator</span><span class=o>=</span><span class=n>pipe_knn</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                         <span class=n>X</span><span class=o>=</span><span class=n>X_train</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                         <span class=n>y</span><span class=o>=</span><span class=n>y_train</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                         <span class=n>cv</span><span class=o>=</span><span class=mi>10</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                         <span class=n>n_jobs</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s1>&#39;--&gt; Model Training Accuracy: </span><span class=si>%.3f</span><span class=s1> +/- </span><span class=si>%.3f</span><span class=s1>&#39;</span> <span class=o>%</span><span class=p>(</span><span class=n>np</span><span class=o>.</span><span class=n>mean</span><span class=p>(</span><span class=n>scores</span><span class=p>),</span> <span class=n>np</span><span class=o>.</span><span class=n>std</span><span class=p>(</span><span class=n>scores</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#Tune Hyperparameters</span>
+</span></span><span class=line><span class=cl><span class=n>param_range</span> <span class=o>=</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>31</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>param_grid</span> <span class=o>=</span> <span class=p>[{</span><span class=s1>&#39;clf__n_neighbors&#39;</span><span class=p>:</span> <span class=n>param_range</span><span class=p>}]</span>
+</span></span><span class=line><span class=cl><span class=c1># instantiate the grid</span>
+</span></span><span class=line><span class=cl><span class=n>grid</span> <span class=o>=</span> <span class=n>GridSearchCV</span><span class=p>(</span><span class=n>estimator</span><span class=o>=</span><span class=n>pipe_knn</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                    <span class=n>param_grid</span><span class=o>=</span><span class=n>param_grid</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                    <span class=n>cv</span><span class=o>=</span><span class=mi>10</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                    <span class=n>scoring</span><span class=o>=</span><span class=s1>&#39;accuracy&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>gs_knn</span> <span class=o>=</span> <span class=n>grid</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s1>&#39;--&gt; Tuned Parameters Best Score: &#39;</span><span class=p>,</span> <span class=n>gs_knn</span><span class=o>.</span><span class=n>best_score_</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s1>&#39;--&gt; Best Parameters: </span><span class=se>\n</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>gs_knn</span><span class=o>.</span><span class=n>best_params_</span><span class=p>)</span>
 </span></span></code></pre></div><pre><code>--&gt; Model Training Accuracy: 0.590 +/- 0.108
 --&gt; Tuned Parameters Best Score:  0.6558730158730158
 --&gt; Best Parameters: 
  {'clf__n_neighbors': 17}
-</code></pre>
-<h2 id="finalize-model">Finalize Model</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">#Use best parameters</span>
-</span></span><span class="line"><span class="cl"><span class="n">clf_svc</span> <span class="o">=</span> <span class="n">gs_knn</span><span class="o">.</span><span class="n">best_estimator_</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">#Get Final Scores</span>
-</span></span><span class="line"><span class="cl"><span class="n">clf_svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">clf_svc</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                         <span class="n">X</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                         <span class="n">y</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                         <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                         <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--&gt; Final Model Training Accuracy: </span><span class="si">%.3f</span><span class="s1"> +/- </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">scores</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--&gt; Final Accuracy on Test set: </span><span class="si">%.5f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">clf_svc</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_test</span><span class="p">))</span>
+</code></pre><h2 id=finalize-model>Finalize Model</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1>#Use best parameters</span>
+</span></span><span class=line><span class=cl><span class=n>clf_svc</span> <span class=o>=</span> <span class=n>gs_knn</span><span class=o>.</span><span class=n>best_estimator_</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#Get Final Scores</span>
+</span></span><span class=line><span class=cl><span class=n>clf_svc</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>scores</span> <span class=o>=</span> <span class=n>cross_val_score</span><span class=p>(</span><span class=n>estimator</span><span class=o>=</span><span class=n>clf_svc</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                         <span class=n>X</span><span class=o>=</span><span class=n>X_train</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                         <span class=n>y</span><span class=o>=</span><span class=n>y_train</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                         <span class=n>cv</span><span class=o>=</span><span class=mi>10</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                         <span class=n>n_jobs</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s1>&#39;--&gt; Final Model Training Accuracy: </span><span class=si>%.3f</span><span class=s1> +/- </span><span class=si>%.3f</span><span class=s1>&#39;</span> <span class=o>%</span><span class=p>(</span><span class=n>np</span><span class=o>.</span><span class=n>mean</span><span class=p>(</span><span class=n>scores</span><span class=p>),</span> <span class=n>np</span><span class=o>.</span><span class=n>std</span><span class=p>(</span><span class=n>scores</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s1>&#39;--&gt; Final Accuracy on Test set: </span><span class=si>%.5f</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=n>clf_svc</span><span class=o>.</span><span class=n>score</span><span class=p>(</span><span class=n>X_test</span><span class=p>,</span><span class=n>y_test</span><span class=p>))</span>
 </span></span></code></pre></div><pre><code>--&gt; Final Model Training Accuracy: 0.656 +/- 0.097
 --&gt; Final Accuracy on Test set: 0.53947
-</code></pre>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">clf_svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf_svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</code></pre><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>clf_svc</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>y_pred</span> <span class=o>=</span> <span class=n>clf_svc</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>accuracy_score</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>confusion_matrix</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>classification_report</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred</span><span class=p>))</span>
 </span></span></code></pre></div><pre><code>0.5394736842105263
 [[40 46]
  [24 42]]
@@ -1274,315 +264,16 @@ You can set n_jobs = -1 to run computations in parallel (if supported by your co
     accuracy                           0.54       152
    macro avg       0.55      0.55      0.54       152
 weighted avg       0.56      0.54      0.54       152
-</code></pre>
-<h2 id="summary">Summary</h2>
-<p>Worked through a classification predictive modeling machine learning problem from end-to-end using Python. Specifically, the steps covered were:</p>
-<ol>
-<li>Problem Definition.</li>
-<li>Loading the Dataset.</li>
-<li>Analyze Data (same scale but different distributions of data).
-<ul>
-<li>Evaluate Algorithms (KNN looked good).</li>
-<li>Evaluate Algorithms with Standardization (KNN and SVM looked good)..</li>
-</ul>
-</li>
-<li>Finalize Model (use all training data and confirm using validation dataset)</li>
-</ol>
-<h2 id="reference">Reference</h2>
-<ul>
-<li><a href="https://github.com/Jean-njoroge/Breast-cancer-risk-prediction" target="_blank" rel="noopener">Breast-cancer-risk-prediction</a></li>
-</ul>
-
-
-        </article>
-
-        
-
-
-
-<style>
-  .btn-feedback {
-    display: inline-block;
-  }
-  .btn-feedback-negative {
-    margin-left: 1em;
-  }
-  .feedback--response {
-    display: none;
-    margin-top: 1em;
-  }
-  .feedback--response__visible {
-    display: block;
-  }
-</style>
-<div class="d-print-none widget--feedback">
-  <h2 class="feedback--title">Feedback</h2>
-  <p class="feedback--question">Was this page helpful?</p>
-  <p class="feedback--response feedback--response-positive">
-    🙏
-  </p>
-  <p class="feedback--response feedback--response-negative">
-    🙏
-  </p>
-  <button class="btn btn-primary mb-4 btn-feedback btn-feedback-positive">
-    😍 Yes
-  </button>
-  <button class="btn btn-primary mb-4 btn-feedback btn-feedback-negative">
-    😡 No
-  </button>
-</div>
-<script>
-  const btnYes = document.querySelector('.btn-feedback-positive');
-  const btnNo = document.querySelector('.btn-feedback-negative');
-  const responseYes = document.querySelector('.feedback--response-positive');
-  const responseNo = document.querySelector('.feedback--response-negative');
-  const disableButtons = () => {
-    btnYes.disabled = true;
-    btnNo.disabled = true;
-  };
-  const sendFeedback = (value) => {
-    if (typeof gtag !== 'function') return;
-    gtag('event', 'click', {
-      'event_category': 'page_rating',
-      'event_label': window.location.pathname,
-      'value': value,
-      'transport_type': 'beacon',
-      'event_callback': function () {
-        console.debug(`✅ Feedback sent ${value}`);
-      }
-    });
-  };
-  btnYes.addEventListener('click', () => {
-    console.debug('Feedback response: 😍');
-    responseYes.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(1);
-  });
-  btnNo.addEventListener('click', () => {
-    console.debug('Feedback response: 😡');
-    responseNo.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(0);
-  });
-</script>
-
-
-
-        
-
-<div class="article-tags">
-  
-  <a class="badge badge-light" href="/tag/machine-learning/">machine learning</a>
-  
-  <a class="badge badge-light" href="/tag/microbiota/">microbiota</a>
-  
-</div>
-
-
-
-        
-        
-        <div class="article-widget">
-          
-<div class="post-nav">
-  
-  
-  
-  <div class="post-nav-item">
-    <div class="meta-nav">Previous</div>
-    <a href="/post/machine_learning/2022-11-03-ml009-rf/" rel="next">Machine Learning on gut microbiota of patients with Colorectal cancer (9)</a>
-  </div>
-  
-  
-  
-  <div class="post-nav-item">
-    <div class="meta-nav">Next</div>
-    <a href="/post/machine_learning/2022-11-01-ml007-optialclassifier/" rel="prev">Machine Learning on gut microbiota of patients with Colorectal cancer (7)</a>
-  </div>
-  
-</div>
-
-        </div>
-        
-      </div>
-
-      <div class="body-footer">
-        <p>Last updated on Nov 2, 2022</p>
-
-        
-
-
-
-
-        
-
-
-
-
-        
-
-
-      </div>
-
-      <footer class="site-footer">
-  
-
-  <p class="powered-by">
-    © 2022 Hua Zou &middot; 
-
-    Rendered by <a href="https://cran.r-project.org/" target="_blank" rel="noopener"><i class="fab fa-r-project"></i> </a><a href="https://github.com/rstudio/blogdown" target="_blank" rel="noopener">blogdown</a> ,
-    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> and
-    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
-
-
-    
-    <span class="float-right" aria-hidden="true">
-      <a href="#" id="back_to_top">
-        <span class="button_icon">
-          <i class="fas fa-chevron-up fa-2x"></i>
-        </span>
-      </a>
-    </span>
-    
-  </p>
-</footer>
-
-
-
-<script type="text/javascript"
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-
-    </main>
-  </div>
-</div>
-
-  </div>
-
-  <div class="page-footer">
-    
-    
-  </div>
-
-  
-
-
-<script src="/js/vendor-bundle.min.d26509351aa0ff874abbee824e982e9b.js"></script>
-
-
-
-
-  
-
-  
-  
-
-  
-
-
-
-
-
-
-
-
-
-<script src="https://cdn.jsdelivr.net/gh/bryanbraun/anchorjs@4.2.2/anchor.min.js" integrity="sha512-I7w3ZdSFzw5j3jU3ZkNikBNeIrl3i+hEuEdwNmqUJvwNcaBUNcijnP2gd9DtGlgVYDplfjGoD8vTNsID+lCjqg==" crossorigin="anonymous"></script>
-<script>
-  anchors.add();
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script id="page-data" type="application/json">{"use_headroom":false}</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script src="/en/js/wowchemy.min.e973d49cb2d568aa6f8eaf3638337473.js"></script>
-
-
-
-
-
-
-
-  
-<div id="modal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Cite</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        
-        <pre><code></code></pre>
-      </div>
-      <div class="modal-footer">
-        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
-          <i class="fas fa-copy"></i> Copy
-        </a>
-        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
-          <i class="fas fa-download"></i> Download
-        </a>
-        <div id="modal-error"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</body>
-</html>
+</code></pre><h2 id=summary>Summary</h2><p>Worked through a classification predictive modeling machine learning problem from end-to-end using Python. Specifically, the steps covered were:</p><ol><li>Problem Definition.</li><li>Loading the Dataset.</li><li>Analyze Data (same scale but different distributions of data).<ul><li>Evaluate Algorithms (KNN looked good).</li><li>Evaluate Algorithms with Standardization (KNN and SVM looked good)..</li></ul></li><li>Finalize Model (use all training data and confirm using validation dataset)</li></ol><h2 id=reference>Reference</h2><ul><li><a href=https://github.com/Jean-njoroge/Breast-cancer-risk-prediction target=_blank rel=noopener>Breast-cancer-risk-prediction</a></li></ul></article><style>.btn-feedback{display:inline-block}.btn-feedback-negative{margin-left:1em}.feedback--response{display:none;margin-top:1em}.feedback--response__visible{display:block}</style><div class="d-print-none widget--feedback"><h2 class=feedback--title>Feedback</h2><p class=feedback--question>Was this page helpful?</p><p class="feedback--response feedback--response-positive">🙏</p><p class="feedback--response feedback--response-negative">🙏</p><button class="btn btn-primary mb-4 btn-feedback btn-feedback-positive">
+😍 Yes</button>
+<button class="btn btn-primary mb-4 btn-feedback btn-feedback-negative">
+😡 No</button></div><script>const btnYes=document.querySelector(".btn-feedback-positive"),btnNo=document.querySelector(".btn-feedback-negative"),responseYes=document.querySelector(".feedback--response-positive"),responseNo=document.querySelector(".feedback--response-negative"),disableButtons=()=>{btnYes.disabled=!0,btnNo.disabled=!0},sendFeedback=e=>{if(typeof gtag!="function")return;gtag("event","click",{event_category:"page_rating",event_label:window.location.pathname,value:e,transport_type:"beacon",event_callback:function(){console.debug(`✅ Feedback sent ${e}`)}})};btnYes.addEventListener("click",()=>{console.debug("Feedback response: 😍"),responseYes.classList.add("feedback--response__visible"),disableButtons(),sendFeedback(1)}),btnNo.addEventListener("click",()=>{console.debug("Feedback response: 😡"),responseNo.classList.add("feedback--response__visible"),disableButtons(),sendFeedback(0)})</script><div class=article-tags><a class="badge badge-light" href=/tag/machine-learning/>machine learning</a>
+<a class="badge badge-light" href=/tag/microbiota/>microbiota</a></div><div class=article-widget><div class=post-nav><div class=post-nav-item><div class=meta-nav>Previous</div><a href=/post/machine_learning/2022-11-03-ml009-rf/ rel=next>Machine Learning on gut microbiota of patients with Colorectal cancer (9)</a></div><div class=post-nav-item><div class=meta-nav>Next</div><a href=/post/machine_learning/2022-11-01-ml007-optialclassifier/ rel=prev>Machine Learning on gut microbiota of patients with Colorectal cancer (7)</a></div></div></div></div><div class=body-footer><p>Last updated on Nov 2, 2022</p></div><footer class=site-footer><p class=powered-by>© 2023 Hua Zou &#183;
+Rendered by <a href=https://cran.r-project.org/ target=_blank rel=noopener><i class="fab fa-r-project"></i> </a><a href=https://github.com/rstudio/blogdown target=_blank rel=noopener>blogdown</a> ,
+<a href=https://sourcethemes.com/academic/ target=_blank rel=noopener>Academic theme</a> and
+<a href=https://gohugo.io target=_blank rel=noopener>Hugo</a>.
+<span class=float-right aria-hidden=true><a href=# id=back_to_top><span class=button_icon><i class="fas fa-chevron-up fa-2x"></i></span></a></span></p></footer><script type=text/javascript src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></main></div></div></div><div class=page-footer></div><script src=/js/vendor-bundle.min.d26509351aa0ff874abbee824e982e9b.js></script>
+<script src=https://cdn.jsdelivr.net/gh/bryanbraun/anchorjs@4.2.2/anchor.min.js integrity="sha512-I7w3ZdSFzw5j3jU3ZkNikBNeIrl3i+hEuEdwNmqUJvwNcaBUNcijnP2gd9DtGlgVYDplfjGoD8vTNsID+lCjqg==" crossorigin=anonymous></script>
+<script>anchors.add()</script><script id=page-data type=application/json>{"use_headroom":false}</script><script src=/en/js/wowchemy.min.e973d49cb2d568aa6f8eaf3638337473.js></script><div id=modal class="modal fade" role=dialog><div class=modal-dialog><div class=modal-content><div class=modal-header><h5 class=modal-title>Cite</h5><button type=button class=close data-dismiss=modal aria-label=Close>
+<span aria-hidden=true>&#215;</span></button></div><div class=modal-body><pre><code></code></pre></div><div class=modal-footer><a class="btn btn-outline-primary my-1 js-copy-cite" href=# target=_blank><i class="fas fa-copy"></i> Copy</a>
+<a class="btn btn-outline-primary my-1 js-download-cite" href=# target=_blank><i class="fas fa-download"></i> Download</a><div id=modal-error></div></div></div></div></div><script src=/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js type=module></script></body></html>

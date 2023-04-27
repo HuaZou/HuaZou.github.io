@@ -1,1651 +1,394 @@
-<!DOCTYPE html>
-<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
-<!-- Last Published: November 24, 2022 --><html lang="en-us" >
-
-
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  
-  
-  
-    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
-  
-
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  
-
-  
-  
-  
-    
-      
-      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media="print" onload="this.media='all'">
-    
-  
-
-  
-  
-
-  
-  
-
-  
-
-  <link rel="stylesheet" href="/css/vendor-bundle.min.16f785cdb553c8c4431db6775122af35.css" media="print" onload="this.media='all'">
-
-  
-  
-  
-    
-    
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
-    
-
-    
-    
-    
-    
-      
-      
-    
-    
-    
-
-    
-    
-    
-
-    
-
-    
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-        
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-      
-      
-
-      
-      
-
-      
-    
-  
-
-  
-  
-  
-  
-  
-  
-  <link rel="stylesheet" href="/css/wowchemy.e5d7adca760216d3b7e28ea434e81f6f.css" />
-
-  
-  
-  
-  
-  
-  
-  
-    
-    
-    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
-    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
-  
-
-  
-  
-
-
-
-
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-
-  function gtag() {
-      dataLayer.push(arguments);
-  }
-
-  function trackOutboundLink(url, target) {
-    gtag('event', 'click', {
-         'event_category': 'outbound',
-         'event_label': url,
-         'transport_type': 'beacon',
-         'event_callback': function () {
-           if (target !== '_blank') {
-             document.location = url;
-           }
-         }
-    });
-    console.debug("Outbound link clicked: " + url);
-  }
-
-  function onClickCallback(event) {
-    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
-      return;
-    }
-    trackOutboundLink(event.target, event.target.getAttribute('target'));  
-  }
-
-  gtag('js', new Date());
-  gtag('config', 'UA-162525500-1', {});
-  gtag('set', {'cookie_flags': 'SameSite=None;Secure'});
-
-  
-  document.addEventListener('click', onClickCallback, false);
-</script>
-
-
-
-
-
-
-
-
-
-
-
-  <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-
-
-
-
-
-
-  <meta name="author" content="Hua Zou" />
-
-
-
-
-
-  
-
-<meta name="description" content="Here, using Rscript to download data from curatedMetagenomicData." />
-
-
-
-<link rel="alternate" hreflang="en-us" href="https://zouhua.top/post/tool/2022-11-10-metagenomics/" />
-<link rel="canonical" href="https://zouhua.top/post/tool/2022-11-10-metagenomics/" />
-
-
-
-  <link rel="manifest" href="/manifest.webmanifest" />
-
-
-
-<link rel="icon" type="image/png" href="/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_32x32_fill_lanczos_center_3.png" />
-<link rel="apple-touch-icon" type="image/png" href="/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_180x180_fill_lanczos_center_3.png" />
-
-<meta name="theme-color" content="#1565c0" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-
-
-
-
-
-
-<meta property="twitter:card" content="summary" />
-
-  <meta property="twitter:site" content="@Hua Zou" />
-  <meta property="twitter:creator" content="@Hua Zou" />
-<meta property="twitter:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" />
-<meta property="og:site_name" content="Hua&#39; Cabin" />
-<meta property="og:url" content="https://zouhua.top/post/tool/2022-11-10-metagenomics/" />
-<meta property="og:title" content="How to download taxa profile of multiple samples | Hua&#39; Cabin" />
-<meta property="og:description" content="Here, using Rscript to download data from curatedMetagenomicData." /><meta property="og:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
-
-  
-    <meta
-      property="article:published_time"
-      content="2022-11-10T20:13:14&#43;00:00"
-    />
-  
-  
-    <meta property="article:modified_time" content="2022-11-11T22:13:14&#43;00:00">
-  
-
-
-
-
-
-
-    
-
-
-
-
-
-
-  
-
-
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://zouhua.top/post/tool/2022-11-10-metagenomics/"
-  },
-  "headline": "How to download taxa profile of multiple samples",
-  
-  "datePublished": "2022-11-10T20:13:14Z",
-  "dateModified": "2022-11-11T22:13:14Z",
-  
-  "author": {
-    "@type": "Person",
-    "name": "Hua Zou"
-  },
-  
-  "publisher": {
-    "@type": "Organization",
-    "name": "Hua' Cabin",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_192x192_fill_lanczos_center_3.png"
-    }
-  },
-  "description": "Here, using Rscript to download data from curatedMetagenomicData."
-}
-</script>
-
-  
-
-  
-
-
-
-
-  
-  
-  
-
-  
-  
-
-  
-
-
-  
-  <title>How to download taxa profile of multiple samples | Hua&#39; Cabin</title>
-
-  
-  
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-</head>
-
-
-<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="33873cf144f18a5a31dd1e2082fb9858" >
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
-
-  
-
-
-
-
-  <div class="page-header header--fixed">
-    
-
-
-
-
-
-
-
-
-
-
-
-
-<header>
-  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
-    <div class="container-xl">
-
-      
-      <div class="d-none d-lg-inline-flex">
-        <a class="navbar-brand" href="/">Hua&#39; Cabin</a>
-      </div>
-      
-
-      
-      <button type="button" class="navbar-toggler" data-toggle="collapse"
-              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
-      <span><i class="fas fa-bars"></i></span>
-      </button>
-      
-
-      
-      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
-        <a class="navbar-brand" href="/">Hua&#39; Cabin</a>
-      </div>
-      
-
-      
-      
-      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
-
-        
-        <ul class="navbar-nav d-md-inline-flex">
-          
-
-          
-
-          
-          
-          
-            
-          
-
-          
-
-          
-          
-          
-          
-
-          
-            
-              
-              
-            
-            
-              
-              
-              
-                
-              
-              
-            
-          
-
-          <li class="nav-item">
-            <a class="nav-link " href="/#about"><span>Home</span></a>
-          </li>
-
-          
-          
-
-          
-
-          
-          
-          
-            
-          
-
-          
-
-          
-          
-          
-          
-
-          
-            
-              
-              
-            
-            
-              
-              
-              
-                
-              
-              
-            
-          
-
-          <li class="nav-item">
-            <a class="nav-link " href="/#posts"><span>Posts</span></a>
-          </li>
-
-          
-          
-
-          
-
-          
-          
-          
-            
-          
-
-          
-
-          
-          
-          
-          
-
-          
-            
-              
-              
-            
-            
-              
-              
-              
-                
-              
-              
-            
-          
-
-          <li class="nav-item">
-            <a class="nav-link " href="/#experience"><span>Experience</span></a>
-          </li>
-
-          
-          
-
-          
-
-          
-          
-          
-            
-          
-
-          
-
-          
-          
-          
-          
-
-          
-            
-              
-              
-            
-            
-              
-              
-              
-                
-              
-              
-            
-          
-
-          <li class="nav-item">
-            <a class="nav-link " href="/#publications"><span>Publications</span></a>
-          </li>
-
-          
-          
-
-          
-
-          
-          
-          
-            
-          
-
-          
-
-          
-          
-          
-          
-
-          
-            
-              
-              
-            
-            
-              
-              
-              
-                
-              
-              
-            
-          
-
-          <li class="nav-item">
-            <a class="nav-link " href="/#contact"><span>Contact</span></a>
-          </li>
-
-          
-          
-
-          
-
-          
-          
-          
-            
-          
-
-          
-
-          
-          
-          
-          
-
-          
-            
-              
-              
-            
-            
-              
-              
-              
-                
-              
-              
-            
-          
-
-          <li class="nav-item">
-            <a class="nav-link " href="/#bookdown"><span>Bookdown</span></a>
-          </li>
-
-          
-          
-
-        
-
-          
-        </ul>
-      </div>
-
-      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
-
-        
-        
-          
-        
-
-        
-        
-        
-        <li class="nav-item">
-          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
-        </li>
-        
-
-        
-        
-        
-        <li class="nav-item dropdown theme-dropdown">
-          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
-            <i class="fas fa-moon" aria-hidden="true"></i>
-          </a>
-          <div class="dropdown-menu">
-            <a href="#" class="dropdown-item js-set-theme-light">
-              <span>Light</span>
-            </a>
-            <a href="#" class="dropdown-item js-set-theme-dark">
-              <span>Dark</span>
-            </a>
-            <a href="#" class="dropdown-item js-set-theme-auto">
-              <span>Automatic</span>
-            </a>
-          </div>
-        </li>
-        
-
-        
-        
-
-      </ul>
-
-    </div>
-  </nav>
-</header>
-
-
-  </div>
-
-  <div class="page-body">
-    
-    
-    
-
-    <article class="article">
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-  
-  
-<div class="article-container pt-3">
-  <h1>How to download taxa profile of multiple samples</h1>
-
-  
-  <p class="page-subtitle">Data derived from curatedMetagenomicData</p>
-  
-
-  
-    
-
-
-<div class="article-metadata">
-
-  
-  
-  
-  
-  <div>
-    
-
-  <span >
-      Hua Zou</span>
-  </div>
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-          Last updated on
-      
-    
-    Nov 11, 2022
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    7 min read
-  </span>
-  
-
-  
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/tool/">Tool</a></span>
-  
-
-</div>
-
-    
-
-
-
-
-
-  
-</div>
-
-
-
-  <div class="article-container">
-
-    <div class="article-style">
-      <div>
-    <h2>Table Of Contents</h2>
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#loading-r-packages">Loading R packages</a></li>
-    <li><a href="#studies-in-curatedmetagenomicdata">Studies in curatedMetagenomicData</a></li>
-    <li><a href="#acquiring-absolute-and-relative-abundance-per-study">Acquiring absolute and relative abundance per study</a></li>
-    <li><a href="#converting-datasets-into-phyloseq">Converting datasets into phyloseq</a></li>
-    <li><a href="#summary">Summary</a></li>
-  </ul>
-</nav>
-</div>
-
-<h2 id="introduction">Introduction</h2>
-<p>R package <code>curatedMetagenomicData</code> provides more than 20,000 metaphlan&rsquo;s results of samples. However, to download all the results seems not easy when using simple R codes. Here, we give users codes with step by step to grap all data.</p>
-<p>Since phyloseq object contains abundance table, taxa table and metadata etc, we convert the final metadata and profile including absolute and relative abundance into phyloseq object.</p>
-<h2 id="loading-r-packages">Loading R packages</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="line"><span class="cl"><span class="nf">suppressMessages</span><span class="p">(</span><span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="nf">suppressMessages</span><span class="p">(</span><span class="nf">library</span><span class="p">(</span><span class="n">tibble</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="nf">suppressMessages</span><span class="p">(</span><span class="nf">library</span><span class="p">(</span><span class="n">curatedMetagenomicData</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">phyloseq</span><span class="p">)</span>
-</span></span></code></pre></div><h2 id="studies-in-curatedmetagenomicdata">Studies in curatedMetagenomicData</h2>
-<p>All the studies&rsquo; information were stored in <strong>sampleMetadata</strong>. Therefore, we obtain the studies&rsquo; names by extracting the information from it.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="line"><span class="cl"><span class="nf">data</span><span class="p">(</span><span class="s">&#34;sampleMetadata&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">availablediseases</span> <span class="o">&lt;-</span> <span class="nf">pull</span><span class="p">(</span><span class="n">sampleMetadata</span><span class="p">,</span> <span class="n">study_condition</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">table</span><span class="p">()</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">sort</span><span class="p">(</span><span class="n">decreasing</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">studies</span> <span class="o">&lt;-</span> <span class="nf">lapply</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">availablediseases</span><span class="p">),</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">sampleMetadata</span><span class="p">,</span> <span class="n">study_condition</span> <span class="o">%in%</span> <span class="n">x</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dplyr</span><span class="o">::</span><span class="nf">pull</span><span class="p">(</span><span class="n">study_name</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">unique</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="p">})</span>
-</span></span><span class="line"><span class="cl"><span class="nf">names</span><span class="p">(</span><span class="n">studies</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">names</span><span class="p">(</span><span class="n">availablediseases</span><span class="p">)</span>
-</span></span></code></pre></div><h2 id="acquiring-absolute-and-relative-abundance-per-study">Acquiring absolute and relative abundance per study</h2>
-<ul>
-<li>
-<p>Merging metadata without duplicated samples</p>
-</li>
-<li>
-<p>Whether there is absolute or relative abundance profile per study</p>
-</li>
-<li>
-<p>Whether the samples are identical between metadata and profile</p>
-</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="line"><span class="cl"><span class="n">metadata</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">profile_counts</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">profile_rb</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">studies</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="n">disease_dir</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="s">&#34;./dataset/&#34;</span><span class="p">,</span> <span class="nf">names</span><span class="p">(</span><span class="n">studies</span><span class="p">)</span><span class="n">[i]</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">  <span class="nf">if </span><span class="p">(</span><span class="o">!</span><span class="nf">dir.exists</span><span class="p">(</span><span class="n">disease_dir</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">dir.create</span><span class="p">(</span><span class="n">disease_dir</span><span class="p">,</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">  <span class="nf">for </span><span class="p">(</span><span class="n">disease</span> <span class="n">in</span> <span class="n">studies[[i]]</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">rb_pattern</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="n">disease</span><span class="p">,</span> <span class="s">&#34;.relative_abundance&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="c1"># absolute abundance</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dat_counts_list</span> <span class="o">&lt;-</span> <span class="nf">curatedMetagenomicData</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">      <span class="n">pattern</span> <span class="o">=</span> <span class="n">rb_pattern</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="n">dryrun</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="n">counts</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="n">rownames</span> <span class="o">=</span> <span class="s">&#34;long&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">      
-</span></span><span class="line"><span class="cl">    <span class="c1"># relative_abundance</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dat_RB_list</span> <span class="o">&lt;-</span> <span class="nf">curatedMetagenomicData</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">      <span class="n">pattern</span> <span class="o">=</span> <span class="n">rb_pattern</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="n">dryrun</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="n">counts</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="n">rownames</span> <span class="o">=</span> <span class="s">&#34;long&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="c1"># whether there is a taxa profile</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">if </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">dat_counts_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="n">dat_counts</span> <span class="o">&lt;-</span> <span class="n">dat_counts_list[[1]]</span>
-</span></span><span class="line"><span class="cl">      <span class="n">disease_path_counts</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="n">disease_dir</span><span class="p">,</span> <span class="s">&#34;/&#34;</span><span class="p">,</span> <span class="nf">paste0</span><span class="p">(</span><span class="n">disease</span><span class="p">,</span> <span class="s">&#34;_counts.RData&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">      <span class="nf">save</span><span class="p">(</span><span class="n">dat_counts</span><span class="p">,</span> <span class="n">file</span> <span class="o">=</span> <span class="n">disease_path_counts</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">      
-</span></span><span class="line"><span class="cl">      <span class="c1"># metadata &amp; profile</span>
-</span></span><span class="line"><span class="cl">      <span class="n">temp_metadata</span> <span class="o">&lt;-</span> <span class="nf">colData</span><span class="p">(</span><span class="n">dat_counts</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">data.frame</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">      <span class="n">temp_profile_counts</span> <span class="o">&lt;-</span> <span class="nf">assay</span><span class="p">(</span><span class="n">dat_counts</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">data.frame</span><span class="p">()</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">        <span class="n">tibble</span><span class="o">::</span><span class="nf">rownames_to_column</span><span class="p">(</span><span class="s">&#34;TaxaID&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">      
-</span></span><span class="line"><span class="cl">      <span class="nf">if </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">profile_counts</span><span class="p">)</span> <span class="o">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">profile_counts</span> <span class="o">&lt;-</span> <span class="n">temp_profile_counts</span>
-</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="nf">colnames</span><span class="p">(</span><span class="n">profile_counts</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">gsub</span><span class="p">(</span><span class="s">&#34;-&#34;</span><span class="p">,</span> <span class="s">&#34;.&#34;</span><span class="p">,</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">profile_counts</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">colnames</span><span class="p">(</span><span class="n">temp_profile_counts</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">gsub</span><span class="p">(</span><span class="s">&#34;-&#34;</span><span class="p">,</span> <span class="s">&#34;.&#34;</span><span class="p">,</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">temp_profile_counts</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="c1"># the overlap samples</span>
-</span></span><span class="line"><span class="cl">        <span class="n">sid_count</span> <span class="o">&lt;-</span> <span class="nf">intersect</span><span class="p">(</span><span class="nf">colnames</span><span class="p">(</span><span class="n">temp_profile_counts</span><span class="p">),</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">profile_counts</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="n">sid_count</span> <span class="o">&lt;-</span> <span class="n">sid_count[</span><span class="o">-</span><span class="nf">which</span><span class="p">(</span><span class="n">sid_count</span> <span class="o">==</span> <span class="s">&#34;TaxaID&#34;</span><span class="p">)</span><span class="n">]</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">if </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">sid_count</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">          <span class="n">profile_counts</span> <span class="o">&lt;-</span> <span class="n">profile_counts[</span><span class="p">,</span> <span class="o">!</span><span class="nf">colnames</span><span class="p">(</span><span class="n">profile_counts</span><span class="p">)</span><span class="o">%in%</span><span class="n">sid_count]</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span> 
-</span></span><span class="line"><span class="cl">        <span class="n">profile_counts</span> <span class="o">&lt;-</span> <span class="n">dplyr</span><span class="o">::</span><span class="nf">full_join</span><span class="p">(</span><span class="n">temp_profile_counts</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">                                           <span class="n">profile_counts</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">                                           <span class="n">by</span> <span class="o">=</span> <span class="s">&#34;TaxaID&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="nf">colnames</span><span class="p">(</span><span class="n">profile_counts</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">gsub</span><span class="p">(</span><span class="s">&#34;-&#34;</span><span class="p">,</span> <span class="s">&#34;.&#34;</span><span class="p">,</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">profile_counts</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">      <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># whether there is a taxa profile</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">if </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">dat_RB_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="n">dat_RB</span> <span class="o">&lt;-</span> <span class="n">dat_RB_list[[1]]</span>
-</span></span><span class="line"><span class="cl">      <span class="n">disease_path_RB</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="n">disease_dir</span><span class="p">,</span> <span class="s">&#34;/&#34;</span><span class="p">,</span> <span class="nf">paste0</span><span class="p">(</span><span class="n">disease</span><span class="p">,</span> <span class="s">&#34;_RB.RData&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">      <span class="nf">save</span><span class="p">(</span><span class="n">dat_RB</span><span class="p">,</span> <span class="n">file</span> <span class="o">=</span> <span class="n">disease_path_RB</span><span class="p">)</span> 
-</span></span><span class="line"><span class="cl">      
-</span></span><span class="line"><span class="cl">      <span class="c1"># metadata &amp; profile</span>
-</span></span><span class="line"><span class="cl">      <span class="n">temp_metadata</span> <span class="o">&lt;-</span> <span class="nf">colData</span><span class="p">(</span><span class="n">dat_RB</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">data.frame</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">      <span class="n">temp_profile_rb</span> <span class="o">&lt;-</span> <span class="nf">assay</span><span class="p">(</span><span class="n">dat_RB</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">data.frame</span><span class="p">()</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">        <span class="n">tibble</span><span class="o">::</span><span class="nf">rownames_to_column</span><span class="p">(</span><span class="s">&#34;TaxaID&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">      
-</span></span><span class="line"><span class="cl">      <span class="nf">if </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">profile_rb</span><span class="p">)</span> <span class="o">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">profile_rb</span> <span class="o">&lt;-</span> <span class="n">temp_profile_rb</span>
-</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="nf">colnames</span><span class="p">(</span><span class="n">profile_rb</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">gsub</span><span class="p">(</span><span class="s">&#34;-&#34;</span><span class="p">,</span> <span class="s">&#34;.&#34;</span><span class="p">,</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">profile_rb</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">colnames</span><span class="p">(</span><span class="n">temp_profile_rb</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">gsub</span><span class="p">(</span><span class="s">&#34;-&#34;</span><span class="p">,</span> <span class="s">&#34;.&#34;</span><span class="p">,</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">temp_profile_rb</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="c1"># the overlap samples</span>
-</span></span><span class="line"><span class="cl">        <span class="n">sid_rb</span> <span class="o">&lt;-</span> <span class="nf">intersect</span><span class="p">(</span><span class="nf">colnames</span><span class="p">(</span><span class="n">temp_profile_rb</span><span class="p">),</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">profile_rb</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="n">sid_rb</span> <span class="o">&lt;-</span> <span class="n">sid_rb[</span><span class="o">-</span><span class="nf">which</span><span class="p">(</span><span class="n">sid_rb</span> <span class="o">==</span> <span class="s">&#34;TaxaID&#34;</span><span class="p">)</span><span class="n">]</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">if </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">sid_rb</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">          <span class="n">profile_rb</span> <span class="o">&lt;-</span> <span class="n">profile_rb[</span><span class="p">,</span> <span class="o">!</span><span class="nf">colnames</span><span class="p">(</span><span class="n">profile_rb</span><span class="p">)</span><span class="o">%in%</span><span class="n">sid_rb]</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>        
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="n">profile_rb</span> <span class="o">&lt;-</span> <span class="n">dplyr</span><span class="o">::</span><span class="nf">full_join</span><span class="p">(</span><span class="n">temp_profile_rb</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">                                       <span class="n">profile_rb</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">                                       <span class="n">by</span> <span class="o">=</span> <span class="s">&#34;TaxaID&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="nf">colnames</span><span class="p">(</span><span class="n">profile_rb</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">gsub</span><span class="p">(</span><span class="s">&#34;-&#34;</span><span class="p">,</span> <span class="s">&#34;.&#34;</span><span class="p">,</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">profile_rb</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">      <span class="p">}</span>
-</span></span><span class="line"><span class="cl">      
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>    
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="nf">if </span><span class="p">(</span><span class="nf">any</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">dat_counts_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">,</span> <span class="nf">length</span><span class="p">(</span><span class="n">dat_RB_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      
-</span></span><span class="line"><span class="cl">      <span class="nf">if </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span> <span class="o">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">metadata</span> <span class="o">&lt;-</span> <span class="n">temp_metadata</span>
-</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1"># diff: metadata vs temp_metadata</span>
-</span></span><span class="line"><span class="cl">        <span class="n">diff1</span> <span class="o">&lt;-</span> <span class="nf">setdiff</span><span class="p">(</span><span class="nf">colnames</span><span class="p">(</span><span class="n">metadata</span><span class="p">),</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">temp_metadata</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="n">diff1_df</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span><span class="nf">matrix</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">temp_metadata</span><span class="p">),</span> <span class="n">ncol</span> <span class="o">=</span> <span class="nf">length</span><span class="p">(</span><span class="n">diff1</span><span class="p">)),</span>
-</span></span><span class="line"><span class="cl">                               <span class="n">row.names</span> <span class="o">=</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">temp_metadata</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">colnames</span><span class="p">(</span><span class="n">diff1_df</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">diff1</span>
-</span></span><span class="line"><span class="cl">        <span class="n">temp_metadata_new</span> <span class="o">&lt;-</span> <span class="nf">cbind</span><span class="p">(</span><span class="n">temp_metadata</span><span class="p">,</span> <span class="n">diff1_df</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="c1"># diff: temp_metadata vs metadata</span>
-</span></span><span class="line"><span class="cl">        <span class="n">diff2</span> <span class="o">&lt;-</span> <span class="nf">setdiff</span><span class="p">(</span><span class="nf">colnames</span><span class="p">(</span><span class="n">temp_metadata</span><span class="p">),</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="n">diff2_df</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span><span class="nf">matrix</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">metadata</span><span class="p">),</span> <span class="n">ncol</span> <span class="o">=</span> <span class="nf">length</span><span class="p">(</span><span class="n">diff2</span><span class="p">)),</span>
-</span></span><span class="line"><span class="cl">                               <span class="n">row.names</span> <span class="o">=</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">colnames</span><span class="p">(</span><span class="n">diff2_df</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">diff2</span>
-</span></span><span class="line"><span class="cl">        <span class="n">metadata_new</span> <span class="o">&lt;-</span> <span class="nf">cbind</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">diff2_df</span><span class="p">)</span> 
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="nf">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">gsub</span><span class="p">(</span><span class="s">&#34;-&#34;</span><span class="p">,</span> <span class="s">&#34;.&#34;</span><span class="p">,</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">rownames</span><span class="p">(</span><span class="n">temp_metadata</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">gsub</span><span class="p">(</span><span class="s">&#34;-&#34;</span><span class="p">,</span> <span class="s">&#34;.&#34;</span><span class="p">,</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">temp_metadata</span><span class="p">))</span>        
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="c1"># the overlap samples</span>
-</span></span><span class="line"><span class="cl">        <span class="n">sid</span> <span class="o">&lt;-</span> <span class="nf">intersect</span><span class="p">(</span><span class="nf">rownames</span><span class="p">(</span><span class="n">temp_metadata</span><span class="p">),</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">if </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">          <span class="n">metadata</span> <span class="o">&lt;-</span> <span class="n">metadata[</span><span class="o">!</span><span class="nf">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="o">%in%</span><span class="n">sid</span><span class="p">,</span> <span class="n">]</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="n">metadata</span> <span class="o">&lt;-</span> <span class="nf">rbind</span><span class="p">(</span><span class="n">temp_metadata_new</span><span class="p">,</span> <span class="n">metadata_new</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">          <span class="n">dplyr</span><span class="o">::</span><span class="nf">distinct</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="nf">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">gsub</span><span class="p">(</span><span class="s">&#34;-&#34;</span><span class="p">,</span> <span class="s">&#34;.&#34;</span><span class="p">,</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">      <span class="p">}</span>      
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h2 id="converting-datasets-into-phyloseq">Converting datasets into phyloseq</h2>
-<ul>
-<li>
-<p>Extracting taxonomic levels from 1st column of profile</p>
-</li>
-<li>
-<p>Removing prevalence of features less than 0</p>
-</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="line"><span class="cl"><span class="c1"># extract taxnomic levels</span>
-</span></span><span class="line"><span class="cl"><span class="n">import_metaphlan_taxa</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">data_metaphlan2</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                                  <span class="n">taxa_level</span> <span class="o">=</span> <span class="kc">NULL</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">taxa_rank</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Kingdom&#34;</span><span class="p">,</span> <span class="s">&#34;Phylum&#34;</span><span class="p">,</span> <span class="s">&#34;Class&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                 <span class="s">&#34;Order&#34;</span><span class="p">,</span> <span class="s">&#34;Family&#34;</span><span class="p">,</span> <span class="s">&#34;Genus&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                 <span class="s">&#34;Species&#34;</span><span class="p">,</span> <span class="s">&#34;Strain&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="c1"># rename 1st column into &#34;ID&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">colnames</span><span class="p">(</span><span class="n">data_metaphlan2</span><span class="p">)</span><span class="nf">[which</span><span class="p">(</span><span class="nf">colnames</span><span class="p">(</span><span class="n">data_metaphlan2</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#34;ID&#34;</span> <span class="o">|</span>
-</span></span><span class="line"><span class="cl">                                    <span class="nf">colnames</span><span class="p">(</span><span class="n">data_metaphlan2</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#34;clade_name&#34;</span><span class="p">)</span><span class="n">]</span> <span class="o">&lt;-</span> <span class="s">&#34;ID&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="c1"># remove the &#34;NCBI_tax_id&#34; column</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">if </span><span class="p">(</span><span class="nf">any</span><span class="p">(</span><span class="nf">colnames</span><span class="p">(</span><span class="n">data_metaphlan2</span><span class="p">)</span> <span class="o">%in%</span> <span class="s">&#34;NCBI_tax_id&#34;</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">data_metaphlan2</span> <span class="o">&lt;-</span> <span class="n">data_metaphlan2</span> <span class="o">%&gt;%</span> <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">NCBI_tax_id</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="c1"># remove sample names with &#34;metaphlan_bugs_list&#34; suffix</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">colnames</span><span class="p">(</span><span class="n">data_metaphlan2</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">gsub</span><span class="p">(</span><span class="s">&#34;_metaphlan_bugs_list$&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">data_metaphlan2</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nf">if </span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">taxa_level</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">taxa_level</span> <span class="o">&lt;-</span> <span class="s">&#34;Species&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="n">ind_number</span> <span class="o">&lt;-</span> <span class="nf">match</span><span class="p">(</span><span class="n">taxa_level</span><span class="p">,</span> <span class="n">taxa_rank</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="c1"># remove k__Archaea &amp; k__Viruses &amp; k__Eukaryota &amp; Others which are not bacteria</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">if </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="nf">grep</span><span class="p">(</span><span class="s">&#34;k__Bacteria&#34;</span><span class="p">,</span> <span class="n">data_metaphlan2</span><span class="o">$</span><span class="n">ID</span><span class="p">))</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">taxa_bacteria</span> <span class="o">&lt;-</span> <span class="n">data_metaphlan2</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">      <span class="n">dplyr</span><span class="o">::</span><span class="nf">slice</span><span class="p">(</span><span class="nf">grep</span><span class="p">(</span><span class="s">&#34;k__Bacteria&#34;</span><span class="p">,</span> <span class="n">ID</span><span class="p">))</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">      <span class="n">tibble</span><span class="o">::</span><span class="nf">column_to_rownames</span><span class="p">(</span><span class="s">&#34;ID&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">stop</span><span class="p">(</span><span class="s">&#34;There are no bacteria identified in this profile&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="c1"># dividing by 100 to normalize the sum into 1</span>
-</span></span><span class="line"><span class="cl">  <span class="n">taxa_bac_per</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">taxa_bacteria</span> <span class="o">/</span> <span class="m">100</span><span class="p">)</span>  <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">tibble</span><span class="o">::</span><span class="nf">rownames_to_column</span><span class="p">(</span><span class="s">&#34;ID&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">taxa</span> <span class="o">&lt;-</span> <span class="n">taxa_bac_per</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dplyr</span><span class="o">::</span><span class="nf">group_by</span><span class="p">(</span><span class="n">ID</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">Number</span><span class="o">=</span><span class="nf">length</span><span class="p">(</span><span class="nf">unlist</span><span class="p">(</span><span class="nf">strsplit</span><span class="p">(</span><span class="n">ID</span><span class="p">,</span> <span class="s">&#34;|&#34;</span><span class="p">,</span> <span class="n">fixed</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">))))</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">ID</span><span class="p">,</span> <span class="n">Number</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">Number</span> <span class="o">==</span> <span class="n">ind_number</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">abundance_table</span> <span class="o">&lt;-</span> <span class="n">taxa_bac_per</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">ID</span><span class="o">%in%</span><span class="n">taxa</span><span class="o">$</span><span class="n">ID</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">taxa_table</span> <span class="o">&lt;-</span> <span class="nf">lapply</span><span class="p">(</span><span class="n">abundance_table</span><span class="o">$</span><span class="n">ID</span><span class="p">,</span> <span class="n">strsplit</span><span class="p">,</span> <span class="n">split</span> <span class="o">=</span> <span class="s">&#34;|&#34;</span><span class="p">,</span> <span class="n">fixed</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="n">taxa_table</span> <span class="o">&lt;-</span> <span class="nf">lapply</span><span class="p">(</span><span class="n">taxa_table</span><span class="p">,</span> <span class="n">unlist</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="n">taxa_table</span> <span class="o">&lt;-</span> <span class="nf">do.call</span><span class="p">(</span><span class="n">rbind</span><span class="p">,</span> <span class="n">taxa_table</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="n">taxa_table</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span><span class="n">taxa_table</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">names</span><span class="p">(</span><span class="n">taxa_table</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">taxa_rank[1</span><span class="o">:</span><span class="n">ind_number]</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">rownames</span><span class="p">(</span><span class="n">taxa_table</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">taxa_table[</span><span class="p">,</span> <span class="n">ind_number]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">abundance_table_res</span> <span class="o">&lt;-</span> <span class="n">abundance_table</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">tibble</span><span class="o">::</span><span class="nf">column_to_rownames</span><span class="p">(</span><span class="s">&#34;ID&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">rownames</span><span class="p">(</span><span class="n">abundance_table_res</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">taxa_table</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="n">abundance_table_res</span> <span class="o">&lt;-</span> <span class="n">abundance_table_res</span><span class="nf">[match</span><span class="p">(</span><span class="nf">rownames</span><span class="p">(</span><span class="n">taxa_table</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">                                                   <span class="nf">row.names</span><span class="p">(</span><span class="n">abundance_table_res</span><span class="p">)),</span> <span class="p">,</span>
-</span></span><span class="line"><span class="cl">                                             <span class="n">drop</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="n">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">res</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="n">tax_tab</span><span class="o">=</span><span class="n">taxa_table</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">              <span class="n">abu_tab</span><span class="o">=</span><span class="n">abundance_table_res</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nf">return</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Import function to read the the output of metaphlan as phyloseq object</span>
-</span></span><span class="line"><span class="cl"><span class="n">get_metaphlan_phyloseq</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">otu_tab</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                                   <span class="n">sam_tab</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                                   <span class="n">tax_tab</span> <span class="o">=</span> <span class="kc">NULL</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nf">if </span><span class="p">(</span><span class="o">!</span><span class="nf">is.null</span><span class="p">(</span><span class="n">tax_tab</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">tax_tab</span> <span class="o">&lt;-</span> <span class="n">phyloseq</span><span class="o">::</span><span class="nf">tax_table</span><span class="p">(</span><span class="nf">as</span><span class="p">(</span><span class="n">tax_tab</span><span class="p">,</span> <span class="s">&#34;matrix&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nf">if </span><span class="p">(</span><span class="o">!</span><span class="nf">is.null</span><span class="p">(</span><span class="n">sam_tab</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">sam_tab</span> <span class="o">&lt;-</span> <span class="n">phyloseq</span><span class="o">::</span><span class="nf">sample_data</span><span class="p">(</span><span class="n">sam_tab</span> <span class="o">%&gt;%</span> <span class="nf">data.frame</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">asv_tab</span> <span class="o">&lt;-</span> <span class="n">phyloseq</span><span class="o">::</span><span class="nf">otu_table</span><span class="p">(</span><span class="nf">as</span><span class="p">(</span><span class="n">otu_tab</span><span class="p">,</span> <span class="s">&#34;matrix&#34;</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">                                 <span class="n">taxa_are_rows</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">ps</span> <span class="o">&lt;-</span> <span class="n">phyloseq</span><span class="o">::</span><span class="nf">phyloseq</span><span class="p">(</span><span class="n">asv_tab</span><span class="p">,</span> <span class="n">tax_tab</span><span class="p">,</span> <span class="n">sam_tab</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nf">return</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Trim samples or taxa in `otu_table` by Occurrences</span>
-</span></span><span class="line"><span class="cl"><span class="n">run_trim</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">object</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                     <span class="n">taxa_level</span> <span class="o">=</span> <span class="kc">NULL</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                     <span class="n">cutoff</span> <span class="o">=</span> <span class="m">0.1</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                     <span class="n">trim</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;none&#34;</span><span class="p">,</span> <span class="s">&#34;both&#34;</span><span class="p">,</span> <span class="s">&#34;feature&#34;</span><span class="p">,</span> <span class="s">&#34;sample&#34;</span><span class="p">)){</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">trim</span> <span class="o">&lt;-</span> <span class="nf">match.arg</span><span class="p">(</span><span class="n">trim</span><span class="p">,</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;none&#34;</span><span class="p">,</span> <span class="s">&#34;both&#34;</span><span class="p">,</span> <span class="s">&#34;feature&#34;</span><span class="p">,</span> <span class="s">&#34;sample&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">if </span><span class="p">(</span><span class="nf">inherits</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="s">&#34;phyloseq&#34;</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># ps &lt;- preprocess_ps(object)</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">if </span><span class="p">(</span><span class="o">!</span><span class="nf">is.null</span><span class="p">(</span><span class="n">taxa_level</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="n">ps_taxa</span> <span class="o">&lt;-</span> <span class="nf">summarize_taxa</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">taxa_level</span> <span class="o">=</span> <span class="n">taxa_level</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="n">ps_taxa</span> <span class="o">&lt;-</span> <span class="n">object</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="n">prf</span> <span class="o">&lt;-</span> <span class="nf">as</span><span class="p">(</span><span class="n">phyloseq</span><span class="o">::</span><span class="nf">otu_table</span><span class="p">(</span><span class="n">ps_taxa</span><span class="p">),</span> <span class="s">&#34;matrix&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">else</span> <span class="nf">if </span><span class="p">(</span><span class="nf">inherits</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="s">&#34;environment&#34;</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">prf</span> <span class="o">&lt;-</span> <span class="nf">as</span><span class="p">(</span><span class="n">object</span><span class="o">$</span><span class="n">.Data</span><span class="p">,</span> <span class="s">&#34;matrix&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">prf</span> <span class="o">&lt;-</span> <span class="n">object</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nf">if </span><span class="p">(</span><span class="n">trim</span> <span class="o">==</span> <span class="s">&#34;feature&#34;</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">tmp1</span> <span class="o">&lt;-</span> <span class="nf">trim_FeatureOrSample</span><span class="p">(</span><span class="n">prf</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">remain_features</span> <span class="o">&lt;-</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">tmp1</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">remain_samples</span> <span class="o">&lt;-</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">prf</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">else</span> <span class="nf">if </span><span class="p">(</span><span class="n">trim</span> <span class="o">==</span> <span class="s">&#34;sample&#34;</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">tmp2</span> <span class="o">&lt;-</span> <span class="nf">trim_FeatureOrSample</span><span class="p">(</span><span class="n">prf</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">remain_features</span> <span class="o">&lt;-</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">prf</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">remain_samples</span> <span class="o">&lt;-</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">tmp2</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">trim</span> <span class="o">==</span> <span class="s">&#34;both&#34;</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">tmp1</span> <span class="o">&lt;-</span> <span class="nf">trim_FeatureOrSample</span><span class="p">(</span><span class="n">prf</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">tmp2</span> <span class="o">&lt;-</span> <span class="nf">trim_FeatureOrSample</span><span class="p">(</span><span class="n">prf</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">remain_features</span> <span class="o">&lt;-</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">tmp1</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">remain_samples</span> <span class="o">&lt;-</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">tmp2</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">trim</span> <span class="o">==</span> <span class="s">&#34;none&#34;</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">return</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nf">if </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">remain_features</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">1</span> <span class="o">&amp;</span> <span class="nf">length</span><span class="p">(</span><span class="n">remain_samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">prf_remain</span> <span class="o">&lt;-</span> <span class="n">prf[remain_features</span><span class="p">,</span> <span class="n">remain_samples]</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">else</span> <span class="nf">if </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">remain_features</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">1</span> <span class="o">&amp;</span> <span class="nf">length</span><span class="p">(</span><span class="n">remain_samples</span><span class="p">)</span> <span class="o">==</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">prf_remain</span> <span class="o">&lt;-</span> <span class="n">prf[remain_features</span><span class="p">,</span> <span class="n">remain_samples]</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">      <span class="nf">data.frame</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">colnames</span><span class="p">(</span><span class="n">prf_remain</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">remain_samples</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">else</span> <span class="nf">if </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">remain_features</span><span class="p">)</span> <span class="o">==</span> <span class="m">1</span> <span class="o">&amp;</span> <span class="nf">length</span><span class="p">(</span><span class="n">remain_samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">prf_remain</span> <span class="o">&lt;-</span> <span class="n">prf[remain_features</span><span class="p">,</span> <span class="n">remain_samples]</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">      <span class="nf">data.frame</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">rownames</span><span class="p">(</span><span class="n">prf_remain</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">remain_features</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">else</span> <span class="nf">if </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">remain_features</span><span class="p">)</span> <span class="o">==</span> <span class="m">1</span> <span class="o">&amp;</span> <span class="nf">length</span><span class="p">(</span><span class="n">remain_samples</span><span class="p">)</span> <span class="o">==</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">prf_remain</span> <span class="o">&lt;-</span> <span class="n">prf[remain_features</span><span class="p">,</span> <span class="n">remain_samples]</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">      <span class="nf">data.frame</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nf">colnames</span><span class="p">(</span><span class="n">prf_remain</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">remain_samples</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">rownames</span><span class="p">(</span><span class="n">prf_remain</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">remain_features</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">stop</span><span class="p">(</span><span class="s">&#34;No sample or taxa were remained, please reinput your cutoff&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nf">if </span><span class="p">(</span><span class="nf">inherits</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="s">&#34;phyloseq&#34;</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">otu_table</span><span class="p">(</span><span class="n">ps_taxa</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">phyloseq</span><span class="o">::</span><span class="nf">otu_table</span><span class="p">(</span><span class="n">prf_remain</span><span class="p">,</span> <span class="n">taxa_are_rows</span> <span class="o">=</span> <span class="nf">taxa_are_rows</span><span class="p">(</span><span class="n">ps_taxa</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">    <span class="n">object</span> <span class="o">&lt;-</span> <span class="n">ps_taxa</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">else</span> <span class="nf">if </span><span class="p">(</span><span class="nf">inherits</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="s">&#34;environment&#34;</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">object</span> <span class="o">&lt;-</span> <span class="n">phyloseq</span><span class="o">::</span><span class="nf">otu_table</span><span class="p">(</span><span class="n">prf_remain</span><span class="p">,</span> <span class="n">taxa_are_rows</span> <span class="o">=</span> <span class="nf">taxa_are_rows</span><span class="p">(</span><span class="n">object</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">object</span> <span class="o">&lt;-</span> <span class="n">prf_remain</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nf">return</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># the data is trimmed by threshold</span>
-</span></span><span class="line"><span class="cl"><span class="n">trim_FeatureOrSample</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nRow</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">df_occ</span> <span class="o">&lt;-</span> <span class="nf">apply</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nRow</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">length</span><span class="p">(</span><span class="n">x</span><span class="nf">[c</span><span class="p">(</span><span class="nf">which</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">x</span><span class="o">!=</span><span class="m">0</span><span class="p">))</span><span class="n">]</span><span class="p">)</span> <span class="o">/</span> <span class="nf">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">})</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">data.frame</span><span class="p">()</span> <span class="o">%&gt;%</span> <span class="n">stats</span><span class="o">::</span><span class="nf">setNames</span><span class="p">(</span><span class="s">&#34;Occ&#34;</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">tibble</span><span class="o">::</span><span class="nf">rownames_to_column</span><span class="p">(</span><span class="s">&#34;type&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">if</span><span class="p">(</span><span class="n">nRow</span> <span class="o">==</span> <span class="m">1</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">rownames</span><span class="p">(</span><span class="n">df_occ</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span><span class="n">else</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">rownames</span><span class="p">(</span><span class="n">df_occ</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="n">df_KEEP</span> <span class="o">&lt;-</span> <span class="nf">apply</span><span class="p">(</span><span class="n">df_occ</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="n">all</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">data.frame</span><span class="p">()</span> <span class="o">%&gt;%</span> <span class="n">stats</span><span class="o">::</span><span class="nf">setNames</span><span class="p">(</span><span class="s">&#34;Status&#34;</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">Status</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nf">return</span><span class="p">(</span><span class="n">df_KEEP</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># generate phyloseq</span>
-</span></span><span class="line"><span class="cl"><span class="n">get_phyloseq</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">  <span class="c1"># x = metadata</span>
-</span></span><span class="line"><span class="cl">  <span class="c1"># y = profile_counts</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">phenotype</span> <span class="o">&lt;-</span> <span class="n">x</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># dplyr::mutate(V1=gsub(&#34;\\.*&#34;, &#34;&#34;, V1)) %&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dplyr</span><span class="o">::</span><span class="nf">distinct</span><span class="p">()</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">tibble</span><span class="o">::</span><span class="nf">column_to_rownames</span><span class="p">(</span><span class="s">&#34;V1&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="n">profile</span> <span class="o">&lt;-</span> <span class="n">y</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">V1</span><span class="p">)</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dplyr</span><span class="o">::</span><span class="nf">rename</span><span class="p">(</span><span class="n">ID</span><span class="o">=</span><span class="n">TaxaID</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="c1"># colnames(profile) &lt;- gsub(&#34;\\.*&#34;, &#34;&#34;, colnames(profile))</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">  <span class="n">sid</span> <span class="o">&lt;-</span> <span class="nf">intersect</span><span class="p">(</span><span class="nf">rownames</span><span class="p">(</span><span class="n">phenotype</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">                   <span class="nf">colnames</span><span class="p">(</span><span class="n">profile</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">  <span class="n">phen</span> <span class="o">&lt;-</span> <span class="n">phenotype</span><span class="nf">[rownames</span><span class="p">(</span><span class="n">phenotype</span><span class="p">)</span> <span class="o">%in%</span> <span class="n">sid</span><span class="p">,</span> <span class="n">]</span>
-</span></span><span class="line"><span class="cl">  <span class="n">prof</span> <span class="o">&lt;-</span> <span class="n">profile</span> <span class="o">%&gt;%</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="nf">all_of</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">&#34;ID&#34;</span><span class="p">,</span> <span class="nf">rownames</span><span class="p">(</span><span class="n">phen</span><span class="p">))))</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">  <span class="n">dat_res</span> <span class="o">&lt;-</span> <span class="nf">import_metaphlan_taxa</span><span class="p">(</span><span class="n">data_metaphlan2</span> <span class="o">=</span> <span class="n">prof</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">  <span class="n">phy</span> <span class="o">&lt;-</span> <span class="nf">get_metaphlan_phyloseq</span><span class="p">(</span><span class="n">otu_tab</span> <span class="o">=</span> <span class="n">dat_res</span><span class="o">$</span><span class="n">abu_tab</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                         <span class="n">sam_tab</span> <span class="o">=</span> <span class="n">phen</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                         <span class="n">tax_tab</span> <span class="o">=</span> <span class="n">dat_res</span><span class="o">$</span><span class="n">tax_tab</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">  <span class="n">res</span> <span class="o">&lt;-</span> <span class="nf">run_trim</span><span class="p">(</span><span class="n">object</span> <span class="o">=</span> <span class="n">phy</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">                  <span class="n">trim</span> <span class="o">=</span> <span class="s">&#34;feature&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                  <span class="n">cutoff</span> <span class="o">=</span> <span class="m">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">  <span class="nf">return</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><ul>
-<li>Acquiring phyloseq object</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="line"><span class="cl"><span class="c1">## Counts </span>
-</span></span><span class="line"><span class="cl"><span class="n">phy_counts</span> <span class="o">&lt;-</span> <span class="nf">get_phyloseq</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="n">profile_counts</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">## Relative abundance</span>
-</span></span><span class="line"><span class="cl"><span class="n">phy_rb</span> <span class="o">&lt;-</span> <span class="nf">get_phyloseq</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="n">profile_rb</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nf">if </span><span class="p">(</span><span class="o">!</span><span class="nf">dir.exists</span><span class="p">(</span><span class="s">&#34;./phyloseq/&#34;</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">dir.create</span><span class="p">(</span><span class="s">&#34;./phyloseq/&#34;</span><span class="p">,</span> <span class="n">recursive</span> <span class="o">=</span> <span class="bp">T</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">file_name_counts</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="s">&#34;./phyloseq/curatedMetagenomic_&#34;</span><span class="p">,</span> <span class="nf">Sys.Date</span><span class="p">(),</span> <span class="s">&#34;_count.RDS&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nf">saveRDS</span><span class="p">(</span><span class="n">phy_counts</span><span class="p">,</span> <span class="n">file_name_counts</span><span class="p">,</span> <span class="n">compress</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">file_name_rb</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="s">&#34;./phyloseq/curatedMetagenomic_&#34;</span><span class="p">,</span> <span class="nf">Sys.Date</span><span class="p">(),</span> <span class="s">&#34;_relative.RDS&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nf">saveRDS</span><span class="p">(</span><span class="n">phy_rb</span><span class="p">,</span> <span class="n">file_name_rb</span><span class="p">,</span> <span class="n">compress</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
-</span></span></code></pre></div><p>Finally, taxonomic profile of 20,089 samples were downloaded from <code>curatedMetagenomicData</code>.</p>
-<h2 id="summary">Summary</h2>
-<p>Download taxa profile of multiple samples curatedMetagenomicData using R.</p>
-<ol>
-<li>Extracting Studies&rsquo; information.</li>
-<li>Downloading results in one batch.</li>
-<li>Converting metadata and profile into phyloseq object.</li>
-</ol>
-
-    </div>
-
-    
-
-
-
-
-
-<div class="article-tags">
-  
-  <a class="badge badge-light" href="/tag/metaphlan/">metaphlan</a>
-  
-  <a class="badge badge-light" href="/tag/microbiota/">microbiota</a>
-  
-</div>
-
-
-
-<div class="share-box">
-  <ul class="share">
-    
-      
-      
-      
-        
-      
-      
-      
-      
-      
-      
-      
-      <li>
-        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fzouhua.top%2Fpost%2Ftool%2F2022-11-10-metagenomics%2F&amp;text=How&#43;to&#43;download&#43;taxa&#43;profile&#43;of&#43;multiple&#43;samples" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
-          <i class="fab fa-twitter"></i>
-        </a>
-      </li>
-    
-      
-      
-      
-        
-      
-      
-      
-      
-      
-      
-      
-      <li>
-        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fzouhua.top%2Fpost%2Ftool%2F2022-11-10-metagenomics%2F&amp;t=How&#43;to&#43;download&#43;taxa&#43;profile&#43;of&#43;multiple&#43;samples" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
-          <i class="fab fa-facebook"></i>
-        </a>
-      </li>
-    
-      
-      
-      
-        
-      
-      
-      
-      
-      
-      
-      
-        
-      
-      <li>
-        <a href="mailto:?subject=How%20to%20download%20taxa%20profile%20of%20multiple%20samples&amp;body=https%3A%2F%2Fzouhua.top%2Fpost%2Ftool%2F2022-11-10-metagenomics%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
-          <i class="fas fa-envelope"></i>
-        </a>
-      </li>
-    
-      
-      
-      
-        
-      
-      
-      
-      
-      
-      
-      
-      <li>
-        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fzouhua.top%2Fpost%2Ftool%2F2022-11-10-metagenomics%2F&amp;title=How&#43;to&#43;download&#43;taxa&#43;profile&#43;of&#43;multiple&#43;samples" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
-      </li>
-    
-      
-      
-      
-        
-      
-      
-      
-      
-      
-      
-      
-      <li>
-        <a href="whatsapp://send?text=How&#43;to&#43;download&#43;taxa&#43;profile&#43;of&#43;multiple&#43;samples%20https%3A%2F%2Fzouhua.top%2Fpost%2Ftool%2F2022-11-10-metagenomics%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
-          <i class="fab fa-whatsapp"></i>
-        </a>
-      </li>
-    
-      
-      
-      
-        
-      
-      
-      
-      
-      
-      
-      
-      <li>
-        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fzouhua.top%2Fpost%2Ftool%2F2022-11-10-metagenomics%2F&amp;title=How&#43;to&#43;download&#43;taxa&#43;profile&#43;of&#43;multiple&#43;samples" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
-          <i class="fab fa-weibo"></i>
-        </a>
-      </li>
-    
-  </ul>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-</article>
-  </div>
-
-  <div class="page-footer">
-    
-    
-    <div class="container">
-      <footer class="site-footer">
-  
-
-  <p class="powered-by">
-    © 2022 Hua Zou &middot; 
-
-    Rendered by <a href="https://cran.r-project.org/" target="_blank" rel="noopener"><i class="fab fa-r-project"></i> </a><a href="https://github.com/rstudio/blogdown" target="_blank" rel="noopener">blogdown</a> ,
-    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> and
-    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
-
-
-    
-    <span class="float-right" aria-hidden="true">
-      <a href="#" id="back_to_top">
-        <span class="button_icon">
-          <i class="fas fa-chevron-up fa-2x"></i>
-        </span>
-      </a>
-    </span>
-    
-  </p>
-</footer>
-
-
-
-<script type="text/javascript"
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-    </div>
-    
-  </div>
-
-  
-
-
-<script src="/js/vendor-bundle.min.d26509351aa0ff874abbee824e982e9b.js"></script>
-
-
-
-
-  
-
-  
-  
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script id="page-data" type="application/json">{"use_headroom":true}</script>
-
-
-
-  <script src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js" type="module"></script>
-
-
-
-
-
-
-
-
-
-
-<script src="/en/js/wowchemy.min.e973d49cb2d568aa6f8eaf3638337473.js"></script>
-
-
-
-
-
-
-
-  
-<div id="modal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Cite</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        
-        <pre><code></code></pre>
-      </div>
-      <div class="modal-footer">
-        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
-          <i class="fas fa-copy"></i> Copy
-        </a>
-        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
-          <i class="fas fa-download"></i> Download
-        </a>
-        <div id="modal-error"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</body>
-</html>
+<!doctype html><!-- This site was created with Wowchemy. https://www.wowchemy.com --><!-- Last Published: April 27, 2023 --><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=generator content="Wowchemy 5.7.0 for Hugo"><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media=print onload='this.media="all"'><link rel=stylesheet href=/css/vendor-bundle.min.16f785cdb553c8c4431db6775122af35.css media=print onload='this.media="all"'><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin=anonymous media=print onload='this.media="all"'><link rel=stylesheet href=/css/wowchemy.e5d7adca760216d3b7e28ea434e81f6f.css><link rel=stylesheet href=/css/libs/chroma/github-light.min.css title=hl-light media=print onload='this.media="all"'><link rel=stylesheet href=/css/libs/chroma/dracula.min.css title=hl-dark media=print onload='this.media="all"' disabled><script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}function trackOutboundLink(e,t){gtag("event","click",{event_category:"outbound",event_label:e,transport_type:"beacon",event_callback:function(){t!=="_blank"&&(document.location=e)}}),console.debug("Outbound link clicked: "+e)}function onClickCallback(e){if(e.target.tagName!=="A"||e.target.host===window.location.host)return;trackOutboundLink(e.target,e.target.getAttribute("target"))}gtag("js",new Date),gtag("config","UA-162525500-1",{}),gtag("set",{cookie_flags:"SameSite=None;Secure"}),document.addEventListener("click",onClickCallback,!1)</script><script>var _hmt=_hmt||[];(function(){var e,t=document.createElement("script");t.src="https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3",e=document.getElementsByTagName("script")[0],e.parentNode.insertBefore(t,e)})()</script><meta name=author content="Hua Zou"><meta name=description content="Here, using Rscript to download data from curatedMetagenomicData."><link rel=alternate hreflang=en-us href=https://zouhua.top/post/tool/2022-11-10-metagenomics/><link rel=canonical href=https://zouhua.top/post/tool/2022-11-10-metagenomics/><link rel=manifest href=/manifest.webmanifest><link rel=icon type=image/png href=/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_32x32_fill_lanczos_center_3.png><link rel=apple-touch-icon type=image/png href=/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_180x180_fill_lanczos_center_3.png><meta name=theme-color content="#1565c0"><meta property="twitter:card" content="summary"><meta property="twitter:site" content="@Hua Zou"><meta property="twitter:creator" content="@Hua Zou"><meta property="twitter:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png"><meta property="og:site_name" content="Hua' Cabin"><meta property="og:url" content="https://zouhua.top/post/tool/2022-11-10-metagenomics/"><meta property="og:title" content="How to download taxa profile of multiple samples | Hua' Cabin"><meta property="og:description" content="Here, using Rscript to download data from curatedMetagenomicData."><meta property="og:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png"><meta property="og:locale" content="en-us"><meta property="article:published_time" content="2022-11-10T20:13:14+00:00"><meta property="article:modified_time" content="2022-11-11T22:13:14+00:00"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://zouhua.top/post/tool/2022-11-10-metagenomics/"},"headline":"How to download taxa profile of multiple samples","datePublished":"2022-11-10T20:13:14Z","dateModified":"2022-11-11T22:13:14Z","author":{"@type":"Person","name":"Hua Zou"},"publisher":{"@type":"Organization","name":"Hua' Cabin","logo":{"@type":"ImageObject","url":"https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_192x192_fill_lanczos_center_3.png"}},"description":"Here, using Rscript to download data from curatedMetagenomicData."}</script><title>How to download taxa profile of multiple samples | Hua' Cabin</title></head><body id=top data-spy=scroll data-offset=70 data-target=#TableOfContents class=page-wrapper data-wc-page-id=33873cf144f18a5a31dd1e2082fb9858><script src=/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js></script><div class="page-header header--fixed"><header><nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id=navbar-main><div class=container-xl><div class="d-none d-lg-inline-flex"><a class=navbar-brand href=/>Hua' Cabin</a></div><button type=button class=navbar-toggler data-toggle=collapse data-target=#navbar-content aria-controls=navbar-content aria-expanded=false aria-label="Toggle navigation">
+<span><i class="fas fa-bars"></i></span></button><div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none"><a class=navbar-brand href=/>Hua' Cabin</a></div><div class="navbar-collapse main-menu-item collapse justify-content-start" id=navbar-content><ul class="navbar-nav d-md-inline-flex"><li class=nav-item><a class=nav-link href=/#about><span>Home</span></a></li><li class=nav-item><a class=nav-link href=/#posts><span>Posts</span></a></li><li class=nav-item><a class=nav-link href=/#experience><span>Experience</span></a></li><li class=nav-item><a class=nav-link href=/#publications><span>Publications</span></a></li><li class=nav-item><a class=nav-link href=/#contact><span>Contact</span></a></li><li class=nav-item><a class=nav-link href=/#bookdown><span>Bookdown</span></a></li></ul></div><ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2"><li class=nav-item><a class="nav-link js-search" href=# aria-label=Search><i class="fas fa-search" aria-hidden=true></i></a></li><li class="nav-item dropdown theme-dropdown"><a href=# class=nav-link data-toggle=dropdown aria-haspopup=true aria-label="Display preferences"><i class="fas fa-moon" aria-hidden=true></i></a><div class=dropdown-menu><a href=# class="dropdown-item js-set-theme-light"><span>Light</span></a>
+<a href=# class="dropdown-item js-set-theme-dark"><span>Dark</span></a>
+<a href=# class="dropdown-item js-set-theme-auto"><span>Automatic</span></a></div></li></ul></div></nav></header></div><div class=page-body><article class=article><div class="article-container pt-3"><h1>How to download taxa profile of multiple samples</h1><p class=page-subtitle>Data derived from curatedMetagenomicData</p><div class=article-metadata><div><span>Hua Zou</span></div><span class=article-date>Last updated on
+Nov 11, 2022</span>
+<span class=middot-divider></span>
+<span class=article-reading-time>7 min read</span>
+<span class=middot-divider></span>
+<span class=article-categories><i class="fas fa-folder mr-1"></i><a href=/category/tool/>Tool</a></span></div></div><div class=article-container><div class=article-style><div><h2>Table Of Contents</h2><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#loading-r-packages>Loading R packages</a></li><li><a href=#studies-in-curatedmetagenomicdata>Studies in curatedMetagenomicData</a></li><li><a href=#acquiring-absolute-and-relative-abundance-per-study>Acquiring absolute and relative abundance per study</a></li><li><a href=#converting-datasets-into-phyloseq>Converting datasets into phyloseq</a></li><li><a href=#summary>Summary</a></li></ul></nav></div><h2 id=introduction>Introduction</h2><p>R package <code>curatedMetagenomicData</code> provides more than 20,000 metaphlan&rsquo;s results of samples. However, to download all the results seems not easy when using simple R codes. Here, we give users codes with step by step to grap all data.</p><p>Since phyloseq object contains abundance table, taxa table and metadata etc, we convert the final metadata and profile including absolute and relative abundance into phyloseq object.</p><h2 id=loading-r-packages>Loading R packages</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-R data-lang=R><span class=line><span class=cl><span class=nf>suppressMessages</span><span class=p>(</span><span class=nf>library</span><span class=p>(</span><span class=n>dplyr</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=nf>suppressMessages</span><span class=p>(</span><span class=nf>library</span><span class=p>(</span><span class=n>tibble</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=nf>suppressMessages</span><span class=p>(</span><span class=nf>library</span><span class=p>(</span><span class=n>curatedMetagenomicData</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=nf>library</span><span class=p>(</span><span class=n>phyloseq</span><span class=p>)</span>
+</span></span></code></pre></div><h2 id=studies-in-curatedmetagenomicdata>Studies in curatedMetagenomicData</h2><p>All the studies&rsquo; information were stored in <strong>sampleMetadata</strong>. Therefore, we obtain the studies&rsquo; names by extracting the information from it.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-R data-lang=R><span class=line><span class=cl><span class=nf>data</span><span class=p>(</span><span class=s>&#34;sampleMetadata&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>availablediseases</span> <span class=o>&lt;-</span> <span class=nf>pull</span><span class=p>(</span><span class=n>sampleMetadata</span><span class=p>,</span> <span class=n>study_condition</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>  <span class=nf>table</span><span class=p>()</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>  <span class=nf>sort</span><span class=p>(</span><span class=n>decreasing</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>studies</span> <span class=o>&lt;-</span> <span class=nf>lapply</span><span class=p>(</span><span class=nf>names</span><span class=p>(</span><span class=n>availablediseases</span><span class=p>),</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>dplyr</span><span class=o>::</span><span class=nf>filter</span><span class=p>(</span><span class=n>sampleMetadata</span><span class=p>,</span> <span class=n>study_condition</span> <span class=o>%in%</span> <span class=n>x</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>dplyr</span><span class=o>::</span><span class=nf>pull</span><span class=p>(</span><span class=n>study_name</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=nf>unique</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=nf>names</span><span class=p>(</span><span class=n>studies</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>names</span><span class=p>(</span><span class=n>availablediseases</span><span class=p>)</span>
+</span></span></code></pre></div><h2 id=acquiring-absolute-and-relative-abundance-per-study>Acquiring absolute and relative abundance per study</h2><ul><li><p>Merging metadata without duplicated samples</p></li><li><p>Whether there is absolute or relative abundance profile per study</p></li><li><p>Whether the samples are identical between metadata and profile</p></li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-R data-lang=R><span class=line><span class=cl><span class=n>metadata</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>profile_counts</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>profile_rb</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>for </span><span class=p>(</span><span class=n>i</span> <span class=n>in</span> <span class=m>1</span><span class=o>:</span><span class=nf>length</span><span class=p>(</span><span class=n>studies</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>disease_dir</span> <span class=o>&lt;-</span> <span class=nf>paste0</span><span class=p>(</span><span class=s>&#34;./dataset/&#34;</span><span class=p>,</span> <span class=nf>names</span><span class=p>(</span><span class=n>studies</span><span class=p>)</span><span class=n>[i]</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=nf>if </span><span class=p>(</span><span class=o>!</span><span class=nf>dir.exists</span><span class=p>(</span><span class=n>disease_dir</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>dir.create</span><span class=p>(</span><span class=n>disease_dir</span><span class=p>,</span> <span class=n>recursive</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=nf>for </span><span class=p>(</span><span class=n>disease</span> <span class=n>in</span> <span class=n>studies[[i]]</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>rb_pattern</span> <span class=o>&lt;-</span> <span class=nf>paste0</span><span class=p>(</span><span class=n>disease</span><span class=p>,</span> <span class=s>&#34;.relative_abundance&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1># absolute abundance</span>
+</span></span><span class=line><span class=cl>    <span class=n>dat_counts_list</span> <span class=o>&lt;-</span> <span class=nf>curatedMetagenomicData</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>      <span class=n>pattern</span> <span class=o>=</span> <span class=n>rb_pattern</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=n>dryrun</span> <span class=o>=</span> <span class=kc>FALSE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=n>counts</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=n>rownames</span> <span class=o>=</span> <span class=s>&#34;long&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      
+</span></span><span class=line><span class=cl>    <span class=c1># relative_abundance</span>
+</span></span><span class=line><span class=cl>    <span class=n>dat_RB_list</span> <span class=o>&lt;-</span> <span class=nf>curatedMetagenomicData</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>      <span class=n>pattern</span> <span class=o>=</span> <span class=n>rb_pattern</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=n>dryrun</span> <span class=o>=</span> <span class=kc>FALSE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=n>counts</span> <span class=o>=</span> <span class=kc>FALSE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=n>rownames</span> <span class=o>=</span> <span class=s>&#34;long&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1># whether there is a taxa profile</span>
+</span></span><span class=line><span class=cl>    <span class=nf>if </span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=n>dat_counts_list</span><span class=p>)</span> <span class=o>&gt;</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=n>dat_counts</span> <span class=o>&lt;-</span> <span class=n>dat_counts_list[[1]]</span>
+</span></span><span class=line><span class=cl>      <span class=n>disease_path_counts</span> <span class=o>&lt;-</span> <span class=nf>paste0</span><span class=p>(</span><span class=n>disease_dir</span><span class=p>,</span> <span class=s>&#34;/&#34;</span><span class=p>,</span> <span class=nf>paste0</span><span class=p>(</span><span class=n>disease</span><span class=p>,</span> <span class=s>&#34;_counts.RData&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>      <span class=nf>save</span><span class=p>(</span><span class=n>dat_counts</span><span class=p>,</span> <span class=n>file</span> <span class=o>=</span> <span class=n>disease_path_counts</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      
+</span></span><span class=line><span class=cl>      <span class=c1># metadata &amp; profile</span>
+</span></span><span class=line><span class=cl>      <span class=n>temp_metadata</span> <span class=o>&lt;-</span> <span class=nf>colData</span><span class=p>(</span><span class=n>dat_counts</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>        <span class=nf>data.frame</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>      <span class=n>temp_profile_counts</span> <span class=o>&lt;-</span> <span class=nf>assay</span><span class=p>(</span><span class=n>dat_counts</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>        <span class=nf>data.frame</span><span class=p>()</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>        <span class=n>tibble</span><span class=o>::</span><span class=nf>rownames_to_column</span><span class=p>(</span><span class=s>&#34;TaxaID&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      
+</span></span><span class=line><span class=cl>      <span class=nf>if </span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=n>profile_counts</span><span class=p>)</span> <span class=o>==</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>profile_counts</span> <span class=o>&lt;-</span> <span class=n>temp_profile_counts</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span> <span class=n>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=nf>colnames</span><span class=p>(</span><span class=n>profile_counts</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>gsub</span><span class=p>(</span><span class=s>&#34;-&#34;</span><span class=p>,</span> <span class=s>&#34;.&#34;</span><span class=p>,</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>profile_counts</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=nf>colnames</span><span class=p>(</span><span class=n>temp_profile_counts</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>gsub</span><span class=p>(</span><span class=s>&#34;-&#34;</span><span class=p>,</span> <span class=s>&#34;.&#34;</span><span class=p>,</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>temp_profile_counts</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># the overlap samples</span>
+</span></span><span class=line><span class=cl>        <span class=n>sid_count</span> <span class=o>&lt;-</span> <span class=nf>intersect</span><span class=p>(</span><span class=nf>colnames</span><span class=p>(</span><span class=n>temp_profile_counts</span><span class=p>),</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>profile_counts</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=n>sid_count</span> <span class=o>&lt;-</span> <span class=n>sid_count[</span><span class=o>-</span><span class=nf>which</span><span class=p>(</span><span class=n>sid_count</span> <span class=o>==</span> <span class=s>&#34;TaxaID&#34;</span><span class=p>)</span><span class=n>]</span>
+</span></span><span class=line><span class=cl>        <span class=nf>if </span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=n>sid_count</span><span class=p>)</span> <span class=o>&gt;</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=n>profile_counts</span> <span class=o>&lt;-</span> <span class=n>profile_counts[</span><span class=p>,</span> <span class=o>!</span><span class=nf>colnames</span><span class=p>(</span><span class=n>profile_counts</span><span class=p>)</span><span class=o>%in%</span><span class=n>sid_count]</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> 
+</span></span><span class=line><span class=cl>        <span class=n>profile_counts</span> <span class=o>&lt;-</span> <span class=n>dplyr</span><span class=o>::</span><span class=nf>full_join</span><span class=p>(</span><span class=n>temp_profile_counts</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                                           <span class=n>profile_counts</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                                           <span class=n>by</span> <span class=o>=</span> <span class=s>&#34;TaxaID&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=nf>colnames</span><span class=p>(</span><span class=n>profile_counts</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>gsub</span><span class=p>(</span><span class=s>&#34;-&#34;</span><span class=p>,</span> <span class=s>&#34;.&#34;</span><span class=p>,</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>profile_counts</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=c1># whether there is a taxa profile</span>
+</span></span><span class=line><span class=cl>    <span class=nf>if </span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=n>dat_RB_list</span><span class=p>)</span> <span class=o>&gt;</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=n>dat_RB</span> <span class=o>&lt;-</span> <span class=n>dat_RB_list[[1]]</span>
+</span></span><span class=line><span class=cl>      <span class=n>disease_path_RB</span> <span class=o>&lt;-</span> <span class=nf>paste0</span><span class=p>(</span><span class=n>disease_dir</span><span class=p>,</span> <span class=s>&#34;/&#34;</span><span class=p>,</span> <span class=nf>paste0</span><span class=p>(</span><span class=n>disease</span><span class=p>,</span> <span class=s>&#34;_RB.RData&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>      <span class=nf>save</span><span class=p>(</span><span class=n>dat_RB</span><span class=p>,</span> <span class=n>file</span> <span class=o>=</span> <span class=n>disease_path_RB</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>      
+</span></span><span class=line><span class=cl>      <span class=c1># metadata &amp; profile</span>
+</span></span><span class=line><span class=cl>      <span class=n>temp_metadata</span> <span class=o>&lt;-</span> <span class=nf>colData</span><span class=p>(</span><span class=n>dat_RB</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>        <span class=nf>data.frame</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>      <span class=n>temp_profile_rb</span> <span class=o>&lt;-</span> <span class=nf>assay</span><span class=p>(</span><span class=n>dat_RB</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>        <span class=nf>data.frame</span><span class=p>()</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>        <span class=n>tibble</span><span class=o>::</span><span class=nf>rownames_to_column</span><span class=p>(</span><span class=s>&#34;TaxaID&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      
+</span></span><span class=line><span class=cl>      <span class=nf>if </span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=n>profile_rb</span><span class=p>)</span> <span class=o>==</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>profile_rb</span> <span class=o>&lt;-</span> <span class=n>temp_profile_rb</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span> <span class=n>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=nf>colnames</span><span class=p>(</span><span class=n>profile_rb</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>gsub</span><span class=p>(</span><span class=s>&#34;-&#34;</span><span class=p>,</span> <span class=s>&#34;.&#34;</span><span class=p>,</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>profile_rb</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=nf>colnames</span><span class=p>(</span><span class=n>temp_profile_rb</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>gsub</span><span class=p>(</span><span class=s>&#34;-&#34;</span><span class=p>,</span> <span class=s>&#34;.&#34;</span><span class=p>,</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>temp_profile_rb</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># the overlap samples</span>
+</span></span><span class=line><span class=cl>        <span class=n>sid_rb</span> <span class=o>&lt;-</span> <span class=nf>intersect</span><span class=p>(</span><span class=nf>colnames</span><span class=p>(</span><span class=n>temp_profile_rb</span><span class=p>),</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>profile_rb</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=n>sid_rb</span> <span class=o>&lt;-</span> <span class=n>sid_rb[</span><span class=o>-</span><span class=nf>which</span><span class=p>(</span><span class=n>sid_rb</span> <span class=o>==</span> <span class=s>&#34;TaxaID&#34;</span><span class=p>)</span><span class=n>]</span>
+</span></span><span class=line><span class=cl>        <span class=nf>if </span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=n>sid_rb</span><span class=p>)</span> <span class=o>&gt;</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=n>profile_rb</span> <span class=o>&lt;-</span> <span class=n>profile_rb[</span><span class=p>,</span> <span class=o>!</span><span class=nf>colnames</span><span class=p>(</span><span class=n>profile_rb</span><span class=p>)</span><span class=o>%in%</span><span class=n>sid_rb]</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>        
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=n>profile_rb</span> <span class=o>&lt;-</span> <span class=n>dplyr</span><span class=o>::</span><span class=nf>full_join</span><span class=p>(</span><span class=n>temp_profile_rb</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                                       <span class=n>profile_rb</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                                       <span class=n>by</span> <span class=o>=</span> <span class=s>&#34;TaxaID&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=nf>colnames</span><span class=p>(</span><span class=n>profile_rb</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>gsub</span><span class=p>(</span><span class=s>&#34;-&#34;</span><span class=p>,</span> <span class=s>&#34;.&#34;</span><span class=p>,</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>profile_rb</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=cl>      
+</span></span><span class=line><span class=cl>    <span class=p>}</span>    
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=nf>if </span><span class=p>(</span><span class=nf>any</span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=n>dat_counts_list</span><span class=p>)</span> <span class=o>&gt;</span> <span class=m>0</span><span class=p>,</span> <span class=nf>length</span><span class=p>(</span><span class=n>dat_RB_list</span><span class=p>)</span> <span class=o>&gt;</span> <span class=m>0</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      
+</span></span><span class=line><span class=cl>      <span class=nf>if </span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=n>metadata</span><span class=p>)</span> <span class=o>==</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>metadata</span> <span class=o>&lt;-</span> <span class=n>temp_metadata</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span> <span class=n>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1># diff: metadata vs temp_metadata</span>
+</span></span><span class=line><span class=cl>        <span class=n>diff1</span> <span class=o>&lt;-</span> <span class=nf>setdiff</span><span class=p>(</span><span class=nf>colnames</span><span class=p>(</span><span class=n>metadata</span><span class=p>),</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>temp_metadata</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=n>diff1_df</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>(</span><span class=nf>matrix</span><span class=p>(</span><span class=kc>NA</span><span class=p>,</span> <span class=n>nrow</span> <span class=o>=</span> <span class=nf>nrow</span><span class=p>(</span><span class=n>temp_metadata</span><span class=p>),</span> <span class=n>ncol</span> <span class=o>=</span> <span class=nf>length</span><span class=p>(</span><span class=n>diff1</span><span class=p>)),</span>
+</span></span><span class=line><span class=cl>                               <span class=n>row.names</span> <span class=o>=</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>temp_metadata</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=nf>colnames</span><span class=p>(</span><span class=n>diff1_df</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>diff1</span>
+</span></span><span class=line><span class=cl>        <span class=n>temp_metadata_new</span> <span class=o>&lt;-</span> <span class=nf>cbind</span><span class=p>(</span><span class=n>temp_metadata</span><span class=p>,</span> <span class=n>diff1_df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># diff: temp_metadata vs metadata</span>
+</span></span><span class=line><span class=cl>        <span class=n>diff2</span> <span class=o>&lt;-</span> <span class=nf>setdiff</span><span class=p>(</span><span class=nf>colnames</span><span class=p>(</span><span class=n>temp_metadata</span><span class=p>),</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>metadata</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=n>diff2_df</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>(</span><span class=nf>matrix</span><span class=p>(</span><span class=kc>NA</span><span class=p>,</span> <span class=n>nrow</span> <span class=o>=</span> <span class=nf>nrow</span><span class=p>(</span><span class=n>metadata</span><span class=p>),</span> <span class=n>ncol</span> <span class=o>=</span> <span class=nf>length</span><span class=p>(</span><span class=n>diff2</span><span class=p>)),</span>
+</span></span><span class=line><span class=cl>                               <span class=n>row.names</span> <span class=o>=</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>metadata</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=nf>colnames</span><span class=p>(</span><span class=n>diff2_df</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>diff2</span>
+</span></span><span class=line><span class=cl>        <span class=n>metadata_new</span> <span class=o>&lt;-</span> <span class=nf>cbind</span><span class=p>(</span><span class=n>metadata</span><span class=p>,</span> <span class=n>diff2_df</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=nf>rownames</span><span class=p>(</span><span class=n>metadata</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>gsub</span><span class=p>(</span><span class=s>&#34;-&#34;</span><span class=p>,</span> <span class=s>&#34;.&#34;</span><span class=p>,</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>metadata</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=nf>rownames</span><span class=p>(</span><span class=n>temp_metadata</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>gsub</span><span class=p>(</span><span class=s>&#34;-&#34;</span><span class=p>,</span> <span class=s>&#34;.&#34;</span><span class=p>,</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>temp_metadata</span><span class=p>))</span>        
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># the overlap samples</span>
+</span></span><span class=line><span class=cl>        <span class=n>sid</span> <span class=o>&lt;-</span> <span class=nf>intersect</span><span class=p>(</span><span class=nf>rownames</span><span class=p>(</span><span class=n>temp_metadata</span><span class=p>),</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>metadata</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=nf>if </span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=n>sid</span><span class=p>)</span> <span class=o>&gt;</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=n>metadata</span> <span class=o>&lt;-</span> <span class=n>metadata[</span><span class=o>!</span><span class=nf>rownames</span><span class=p>(</span><span class=n>metadata</span><span class=p>)</span><span class=o>%in%</span><span class=n>sid</span><span class=p>,</span> <span class=n>]</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=n>metadata</span> <span class=o>&lt;-</span> <span class=nf>rbind</span><span class=p>(</span><span class=n>temp_metadata_new</span><span class=p>,</span> <span class=n>metadata_new</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>          <span class=n>dplyr</span><span class=o>::</span><span class=nf>distinct</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=nf>rownames</span><span class=p>(</span><span class=n>metadata</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>gsub</span><span class=p>(</span><span class=s>&#34;-&#34;</span><span class=p>,</span> <span class=s>&#34;.&#34;</span><span class=p>,</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>metadata</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span>      
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h2 id=converting-datasets-into-phyloseq>Converting datasets into phyloseq</h2><ul><li><p>Extracting taxonomic levels from 1st column of profile</p></li><li><p>Removing prevalence of features less than 0</p></li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-R data-lang=R><span class=line><span class=cl><span class=c1># extract taxnomic levels</span>
+</span></span><span class=line><span class=cl><span class=n>import_metaphlan_taxa</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>data_metaphlan2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                                  <span class=n>taxa_level</span> <span class=o>=</span> <span class=kc>NULL</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>taxa_rank</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=s>&#34;Kingdom&#34;</span><span class=p>,</span> <span class=s>&#34;Phylum&#34;</span><span class=p>,</span> <span class=s>&#34;Class&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                 <span class=s>&#34;Order&#34;</span><span class=p>,</span> <span class=s>&#34;Family&#34;</span><span class=p>,</span> <span class=s>&#34;Genus&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                 <span class=s>&#34;Species&#34;</span><span class=p>,</span> <span class=s>&#34;Strain&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1># rename 1st column into &#34;ID&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=nf>colnames</span><span class=p>(</span><span class=n>data_metaphlan2</span><span class=p>)</span><span class=nf>[which</span><span class=p>(</span><span class=nf>colnames</span><span class=p>(</span><span class=n>data_metaphlan2</span><span class=p>)</span> <span class=o>==</span> <span class=s>&#34;ID&#34;</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>                                    <span class=nf>colnames</span><span class=p>(</span><span class=n>data_metaphlan2</span><span class=p>)</span> <span class=o>==</span> <span class=s>&#34;clade_name&#34;</span><span class=p>)</span><span class=n>]</span> <span class=o>&lt;-</span> <span class=s>&#34;ID&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1># remove the &#34;NCBI_tax_id&#34; column</span>
+</span></span><span class=line><span class=cl>  <span class=nf>if </span><span class=p>(</span><span class=nf>any</span><span class=p>(</span><span class=nf>colnames</span><span class=p>(</span><span class=n>data_metaphlan2</span><span class=p>)</span> <span class=o>%in%</span> <span class=s>&#34;NCBI_tax_id&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>data_metaphlan2</span> <span class=o>&lt;-</span> <span class=n>data_metaphlan2</span> <span class=o>%&gt;%</span> <span class=n>dplyr</span><span class=o>::</span><span class=nf>select</span><span class=p>(</span><span class=o>-</span><span class=n>NCBI_tax_id</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1># remove sample names with &#34;metaphlan_bugs_list&#34; suffix</span>
+</span></span><span class=line><span class=cl>  <span class=nf>colnames</span><span class=p>(</span><span class=n>data_metaphlan2</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>gsub</span><span class=p>(</span><span class=s>&#34;_metaphlan_bugs_list$&#34;</span><span class=p>,</span> <span class=s>&#34;&#34;</span><span class=p>,</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>data_metaphlan2</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nf>if </span><span class=p>(</span><span class=nf>is.null</span><span class=p>(</span><span class=n>taxa_level</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>taxa_level</span> <span class=o>&lt;-</span> <span class=s>&#34;Species&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=n>ind_number</span> <span class=o>&lt;-</span> <span class=nf>match</span><span class=p>(</span><span class=n>taxa_level</span><span class=p>,</span> <span class=n>taxa_rank</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1># remove k__Archaea &amp; k__Viruses &amp; k__Eukaryota &amp; Others which are not bacteria</span>
+</span></span><span class=line><span class=cl>  <span class=nf>if </span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=nf>grep</span><span class=p>(</span><span class=s>&#34;k__Bacteria&#34;</span><span class=p>,</span> <span class=n>data_metaphlan2</span><span class=o>$</span><span class=n>ID</span><span class=p>))</span> <span class=o>&gt;</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>taxa_bacteria</span> <span class=o>&lt;-</span> <span class=n>data_metaphlan2</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=n>dplyr</span><span class=o>::</span><span class=nf>slice</span><span class=p>(</span><span class=nf>grep</span><span class=p>(</span><span class=s>&#34;k__Bacteria&#34;</span><span class=p>,</span> <span class=n>ID</span><span class=p>))</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=n>tibble</span><span class=o>::</span><span class=nf>column_to_rownames</span><span class=p>(</span><span class=s>&#34;ID&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=n>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>stop</span><span class=p>(</span><span class=s>&#34;There are no bacteria identified in this profile&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1># dividing by 100 to normalize the sum into 1</span>
+</span></span><span class=line><span class=cl>  <span class=n>taxa_bac_per</span> <span class=o>&lt;-</span> <span class=p>(</span><span class=n>taxa_bacteria</span> <span class=o>/</span> <span class=m>100</span><span class=p>)</span>  <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>tibble</span><span class=o>::</span><span class=nf>rownames_to_column</span><span class=p>(</span><span class=s>&#34;ID&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>taxa</span> <span class=o>&lt;-</span> <span class=n>taxa_bac_per</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>dplyr</span><span class=o>::</span><span class=nf>group_by</span><span class=p>(</span><span class=n>ID</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>dplyr</span><span class=o>::</span><span class=nf>mutate</span><span class=p>(</span><span class=n>Number</span><span class=o>=</span><span class=nf>length</span><span class=p>(</span><span class=nf>unlist</span><span class=p>(</span><span class=nf>strsplit</span><span class=p>(</span><span class=n>ID</span><span class=p>,</span> <span class=s>&#34;|&#34;</span><span class=p>,</span> <span class=n>fixed</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>))))</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>dplyr</span><span class=o>::</span><span class=nf>select</span><span class=p>(</span><span class=n>ID</span><span class=p>,</span> <span class=n>Number</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>dplyr</span><span class=o>::</span><span class=nf>filter</span><span class=p>(</span><span class=n>Number</span> <span class=o>==</span> <span class=n>ind_number</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>abundance_table</span> <span class=o>&lt;-</span> <span class=n>taxa_bac_per</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>dplyr</span><span class=o>::</span><span class=nf>filter</span><span class=p>(</span><span class=n>ID</span><span class=o>%in%</span><span class=n>taxa</span><span class=o>$</span><span class=n>ID</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>taxa_table</span> <span class=o>&lt;-</span> <span class=nf>lapply</span><span class=p>(</span><span class=n>abundance_table</span><span class=o>$</span><span class=n>ID</span><span class=p>,</span> <span class=n>strsplit</span><span class=p>,</span> <span class=n>split</span> <span class=o>=</span> <span class=s>&#34;|&#34;</span><span class=p>,</span> <span class=n>fixed</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>taxa_table</span> <span class=o>&lt;-</span> <span class=nf>lapply</span><span class=p>(</span><span class=n>taxa_table</span><span class=p>,</span> <span class=n>unlist</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>taxa_table</span> <span class=o>&lt;-</span> <span class=nf>do.call</span><span class=p>(</span><span class=n>rbind</span><span class=p>,</span> <span class=n>taxa_table</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>taxa_table</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>(</span><span class=n>taxa_table</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nf>names</span><span class=p>(</span><span class=n>taxa_table</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>taxa_rank[1</span><span class=o>:</span><span class=n>ind_number]</span>
+</span></span><span class=line><span class=cl>  <span class=nf>rownames</span><span class=p>(</span><span class=n>taxa_table</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>taxa_table[</span><span class=p>,</span> <span class=n>ind_number]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>abundance_table_res</span> <span class=o>&lt;-</span> <span class=n>abundance_table</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>tibble</span><span class=o>::</span><span class=nf>column_to_rownames</span><span class=p>(</span><span class=s>&#34;ID&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nf>rownames</span><span class=p>(</span><span class=n>abundance_table_res</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>taxa_table</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>abundance_table_res</span> <span class=o>&lt;-</span> <span class=n>abundance_table_res</span><span class=nf>[match</span><span class=p>(</span><span class=nf>rownames</span><span class=p>(</span><span class=n>taxa_table</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>                                                   <span class=nf>row.names</span><span class=p>(</span><span class=n>abundance_table_res</span><span class=p>)),</span> <span class=p>,</span>
+</span></span><span class=line><span class=cl>                                             <span class=n>drop</span> <span class=o>=</span> <span class=kc>FALSE</span><span class=n>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>res</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>tax_tab</span><span class=o>=</span><span class=n>taxa_table</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>              <span class=n>abu_tab</span><span class=o>=</span><span class=n>abundance_table_res</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nf>return</span><span class=p>(</span><span class=n>res</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Import function to read the the output of metaphlan as phyloseq object</span>
+</span></span><span class=line><span class=cl><span class=n>get_metaphlan_phyloseq</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>otu_tab</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                                   <span class=n>sam_tab</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                                   <span class=n>tax_tab</span> <span class=o>=</span> <span class=kc>NULL</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nf>if </span><span class=p>(</span><span class=o>!</span><span class=nf>is.null</span><span class=p>(</span><span class=n>tax_tab</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>tax_tab</span> <span class=o>&lt;-</span> <span class=n>phyloseq</span><span class=o>::</span><span class=nf>tax_table</span><span class=p>(</span><span class=nf>as</span><span class=p>(</span><span class=n>tax_tab</span><span class=p>,</span> <span class=s>&#34;matrix&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nf>if </span><span class=p>(</span><span class=o>!</span><span class=nf>is.null</span><span class=p>(</span><span class=n>sam_tab</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>sam_tab</span> <span class=o>&lt;-</span> <span class=n>phyloseq</span><span class=o>::</span><span class=nf>sample_data</span><span class=p>(</span><span class=n>sam_tab</span> <span class=o>%&gt;%</span> <span class=nf>data.frame</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>asv_tab</span> <span class=o>&lt;-</span> <span class=n>phyloseq</span><span class=o>::</span><span class=nf>otu_table</span><span class=p>(</span><span class=nf>as</span><span class=p>(</span><span class=n>otu_tab</span><span class=p>,</span> <span class=s>&#34;matrix&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>                                 <span class=n>taxa_are_rows</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>ps</span> <span class=o>&lt;-</span> <span class=n>phyloseq</span><span class=o>::</span><span class=nf>phyloseq</span><span class=p>(</span><span class=n>asv_tab</span><span class=p>,</span> <span class=n>tax_tab</span><span class=p>,</span> <span class=n>sam_tab</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nf>return</span><span class=p>(</span><span class=n>ps</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Trim samples or taxa in `otu_table` by Occurrences</span>
+</span></span><span class=line><span class=cl><span class=n>run_trim</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>object</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                     <span class=n>taxa_level</span> <span class=o>=</span> <span class=kc>NULL</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                     <span class=n>cutoff</span> <span class=o>=</span> <span class=m>0.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                     <span class=n>trim</span> <span class=o>=</span> <span class=nf>c</span><span class=p>(</span><span class=s>&#34;none&#34;</span><span class=p>,</span> <span class=s>&#34;both&#34;</span><span class=p>,</span> <span class=s>&#34;feature&#34;</span><span class=p>,</span> <span class=s>&#34;sample&#34;</span><span class=p>)){</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>trim</span> <span class=o>&lt;-</span> <span class=nf>match.arg</span><span class=p>(</span><span class=n>trim</span><span class=p>,</span> <span class=nf>c</span><span class=p>(</span><span class=s>&#34;none&#34;</span><span class=p>,</span> <span class=s>&#34;both&#34;</span><span class=p>,</span> <span class=s>&#34;feature&#34;</span><span class=p>,</span> <span class=s>&#34;sample&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>  <span class=nf>if </span><span class=p>(</span><span class=nf>inherits</span><span class=p>(</span><span class=n>object</span><span class=p>,</span> <span class=s>&#34;phyloseq&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ps &lt;- preprocess_ps(object)</span>
+</span></span><span class=line><span class=cl>    <span class=nf>if </span><span class=p>(</span><span class=o>!</span><span class=nf>is.null</span><span class=p>(</span><span class=n>taxa_level</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=n>ps_taxa</span> <span class=o>&lt;-</span> <span class=nf>summarize_taxa</span><span class=p>(</span><span class=n>object</span><span class=p>,</span> <span class=n>taxa_level</span> <span class=o>=</span> <span class=n>taxa_level</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=n>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=n>ps_taxa</span> <span class=o>&lt;-</span> <span class=n>object</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>prf</span> <span class=o>&lt;-</span> <span class=nf>as</span><span class=p>(</span><span class=n>phyloseq</span><span class=o>::</span><span class=nf>otu_table</span><span class=p>(</span><span class=n>ps_taxa</span><span class=p>),</span> <span class=s>&#34;matrix&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=n>else</span> <span class=nf>if </span><span class=p>(</span><span class=nf>inherits</span><span class=p>(</span><span class=n>object</span><span class=p>,</span> <span class=s>&#34;environment&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>prf</span> <span class=o>&lt;-</span> <span class=nf>as</span><span class=p>(</span><span class=n>object</span><span class=o>$</span><span class=n>.Data</span><span class=p>,</span> <span class=s>&#34;matrix&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=n>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>prf</span> <span class=o>&lt;-</span> <span class=n>object</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nf>if </span><span class=p>(</span><span class=n>trim</span> <span class=o>==</span> <span class=s>&#34;feature&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>tmp1</span> <span class=o>&lt;-</span> <span class=nf>trim_FeatureOrSample</span><span class=p>(</span><span class=n>prf</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=n>cutoff</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>remain_features</span> <span class=o>&lt;-</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>tmp1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>remain_samples</span> <span class=o>&lt;-</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>prf</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=n>else</span> <span class=nf>if </span><span class=p>(</span><span class=n>trim</span> <span class=o>==</span> <span class=s>&#34;sample&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>tmp2</span> <span class=o>&lt;-</span> <span class=nf>trim_FeatureOrSample</span><span class=p>(</span><span class=n>prf</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=n>cutoff</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>remain_features</span> <span class=o>&lt;-</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>prf</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>remain_samples</span> <span class=o>&lt;-</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>tmp2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=n>else</span> <span class=nf>if</span><span class=p>(</span><span class=n>trim</span> <span class=o>==</span> <span class=s>&#34;both&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>tmp1</span> <span class=o>&lt;-</span> <span class=nf>trim_FeatureOrSample</span><span class=p>(</span><span class=n>prf</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=n>cutoff</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>tmp2</span> <span class=o>&lt;-</span> <span class=nf>trim_FeatureOrSample</span><span class=p>(</span><span class=n>prf</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=n>cutoff</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>remain_features</span> <span class=o>&lt;-</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>tmp1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>remain_samples</span> <span class=o>&lt;-</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>tmp2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=n>else</span> <span class=nf>if</span><span class=p>(</span><span class=n>trim</span> <span class=o>==</span> <span class=s>&#34;none&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>return</span><span class=p>(</span><span class=n>object</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nf>if </span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=n>remain_features</span><span class=p>)</span> <span class=o>&gt;</span> <span class=m>1</span> <span class=o>&amp;</span> <span class=nf>length</span><span class=p>(</span><span class=n>remain_samples</span><span class=p>)</span> <span class=o>&gt;</span> <span class=m>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>prf_remain</span> <span class=o>&lt;-</span> <span class=n>prf[remain_features</span><span class=p>,</span> <span class=n>remain_samples]</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=n>else</span> <span class=nf>if </span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=n>remain_features</span><span class=p>)</span> <span class=o>&gt;</span> <span class=m>1</span> <span class=o>&amp;</span> <span class=nf>length</span><span class=p>(</span><span class=n>remain_samples</span><span class=p>)</span> <span class=o>==</span> <span class=m>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>prf_remain</span> <span class=o>&lt;-</span> <span class=n>prf[remain_features</span><span class=p>,</span> <span class=n>remain_samples]</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>data.frame</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=nf>colnames</span><span class=p>(</span><span class=n>prf_remain</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>remain_samples</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=n>else</span> <span class=nf>if </span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=n>remain_features</span><span class=p>)</span> <span class=o>==</span> <span class=m>1</span> <span class=o>&amp;</span> <span class=nf>length</span><span class=p>(</span><span class=n>remain_samples</span><span class=p>)</span> <span class=o>&gt;</span> <span class=m>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>prf_remain</span> <span class=o>&lt;-</span> <span class=n>prf[remain_features</span><span class=p>,</span> <span class=n>remain_samples]</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>data.frame</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=nf>rownames</span><span class=p>(</span><span class=n>prf_remain</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>remain_features</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=n>else</span> <span class=nf>if </span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=n>remain_features</span><span class=p>)</span> <span class=o>==</span> <span class=m>1</span> <span class=o>&amp;</span> <span class=nf>length</span><span class=p>(</span><span class=n>remain_samples</span><span class=p>)</span> <span class=o>==</span> <span class=m>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>prf_remain</span> <span class=o>&lt;-</span> <span class=n>prf[remain_features</span><span class=p>,</span> <span class=n>remain_samples]</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>data.frame</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nf>colnames</span><span class=p>(</span><span class=n>prf_remain</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>remain_samples</span>
+</span></span><span class=line><span class=cl>    <span class=nf>rownames</span><span class=p>(</span><span class=n>prf_remain</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>remain_features</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=n>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>stop</span><span class=p>(</span><span class=s>&#34;No sample or taxa were remained, please reinput your cutoff&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nf>if </span><span class=p>(</span><span class=nf>inherits</span><span class=p>(</span><span class=n>object</span><span class=p>,</span> <span class=s>&#34;phyloseq&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>otu_table</span><span class=p>(</span><span class=n>ps_taxa</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>phyloseq</span><span class=o>::</span><span class=nf>otu_table</span><span class=p>(</span><span class=n>prf_remain</span><span class=p>,</span> <span class=n>taxa_are_rows</span> <span class=o>=</span> <span class=nf>taxa_are_rows</span><span class=p>(</span><span class=n>ps_taxa</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>object</span> <span class=o>&lt;-</span> <span class=n>ps_taxa</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=n>else</span> <span class=nf>if </span><span class=p>(</span><span class=nf>inherits</span><span class=p>(</span><span class=n>object</span><span class=p>,</span> <span class=s>&#34;environment&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>object</span> <span class=o>&lt;-</span> <span class=n>phyloseq</span><span class=o>::</span><span class=nf>otu_table</span><span class=p>(</span><span class=n>prf_remain</span><span class=p>,</span> <span class=n>taxa_are_rows</span> <span class=o>=</span> <span class=nf>taxa_are_rows</span><span class=p>(</span><span class=n>object</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=n>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>object</span> <span class=o>&lt;-</span> <span class=n>prf_remain</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nf>return</span><span class=p>(</span><span class=n>object</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># the data is trimmed by threshold</span>
+</span></span><span class=line><span class=cl><span class=n>trim_FeatureOrSample</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>nRow</span><span class=p>,</span> <span class=n>threshold</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>df_occ</span> <span class=o>&lt;-</span> <span class=nf>apply</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>nRow</span><span class=p>,</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>length</span><span class=p>(</span><span class=n>x</span><span class=nf>[c</span><span class=p>(</span><span class=nf>which</span><span class=p>(</span><span class=o>!</span><span class=nf>is.na</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=o>&amp;</span> <span class=n>x</span><span class=o>!=</span><span class=m>0</span><span class=p>))</span><span class=n>]</span><span class=p>)</span> <span class=o>/</span> <span class=nf>length</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>})</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=nf>data.frame</span><span class=p>()</span> <span class=o>%&gt;%</span> <span class=n>stats</span><span class=o>::</span><span class=nf>setNames</span><span class=p>(</span><span class=s>&#34;Occ&#34;</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>tibble</span><span class=o>::</span><span class=nf>rownames_to_column</span><span class=p>(</span><span class=s>&#34;type&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nf>if</span><span class=p>(</span><span class=n>nRow</span> <span class=o>==</span> <span class=m>1</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>    <span class=nf>rownames</span><span class=p>(</span><span class=n>df_occ</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span><span class=n>else</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>rownames</span><span class=p>(</span><span class=n>df_occ</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=n>df_KEEP</span> <span class=o>&lt;-</span> <span class=nf>apply</span><span class=p>(</span><span class=n>df_occ</span> <span class=o>&gt;</span> <span class=n>threshold</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=n>all</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=nf>data.frame</span><span class=p>()</span> <span class=o>%&gt;%</span> <span class=n>stats</span><span class=o>::</span><span class=nf>setNames</span><span class=p>(</span><span class=s>&#34;Status&#34;</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>dplyr</span><span class=o>::</span><span class=nf>filter</span><span class=p>(</span><span class=n>Status</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nf>return</span><span class=p>(</span><span class=n>df_KEEP</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># generate phyloseq</span>
+</span></span><span class=line><span class=cl><span class=n>get_phyloseq</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>y</span><span class=p>,</span> <span class=n>x</span><span class=o>=</span><span class=n>metadata</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=c1># x = metadata</span>
+</span></span><span class=line><span class=cl>  <span class=c1># y = profile_counts</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>phenotype</span> <span class=o>&lt;-</span> <span class=n>x</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=c1># dplyr::mutate(V1=gsub(&#34;\\.*&#34;, &#34;&#34;, V1)) %&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>dplyr</span><span class=o>::</span><span class=nf>distinct</span><span class=p>()</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>tibble</span><span class=o>::</span><span class=nf>column_to_rownames</span><span class=p>(</span><span class=s>&#34;V1&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>profile</span> <span class=o>&lt;-</span> <span class=n>y</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>dplyr</span><span class=o>::</span><span class=nf>select</span><span class=p>(</span><span class=o>-</span><span class=n>V1</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>dplyr</span><span class=o>::</span><span class=nf>rename</span><span class=p>(</span><span class=n>ID</span><span class=o>=</span><span class=n>TaxaID</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=c1># colnames(profile) &lt;- gsub(&#34;\\.*&#34;, &#34;&#34;, colnames(profile))</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=n>sid</span> <span class=o>&lt;-</span> <span class=nf>intersect</span><span class=p>(</span><span class=nf>rownames</span><span class=p>(</span><span class=n>phenotype</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>                   <span class=nf>colnames</span><span class=p>(</span><span class=n>profile</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>  <span class=n>phen</span> <span class=o>&lt;-</span> <span class=n>phenotype</span><span class=nf>[rownames</span><span class=p>(</span><span class=n>phenotype</span><span class=p>)</span> <span class=o>%in%</span> <span class=n>sid</span><span class=p>,</span> <span class=n>]</span>
+</span></span><span class=line><span class=cl>  <span class=n>prof</span> <span class=o>&lt;-</span> <span class=n>profile</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=n>dplyr</span><span class=o>::</span><span class=nf>select</span><span class=p>(</span><span class=nf>all_of</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=s>&#34;ID&#34;</span><span class=p>,</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>phen</span><span class=p>))))</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=n>dat_res</span> <span class=o>&lt;-</span> <span class=nf>import_metaphlan_taxa</span><span class=p>(</span><span class=n>data_metaphlan2</span> <span class=o>=</span> <span class=n>prof</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=n>phy</span> <span class=o>&lt;-</span> <span class=nf>get_metaphlan_phyloseq</span><span class=p>(</span><span class=n>otu_tab</span> <span class=o>=</span> <span class=n>dat_res</span><span class=o>$</span><span class=n>abu_tab</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                         <span class=n>sam_tab</span> <span class=o>=</span> <span class=n>phen</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                         <span class=n>tax_tab</span> <span class=o>=</span> <span class=n>dat_res</span><span class=o>$</span><span class=n>tax_tab</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=n>res</span> <span class=o>&lt;-</span> <span class=nf>run_trim</span><span class=p>(</span><span class=n>object</span> <span class=o>=</span> <span class=n>phy</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                  <span class=n>trim</span> <span class=o>=</span> <span class=s>&#34;feature&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                  <span class=n>cutoff</span> <span class=o>=</span> <span class=m>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=nf>return</span><span class=p>(</span><span class=n>res</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><ul><li>Acquiring phyloseq object</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-R data-lang=R><span class=line><span class=cl><span class=c1>## Counts </span>
+</span></span><span class=line><span class=cl><span class=n>phy_counts</span> <span class=o>&lt;-</span> <span class=nf>get_phyloseq</span><span class=p>(</span><span class=n>y</span> <span class=o>=</span> <span class=n>profile_counts</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>## Relative abundance</span>
+</span></span><span class=line><span class=cl><span class=n>phy_rb</span> <span class=o>&lt;-</span> <span class=nf>get_phyloseq</span><span class=p>(</span><span class=n>y</span> <span class=o>=</span> <span class=n>profile_rb</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>if </span><span class=p>(</span><span class=o>!</span><span class=nf>dir.exists</span><span class=p>(</span><span class=s>&#34;./phyloseq/&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nf>dir.create</span><span class=p>(</span><span class=s>&#34;./phyloseq/&#34;</span><span class=p>,</span> <span class=n>recursive</span> <span class=o>=</span> <span class=bp>T</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>file_name_counts</span> <span class=o>&lt;-</span> <span class=nf>paste0</span><span class=p>(</span><span class=s>&#34;./phyloseq/curatedMetagenomic_&#34;</span><span class=p>,</span> <span class=nf>Sys.Date</span><span class=p>(),</span> <span class=s>&#34;_count.RDS&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nf>saveRDS</span><span class=p>(</span><span class=n>phy_counts</span><span class=p>,</span> <span class=n>file_name_counts</span><span class=p>,</span> <span class=n>compress</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>file_name_rb</span> <span class=o>&lt;-</span> <span class=nf>paste0</span><span class=p>(</span><span class=s>&#34;./phyloseq/curatedMetagenomic_&#34;</span><span class=p>,</span> <span class=nf>Sys.Date</span><span class=p>(),</span> <span class=s>&#34;_relative.RDS&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nf>saveRDS</span><span class=p>(</span><span class=n>phy_rb</span><span class=p>,</span> <span class=n>file_name_rb</span><span class=p>,</span> <span class=n>compress</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>)</span>
+</span></span></code></pre></div><p>Finally, taxonomic profile of 20,089 samples were downloaded from <code>curatedMetagenomicData</code>.</p><h2 id=summary>Summary</h2><p>Download taxa profile of multiple samples curatedMetagenomicData using R.</p><ol><li>Extracting Studies&rsquo; information.</li><li>Downloading results in one batch.</li><li>Converting metadata and profile into phyloseq object.</li></ol></div><div class=article-tags><a class="badge badge-light" href=/tag/metaphlan/>metaphlan</a>
+<a class="badge badge-light" href=/tag/microbiota/>microbiota</a></div><div class=share-box><ul class=share><li><a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fzouhua.top%2Fpost%2Ftool%2F2022-11-10-metagenomics%2F&text=How+to+download+taxa+profile+of+multiple+samples" target=_blank rel=noopener class=share-btn-twitter aria-label=twitter><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fzouhua.top%2Fpost%2Ftool%2F2022-11-10-metagenomics%2F&t=How+to+download+taxa+profile+of+multiple+samples" target=_blank rel=noopener class=share-btn-facebook aria-label=facebook><i class="fab fa-facebook"></i></a></li><li><a href="mailto:?subject=How%20to%20download%20taxa%20profile%20of%20multiple%20samples&body=https%3A%2F%2Fzouhua.top%2Fpost%2Ftool%2F2022-11-10-metagenomics%2F" target=_blank rel=noopener class=share-btn-email aria-label=envelope><i class="fas fa-envelope"></i></a></li><li><a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fzouhua.top%2Fpost%2Ftool%2F2022-11-10-metagenomics%2F&title=How+to+download+taxa+profile+of+multiple+samples" target=_blank rel=noopener class=share-btn-linkedin aria-label=linkedin-in><i class="fab fa-linkedin-in"></i></a></li><li><a href="whatsapp://send?text=How+to+download+taxa+profile+of+multiple+samples%20https%3A%2F%2Fzouhua.top%2Fpost%2Ftool%2F2022-11-10-metagenomics%2F" target=_blank rel=noopener class=share-btn-whatsapp aria-label=whatsapp><i class="fab fa-whatsapp"></i></a></li><li><a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fzouhua.top%2Fpost%2Ftool%2F2022-11-10-metagenomics%2F&title=How+to+download+taxa+profile+of+multiple+samples" target=_blank rel=noopener class=share-btn-weibo aria-label=weibo><i class="fab fa-weibo"></i></a></li></ul></div></div></article></div><div class=page-footer><div class=container><footer class=site-footer><p class=powered-by>© 2023 Hua Zou &#183;
+Rendered by <a href=https://cran.r-project.org/ target=_blank rel=noopener><i class="fab fa-r-project"></i> </a><a href=https://github.com/rstudio/blogdown target=_blank rel=noopener>blogdown</a> ,
+<a href=https://sourcethemes.com/academic/ target=_blank rel=noopener>Academic theme</a> and
+<a href=https://gohugo.io target=_blank rel=noopener>Hugo</a>.
+<span class=float-right aria-hidden=true><a href=# id=back_to_top><span class=button_icon><i class="fas fa-chevron-up fa-2x"></i></span></a></span></p></footer><script type=text/javascript src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></div></div><script src=/js/vendor-bundle.min.d26509351aa0ff874abbee824e982e9b.js></script>
+<script id=page-data type=application/json>{"use_headroom":true}</script><script src=/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js type=module></script>
+<script src=/en/js/wowchemy.min.e973d49cb2d568aa6f8eaf3638337473.js></script><div id=modal class="modal fade" role=dialog><div class=modal-dialog><div class=modal-content><div class=modal-header><h5 class=modal-title>Cite</h5><button type=button class=close data-dismiss=modal aria-label=Close>
+<span aria-hidden=true>&#215;</span></button></div><div class=modal-body><pre><code></code></pre></div><div class=modal-footer><a class="btn btn-outline-primary my-1 js-copy-cite" href=# target=_blank><i class="fas fa-copy"></i> Copy</a>
+<a class="btn btn-outline-primary my-1 js-download-cite" href=# target=_blank><i class="fas fa-download"></i> Download</a><div id=modal-error></div></div></div></div></div><script src=/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js type=module></script></body></html>
