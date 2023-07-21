@@ -562,11 +562,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">##&lt;/span> &lt;span class="err">──────────────────────────────────────────────────────────────────────────────&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="reference">Reference&lt;/h2>
 &lt;ul>
-&lt;li>
-&lt;ul>
 &lt;li>&lt;a href="https://cran.r-project.org/web/packages/gghalves/vignettes/gghalves.html" target="_blank" rel="noopener">https://cran.r-project.org/web/packages/gghalves/vignettes/gghalves.html&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
 &lt;/ul></description></item><item><title>R visualization: Beeswarm by ggplot2</title><link>https://zouhua.top/post/visualization/2023-07-15-beeswarm/</link><pubDate>Sat, 15 Jul 2023 00:00:00 +0000</pubDate><guid>https://zouhua.top/post/visualization/2023-07-15-beeswarm/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
 &lt;p>Beeswarm is useful to show the differences among groups.&lt;/p>
 &lt;h2 id="loading-required-packages">Loading required packages&lt;/h2>

@@ -562,11 +562,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">##&lt;/span> &lt;span class="err">──────────────────────────────────────────────────────────────────────────────&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="reference">Reference&lt;/h2>
 &lt;ul>
-&lt;li>
-&lt;ul>
 &lt;li>&lt;a href="https://cran.r-project.org/web/packages/gghalves/vignettes/gghalves.html" target="_blank" rel="noopener">https://cran.r-project.org/web/packages/gghalves/vignettes/gghalves.html&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
 &lt;/ul></description></item><item><title>R visualization: Beeswarm by ggplot2</title><link>https://zouhua.top/post/visualization/2023-07-15-beeswarm/</link><pubDate>Sat, 15 Jul 2023 00:00:00 +0000</pubDate><guid>https://zouhua.top/post/visualization/2023-07-15-beeswarm/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
 &lt;p>Beeswarm is useful to show the differences among groups.&lt;/p>
 &lt;h2 id="loading-required-packages">Loading required packages&lt;/h2>
@@ -1343,8 +1339,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">##&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">/&lt;/span>&lt;span class="nx">Library&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">Frameworks&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">R&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">framework&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">Versions&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="mf">4.1&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">Resources&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">library&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">##&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">##&lt;/span> &lt;span class="err">──────────────────────────────────────────────────────────────────────────────&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>How to choose the optimal features in Random Forest using R</title><link>https://zouhua.top/post/machine_learning/2023-04-27-ml010-rfoptimal/</link><pubDate>Wed, 26 Apr 2023 20:13:14 +0000</pubDate><guid>https://zouhua.top/post/machine_learning/2023-04-27-ml010-rfoptimal/</guid><description>&lt;h1 id="how-to-choose-the-optimal-biomarkers-in-random-forest">How to choose the optimal biomarkers in Random Forest&lt;/h1>
-&lt;p>Random Forest, a ensemble machine learning algorithm with multiple decision trees could be used for classification or regression algorithm, and it has an elegant way of dealing with nonlinear or linear data.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>How to choose the optimal features in Random Forest using R</title><link>https://zouhua.top/post/machine_learning/2023-04-27-ml010-rfoptimal/</link><pubDate>Wed, 26 Apr 2023 20:13:14 +0000</pubDate><guid>https://zouhua.top/post/machine_learning/2023-04-27-ml010-rfoptimal/</guid><description>&lt;p>Random Forest, a ensemble machine learning algorithm with multiple decision trees could be used for classification or regression algorithm, and it has an elegant way of dealing with nonlinear or linear data.&lt;/p>
 &lt;blockquote>
 &lt;p>Random forest aims to reduce the previously mentioned correlation issue by choosing only a subsample of the feature space at each split. Essentially, it aims to make the trees de-correlated and prune the trees by setting a stopping criteria for node splits, which I will cover in more detail later.&lt;/p>
 &lt;/blockquote>
