@@ -402,7 +402,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;img src="https://zouhua.top/post/visualization/2023-07-17-stamp/index_files/figure-html/unnamed-chunk-7-1.png" width="480" />
 &lt;ul>
 &lt;li>
-&lt;p>fight subfigure for error bar&lt;/p>
+&lt;p>right subfigure for error bar&lt;/p>
 &lt;ul>
 &lt;li>
 &lt;p>apply &lt;code>geom_errorbar&lt;/code> for error bar&lt;/p>
