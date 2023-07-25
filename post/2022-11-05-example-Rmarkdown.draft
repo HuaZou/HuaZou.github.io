@@ -21,6 +21,13 @@ projects: []
 
 Errorbar with jitter gives intuitive sense to observe the differences among groups.
 
+<details>
+<summary>**hidden content**</summary>
+
+information which has been folded in this block
+
+</details>
+
 ## Loading required packages
 ```{r, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
