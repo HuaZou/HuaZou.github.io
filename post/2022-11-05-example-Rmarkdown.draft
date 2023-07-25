@@ -1,0 +1,161 @@
+---
+title: "title"
+author: Hua Zou
+date: '2023-07-23'
+slug: '2023-07-23-errorline'
+categories: ['Visualization', 'ggplot2']
+tags: ['Visualization']
+subtitle: 'errorbar with point'
+summary: 'Diffferences among groups by errorbar using ggplot2'
+lastmod: '2023-07-23T14:05:27+08:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+## Introduction
+
+Errorbar with jitter gives intuitive sense to observe the differences among groups.
+
+## Loading required packages
+```{r, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+
+library(tidyverse)
+library(ggpubr)
+
+rm(list = ls())
+options(stringsAsFactors = F)
+
+# group & color
+group_names <- c("setosa", "versicolor", "virginica")
+group_colors <- c("#0073C2FF", "#EFC000FF", "#CD534CFF")
+```
+
+
+## Data preparation
+
++ Loading **iris** and **ToothGrowth** dataset
+
++ Factorizing Species
+
+```{r, warning=FALSE, message=FALSE}
+data("iris")
+
+plotdata <- iris |>
+  dplyr::select(Sepal.Length, Species) |>
+  dplyr::mutate(Species = factor(Species, levels = group_names)) |>
+  dplyr::rename(Group = Species,
+                Index = Sepal.Length)
+
+head(plotdata)
+
+# other dataset
+data("ToothGrowth")
+```
+
+
+## errorbar with points
+
++ create error bar by `stat_summary` using *errorbar*
+
++ add point by `geom_point`
+
+```{r, warning=FALSE, message=FALSE, fig.width=4, fig.height=3}
+pl <- ggplot(data = plotdata, aes(x = Group, y = Index, shape = Group)) +
+  stat_summary(fun.data = mean_sdl, fun.args = list(mult = 1), 
+               geom = "errorbar", width = 0.2) +
+  stat_summary(fun = median, fun.min = median, fun.max = median,
+               geom = "crossbar", width = 0.3) + 
+  geom_point(aes(color = Group), position = position_jitter(width = 0.1), 
+             size = 1.5, stroke = 1) +
+  stat_compare_means(comparisons = list(c("setosa", "versicolor"),
+                                        c("setosa", "virginica")),
+                     method = "t.test",
+                     label = "p.signif") + 
+  labs(x = "") + 
+  scale_y_continuous(expand = expansion(mult = c(0.1, 0.1))) +
+  scale_color_manual(values = group_colors) +
+  scale_shape_manual(values = c(1, 16, 17)) +
+  guides(color = "none", shape = "none", fill = "none") +
+  theme_classic() +
+  theme(axis.title = element_text(size = 12, color = "black", face = "bold"),
+        axis.text = element_text(size = 10, color = "black"),
+        text = element_text(size = 9, color = "black"))
+
+pl
+```
+
+## Errorbar with line
+
++ Using *ToothGrowth* dataset with groups _Dose_ and _supp_
+
+```{r, warning=FALSE, message=FALSE, fig.width=4, fig.height=3}
+ToothGrowth$dose <- factor(ToothGrowth$dose)
+
+data_summary <- function(data, varname, groupnames){
+  
+  require(plyr)
+  
+  summary_func <- function(x, col) {
+    mean_value <- mean(x[[col]], na.rm = TRUE)
+    sd_value <- sd(x[[col]], na.rm = TRUE)
+    length_n <- length(x[[col]])
+
+    # standard error= standard deviation/squareroot(n)
+    se_value <- sd_value / sqrt(length_n)
+    
+    return(c(mean = mean_value, sd = sd_value, se = se_value))
+  }  
+  
+  data_sum <- ddply(data, groupnames, .fun=summary_func, varname)
+  data_sum <- rename(data_sum, c("mean" = varname))
+  
+  return(data_sum)
+}
+
+plotdata2 <- data_summary(
+  ToothGrowth,
+  varname = "len",
+  groupnames = c("supp", "dose"))
+
+pl2 <- ggplot(data = plotdata2, aes(x = dose, y = len, group = supp, color = supp)) +
+  geom_line() + 
+  geom_point(size = 1.5, stroke = 1) +
+  # geom_errorbar(aes(ymin = len - sd, ymax = len + sd), width = .2,
+  #                  position = position_dodge(0.05)) + 
+  geom_errorbar(aes(ymin = len - se, ymax = len + se), width = .2,
+                   position = position_dodge(0.05)) +   
+  stat_compare_means(data = ToothGrowth,
+                     aes(x = dose, y = len, group = supp), 
+                     label = "p.signif", 
+                     label.y = c(21, 28, 32)) + 
+  labs(x = "") + 
+  scale_y_continuous(expand = expansion(mult = c(0.1, 0.1))) +
+  scale_color_manual(values = c("#999999","#E69F00")) +
+  guides(color = "none") +
+  theme_classic() +
+  theme(axis.title = element_text(size = 12, color = "black", face = "bold"),
+        axis.text = element_text(size = 10, color = "black"),
+        text = element_text(size = 9, color = "black"))
+
+pl2
+```
+
+
+## Conclusion
+
+Compared to single boxplot, Errorbar with jitter provides more information.
+
+
+## Systemic information
+```{r, warning=FALSE, message=FALSE}
+devtools::session_info()
+```
+
+
+## Reference

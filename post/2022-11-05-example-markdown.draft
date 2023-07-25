@@ -19,6 +19,9 @@ date: '2022-11-05T20:13:14'
 # Date updated
 lastmod: '2022-11-05T22:13:14'
 
+# folder
+slug: '2022-11-05-example'
+
 # Is this an unpublished draft?
 draft: true
 
@@ -47,9 +50,20 @@ type: book
 ---
 
 
-# Obtaining inpudata
+## Introduction
+
+
+
+## Importing data
+```python
+```
+
+
+## Conclusion
+
++ 
 
 
 ## Reference
 
-* [Create datasets for machine learning](https://waldronlab.io/curatedMetagenomicDataAnalyses/articles/MLdatasets.html)
++ 
