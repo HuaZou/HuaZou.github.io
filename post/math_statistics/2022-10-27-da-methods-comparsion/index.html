@@ -1,4 +1,4 @@
-<!doctype html><!-- This site was created with Wowchemy. https://www.wowchemy.com --><!-- Last Published: August 5, 2023 --><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=generator content="Wowchemy 5.7.0 for Hugo"><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media=print onload='this.media="all"'><link rel=stylesheet href=/css/vendor-bundle.min.16f785cdb553c8c4431db6775122af35.css media=print onload='this.media="all"'><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin=anonymous media=print onload='this.media="all"'><link rel=stylesheet href=/css/wowchemy.e5d7adca760216d3b7e28ea434e81f6f.css><link rel=stylesheet href=/css/libs/chroma/github-light.min.css title=hl-light media=print onload='this.media="all"'><link rel=stylesheet href=/css/libs/chroma/dracula.min.css title=hl-dark media=print onload='this.media="all"' disabled><script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
+<!doctype html><!-- This site was created with Wowchemy. https://www.wowchemy.com --><!-- Last Published: August 8, 2023 --><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=generator content="Wowchemy 5.7.0 for Hugo"><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media=print onload='this.media="all"'><link rel=stylesheet href=/css/vendor-bundle.min.16f785cdb553c8c4431db6775122af35.css media=print onload='this.media="all"'><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin=anonymous media=print onload='this.media="all"'><link rel=stylesheet href=/css/wowchemy.e5d7adca760216d3b7e28ea434e81f6f.css><link rel=stylesheet href=/css/libs/chroma/github-light.min.css title=hl-light media=print onload='this.media="all"'><link rel=stylesheet href=/css/libs/chroma/dracula.min.css title=hl-dark media=print onload='this.media="all"' disabled><script async src="https://www.googletagmanager.com/gtag/js?id=UA-162525500-1"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}function trackOutboundLink(e,t){gtag("event","click",{event_category:"outbound",event_label:e,transport_type:"beacon",event_callback:function(){t!=="_blank"&&(document.location=e)}}),console.debug("Outbound link clicked: "+e)}function onClickCallback(e){if(e.target.tagName!=="A"||e.target.host===window.location.host)return;trackOutboundLink(e.target,e.target.getAttribute("target"))}gtag("js",new Date),gtag("config","UA-162525500-1",{}),gtag("set",{cookie_flags:"SameSite=None;Secure"}),document.addEventListener("click",onClickCallback,!1)</script><script>var _hmt=_hmt||[];(function(){var e,t=document.createElement("script");t.src="https://hm.baidu.com/hm.js?67583aee7371a754cff04fa0a471bca3",e=document.getElementsByTagName("script")[0],e.parentNode.insertBefore(t,e)})()</script><meta name=author content="Hua Zou"><meta name=description content="差异分析是转录组数据分析的必备技能之一，但众多的转录组分析R包*DESeq2*，*limma*和*edgeR*让分析人员有选择问题，那么它们之间的优劣到底是如何的呢?"><link rel=alternate hreflang=en-us href=https://zouhua.top/post/math_statistics/2022-10-27-da-methods-comparsion/><link rel=canonical href=https://zouhua.top/post/math_statistics/2022-10-27-da-methods-comparsion/><link rel=manifest href=/manifest.webmanifest><link rel=icon type=image/png href=/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_32x32_fill_lanczos_center_3.png><link rel=apple-touch-icon type=image/png href=/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_180x180_fill_lanczos_center_3.png><meta name=theme-color content="#1565c0"><meta property="twitter:card" content="summary"><meta property="twitter:site" content="@Hua Zou"><meta property="twitter:creator" content="@Hua Zou"><meta property="twitter:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png"><meta property="og:site_name" content="Hua's Cabin"><meta property="og:url" content="https://zouhua.top/post/math_statistics/2022-10-27-da-methods-comparsion/"><meta property="og:title" content="转录组差异分析（DESeq2+limma+edgeR+t-test/wilcox-test）总结 | Hua's Cabin"><meta property="og:description" content="差异分析是转录组数据分析的必备技能之一，但众多的转录组分析R包*DESeq2*，*limma*和*edgeR*让分析人员有选择问题，那么它们之间的优劣到底是如何的呢?"><meta property="og:image" content="https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_512x512_fill_lanczos_center_3.png"><meta property="og:locale" content="en-us"><meta property="article:published_time" content="2022-10-20T20:13:14+00:00"><meta property="article:modified_time" content="2022-10-20T22:13:14+00:00"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://zouhua.top/post/math_statistics/2022-10-27-da-methods-comparsion/"},"headline":"转录组差异分析（DESeq2+limma+edgeR+t-test/wilcox-test）总结","datePublished":"2022-10-20T20:13:14Z","dateModified":"2022-10-20T22:13:14Z","author":{"@type":"Person","name":"Hua Zou"},"publisher":{"@type":"Organization","name":"Hua's Cabin","logo":{"@type":"ImageObject","url":"https://zouhua.top/media/icon_hub9a637e5d84e6d4c134f91fa57903eec_55838_192x192_fill_lanczos_center_3.png"}},"description":"差异分析是转录组数据分析的必备技能之一，但众多的转录组分析R包*DESeq2*，*limma*和*edgeR*让分析人员有选择问题，那么它们之间的优劣到底是如何的呢?"}</script><title>转录组差异分析（DESeq2+limma+edgeR+t-test/wilcox-test）总结 | Hua's Cabin</title></head><body id=top data-spy=scroll data-offset=70 data-target=#TableOfContents class=page-wrapper data-wc-page-id=502dca6c954348598c688fab47f1c873><script src=/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js></script><div class="page-header header--fixed"><header><nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id=navbar-main><div class=container-xl><div class="d-none d-lg-inline-flex"><a class=navbar-brand href=/>Hua's Cabin</a></div><button type=button class=navbar-toggler data-toggle=collapse data-target=#navbar-content aria-controls=navbar-content aria-expanded=false aria-label="Toggle navigation">
 <span><i class="fas fa-bars"></i></span></button><div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none"><a class=navbar-brand href=/>Hua's Cabin</a></div><div class="navbar-collapse main-menu-item collapse justify-content-start" id=navbar-content><ul class="navbar-nav d-md-inline-flex"><li class=nav-item><a class=nav-link href=/#about><span>Home</span></a></li><li class=nav-item><a class=nav-link href=/#posts><span>Posts</span></a></li><li class=nav-item><a class=nav-link href=/#experience><span>Experience</span></a></li><li class=nav-item><a class=nav-link href=/#publications><span>Publications</span></a></li><li class=nav-item><a class=nav-link href=/#contact><span>Contact</span></a></li><li class=nav-item><a class=nav-link href=/#bookdown><span>Bookdown</span></a></li></ul></div><ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2"><li class=nav-item><a class="nav-link js-search" href=# aria-label=Search><i class="fas fa-search" aria-hidden=true></i></a></li><li class="nav-item dropdown theme-dropdown"><a href=# class=nav-link data-toggle=dropdown aria-haspopup=true aria-label="Display preferences"><i class="fas fa-moon" aria-hidden=true></i></a><div class=dropdown-menu><a href=# class="dropdown-item js-set-theme-light"><span>Light</span></a>
 <a href=# class="dropdown-item js-set-theme-dark"><span>Dark</span></a>
@@ -49,30 +49,30 @@ $N_i$为比对到第i个exon的reads数； $L_i$为第i个exon的长度；sum()�
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=n>gene_lengths</span> <span class=o>&lt;-</span><span class=n>geneIdLengthUniq</span><span class=o>$</span><span class=n>Length</span>
 </span></span><span class=line><span class=cl><span class=nf>head</span><span class=p>(</span><span class=n>geneIdLengthUniq</span><span class=p>)</span>
-</span></span></code></pre></div><p><figure><div class="d-flex justify-content-center"><div class=w-100><img src=https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/20211126151702.png alt loading=lazy data-zoomable></div></div></figure></p><ul><li>RPKM/FPKM/TPM 转换</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>countToFpkm &lt;- function(counts, lengths){
+</span></span></code></pre></div><p><figure><div class="d-flex justify-content-center"><div class=w-100><img src=https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/20211126151702.png alt loading=lazy data-zoomable></div></div></figure></p><ul><li>RPKM/FPKM/TPM 转换</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-R data-lang=R><span class=line><span class=cl><span class=n>countToFpkm</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>counts</span><span class=p>,</span> <span class=n>lengths</span><span class=p>){</span>
 </span></span><span class=line><span class=cl>  
-</span></span><span class=line><span class=cl>  pm &lt;- sum(counts) /1e6
-</span></span><span class=line><span class=cl>  rpm &lt;- counts/pm
-</span></span><span class=line><span class=cl>  rpm/(lengths/1000)
-</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>  <span class=n>pm</span> <span class=o>&lt;-</span> <span class=nf>sum</span><span class=p>(</span><span class=n>counts</span><span class=p>)</span> <span class=o>/</span><span class=m>1e6</span>
+</span></span><span class=line><span class=cl>  <span class=n>rpm</span> <span class=o>&lt;-</span> <span class=n>counts</span><span class=o>/</span><span class=n>pm</span>
+</span></span><span class=line><span class=cl>  <span class=n>rpm</span><span class=o>/</span><span class=p>(</span><span class=n>lengths</span><span class=o>/</span><span class=m>1000</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>countToTpm &lt;- function(counts, lengths) {
+</span></span><span class=line><span class=cl><span class=n>countToTpm</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>counts</span><span class=p>,</span> <span class=n>lengths</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>  
-</span></span><span class=line><span class=cl>  rpk &lt;- counts/(lengths/1000)
-</span></span><span class=line><span class=cl>  coef &lt;- sum(rpk) / 1e6
-</span></span><span class=line><span class=cl>  rpk/coef
-</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>  <span class=n>rpk</span> <span class=o>&lt;-</span> <span class=n>counts</span><span class=o>/</span><span class=p>(</span><span class=n>lengths</span><span class=o>/</span><span class=m>1000</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>coef</span> <span class=o>&lt;-</span> <span class=nf>sum</span><span class=p>(</span><span class=n>rpk</span><span class=p>)</span> <span class=o>/</span> <span class=m>1e6</span>
+</span></span><span class=line><span class=cl>  <span class=n>rpk</span><span class=o>/</span><span class=n>coef</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl># FPKM
-</span></span><span class=line><span class=cl>count_FPKM &lt;- apply(count_cln, 2, function(x){countToFpkm(x, gene_lengths)}) %&gt;% 
-</span></span><span class=line><span class=cl>  data.frame()
+</span></span><span class=line><span class=cl><span class=c1># FPKM</span>
+</span></span><span class=line><span class=cl><span class=n>count_FPKM</span> <span class=o>&lt;-</span> <span class=nf>apply</span><span class=p>(</span><span class=n>count_cln</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>){</span><span class=nf>countToFpkm</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>gene_lengths</span><span class=p>)})</span> <span class=o>%&gt;%</span> 
+</span></span><span class=line><span class=cl>  <span class=nf>data.frame</span><span class=p>()</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl># TPM
-</span></span><span class=line><span class=cl>count_TPM &lt;- apply(count_cln, 2, function(x){countToTpm(x, gene_lengths)}) %&gt;% 
-</span></span><span class=line><span class=cl>  data.frame() 
-</span></span><span class=line><span class=cl>head(count_cln)
-</span></span><span class=line><span class=cl>head(count_FPKM)
-</span></span><span class=line><span class=cl>head(count_TPM)
+</span></span><span class=line><span class=cl><span class=c1># TPM</span>
+</span></span><span class=line><span class=cl><span class=n>count_TPM</span> <span class=o>&lt;-</span> <span class=nf>apply</span><span class=p>(</span><span class=n>count_cln</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>){</span><span class=nf>countToTpm</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>gene_lengths</span><span class=p>)})</span> <span class=o>%&gt;%</span> 
+</span></span><span class=line><span class=cl>  <span class=nf>data.frame</span><span class=p>()</span> 
+</span></span><span class=line><span class=cl><span class=nf>head</span><span class=p>(</span><span class=n>count_cln</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nf>head</span><span class=p>(</span><span class=n>count_FPKM</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nf>head</span><span class=p>(</span><span class=n>count_TPM</span><span class=p>)</span>
 </span></span></code></pre></div><p><figure><div class="d-flex justify-content-center"><div class=w-100><img src=https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/20211126151741.png alt loading=lazy data-zoomable></div></div></figure></p><h2 id=整体水平比较>整体水平比较</h2><p>在做差异分析前，一般可以对数据做一个降维处理，然后看不同分组是否能在二维展开平面区分开。</p><h4 id=expressionset>ExpressionSet</h4><p>先将数据存成ExpressionSet格式，可参考<a href=https://zouhua.top/archives/619fe135.html target=_blank rel=noopener>RNA-seq数据的批次校正方法</a>文章。ExpressionSet对象数据包含表达谱和metadata等数据，这方便后期分析。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-R data-lang=R><span class=line><span class=cl><span class=n>getExprSet</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>metadata</span><span class=o>=</span><span class=n>phenotype</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                       <span class=n>profile</span><span class=o>=</span><span class=n>count_cln</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                       <span class=n>occurrence</span><span class=o>=</span><span class=m>0.2</span><span class=p>){</span>
@@ -714,135 +714,135 @@ $N_i$为比对到第i个exon的reads数； $L_i$为第i个exon的长度；sum()�
 </span></span><span class=line><span class=cl><span class=n>EdgeR_res_df</span><span class=nf>[which</span><span class=p>(</span><span class=n>EdgeR_res_df</span><span class=o>$</span><span class=n>logFC</span> <span class=o>&lt;=</span> <span class=o>-</span><span class=n>log2fc_threshold</span> <span class=o>&amp;</span> <span class=n>EdgeR_res_df</span><span class=o>$</span><span class=n>FDR</span> <span class=o>&lt;</span> <span class=n>pval</span><span class=p>),</span> <span class=s>&#34;Enrichment&#34;</span><span class=n>]</span> <span class=o>&lt;-</span> <span class=n>grp[1]</span>
 </span></span><span class=line><span class=cl><span class=n>EdgeR_res_df</span><span class=nf>[which</span><span class=p>(</span><span class=nf>abs</span><span class=p>(</span><span class=n>EdgeR_res_df</span><span class=o>$</span><span class=n>logFC</span><span class=p>)</span> <span class=o>&lt;</span> <span class=n>log2fc_threshold</span> <span class=o>|</span> <span class=n>EdgeR_res_df</span><span class=o>$</span><span class=n>FDR</span> <span class=o>&gt;=</span> <span class=n>pval</span><span class=p>),</span> <span class=s>&#34;Enrichment&#34;</span><span class=n>]</span> <span class=o>&lt;-</span> <span class=s>&#34;Nonsignf&#34;</span>
 </span></span><span class=line><span class=cl><span class=nf>table</span><span class=p>(</span><span class=n>EdgeR_res_df</span><span class=o>$</span><span class=n>Enrichment</span><span class=p>)</span>
-</span></span></code></pre></div><p><figure><div class="d-flex justify-content-center"><div class=w-100><img src=https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/20211126153103.png alt loading=lazy data-zoomable></div></div></figure></p><p><strong>结果：差异显著的基因数目在Tumor和Normal组分别是535和842，火山图展示差异基因如上图修改代码即可。</strong></p><h2 id=wilcox-rank-sum-test-or-t-test>Wilcox-rank-sum test or t-test</h2><p>判断基因的表达值是否符合正态分布，是则选择t-test，否则选择wilcox-rank-sum test，log2foldchange根据scale结果的两组均值相除获取。</p><h3 id=计算差异结果-1>计算差异结果</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>DEA_test &lt;- function(datset=ExprSet_count,
-</span></span><span class=line><span class=cl>                     group_info=&#34;Group&#34;,
-</span></span><span class=line><span class=cl>                     group_name=grp){
+</span></span></code></pre></div><p><figure><div class="d-flex justify-content-center"><div class=w-100><img src=https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/20211126153103.png alt loading=lazy data-zoomable></div></div></figure></p><p><strong>结果：差异显著的基因数目在Tumor和Normal组分别是535和842，火山图展示差异基因如上图修改代码即可。</strong></p><h2 id=wilcox-rank-sum-test-or-t-test>Wilcox-rank-sum test or t-test</h2><p>判断基因的表达值是否符合正态分布，是则选择t-test，否则选择wilcox-rank-sum test，log2foldchange根据scale结果的两组均值相除获取。</p><h3 id=计算差异结果-1>计算差异结果</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-R data-lang=R><span class=line><span class=cl><span class=n>DEA_test</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>datset</span><span class=o>=</span><span class=n>ExprSet_count</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                     <span class=n>group_info</span><span class=o>=</span><span class=s>&#34;Group&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                     <span class=n>group_name</span><span class=o>=</span><span class=n>grp</span><span class=p>){</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  # datset=ExprSet
-</span></span><span class=line><span class=cl>  # group_info=&#34;Group&#34;
-</span></span><span class=line><span class=cl>  # group_name=grp
+</span></span><span class=line><span class=cl>  <span class=c1># datset=ExprSet</span>
+</span></span><span class=line><span class=cl>  <span class=c1># group_info=&#34;Group&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=c1># group_name=grp</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  phenotype &lt;- pData(datset)
-</span></span><span class=line><span class=cl>  profile &lt;- exprs(datset)
-</span></span><span class=line><span class=cl>  phenotype_cln &lt;- phenotype %&gt;% dplyr::select(all_of(group_info))
-</span></span><span class=line><span class=cl>  colnames(phenotype_cln)[which(colnames(phenotype_cln) == group_info)] &lt;- &#34;Group&#34;
-</span></span><span class=line><span class=cl>  pheno &lt;- phenotype_cln %&gt;%
-</span></span><span class=line><span class=cl>      rownames_to_column(&#34;SampleID&#34;) %&gt;%
-</span></span><span class=line><span class=cl>      filter(Group%in%group_name) %&gt;%
-</span></span><span class=line><span class=cl>      mutate(Group=factor(Group, levels = group_name)) %&gt;%
-</span></span><span class=line><span class=cl>      column_to_rownames(&#34;SampleID&#34;)
-</span></span><span class=line><span class=cl>  print(table(pheno$Group))
+</span></span><span class=line><span class=cl>  <span class=n>phenotype</span> <span class=o>&lt;-</span> <span class=nf>pData</span><span class=p>(</span><span class=n>datset</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>profile</span> <span class=o>&lt;-</span> <span class=nf>exprs</span><span class=p>(</span><span class=n>datset</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>phenotype_cln</span> <span class=o>&lt;-</span> <span class=n>phenotype</span> <span class=o>%&gt;%</span> <span class=n>dplyr</span><span class=o>::</span><span class=nf>select</span><span class=p>(</span><span class=nf>all_of</span><span class=p>(</span><span class=n>group_info</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>  <span class=nf>colnames</span><span class=p>(</span><span class=n>phenotype_cln</span><span class=p>)</span><span class=nf>[which</span><span class=p>(</span><span class=nf>colnames</span><span class=p>(</span><span class=n>phenotype_cln</span><span class=p>)</span> <span class=o>==</span> <span class=n>group_info</span><span class=p>)</span><span class=n>]</span> <span class=o>&lt;-</span> <span class=s>&#34;Group&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=n>pheno</span> <span class=o>&lt;-</span> <span class=n>phenotype_cln</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>rownames_to_column</span><span class=p>(</span><span class=s>&#34;SampleID&#34;</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>filter</span><span class=p>(</span><span class=n>Group</span><span class=o>%in%</span><span class=n>group_name</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>mutate</span><span class=p>(</span><span class=n>Group</span><span class=o>=</span><span class=nf>factor</span><span class=p>(</span><span class=n>Group</span><span class=p>,</span> <span class=n>levels</span> <span class=o>=</span> <span class=n>group_name</span><span class=p>))</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>column_to_rownames</span><span class=p>(</span><span class=s>&#34;SampleID&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nf>print</span><span class=p>(</span><span class=nf>table</span><span class=p>(</span><span class=n>pheno</span><span class=o>$</span><span class=n>Group</span><span class=p>))</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  edata &lt;- profile[, rownames(pheno)]
+</span></span><span class=line><span class=cl>  <span class=n>edata</span> <span class=o>&lt;-</span> <span class=n>profile[</span><span class=p>,</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>pheno</span><span class=p>)</span><span class=n>]</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  if(length(unique(pheno$Group)) != 2){
-</span></span><span class=line><span class=cl>    stop(&#34;Levels of Group must be 2 levels&#34;)
-</span></span><span class=line><span class=cl>  }
+</span></span><span class=line><span class=cl>  <span class=nf>if</span><span class=p>(</span><span class=nf>length</span><span class=p>(</span><span class=nf>unique</span><span class=p>(</span><span class=n>pheno</span><span class=o>$</span><span class=n>Group</span><span class=p>))</span> <span class=o>!=</span> <span class=m>2</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>    <span class=nf>stop</span><span class=p>(</span><span class=s>&#34;Levels of Group must be 2 levels&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  # Checking whether the two groups that where tested were normally distributed using the Shapiro-Wilk test
-</span></span><span class=line><span class=cl>  shapiro_res &lt;- apply(edata, 1, function(x, y){
-</span></span><span class=line><span class=cl>    #dat &lt;- data.frame(value=as.numeric(edata[1, ]), group=pheno$Group)
-</span></span><span class=line><span class=cl>    dat &lt;- data.frame(value=x, group=y)
+</span></span><span class=line><span class=cl>  <span class=c1># Checking whether the two groups that where tested were normally distributed using the Shapiro-Wilk test</span>
+</span></span><span class=line><span class=cl>  <span class=n>shapiro_res</span> <span class=o>&lt;-</span> <span class=nf>apply</span><span class=p>(</span><span class=n>edata</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#dat &lt;- data.frame(value=as.numeric(edata[1, ]), group=pheno$Group)</span>
+</span></span><span class=line><span class=cl>    <span class=n>dat</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>(</span><span class=n>value</span><span class=o>=</span><span class=n>x</span><span class=p>,</span> <span class=n>group</span><span class=o>=</span><span class=n>y</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>    
-</span></span><span class=line><span class=cl>    nUnique &lt;- tapply(dat$value, dat$group, function(x){length(unique(x))})
-</span></span><span class=line><span class=cl>    if(nUnique[1] &lt; 5 | nUnique[2] &lt; 5){
-</span></span><span class=line><span class=cl>      res &lt;- NA
-</span></span><span class=line><span class=cl>    }else{
-</span></span><span class=line><span class=cl>      t_res &lt;- tapply(dat$value, dat$group, shapiro.test)
-</span></span><span class=line><span class=cl>      if(t_res[[1]]$p.value &lt; 0.05){
-</span></span><span class=line><span class=cl>        res &lt;- FALSE
-</span></span><span class=line><span class=cl>      }else{
-</span></span><span class=line><span class=cl>        res &lt;- TRUE
-</span></span><span class=line><span class=cl>      }      
-</span></span><span class=line><span class=cl>    }
-</span></span><span class=line><span class=cl>    return(res)
-</span></span><span class=line><span class=cl>  }, pheno$Group) %&gt;%
-</span></span><span class=line><span class=cl>    data.frame() %&gt;%
-</span></span><span class=line><span class=cl>    setNames(&#34;Normal&#34;) %&gt;%
-</span></span><span class=line><span class=cl>    rownames_to_column(&#34;FeatureID&#34;)
+</span></span><span class=line><span class=cl>    <span class=n>nUnique</span> <span class=o>&lt;-</span> <span class=nf>tapply</span><span class=p>(</span><span class=n>dat</span><span class=o>$</span><span class=n>value</span><span class=p>,</span> <span class=n>dat</span><span class=o>$</span><span class=n>group</span><span class=p>,</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>){</span><span class=nf>length</span><span class=p>(</span><span class=nf>unique</span><span class=p>(</span><span class=n>x</span><span class=p>))})</span>
+</span></span><span class=line><span class=cl>    <span class=nf>if</span><span class=p>(</span><span class=n>nUnique[1]</span> <span class=o>&lt;</span> <span class=m>5</span> <span class=o>|</span> <span class=n>nUnique[2]</span> <span class=o>&lt;</span> <span class=m>5</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>      <span class=n>res</span> <span class=o>&lt;-</span> <span class=kc>NA</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span><span class=n>else</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=n>t_res</span> <span class=o>&lt;-</span> <span class=nf>tapply</span><span class=p>(</span><span class=n>dat</span><span class=o>$</span><span class=n>value</span><span class=p>,</span> <span class=n>dat</span><span class=o>$</span><span class=n>group</span><span class=p>,</span> <span class=n>shapiro.test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=nf>if</span><span class=p>(</span><span class=n>t_res[[1]]</span><span class=o>$</span><span class=n>p.value</span> <span class=o>&lt;</span> <span class=m>0.05</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>        <span class=n>res</span> <span class=o>&lt;-</span> <span class=kc>FALSE</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span><span class=n>else</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>res</span> <span class=o>&lt;-</span> <span class=kc>TRUE</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span>      
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=nf>return</span><span class=p>(</span><span class=n>res</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span> <span class=n>pheno</span><span class=o>$</span><span class=n>Group</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=nf>data.frame</span><span class=p>()</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=nf>setNames</span><span class=p>(</span><span class=s>&#34;Normal&#34;</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=nf>rownames_to_column</span><span class=p>(</span><span class=s>&#34;FeatureID&#34;</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>  
-</span></span><span class=line><span class=cl>  shapiro_res_final &lt;- shapiro_res %&gt;% filter(!is.na(Normal))
-</span></span><span class=line><span class=cl>  Normal_prof &lt;- edata[rownames(edata)%in%shapiro_res_final$Normal, ]
-</span></span><span class=line><span class=cl>  Non_Normal_prof &lt;- edata[!rownames(edata)%in%shapiro_res_final$Normal, ]
+</span></span><span class=line><span class=cl>  <span class=n>shapiro_res_final</span> <span class=o>&lt;-</span> <span class=n>shapiro_res</span> <span class=o>%&gt;%</span> <span class=nf>filter</span><span class=p>(</span><span class=o>!</span><span class=nf>is.na</span><span class=p>(</span><span class=n>Normal</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>  <span class=n>Normal_prof</span> <span class=o>&lt;-</span> <span class=n>edata</span><span class=nf>[rownames</span><span class=p>(</span><span class=n>edata</span><span class=p>)</span><span class=o>%in%</span><span class=n>shapiro_res_final</span><span class=o>$</span><span class=n>Normal</span><span class=p>,</span> <span class=n>]</span>
+</span></span><span class=line><span class=cl>  <span class=n>Non_Normal_prof</span> <span class=o>&lt;-</span> <span class=n>edata[</span><span class=o>!</span><span class=nf>rownames</span><span class=p>(</span><span class=n>edata</span><span class=p>)</span><span class=o>%in%</span><span class=n>shapiro_res_final</span><span class=o>$</span><span class=n>Normal</span><span class=p>,</span> <span class=n>]</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  if(nrow(Normal_prof) != 0){
-</span></span><span class=line><span class=cl>    # Normally distributed proteins
-</span></span><span class=line><span class=cl>    Welch_res &lt;- apply(Normal_prof, 1, function(x, y){
+</span></span><span class=line><span class=cl>  <span class=nf>if</span><span class=p>(</span><span class=nf>nrow</span><span class=p>(</span><span class=n>Normal_prof</span><span class=p>)</span> <span class=o>!=</span> <span class=m>0</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>    <span class=c1># Normally distributed proteins</span>
+</span></span><span class=line><span class=cl>    <span class=n>Welch_res</span> <span class=o>&lt;-</span> <span class=nf>apply</span><span class=p>(</span><span class=n>Normal_prof</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>){</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>      dat &lt;- data.frame(value=as.numeric(x), group=y)
-</span></span><span class=line><span class=cl>      mn_GM &lt;- tapply(dat$value_scale, dat$group, compositions::geometricmean) %&gt;%
-</span></span><span class=line><span class=cl>        data.frame() %&gt;% setNames(&#34;value&#34;) %&gt;%
-</span></span><span class=line><span class=cl>        rownames_to_column(&#34;Group&#34;)
-</span></span><span class=line><span class=cl>      mn_GM1 &lt;- with(mn_GM, mn_GM[Group%in%group_name[1], &#34;value&#34;])
-</span></span><span class=line><span class=cl>      mn_GM2 &lt;- with(mn_GM, mn_GM[Group%in%group_name[2], &#34;value&#34;])
-</span></span><span class=line><span class=cl>      Log2FC_GM &lt;- log2(mn_GM1/mn_GM2)
+</span></span><span class=line><span class=cl>      <span class=n>dat</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>(</span><span class=n>value</span><span class=o>=</span><span class=nf>as.numeric</span><span class=p>(</span><span class=n>x</span><span class=p>),</span> <span class=n>group</span><span class=o>=</span><span class=n>y</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>mn_GM</span> <span class=o>&lt;-</span> <span class=nf>tapply</span><span class=p>(</span><span class=n>dat</span><span class=o>$</span><span class=n>value_scale</span><span class=p>,</span> <span class=n>dat</span><span class=o>$</span><span class=n>group</span><span class=p>,</span> <span class=n>compositions</span><span class=o>::</span><span class=n>geometricmean</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>        <span class=nf>data.frame</span><span class=p>()</span> <span class=o>%&gt;%</span> <span class=nf>setNames</span><span class=p>(</span><span class=s>&#34;value&#34;</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>        <span class=nf>rownames_to_column</span><span class=p>(</span><span class=s>&#34;Group&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>mn_GM1</span> <span class=o>&lt;-</span> <span class=nf>with</span><span class=p>(</span><span class=n>mn_GM</span><span class=p>,</span> <span class=n>mn_GM[Group</span><span class=o>%in%</span><span class=n>group_name[1]</span><span class=p>,</span> <span class=s>&#34;value&#34;</span><span class=n>]</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>mn_GM2</span> <span class=o>&lt;-</span> <span class=nf>with</span><span class=p>(</span><span class=n>mn_GM</span><span class=p>,</span> <span class=n>mn_GM[Group</span><span class=o>%in%</span><span class=n>group_name[2]</span><span class=p>,</span> <span class=s>&#34;value&#34;</span><span class=n>]</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>Log2FC_GM</span> <span class=o>&lt;-</span> <span class=nf>log2</span><span class=p>(</span><span class=n>mn_GM1</span><span class=o>/</span><span class=n>mn_GM2</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>      # pvalue
-</span></span><span class=line><span class=cl>      rest &lt;- rstatix::t_test(data = dat, value ~ group)
+</span></span><span class=line><span class=cl>      <span class=c1># pvalue</span>
+</span></span><span class=line><span class=cl>      <span class=n>rest</span> <span class=o>&lt;-</span> <span class=n>rstatix</span><span class=o>::</span><span class=nf>t_test</span><span class=p>(</span><span class=n>data</span> <span class=o>=</span> <span class=n>dat</span><span class=p>,</span> <span class=n>value</span> <span class=o>~</span> <span class=n>group</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>      return(c(Log2FC_GM, mn_GM1, mn_GM2,
-</span></span><span class=line><span class=cl>               rest$statistic, rest$p))
-</span></span><span class=line><span class=cl>    }, pheno$Group) %&gt;%
-</span></span><span class=line><span class=cl>      t() %&gt;% data.frame() %&gt;%
-</span></span><span class=line><span class=cl>      setNames(c(&#34;logFC&#34;, paste0(&#34;geometricmean_&#34;, group_name),
-</span></span><span class=line><span class=cl>                 &#34;Statistic&#34;, &#34;P.value&#34;))
-</span></span><span class=line><span class=cl>    Normal_res &lt;- Welch_res %&gt;%
-</span></span><span class=line><span class=cl>      rownames_to_column(&#34;FeatureID&#34;) %&gt;%
-</span></span><span class=line><span class=cl>      arrange(desc(abs(logFC)), P.value)
-</span></span><span class=line><span class=cl>  }else{
-</span></span><span class=line><span class=cl>    Normal_res &lt;- data.frame()
-</span></span><span class=line><span class=cl>  }
+</span></span><span class=line><span class=cl>      <span class=nf>return</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=n>Log2FC_GM</span><span class=p>,</span> <span class=n>mn_GM1</span><span class=p>,</span> <span class=n>mn_GM2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>               <span class=n>rest</span><span class=o>$</span><span class=n>statistic</span><span class=p>,</span> <span class=n>rest</span><span class=o>$</span><span class=n>p</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span> <span class=n>pheno</span><span class=o>$</span><span class=n>Group</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>t</span><span class=p>()</span> <span class=o>%&gt;%</span> <span class=nf>data.frame</span><span class=p>()</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>setNames</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=s>&#34;logFC&#34;</span><span class=p>,</span> <span class=nf>paste0</span><span class=p>(</span><span class=s>&#34;geometricmean_&#34;</span><span class=p>,</span> <span class=n>group_name</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>                 <span class=s>&#34;Statistic&#34;</span><span class=p>,</span> <span class=s>&#34;P.value&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>Normal_res</span> <span class=o>&lt;-</span> <span class=n>Welch_res</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>rownames_to_column</span><span class=p>(</span><span class=s>&#34;FeatureID&#34;</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>arrange</span><span class=p>(</span><span class=nf>desc</span><span class=p>(</span><span class=nf>abs</span><span class=p>(</span><span class=n>logFC</span><span class=p>)),</span> <span class=n>P.value</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span><span class=n>else</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Normal_res</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  if(nrow(Non_Normal_prof) != 0){
-</span></span><span class=line><span class=cl>    # non-Normally distributed proteins
-</span></span><span class=line><span class=cl>    Wilcox_res &lt;- apply(Non_Normal_prof, 1, function(x, y){
-</span></span><span class=line><span class=cl>      dat &lt;- data.frame(value=as.numeric(x), group=y)
+</span></span><span class=line><span class=cl>  <span class=nf>if</span><span class=p>(</span><span class=nf>nrow</span><span class=p>(</span><span class=n>Non_Normal_prof</span><span class=p>)</span> <span class=o>!=</span> <span class=m>0</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>    <span class=c1># non-Normally distributed proteins</span>
+</span></span><span class=line><span class=cl>    <span class=n>Wilcox_res</span> <span class=o>&lt;-</span> <span class=nf>apply</span><span class=p>(</span><span class=n>Non_Normal_prof</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>      <span class=n>dat</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>(</span><span class=n>value</span><span class=o>=</span><span class=nf>as.numeric</span><span class=p>(</span><span class=n>x</span><span class=p>),</span> <span class=n>group</span><span class=o>=</span><span class=n>y</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>      # Fold2Change
-</span></span><span class=line><span class=cl>      dat$value_scale &lt;- scale(dat$value, center = TRUE, scale = TRUE)
-</span></span><span class=line><span class=cl>      mn_GM &lt;- tapply(dat$value_scale, dat$group, compositions::geometricmean) %&gt;%
-</span></span><span class=line><span class=cl>        data.frame() %&gt;% setNames(&#34;value&#34;) %&gt;%
-</span></span><span class=line><span class=cl>        rownames_to_column(&#34;Group&#34;)
-</span></span><span class=line><span class=cl>      mn_GM1 &lt;- with(mn_GM, mn_GM[Group%in%group_name[1], &#34;value&#34;])
-</span></span><span class=line><span class=cl>      mn_GM2 &lt;- with(mn_GM, mn_GM[Group%in%group_name[2], &#34;value&#34;])
-</span></span><span class=line><span class=cl>      Log2FC_GM &lt;- log2(mn_GM1/mn_GM2)
+</span></span><span class=line><span class=cl>      <span class=c1># Fold2Change</span>
+</span></span><span class=line><span class=cl>      <span class=n>dat</span><span class=o>$</span><span class=n>value_scale</span> <span class=o>&lt;-</span> <span class=nf>scale</span><span class=p>(</span><span class=n>dat</span><span class=o>$</span><span class=n>value</span><span class=p>,</span> <span class=n>center</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>,</span> <span class=n>scale</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>mn_GM</span> <span class=o>&lt;-</span> <span class=nf>tapply</span><span class=p>(</span><span class=n>dat</span><span class=o>$</span><span class=n>value_scale</span><span class=p>,</span> <span class=n>dat</span><span class=o>$</span><span class=n>group</span><span class=p>,</span> <span class=n>compositions</span><span class=o>::</span><span class=n>geometricmean</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>        <span class=nf>data.frame</span><span class=p>()</span> <span class=o>%&gt;%</span> <span class=nf>setNames</span><span class=p>(</span><span class=s>&#34;value&#34;</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>        <span class=nf>rownames_to_column</span><span class=p>(</span><span class=s>&#34;Group&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>mn_GM1</span> <span class=o>&lt;-</span> <span class=nf>with</span><span class=p>(</span><span class=n>mn_GM</span><span class=p>,</span> <span class=n>mn_GM[Group</span><span class=o>%in%</span><span class=n>group_name[1]</span><span class=p>,</span> <span class=s>&#34;value&#34;</span><span class=n>]</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>mn_GM2</span> <span class=o>&lt;-</span> <span class=nf>with</span><span class=p>(</span><span class=n>mn_GM</span><span class=p>,</span> <span class=n>mn_GM[Group</span><span class=o>%in%</span><span class=n>group_name[2]</span><span class=p>,</span> <span class=s>&#34;value&#34;</span><span class=n>]</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>Log2FC_GM</span> <span class=o>&lt;-</span> <span class=nf>log2</span><span class=p>(</span><span class=n>mn_GM1</span><span class=o>/</span><span class=n>mn_GM2</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>      # pvalue
-</span></span><span class=line><span class=cl>      rest &lt;- wilcox.test(data = dat, value ~ group)
+</span></span><span class=line><span class=cl>      <span class=c1># pvalue</span>
+</span></span><span class=line><span class=cl>      <span class=n>rest</span> <span class=o>&lt;-</span> <span class=nf>wilcox.test</span><span class=p>(</span><span class=n>data</span> <span class=o>=</span> <span class=n>dat</span><span class=p>,</span> <span class=n>value</span> <span class=o>~</span> <span class=n>group</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>      return(c(Log2FC_GM, mn_GM1, mn_GM2,
-</span></span><span class=line><span class=cl>               rest$statistic, rest$p.value))
-</span></span><span class=line><span class=cl>    }, pheno$Group) %&gt;%
-</span></span><span class=line><span class=cl>      t() %&gt;% data.frame() %&gt;%
-</span></span><span class=line><span class=cl>      setNames(c(&#34;logFC&#34;, paste0(&#34;geometricmean_&#34;, group_name),
-</span></span><span class=line><span class=cl>                 &#34;Statistic&#34;, &#34;P.value&#34;))
-</span></span><span class=line><span class=cl>    Non_Normal_res &lt;- Wilcox_res %&gt;%
-</span></span><span class=line><span class=cl>      rownames_to_column(&#34;FeatureID&#34;) %&gt;%
-</span></span><span class=line><span class=cl>      arrange(desc(abs(logFC)), P.value)
-</span></span><span class=line><span class=cl>  }else{
-</span></span><span class=line><span class=cl>    Non_Normal_res &lt;- data.frame()
-</span></span><span class=line><span class=cl>  }
+</span></span><span class=line><span class=cl>      <span class=nf>return</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=n>Log2FC_GM</span><span class=p>,</span> <span class=n>mn_GM1</span><span class=p>,</span> <span class=n>mn_GM2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>               <span class=n>rest</span><span class=o>$</span><span class=n>statistic</span><span class=p>,</span> <span class=n>rest</span><span class=o>$</span><span class=n>p.value</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span> <span class=n>pheno</span><span class=o>$</span><span class=n>Group</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>t</span><span class=p>()</span> <span class=o>%&gt;%</span> <span class=nf>data.frame</span><span class=p>()</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>setNames</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=s>&#34;logFC&#34;</span><span class=p>,</span> <span class=nf>paste0</span><span class=p>(</span><span class=s>&#34;geometricmean_&#34;</span><span class=p>,</span> <span class=n>group_name</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>                 <span class=s>&#34;Statistic&#34;</span><span class=p>,</span> <span class=s>&#34;P.value&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>Non_Normal_res</span> <span class=o>&lt;-</span> <span class=n>Wilcox_res</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>rownames_to_column</span><span class=p>(</span><span class=s>&#34;FeatureID&#34;</span><span class=p>)</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>      <span class=nf>arrange</span><span class=p>(</span><span class=nf>desc</span><span class=p>(</span><span class=nf>abs</span><span class=p>(</span><span class=n>logFC</span><span class=p>)),</span> <span class=n>P.value</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span><span class=n>else</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Non_Normal_res</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  # Number &amp; Block
-</span></span><span class=line><span class=cl>  res &lt;- rbind(Normal_res, Non_Normal_res)
-</span></span><span class=line><span class=cl>  res$adj.P.Val &lt;- p.adjust(as.numeric(res$P.value), method = &#34;BH&#34;)
+</span></span><span class=line><span class=cl>  <span class=c1># Number &amp; Block</span>
+</span></span><span class=line><span class=cl>  <span class=n>res</span> <span class=o>&lt;-</span> <span class=nf>rbind</span><span class=p>(</span><span class=n>Normal_res</span><span class=p>,</span> <span class=n>Non_Normal_res</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>res</span><span class=o>$</span><span class=n>adj.P.Val</span> <span class=o>&lt;-</span> <span class=nf>p.adjust</span><span class=p>(</span><span class=nf>as.numeric</span><span class=p>(</span><span class=n>res</span><span class=o>$</span><span class=n>P.value</span><span class=p>),</span> <span class=n>method</span> <span class=o>=</span> <span class=s>&#34;BH&#34;</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  dat_status &lt;- table(pheno$Group)
-</span></span><span class=line><span class=cl>  dat_status_number &lt;- as.numeric(dat_status)
-</span></span><span class=line><span class=cl>  dat_status_name &lt;- names(dat_status)
-</span></span><span class=line><span class=cl>  res$Block &lt;- paste(paste(dat_status_number[1], dat_status_name[1], sep = &#34;_&#34;),
-</span></span><span class=line><span class=cl>                         &#34;vs&#34;,
-</span></span><span class=line><span class=cl>                         paste(dat_status_number[2], dat_status_name[2], sep = &#34;_&#34;))
+</span></span><span class=line><span class=cl>  <span class=n>dat_status</span> <span class=o>&lt;-</span> <span class=nf>table</span><span class=p>(</span><span class=n>pheno</span><span class=o>$</span><span class=n>Group</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>dat_status_number</span> <span class=o>&lt;-</span> <span class=nf>as.numeric</span><span class=p>(</span><span class=n>dat_status</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>dat_status_name</span> <span class=o>&lt;-</span> <span class=nf>names</span><span class=p>(</span><span class=n>dat_status</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>res</span><span class=o>$</span><span class=n>Block</span> <span class=o>&lt;-</span> <span class=nf>paste</span><span class=p>(</span><span class=nf>paste</span><span class=p>(</span><span class=n>dat_status_number[1]</span><span class=p>,</span> <span class=n>dat_status_name[1]</span><span class=p>,</span> <span class=n>sep</span> <span class=o>=</span> <span class=s>&#34;_&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>                         <span class=s>&#34;vs&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                         <span class=nf>paste</span><span class=p>(</span><span class=n>dat_status_number[2]</span><span class=p>,</span> <span class=n>dat_status_name[2]</span><span class=p>,</span> <span class=n>sep</span> <span class=o>=</span> <span class=s>&#34;_&#34;</span><span class=p>))</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  res_final &lt;- res %&gt;% dplyr::select(FeatureID, Block, adj.P.Val, P.value, everything()) %&gt;%
-</span></span><span class=line><span class=cl>    arrange(adj.P.Val)
+</span></span><span class=line><span class=cl>  <span class=n>res_final</span> <span class=o>&lt;-</span> <span class=n>res</span> <span class=o>%&gt;%</span> <span class=n>dplyr</span><span class=o>::</span><span class=nf>select</span><span class=p>(</span><span class=n>FeatureID</span><span class=p>,</span> <span class=n>Block</span><span class=p>,</span> <span class=n>adj.P.Val</span><span class=p>,</span> <span class=n>P.value</span><span class=p>,</span> <span class=nf>everything</span><span class=p>())</span> <span class=o>%&gt;%</span>
+</span></span><span class=line><span class=cl>    <span class=nf>arrange</span><span class=p>(</span><span class=n>adj.P.Val</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  return(res_final)
-</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>  <span class=nf>return</span><span class=p>(</span><span class=n>res_final</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>Test_res &lt;- DEA_test(datset=ExprSet_count)
-</span></span><span class=line><span class=cl>head(Test_res)
+</span></span><span class=line><span class=cl><span class=n>Test_res</span> <span class=o>&lt;-</span> <span class=nf>DEA_test</span><span class=p>(</span><span class=n>datset</span><span class=o>=</span><span class=n>ExprSet_count</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nf>head</span><span class=p>(</span><span class=n>Test_res</span><span class=p>)</span>
 </span></span></code></pre></div><p><figure><div class="d-flex justify-content-center"><div class=w-100><img src=https://raw.githubusercontent.com/HuaZou/Image_Host/main/img/20211126153138.png alt loading=lazy data-zoomable></div></div></figure></p><h3 id=差异分组-3>差异分组</h3><p>设置差异基因过滤阈值（logFC+adj.P.Va）</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-R data-lang=R><span class=line><span class=cl><span class=n>Test_res_df</span> <span class=o>&lt;-</span> <span class=n>Test_res</span> <span class=o>%&gt;%</span> <span class=nf>filter</span><span class=p>(</span><span class=o>!</span><span class=nf>is.nan</span><span class=p>(</span><span class=n>logFC</span><span class=p>))</span> <span class=o>%&gt;%</span>
 </span></span><span class=line><span class=cl>  <span class=nf>filter</span><span class=p>(</span><span class=o>!</span><span class=nf>is.infinite</span><span class=p>(</span><span class=n>logFC</span><span class=p>))</span> <span class=o>%&gt;%</span>
 </span></span><span class=line><span class=cl>  <span class=nf>filter</span><span class=p>(</span><span class=nf>is.finite</span><span class=p>(</span><span class=n>logFC</span><span class=p>))</span> <span class=o>%&gt;%</span>

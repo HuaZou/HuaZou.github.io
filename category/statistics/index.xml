@@ -175,30 +175,30 @@ $N_i$为比对到第i个exon的reads数； $L_i$为第i个exon的长度；sum()�
 &lt;ul>
 &lt;li>RPKM/FPKM/TPM 转换&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">countToFpkm &amp;lt;- function(counts, lengths){
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-R" data-lang="R">&lt;span class="line">&lt;span class="cl">&lt;span class="n">countToFpkm&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">counts&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">lengths&lt;/span>&lt;span class="p">){&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> pm &amp;lt;- sum(counts) /1e6
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rpm &amp;lt;- counts/pm
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rpm/(lengths/1000)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">pm&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">counts&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">/&lt;/span>&lt;span class="m">1e6&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">rpm&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="n">counts&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">pm&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">rpm&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">lengths&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="m">1000&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">countToTpm &amp;lt;- function(counts, lengths) {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">countToTpm&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">counts&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">lengths&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rpk &amp;lt;- counts/(lengths/1000)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> coef &amp;lt;- sum(rpk) / 1e6
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rpk/coef
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">rpk&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="n">counts&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">lengths&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="m">1000&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">coef&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">rpk&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="m">1e6&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">rpk&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">coef&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># FPKM
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">count_FPKM &amp;lt;- apply(count_cln, 2, function(x){countToFpkm(x, gene_lengths)}) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> data.frame()
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># FPKM&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">count_FPKM&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">apply&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">count_cln&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nf">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">){&lt;/span>&lt;span class="nf">countToFpkm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">gene_lengths&lt;/span>&lt;span class="p">)})&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">data.frame&lt;/span>&lt;span class="p">()&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># TPM
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">count_TPM &amp;lt;- apply(count_cln, 2, function(x){countToTpm(x, gene_lengths)}) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> data.frame()
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">head(count_cln)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">head(count_FPKM)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">head(count_TPM)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># TPM&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">count_TPM&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">apply&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">count_cln&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nf">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">){&lt;/span>&lt;span class="nf">countToTpm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">gene_lengths&lt;/span>&lt;span class="p">)})&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">data.frame&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">head&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">count_cln&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">head&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">count_FPKM&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">head&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">count_TPM&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
 &lt;figure >
 &lt;div class="d-flex justify-content-center">
@@ -1091,135 +1091,135 @@ $N_i$为比对到第i个exon的reads数； $L_i$为第i个exon的长度；sum()�
 &lt;h2 id="wilcox-rank-sum-test-or-t-test">Wilcox-rank-sum test or t-test&lt;/h2>
 &lt;p>判断基因的表达值是否符合正态分布，是则选择t-test，否则选择wilcox-rank-sum test，log2foldchange根据scale结果的两组均值相除获取。&lt;/p>
 &lt;h3 id="计算差异结果-1">计算差异结果&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">DEA_test &amp;lt;- function(datset=ExprSet_count,
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> group_info=&amp;#34;Group&amp;#34;,
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> group_name=grp){
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-R" data-lang="R">&lt;span class="line">&lt;span class="cl">&lt;span class="n">DEA_test&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">datset&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">ExprSet_count&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">group_info&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;Group&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">group_name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">grp&lt;/span>&lt;span class="p">){&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # datset=ExprSet
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # group_info=&amp;#34;Group&amp;#34;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # group_name=grp
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># datset=ExprSet&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># group_info=&amp;#34;Group&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># group_name=grp&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> phenotype &amp;lt;- pData(datset)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> profile &amp;lt;- exprs(datset)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> phenotype_cln &amp;lt;- phenotype %&amp;gt;% dplyr::select(all_of(group_info))
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> colnames(phenotype_cln)[which(colnames(phenotype_cln) == group_info)] &amp;lt;- &amp;#34;Group&amp;#34;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> pheno &amp;lt;- phenotype_cln %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rownames_to_column(&amp;#34;SampleID&amp;#34;) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> filter(Group%in%group_name) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> mutate(Group=factor(Group, levels = group_name)) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> column_to_rownames(&amp;#34;SampleID&amp;#34;)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> print(table(pheno$Group))
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">phenotype&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">pData&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">datset&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">profile&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">exprs&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">datset&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">phenotype_cln&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="n">phenotype&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span> &lt;span class="n">dplyr&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="nf">select&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">all_of&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">group_info&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">colnames&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">phenotype_cln&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="nf">[which&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">colnames&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">phenotype_cln&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="n">group_info&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">]&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="s">&amp;#34;Group&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">pheno&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="n">phenotype_cln&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">rownames_to_column&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;SampleID&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">filter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Group&lt;/span>&lt;span class="o">%in%&lt;/span>&lt;span class="n">group_name&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">mutate&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Group&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nf">factor&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Group&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">levels&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">group_name&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">column_to_rownames&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;SampleID&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">table&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">pheno&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">Group&lt;/span>&lt;span class="p">))&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> edata &amp;lt;- profile[, rownames(pheno)]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">edata&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="n">profile[&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nf">rownames&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">pheno&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">]&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> if(length(unique(pheno$Group)) != 2){
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> stop(&amp;#34;Levels of Group must be 2 levels&amp;#34;)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">length&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">unique&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">pheno&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">Group&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="m">2&lt;/span>&lt;span class="p">){&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">stop&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Levels of Group must be 2 levels&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # Checking whether the two groups that where tested were normally distributed using the Shapiro-Wilk test
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> shapiro_res &amp;lt;- apply(edata, 1, function(x, y){
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> #dat &amp;lt;- data.frame(value=as.numeric(edata[1, ]), group=pheno$Group)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> dat &amp;lt;- data.frame(value=x, group=y)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Checking whether the two groups that where tested were normally distributed using the Shapiro-Wilk test&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">shapiro_res&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">apply&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">edata&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nf">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y&lt;/span>&lt;span class="p">){&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">#dat &amp;lt;- data.frame(value=as.numeric(edata[1, ]), group=pheno$Group)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dat&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">data.frame&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">value&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">group&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">y&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> nUnique &amp;lt;- tapply(dat$value, dat$group, function(x){length(unique(x))})
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> if(nUnique[1] &amp;lt; 5 | nUnique[2] &amp;lt; 5){
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> res &amp;lt;- NA
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }else{
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> t_res &amp;lt;- tapply(dat$value, dat$group, shapiro.test)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> if(t_res[[1]]$p.value &amp;lt; 0.05){
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> res &amp;lt;- FALSE
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }else{
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> res &amp;lt;- TRUE
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> return(res)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }, pheno$Group) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> data.frame() %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> setNames(&amp;#34;Normal&amp;#34;) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rownames_to_column(&amp;#34;FeatureID&amp;#34;)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nUnique&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">tapply&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dat&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">value&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">dat&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">group&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nf">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">){&lt;/span>&lt;span class="nf">length&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">unique&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">))})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">nUnique[1]&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="m">5&lt;/span> &lt;span class="o">|&lt;/span> &lt;span class="n">nUnique[2]&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="m">5&lt;/span>&lt;span class="p">){&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="kc">NA&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>&lt;span class="n">else&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">t_res&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">tapply&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dat&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">value&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">dat&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">group&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">shapiro.test&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">t_res[[1]]&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">p.value&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="m">0.05&lt;/span>&lt;span class="p">){&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="kc">FALSE&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>&lt;span class="n">else&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="kc">TRUE&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">return&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">res&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span> &lt;span class="n">pheno&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">Group&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">data.frame&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">setNames&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Normal&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">rownames_to_column&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;FeatureID&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> shapiro_res_final &amp;lt;- shapiro_res %&amp;gt;% filter(!is.na(Normal))
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Normal_prof &amp;lt;- edata[rownames(edata)%in%shapiro_res_final$Normal, ]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Non_Normal_prof &amp;lt;- edata[!rownames(edata)%in%shapiro_res_final$Normal, ]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">shapiro_res_final&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="n">shapiro_res&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span> &lt;span class="nf">filter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="nf">is.na&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Normal&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Normal_prof&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="n">edata&lt;/span>&lt;span class="nf">[rownames&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">edata&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">%in%&lt;/span>&lt;span class="n">shapiro_res_final&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">Normal&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Non_Normal_prof&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="n">edata[&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="nf">rownames&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">edata&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">%in%&lt;/span>&lt;span class="n">shapiro_res_final&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">Normal&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">]&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> if(nrow(Normal_prof) != 0){
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # Normally distributed proteins
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Welch_res &amp;lt;- apply(Normal_prof, 1, function(x, y){
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">nrow&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Normal_prof&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="m">0&lt;/span>&lt;span class="p">){&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Normally distributed proteins&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Welch_res&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">apply&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Normal_prof&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nf">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y&lt;/span>&lt;span class="p">){&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> dat &amp;lt;- data.frame(value=as.numeric(x), group=y)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> mn_GM &amp;lt;- tapply(dat$value_scale, dat$group, compositions::geometricmean) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> data.frame() %&amp;gt;% setNames(&amp;#34;value&amp;#34;) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rownames_to_column(&amp;#34;Group&amp;#34;)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> mn_GM1 &amp;lt;- with(mn_GM, mn_GM[Group%in%group_name[1], &amp;#34;value&amp;#34;])
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> mn_GM2 &amp;lt;- with(mn_GM, mn_GM[Group%in%group_name[2], &amp;#34;value&amp;#34;])
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Log2FC_GM &amp;lt;- log2(mn_GM1/mn_GM2)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dat&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">data.frame&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">value&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nf">as.numeric&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">group&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">y&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mn_GM&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">tapply&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dat&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">value_scale&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">dat&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">group&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">compositions&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">geometricmean&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">data.frame&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span> &lt;span class="nf">setNames&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;value&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">rownames_to_column&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Group&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mn_GM1&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">with&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">mn_GM&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mn_GM[Group&lt;/span>&lt;span class="o">%in%&lt;/span>&lt;span class="n">group_name[1]&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;value&amp;#34;&lt;/span>&lt;span class="n">]&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mn_GM2&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">with&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">mn_GM&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mn_GM[Group&lt;/span>&lt;span class="o">%in%&lt;/span>&lt;span class="n">group_name[2]&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;value&amp;#34;&lt;/span>&lt;span class="n">]&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Log2FC_GM&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">log2&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">mn_GM1&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">mn_GM2&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # pvalue
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rest &amp;lt;- rstatix::t_test(data = dat, value ~ group)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># pvalue&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">rest&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="n">rstatix&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="nf">t_test&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">data&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">dat&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">value&lt;/span> &lt;span class="o">~&lt;/span> &lt;span class="n">group&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> return(c(Log2FC_GM, mn_GM1, mn_GM2,
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rest$statistic, rest$p))
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }, pheno$Group) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> t() %&amp;gt;% data.frame() %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> setNames(c(&amp;#34;logFC&amp;#34;, paste0(&amp;#34;geometricmean_&amp;#34;, group_name),
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;#34;Statistic&amp;#34;, &amp;#34;P.value&amp;#34;))
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Normal_res &amp;lt;- Welch_res %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rownames_to_column(&amp;#34;FeatureID&amp;#34;) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> arrange(desc(abs(logFC)), P.value)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }else{
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Normal_res &amp;lt;- data.frame()
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">return&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">c&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Log2FC_GM&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mn_GM1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mn_GM2&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">rest&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">statistic&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">rest&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">p&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span> &lt;span class="n">pheno&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">Group&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">t&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span> &lt;span class="nf">data.frame&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">setNames&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">c&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;logFC&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nf">paste0&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;geometricmean_&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">group_name&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;Statistic&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;P.value&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Normal_res&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="n">Welch_res&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">rownames_to_column&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;FeatureID&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">arrange&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">desc&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">abs&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">logFC&lt;/span>&lt;span class="p">)),&lt;/span> &lt;span class="n">P.value&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>&lt;span class="n">else&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Normal_res&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">data.frame&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> if(nrow(Non_Normal_prof) != 0){
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # non-Normally distributed proteins
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Wilcox_res &amp;lt;- apply(Non_Normal_prof, 1, function(x, y){
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> dat &amp;lt;- data.frame(value=as.numeric(x), group=y)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">nrow&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Non_Normal_prof&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="m">0&lt;/span>&lt;span class="p">){&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># non-Normally distributed proteins&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Wilcox_res&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">apply&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Non_Normal_prof&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nf">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y&lt;/span>&lt;span class="p">){&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dat&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">data.frame&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">value&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nf">as.numeric&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">group&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">y&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # Fold2Change
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> dat$value_scale &amp;lt;- scale(dat$value, center = TRUE, scale = TRUE)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> mn_GM &amp;lt;- tapply(dat$value_scale, dat$group, compositions::geometricmean) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> data.frame() %&amp;gt;% setNames(&amp;#34;value&amp;#34;) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rownames_to_column(&amp;#34;Group&amp;#34;)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> mn_GM1 &amp;lt;- with(mn_GM, mn_GM[Group%in%group_name[1], &amp;#34;value&amp;#34;])
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> mn_GM2 &amp;lt;- with(mn_GM, mn_GM[Group%in%group_name[2], &amp;#34;value&amp;#34;])
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Log2FC_GM &amp;lt;- log2(mn_GM1/mn_GM2)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Fold2Change&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dat&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">value_scale&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">scale&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dat&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">value&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">center&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">TRUE&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">scale&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">TRUE&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mn_GM&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">tapply&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dat&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">value_scale&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">dat&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">group&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">compositions&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">geometricmean&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">data.frame&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span> &lt;span class="nf">setNames&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;value&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">rownames_to_column&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Group&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mn_GM1&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">with&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">mn_GM&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mn_GM[Group&lt;/span>&lt;span class="o">%in%&lt;/span>&lt;span class="n">group_name[1]&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;value&amp;#34;&lt;/span>&lt;span class="n">]&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mn_GM2&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">with&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">mn_GM&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mn_GM[Group&lt;/span>&lt;span class="o">%in%&lt;/span>&lt;span class="n">group_name[2]&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;value&amp;#34;&lt;/span>&lt;span class="n">]&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Log2FC_GM&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">log2&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">mn_GM1&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">mn_GM2&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # pvalue
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rest &amp;lt;- wilcox.test(data = dat, value ~ group)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># pvalue&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">rest&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">wilcox.test&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">data&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">dat&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">value&lt;/span> &lt;span class="o">~&lt;/span> &lt;span class="n">group&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> return(c(Log2FC_GM, mn_GM1, mn_GM2,
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rest$statistic, rest$p.value))
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }, pheno$Group) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> t() %&amp;gt;% data.frame() %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> setNames(c(&amp;#34;logFC&amp;#34;, paste0(&amp;#34;geometricmean_&amp;#34;, group_name),
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;#34;Statistic&amp;#34;, &amp;#34;P.value&amp;#34;))
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Non_Normal_res &amp;lt;- Wilcox_res %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rownames_to_column(&amp;#34;FeatureID&amp;#34;) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> arrange(desc(abs(logFC)), P.value)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }else{
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Non_Normal_res &amp;lt;- data.frame()
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">return&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">c&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Log2FC_GM&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mn_GM1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mn_GM2&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">rest&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">statistic&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">rest&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">p.value&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span> &lt;span class="n">pheno&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">Group&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">t&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span> &lt;span class="nf">data.frame&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">setNames&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">c&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;logFC&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nf">paste0&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;geometricmean_&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">group_name&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;Statistic&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;P.value&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Non_Normal_res&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="n">Wilcox_res&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">rownames_to_column&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;FeatureID&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">arrange&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">desc&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">abs&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">logFC&lt;/span>&lt;span class="p">)),&lt;/span> &lt;span class="n">P.value&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>&lt;span class="n">else&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Non_Normal_res&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">data.frame&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # Number &amp;amp; Block
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> res &amp;lt;- rbind(Normal_res, Non_Normal_res)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> res$adj.P.Val &amp;lt;- p.adjust(as.numeric(res$P.value), method = &amp;#34;BH&amp;#34;)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Number &amp;amp; Block&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">rbind&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Normal_res&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Non_Normal_res&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">adj.P.Val&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">p.adjust&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">as.numeric&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">res&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">P.value&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">method&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;BH&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> dat_status &amp;lt;- table(pheno$Group)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> dat_status_number &amp;lt;- as.numeric(dat_status)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> dat_status_name &amp;lt;- names(dat_status)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> res$Block &amp;lt;- paste(paste(dat_status_number[1], dat_status_name[1], sep = &amp;#34;_&amp;#34;),
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;#34;vs&amp;#34;,
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> paste(dat_status_number[2], dat_status_name[2], sep = &amp;#34;_&amp;#34;))
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dat_status&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">table&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">pheno&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">Group&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dat_status_number&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">as.numeric&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dat_status&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dat_status_name&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">names&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dat_status&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">Block&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">paste&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">paste&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dat_status_number[1]&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">dat_status_name[1]&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">sep&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;_&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;vs&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">paste&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dat_status_number[2]&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">dat_status_name[2]&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">sep&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;_&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> res_final &amp;lt;- res %&amp;gt;% dplyr::select(FeatureID, Block, adj.P.Val, P.value, everything()) %&amp;gt;%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> arrange(adj.P.Val)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res_final&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span> &lt;span class="n">dplyr&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="nf">select&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">FeatureID&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Block&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">adj.P.Val&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">P.value&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nf">everything&lt;/span>&lt;span class="p">())&lt;/span> &lt;span class="o">%&amp;gt;%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">arrange&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">adj.P.Val&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> return(res_final)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">return&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">res_final&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Test_res &amp;lt;- DEA_test(datset=ExprSet_count)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">head(Test_res)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Test_res&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">DEA_test&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">datset&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">ExprSet_count&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">head&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Test_res&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
 &lt;figure >
 &lt;div class="d-flex justify-content-center">
