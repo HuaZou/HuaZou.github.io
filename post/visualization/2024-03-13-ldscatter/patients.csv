@@ -1,0 +1,54 @@
+,PatientID,Group,Treatment,Direction,Type,Day,SampleID
+S_1,P01,Positive,Treatment1,Right,Yes,1,S_1
+S_2,P01,Positive,Treatment1,Right,Yes,67,S_2
+S_3,P01,Positive,Treatment1,Right,Yes,41,S_3
+S_4,P01,Positive,Treatment1,Right,Yes,85,S_4
+S_5,P01,Positive,Treatment1,Right,Yes,225,S_5
+S_6,P02,Positive,Treatment2,Left,No,0,S_6
+S_7,P02,Positive,Treatment2,Left,No,174,S_7
+S_8,P02,Positive,Treatment2,Left,No,151,S_8
+S_9,P03,Positive,Treatment1,Left,Yes,1,S_9
+S_10,P03,Positive,Treatment1,Left,Yes,225,S_10
+S_11,P03,Positive,Treatment1,Left,Yes,268,S_11
+S_12,P03,Positive,Treatment1,Left,Yes,358,S_12
+S_13,P03,Positive,Treatment1,Left,Yes,22,S_13
+S_14,P03,Positive,Treatment1,Left,Yes,63,S_14
+S_15,P03,Positive,Treatment1,Left,Yes,44,S_15
+S_16,P03,Positive,Treatment1,Left,Yes,128,S_16
+S_17,P04,Negative,Treatment2,Right,No,0,S_17
+S_18,P04,Negative,Treatment2,Right,No,104,S_18
+S_19,P04,Negative,Treatment2,Right,No,124,S_19
+S_20,P05,Positive,Treatment2,Right,No,0,S_20
+S_21,P05,Positive,Treatment2,Right,No,48,S_21
+S_22,P05,Positive,Treatment2,Right,No,222,S_22
+S_23,P06,Positive,Treatment2,Left,Yes,0,S_23
+S_24,P06,Positive,Treatment2,Left,Yes,107,S_24
+S_25,P06,Positive,Treatment2,Left,Yes,63,S_25
+S_26,P06,Positive,Treatment2,Left,Yes,224,S_26
+S_27,P06,Positive,Treatment2,Left,Yes,408,S_27
+S_28,P07,Positive,Treatment2,Left,No,-6,S_28
+S_29,P07,Positive,Treatment2,Left,No,111,S_29
+S_30,P07,Positive,Treatment2,Left,No,172,S_30
+S_31,P08,Positive,Treatment2,Left,No,-1,S_31
+S_32,P08,Positive,Treatment2,Left,No,85,S_32
+S_33,P08,Positive,Treatment2,Left,No,22,S_33
+S_34,P09,Negative,Treatment2,Left,No,-1,S_34
+S_35,P09,Negative,Treatment2,Left,No,42,S_35
+S_36,P09,Negative,Treatment2,Left,No,104,S_36
+S_37,P10,Negative,Treatment1,Not Assessed,No,21,S_37
+S_38,P10,Negative,Treatment1,Not Assessed,No,28,S_38
+S_39,P10,Negative,Treatment1,Not Assessed,No,56,S_39
+S_40,P10,Negative,Treatment1,Not Assessed,No,35,S_40
+S_41,P10,Negative,Treatment1,Not Assessed,No,49,S_41
+S_42,P11,Positive,Treatment1,Left,Yes,15,S_42
+S_43,P11,Positive,Treatment1,Left,Yes,160,S_43
+S_44,P11,Positive,Treatment1,Left,Yes,131,S_44
+S_45,P11,Positive,Treatment1,Left,Yes,216,S_45
+S_46,P11,Positive,Treatment1,Left,Yes,314,S_46
+S_47,P11,Positive,Treatment1,Left,Yes,328,S_47
+S_48,P11,Positive,Treatment1,Left,Yes,398,S_48
+S_49,P11,Positive,Treatment1,Left,Yes,412,S_49
+S_50,P11,Positive,Treatment1,Left,Yes,188,S_50
+S_51,P12,Negative,Treatment2,Right,No,0,S_51
+S_52,P12,Negative,Treatment2,Right,No,148,S_52
+S_53,P12,Negative,Treatment2,Right,No,169,S_53
